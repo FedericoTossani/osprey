@@ -56,9 +56,6 @@ list.of.packages <- c("tidyverse",
           ## Data import ##
 # ================================= #
 
-
-osprey_raw <- read.csv("data/osprey_all.csv")
-
 list_csv <- list.files(pattern = "20")
 csv_allfile <- lapply(list_csv, read.csv)
 
@@ -66,12 +63,10 @@ col_selected <- c("timestamp", "location.long", "location.lat", "external.temper
                   "gsm.gsm.signal.strength", "sensor.type", "individual.local.identifier")
 
 csv_file_sel_col <- lapply(csv_allfile, "[", , col_selected)
-osprey_raw_2 <- bind_rows(csv_file_sel_col)
+osprey_raw <- bind_rows(csv_file_sel_col)
 
+osprey_death <- read.csv("osprey_death.csv")
 
-osprey_death <- read.csv("data/osprey_death.csv")
-
-sum(is.na(osprey_raw$timestamp))
 
 # ================================= #
          ## Filtering data ##
@@ -82,15 +77,17 @@ sum(is.na(osprey_raw$timestamp))
 osprey_dead <- c("Balearics2013_FOSP11_Juv_ringH7", "Corsica2013_FOSP17_Juv_ringCBK",
                  "Italy2017_FOSP43_juv_ringIBI_Agrippa", "Italy2018_FIOS45_juv_ringIAB_Anassagora")
 
+# dataset to use for further analysis
+
 osprey <- osprey_raw %>%
-            dplyr::select("timestamp", "location_long", "location_lat", "external_temperature", 
-                          "gsm.gsm_signal_strength", "sensor_type", "individual_local_identifier")%>%
-            rename("long"="location_long",
-                   "lat"="location_lat",
-                   "ext_temp"="external_temperature",
-                   "gsm_signal_strength"="gsm.gsm_signal_strength",
-                   "sensor_type"="sensor_type",
-                   "id"="individual_local_identifier")%>%
+            dplyr::select("timestamp", "location.long", "location.lat", "external.temperature", 
+                          "gsm.gsm.signal.strength", "sensor.type", "individual.local.identifier")%>%
+            rename("long"="location.long",
+                   "lat"="location.lat",
+                   "ext_temp"="external.temperature",
+                   "gsm_signal_strength"="gsm.gsm.signal.strength",
+                   "sensor_type"="sensor.type",
+                   "id"="individual.local.identifier")%>%
             mutate(id = as.factor(id),
                    timestamp = as.POSIXct(timestamp, tz = "UTC"),
                    signal_interruption_cause = ifelse (id %in% osprey_dead, "Death", "GPS lifecycle"),
@@ -129,12 +126,12 @@ table(is.na(osprey$lat))
 
 
 # let's calculate some basic statistics per individual
-table(osprey$id) %>% sd
+table(osprey$ring_id) %>% sd
 
 
 # osprey fix summary stat per individual
 osprey_fix_stat_id <- 
-table(osprey$id) %>%
+table(osprey$ring_id) %>%
   data.frame %>%
   summary
 #                               Var1        Freq      
@@ -146,11 +143,13 @@ table(osprey$id) %>%
 # Italy2015_FOSP33-juv-Antares    :1   Max.   :39531 
 # (Other)                         :8 
 
+
 # osprey fix summary stat per season
 osprey_fix_stat_season <- 
   table(osprey$season) %>%
   data.frame %>%
   summary
+
 #       Var1        Freq      
 # Fall  :1   Min.   :40266  
 # Spring:1   1st Qu.:45368  
@@ -179,9 +178,20 @@ difftime(max(osprey$timestamp), min(osprey$timestamp), units = "days")
 
 # create a table that shows the number of fix per seasons grouped by individual
 osprey_summary1 <- osprey %>%
-  group_by(id, season) %>%
+  group_by(ring_id, season) %>%
   count(season)%>%
-  arrange(id,desc(n))
+  arrange(ring_id,desc(n))
+
+osprey_plot_season <-
+         osprey_summary1%>%
+         ggplot(osprey, mapping = aes(x = ring_id, y = n, fill = season))+
+         geom_bar(stat = "identity")+
+         geom_text(aes(label = n), vjust = 1)+
+         labs()+
+         theme_bw()+         
+         facet_wrap(~season)
+         
+         
 
 # gt_table code
 
@@ -620,75 +630,8 @@ bystart <- with(n_summary, reorder(ring_id, start))
     theme(legend.position = "bottom")
 
 # ========================================== #
-#       Processing data
+#              Processing data
 # ========================================== #
-
-
-getMoveStats <- function(df){
-  # df - is a generic data frame that will contain X,Y and Time columns
-  Z <- df$long + 1i*df$lat
-  Time <- df$timestamp
-  Step <- c(NA, diff(Z)) # we add the extra NA because there is no step to the first location
-  dT <- c(NA, difftime(Time[-1], Time[-length(Time)], hours) %>% as.numeric)
-  
-  SL <- Mod(Step)/1e3 # convert to km - so the speed is in km/hour
-  MR <- SL/dT # computing the movement rate
-
-  # this is what the function returns
-  data.frame(df, Z, dT, Step, SL, MR)
-}
-
-
-
-osprey <- osprey %>% 
-  plyr::ddply(c("ring_id", "year", "season"), getMoveStats)
-
-
-head(osprey[, 15:21])
-
-ggplot(osprey, aes(ring_id, MR)) +
-geom_boxplot() +
-facet_wrap(.~season)
-
-
-# ------------- NON FUNZIONA ------------- #
-getDuplicatedTimestamps(x=as.factor(osprey$ring_id), 
-                        timestamps=as.POSIXct(osprey$timestamp, 
-                                              format="%Y-%m-%d %H:%M:%S", tz="UTC"),
-                        sensorType=osprey$sensor_type)
-
-osprey_2 <- osprey[!duplicated(osprey),]
-
-osprey_move <- move(x=osprey$long,
-               y=osprey$lat,
-               time=as.POSIXct(osprey$timestamp, format="%Y-%m-%d %H:%M:%S", tz="UTC"),
-               data=osprey,
-               animal = as.factor(osprey$ring_id),
-               sensor = as.factor(osprey$sensor_type),
-               proj=CRS("+proj=longlat"))
-
-# plot all the individuals
-plot(osprey_move, type="l") # all of them
-
-# split the stack to plot each individuals
-ids <- split(osprey_move)
-
-par(mfrow=c(2,2))
-plot(ids[[1]], type='l', main= names(ids[1]))
-plot(ids[[2]], type='l', main= names(ids[2]))
-plot(ids[[3]], type='l', main= names(ids[3]))
-plot(ids[[4]], type='l', main= names(ids[4]))
-
-# convert our movestack to a sf object
-osprey_sf <- 
-  osprey_raw %>% 
-  na.omit() %>%
-  st_as_sf(coords = c("location.long", "location.lat"), crs=4326)
-
-osprey_sf %>% 
-  group_by(tag.local.identifier) %>% 
-  tally()
-
 
 
 
