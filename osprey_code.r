@@ -74,7 +74,7 @@ osprey_death <- read.csv("osprey_death.csv")
 
 # dead ospreys
 
-osprey_dead <- c("Balearics2013_FOSP11_Juv_ringH7", "Corsica2013_FOSP17_Juv_ringCBK",
+osprey_dead <- c("Balearics2013_FOSP11-Juv_ringH7", "Corsica2013_FOSP17_Juv_ringCBK",
                  "Italy2017_FOSP43_juv_ringIBI_Agrippa", "Italy2018_FIOS45_juv_ringIAB_Anassagora")
 
 # dataset to use for further analysis
@@ -97,19 +97,19 @@ osprey <- osprey_raw %>%
             unite(m_day, c(month, day), sep="/", remove = F)%>%
             left_join(osprey_death, by = c("id" = "id"))%>%
             mutate( season = case_when(
-              month %in% 10:12 ~ "Fall",
-              month %in%  1:3  ~ "Winter",
-              month %in%  4:6  ~ "Spring",
-              TRUE ~ "Summer"),
+                       month %in% 10:12 ~ "Fall",
+                       month %in%  1:3  ~ "Winter",
+                       month %in%  4:6  ~ "Spring",
+                       TRUE ~ "Summer"),
                     ring_id = case_when(
-                    id == "Balearics2013_FOSP11_Juv_ringH7" ~ "H7",
+                    id == "Balearics2013_FOSP11-Juv_ringH7" ~ "H7",
                     id == "Corsica2013_FOSP17_Juv_ringCBK" ~ "CBK",
-                    id == "Corsica2014_FOSP21_Juv_ringCIV" ~ "CIV",
-                    id == "Italy2014_FOSP27_Juv_ringE7_Edy" ~ "E7",
-                    id == "Italy2015_FOSP30_juv_ringA7_Cook" ~ "A7",
-                    id == "Italy2015_FOSP33_juv_Antares" ~ "Antares",
+                    id == "Corsica2014_FOSP21-Juv_ringCIV" ~ "CIV",
+                    id == "Italy2014_FOSP27-Juv_ringE7_Edy" ~ "E7",
+                    id == "Italy2015_FOSP30-juv-ringA7-Cook" ~ "A7",
+                    id == "Italy2015_FOSP33-juv-Antares" ~ "Antares",
                     id == "Italy2016_FOSP28_juv_ringIAD_Ciccia" ~ "IAD",
-                    id == "Italy2016_FOSP37_adult_ringCAM Mora" ~ "CAM",
+                    id == "Italy2016_FOSP37-adult-ringCAM Mora" ~ "CAM",
                     id == "Italy2017_FOSP43_juv_ringIBI_Agrippa" ~ "IBI",
                     id == "Italy2018_FIOS45_juv_ringIAB_Anassagora" ~ "IAB",
                     id == "Italy2019_OrnitelaWhite_juv_ringICZ_Odaba" ~ "ICZ",
@@ -611,23 +611,28 @@ gtsave(gt_duration, "duration_monit_gt.html")
 
 # visualize monitoring duration per individual
 n_summary <- osprey %>%
-                group_by(ring_id, signal_interruption_cause) %>% 
+                group_by(ring_id) %>% 
                 summarize(start = min(timestamp), end = max(timestamp))%>% 
                 arrange(start) %>% 
                 mutate(ring_id = factor(ring_id, levels = ring_id))
+                
+n_summary <- n_summary%>%
+                  left_join(osprey)
 
 bystart <- with(n_summary, reorder(ring_id, start))
 
-  ggplot(n_summary, aes(y = ring_id, xmin = start, xmax = end, color = signal_interruption_cause)) + 
-    geom_linerange()+
-    theme_bw()+
-    xlab("Year")+
-    ylab("Animal ID")+
-    labs(color = "Signal interruption cause",
-         title = "Monitoring's duration",
-         subtitle = "Plot of monitoring's duration per individual",
-         caption = "Data source: Osprey in Mediterranean (Corsica, Italy, Balearics)")+
-    theme(legend.position = "bottom")
+ggplot(n_summary, aes(y = ring_id, xmin = start, xmax = end)) + 
+geom_linerange(linewidth = 1)+
+theme_bw()+
+xlab("Year")+
+ylab("Animal ID")+
+theme(axis.text.x = element_text(color="#000000", size=10),
+      axis.text.y = element_text(color="#000000", size=10),
+      axis.title.x = element_text(color="#000000", size=13, face="bold"),
+      axis.title.y = element_text(color="#000000", size=13, face="bold"))+
+ geom_point(data = n_summary[n_summary$death_date == !"NA", ], aes(y = ring_id + 0.25, xmin = start, xmax = end), shape = "*", size=4.233, color="black")
+
+ggsave( "mon_duration.jpg", plot = last_plot())
 
 # ========================================== #
 #              Processing data
