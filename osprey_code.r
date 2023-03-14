@@ -615,22 +615,31 @@ n_summary <- osprey %>%
                 summarize(start = min(timestamp), end = max(timestamp))%>% 
                 arrange(start) %>% 
                 mutate(ring_id = factor(ring_id, levels = ring_id))
-                
+
+osprey_dead <- osprey%>%
+                  dplyr::select(c("signal_interruption_cause", "ring_id"))%>%
+                  drop_na(signal_interruption_cause)%>%
+                  unique()
+
+
 n_summary <- n_summary%>%
-                  left_join(osprey)
+                  left_join(osprey_dead, by = c("ring_id"))%>% 
+                  mutate(ring_id = factor(ring_id, levels = ring_id))
+         
 
 bystart <- with(n_summary, reorder(ring_id, start))
 
 ggplot(n_summary, aes(y = ring_id, xmin = start, xmax = end)) + 
 geom_linerange(linewidth = 1)+
+geom_jitter(data = n_summary[n_summary$signal_interruption_cause == "Death", ], aes(x = start, y = ring_id), position = position_nudge(y = 0.3), shape = "†", size=4, color="black")+
+geom_text(aes(x = start, y = ring_id, label = ring_id), nudge_y = -0.25) +
 theme_bw()+
 xlab("Year")+
-ylab("Animal ID")+
+ylab("Animals ID")+
 theme(axis.text.x = element_text(color="#000000", size=10),
       axis.text.y = element_text(color="#000000", size=10),
       axis.title.x = element_text(color="#000000", size=13, face="bold"),
-      axis.title.y = element_text(color="#000000", size=13, face="bold"))+
- geom_point(data = n_summary[n_summary$death_date == !"NA", ], aes(y = ring_id + 0.25, xmin = start, xmax = end), shape = "*", size=4.233, color="black")
+      axis.title.y = element_text(color="#000000", size=13, face="bold"))
 
 ggsave( "mon_duration.jpg", plot = last_plot())
 
