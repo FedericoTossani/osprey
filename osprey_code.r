@@ -134,6 +134,7 @@ osprey_fix_stat_id <-
 table(osprey$ring_id) %>%
   data.frame %>%
   summary
+
 #                               Var1        Freq      
 # Balearics2013_FOSP11-Juv_ringH7 :1   Min.   : 4007  
 # Corsica2013_FOSP17_Juv_ringCBK  :1   1st Qu.: 9338  
@@ -143,6 +144,27 @@ table(osprey$ring_id) %>%
 # Italy2015_FOSP33-juv-Antares    :1   Max.   :39531 
 # (Other)                         :8 
 
+dates <- osprey%>%
+         group_by(ring_id)%>%
+         summarize(start = min(timestamp), end = max(timestamp))%>% 
+         dplyr::select(ring_id, start, end)%>%
+         unique()
+
+
+osprey_fix_stat_id_tab <- osprey%>%
+         group_by(ring_id)%>%
+         count(ring_id)%>%
+         mutate(n_fix = n,
+                percent = (n/sum(osprey_fix_stat_id_tab$n))*100)%>%
+         dplyr::select(-n)%>%
+         left_join(dates, by = ('ring_id'))%>%
+         arrange(start)%>%
+         mutate(duration = round(difftime(end, start)))
+
+# export this table to tex
+
+osprey_fix_stat_id_tab %>%
+    kable(format = 'latex', booktabs = TRUE) 
 
 # osprey fix summary stat per season
 osprey_fix_stat_season <- 
