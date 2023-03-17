@@ -32,15 +32,15 @@
 setwd("C:/Tesi/R/osprey/data/")
 
 list.of.packages <- c("tidyverse",
-                      "dplyr",
                       "lubridate",
                       "sf", 
                       "mapview", 
-                      "move",
                       "adehabitatLT",
                       "stargazer",
-                      "gt",
-                      "kableExtra")
+                      "kableExtra",
+                      "ggmap",
+                      "terra",
+                      "tidyterra")
 
 # with this line of code I check if alll the packages are installed and then I load it
 
@@ -119,6 +119,85 @@ osprey <- osprey_raw %>%
 
 head(osprey)
 
+# Visualize the movement
+
+cbbox <- make_bbox(lon = osprey$long, lat = osprey$lat, f = .1) #from ggmap
+sq_map <- get_map(location = cbbox, maptype = "terrain", source = "stamen")
+
+eu_bond <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
+eu_bond <- eu_bond %>%
+         filter(EU_STAT == "T")
+
+eu_bond_df <- as.data.frame(eu_bond)
+
+osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
+eu_bond <- crop(eu_bond, osprey_ext)
+
+osprey_vect <- vect(osprey)
+
+ggplot(eu_bond)+
+geom_spatvector()+ 
+ geom_path(data = osprey, aes(x = long, y = lat, color = ring_id), 
+            linewidth = 1, lineend = "round")+
+scale_fill_manual(values = c("skyblue", "white")) +
+theme(legend.position="none")+
+  theme_minimal()
+
+
+osprey_track <- 
+ggmap(sq_map) + 
+  geom_path(data = osprey, aes(x = long, y = lat, color = ring_id), 
+            linewidth = 1, lineend = "round") +
+  labs(x = " ", y = " ", title = "Inividual tracks") +
+  facet_wrap(~ ring_id)+
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
+# Subsetting for breeding dispersal
+
+# H7 -> "timestamp" > '2015-04-02 08:00:00' AND "timestamp" < '2015-04-30 16:30:00'
+
+h7_bd <- osprey%>%
+         filter(ring_id == 'H7', timestamp > '2015-04-02 08:00:00' & timestamp < '2015-04-30 16:30:00')
+
+h7_cbbox <- make_bbox(lon = h7_bd$long, lat = h7_bd$lat, f = .1) #from ggmap
+h7_sq_map <- get_map(location = h7_cbbox, maptype = "terrain", source = "stamen")
+
+h7_track <- 
+ggmap(h7_sq_map) + 
+  geom_path(data = h7_bd, aes(x = long, y = lat), 
+            linewidth = 1, lineend = "round") +
+  labs(x = " ", y = " ", title = "H7 inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
+# CIV -> "timestamp" > '2016-03-29 00:01:00' AND "timestamp" < '2016-10-29 18:00:00'
+
+civ_bd <- osprey%>%
+         filter(ring_id == 'CIV', timestamp > '2016-03-29 00:01:00' & timestamp < '2016-10-29 18:00:00')
+
+civ_track <- 
+ggmap(sq_map) + 
+  geom_path(data = civ_bd, aes(x = long, y = lat), 
+            linewidth = 1, lineend = "round") +
+  labs(x = " ", y = " ", title = "CIV inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+# CBK -> ???
+# E7 -> "timestamp" > '2016-03-10 05:00:00'
+# A7 -> "timestamp" >= '2017-02-20 00:00:00'
+# Antares -> ???
+# IAD -> "timestamp" >= '2018-03-28 06:00:00' AND "timestamp" <= '2018-12-31 19:00:00'
+# CAM -> ???
+# IBI -> ???
+# IAB -> ???
+# ICZ -> ???
+# IBS -> "timestamp" > '2022-03-19 00:00:47' AND "timestamp" < '2022-06-05 00:01:24'
+# IBH -> "timestamp" >= '2022-04-09 04:47:05'
+# IBK -> "timestamp" >= '2022-01-24 06:44:48'
 
 # let's check if there is na in position's columns
 table(is.na(osprey$long))
@@ -213,423 +292,7 @@ osprey_plot_season <-
          theme_bw()+         
          facet_wrap(~season)
          
-         
-
-# gt_table code
-
-              data_blank <- osprey_summary1
-
-              data_blank <- sapply(data_blank, as.character)
-              data_blank[is.na(data_blank)] <- ""                     # Replace NA with blank
-              data_blank  
-
-              # constants ----
-              n = 0
-              c_col = c("#1e3048", "#274060", "#2f5375", "#4073a0", "#5088b9")
-              c_col_light_blue = c("#edf2fb", "#e2eafc", "#d7e3fc", "#ccdbfd", "#c1d3fe")
-              c_container_width = px(800)
-              c_table_width = px(650)
-              c_rn = 30
-              c_save = TRUE
-              c_format = "pdf"
-
-              # Questo pezzo di codice serve per organizzare i dati in base ai valori di una colonna
-              # in questo caso raggruppa i falchi pescatori per nome
-
-              gt_season <- osprey_summary1 %>% 
-                arrange(id) %>% 
-                gt(
-                  groupname_col = "id",
-                  rowname_col = "season"
-                )
-
-              # Usa il codice seguente per modicificare il nome delle colonne
-
-              gt_season <- gt_season %>%
-                tab_header(
-                  title = md("Number of fix per season per individual"),
-                  subtitle = md("Project: Osprey in Mediterranean (Corsica, Italy, Balearics)"))%>%
-                cols_label(
-                  id = md("Name"),
-                  season = md("Season"),
-                  n = md("Number of fix")
-                )
-
-              gt_season <- gt_season %>% 
-                #fmt_date(
-                # columns = c("start", "end"),
-                #) %>% 
-                fmt_number(
-                  columns = c("n"),
-                  suffixing = F,
-                  decimals = 0,
-                  sep_mark = ""
-                ) %>% 
-                cols_align(
-                  align = "center",
-                  columns = vars(c("n"))
-                ) %>% 
-                cols_align(
-                  align = "right",
-                  columns = vars(c("season"))
-                ) %>% 
-                # cols_align(
-                #   align = "left",
-                #   columns = vars(c("))
-                # ) %>% 
-                cols_width(
-                  #vars(c("")) ~ px(150),
-                  vars("n") ~ px(200),
-                  vars("season") ~ px(300),
-                  vars("id") ~ px(370),
-                ) %>%
-                opt_row_striping()
-
-              # let's add summary statistics
-              gt_season <- gt_season%>%
-                summary_rows(
-                  groups = T,
-                  columns = vars("n"),
-                  fns = list(AVERAGE = "mean"),
-                  formatter = fmt_number,
-                  decimals = 0,
-                  sep_mark = ""
-                )
-
-
-              gt_season <- gt_season %>%
-                tab_options(
-                  table.font.name = "Calibri",
-                  table.font.color = c_col[1],
-                  table.border.top.style = "none",
-                  table.border.bottom.style = "solid",
-                  table.border.bottom.color = c_col[2],
-                  table.border.bottom.width = px(3),
-                  column_labels.border.top.color = "white",
-                  column_labels.border.top.width = px(3),
-                  column_labels.border.bottom.color = c_col[2],
-                  column_labels.border.bottom.width = px(3),
-                  data_row.padding = px(10)
-                ) %>% 
-                tab_style(
-                  style = list(
-                    cell_text(
-                      size = px(38),
-                      weight = "normal",
-                      align = "left",
-                      font = "Calibri"
-                    )
-                  ),
-                  locations = list(
-                    cells_title(groups = "title")
-                  )
-                ) %>% 
-                tab_style(
-                  style = list(
-                    cell_text(
-                      size = px(18),
-                      align = "left"
-                    )
-                  ),
-                  locations = list(
-                    cells_title(groups = "subtitle")
-                  )
-                ) %>% 
-                tab_style(
-                  style = list(
-                    cell_text(
-                      size = px(17)
-                    ),
-                    cell_borders(
-                      sides = c("bottom", "top"),
-                      color = c_col[1],
-                      weight = px(1)
-                    )
-                  ),
-                  locations = list(
-                    cells_body(gt::everything())
-                  )
-                ) %>% 
-                tab_style(
-                  style = list( 
-                    cell_text(
-                      size = px(18),
-                      color = "#000000",
-                      weight = "bold",
-                      font = "Calibri"
-                    )
-                  ),
-                  locations = list(
-                    cells_column_labels(everything())
-                  )
-                ) %>% 
-                tab_style(
-                  style = list( 
-                    cell_text(
-                      size = px(18),
-                      color = "#000000",
-                      font = "Calibri"
-                    ),
-                    cell_borders(
-                      sides = c("bottom"),
-                      style = "solid",
-                      color = c_col[1],
-                      weight = px(2)
-                    )
-                  ),
-                  locations = list(
-                    cells_row_groups(gt::everything())
-                  )
-                ) %>% 
-                tab_style(
-                  style = list( 
-                    cell_text(
-                      size = px(18),
-                      align = "right",
-                      weight = "normal",
-                      color = "#000000",
-                      font = "Calibri"
-                    ),
-                    cell_borders(
-                      sides = c("bottom", "right"),
-                      style = "solid",
-                      color = "white",
-                      weight = px(1)
-                    )
-                  ),
-                  locations = list(
-                    cells_stub(gt::everything()),
-                    cells_stubhead()
-                  )
-                ) %>% 
-                tab_style(
-                  style = list(
-                    cell_text(
-                      font = "Calibri", size = px(10), 
-                      color = "#000000")
-                  ),
-                  location = list(
-                    cells_body(columns = vars(id))
-                  )
-                ) 
-
-gt_season
-
-gtsave(gt_season, "seasons_fix_gt.html")
-
-# create a table that shows monitoring's duration per individual grouped by signal interrumption cause
-osprey_summary2 <- osprey %>%
-  group_by(id, signal_interruption_cause) %>% 
-  summarize(start = min(timestamp), end = max(timestamp)) %>%
-  mutate(duration = round(difftime(end, start)))%>%
-  arrange(desc(signal_interruption_cause))
-
-osprey_summary2$duration <- as.numeric(osprey_summary2$duration)
-
-# gt_table code
-
-              data_blank <- osprey_summary2
-
-              data_blank <- sapply(data_blank, as.character)
-              data_blank[is.na(data_blank)] <- ""                     # Replace NA with blank
-              data_blank  
-
-              # constants ----
-              n = 0
-              c_col = c("#1e3048", "#274060", "#2f5375", "#4073a0", "#5088b9")
-              c_col_light_blue = c("#edf2fb", "#e2eafc", "#d7e3fc", "#ccdbfd", "#c1d3fe")
-              c_container_width = px(800)
-              c_table_width = px(650)
-              c_rn = 30
-              c_save = TRUE
-              c_format = "pdf"
-
-              # Questo pezzo di codice serve per organizzare i dati in base ai valori di una colonna
-              # in questo caso raggruppa i falchi pescatori per la causa di interruzione del segnale GPS
-
-              gt_duration <- osprey_summary2 %>% 
-                arrange(id) %>% 
-                gt(
-                  groupname_col = "signal_interruption_cause",
-                  rowname_col = "id"
-                )
-
-              # Usa il codice seguente per modicificare il nome delle colonne
-
-              gt_duration <- gt_duration %>%
-                tab_header(
-                  title = md("Monitoring's duration per individual"),
-                  subtitle = md("Osprey in Mediterranean (Corsica, Italy, Balearics)"))%>%
-               cols_label(
-                 id = md("Name"),
-                 signal_interruption_cause = md("Signal interruption cause"),
-                 start = md("First location date"),
-                 end = md("Last location date"),
-                 duration = md("Total days of monitoring")
-               )
-
-              gt_duration <- gt_duration %>% 
-                #fmt_date(
-                # columns = c("start", "end"),
-                #) %>% 
-                fmt_number(
-                  columns = c("duration"),
-                  suffixing = F,
-                  decimals = 0,
-                  sep_mark = ""
-                ) %>% 
-                cols_align(
-                  align = "center",
-                  columns = vars(c("start", "end",
-                                   "signal_interruption_cause", "duration"))
-                ) %>% 
-                cols_align(
-                 align = "right",
-                 columns = vars(c("id"))
-                ) %>% 
-                # cols_align(
-                #   align = "left",
-                #   columns = vars(c("))
-                # ) %>% 
-                cols_width(
-                  #vars(c("")) ~ px(150),
-                  vars("start", "end", "signal_interruption_cause") ~ px(200),
-                  vars("duration") ~ px(200),
-                  vars("id") ~ px(370),
-                ) %>%
-                opt_row_striping()
-
-              # let's add summary statistics
-              gt_duration <- gt_duration%>%
-                  summary_rows(
-                    groups = T,
-                    columns = vars("duration"),
-                  fns = list(AVERAGE = "mean"),
-                  formatter = fmt_number,
-                  decimals = 0
-                  )
-
-
-              gt_duration <- gt_duration %>%
-                tab_options(
-                  table.font.name = "Calibri",
-                  table.font.color = c_col[1],
-                  table.border.top.style = "none",
-                  table.border.bottom.style = "solid",
-                  table.border.bottom.color = c_col[2],
-                  table.border.bottom.width = px(3),
-                  column_labels.border.top.color = "white",
-                  column_labels.border.top.width = px(3),
-                  column_labels.border.bottom.color = c_col[2],
-                  column_labels.border.bottom.width = px(3),
-                  data_row.padding = px(10)
-                ) %>% 
-                tab_style(
-                  style = list(
-                    cell_text(
-                      size = px(38),
-                      weight = "normal",
-                      align = "left",
-                      font = "Calibri"
-                    )
-                  ),
-                  locations = list(
-                    cells_title(groups = "title")
-                  )
-                ) %>% 
-                tab_style(
-                  style = list(
-                    cell_text(
-                      size = px(18),
-                      align = "left"
-                    )
-                  ),
-                  locations = list(
-                    cells_title(groups = "subtitle")
-                  )
-                ) %>% 
-                tab_style(
-                  style = list(
-                    cell_text(
-                      size = px(17)
-                    ),
-                    cell_borders(
-                      sides = c("bottom", "top"),
-                      color = c_col[1],
-                      weight = px(1)
-                    )
-                  ),
-                  locations = list(
-                    cells_body(gt::everything())
-                  )
-                ) %>% 
-                tab_style(
-                  style = list( 
-                    cell_text(
-                      size = px(18),
-                      color = "#000000",
-                      weight = "bold",
-                      font = "Calibri"
-                    )
-                  ),
-                  locations = list(
-                    cells_column_labels(everything())
-                  )
-                ) %>% 
-                tab_style(
-                  style = list( 
-                    cell_text(
-                      size = px(18),
-                      color = "#000000",
-                      font = "Calibri"
-                    ),
-                    cell_borders(
-                      sides = c("bottom"),
-                      style = "solid",
-                      color = c_col[1],
-                      weight = px(2)
-                    )
-                  ),
-                  locations = list(
-                    cells_row_groups(gt::everything())
-                  )
-                ) %>% 
-                tab_style(
-                  style = list( 
-                    cell_text(
-                      size = px(18),
-                      align = "right",
-                      weight = "normal",
-                      color = "#000000",
-                      font = "Calibri"
-                    ),
-                    cell_borders(
-                      sides = c("bottom", "right"),
-                      style = "solid",
-                      color = "white",
-                      weight = px(1)
-                    )
-                  ),
-                  locations = list(
-                    cells_stub(gt::everything()),
-                    cells_stubhead()
-                  )
-                ) %>% 
-                tab_style(
-                  style = list(
-                    cell_text(
-                      font = "Calibri", size = px(10), 
-                      color = "#000000")
-                  ),
-                  location = list(
-                    cells_body(columns = vars(signal_interruption_cause))
-                  )
-                ) 
-
-gt_duration
-
-gtsave(gt_duration, "duration_monit_gt.html")
-
+  
 
 # visualize monitoring duration per individual
 n_summary <- osprey %>%
