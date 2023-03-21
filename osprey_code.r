@@ -125,49 +125,33 @@ cbbox <- make_bbox(lon = osprey$long, lat = osprey$lat, f = .1) #from ggmap
 sq_map <- get_map(location = cbbox, maptype = "terrain", source = "stamen")
 
 eu_bond <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
-eu_bond <- eu_bond %>%
-         filter(EU_STAT == "T")
-
-eu_bond_df <- as.data.frame(eu_bond)
-
 osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
 eu_bond <- crop(eu_bond, osprey_ext)
 
-osprey_vect <- vect(osprey)
-
-ggplot(eu_bond)+
-geom_spatvector()+ 
- geom_path(data = osprey, aes(x = long, y = lat, color = ring_id), 
-            linewidth = 1, lineend = "round")+
-scale_fill_manual(values = c("skyblue", "white")) +
-theme(legend.position="none")+
-  theme_minimal()
-
 
 osprey_track <- 
-ggmap(sq_map) + 
-  geom_path(data = osprey, aes(x = long, y = lat, color = ring_id), 
-            linewidth = 1, lineend = "round") +
-  labs(x = " ", y = " ", title = "Inividual tracks") +
-  facet_wrap(~ ring_id)+
-  theme_minimal() +
-  theme(legend.position = "none")
+ggplot(eu_bond) +
+geom_spatvector() + 
+ geom_path(data = osprey, aes(x = long, y = lat, color = ring_id), 
+            linewidth = 0.5, lineend = "round") +
+labs(x = " ", y = " ", title = "Inividual tracks") +
+#facet_wrap(~ ring_id) +
+theme(legend.position="none") +
+theme_minimal()
 
 
-# Subsetting for breeding dispersal
+# Subsetting for natal dispersal
 
 # H7 -> "timestamp" > '2015-04-02 08:00:00' AND "timestamp" < '2015-04-30 16:30:00'
 
-h7_bd <- osprey%>%
+h7_nd <- osprey%>%
          filter(ring_id == 'H7', timestamp > '2015-04-02 08:00:00' & timestamp < '2015-04-30 16:30:00')
 
-h7_cbbox <- make_bbox(lon = h7_bd$long, lat = h7_bd$lat, f = .1) #from ggmap
-h7_sq_map <- get_map(location = h7_cbbox, maptype = "terrain", source = "stamen")
-
 h7_track <- 
-ggmap(h7_sq_map) + 
-  geom_path(data = h7_bd, aes(x = long, y = lat), 
-            linewidth = 1, lineend = "round") +
+ggplot(eu_bond) +
+geom_spatvector()+
+  geom_path(data = h7_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "H7 inividual track") +
   theme_minimal() +
   theme(legend.position = "none")
@@ -175,29 +159,198 @@ ggmap(h7_sq_map) +
 
 # CIV -> "timestamp" > '2016-03-29 00:01:00' AND "timestamp" < '2016-10-29 18:00:00'
 
-civ_bd <- osprey%>%
+civ_nd <- osprey%>%
          filter(ring_id == 'CIV', timestamp > '2016-03-29 00:01:00' & timestamp < '2016-10-29 18:00:00')
 
 civ_track <- 
-ggmap(sq_map) + 
-  geom_path(data = civ_bd, aes(x = long, y = lat), 
-            linewidth = 1, lineend = "round") +
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = civ_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "CIV inividual track") +
   theme_minimal() +
   theme(legend.position = "none")
 
+
 # CBK -> ???
+
+cbk_nd <- osprey%>%
+         filter(ring_id == 'CBK', timestamp > ??? & timestamp < ???)
+
+cbk_track <- 
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = cbk_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "CBK inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
 # E7 -> "timestamp" > '2016-03-10 05:00:00'
+
+e7_nd <- osprey%>%
+         filter(ring_id == 'E7', timestamp > '2016-03-10 05:00:00')
+
+e7_track <- 
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = e7_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "E7 inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
 # A7 -> "timestamp" >= '2017-02-20 00:00:00'
+
+a7_nd <- osprey%>%
+         filter(ring_id == 'A7', timestamp >= '2017-02-20 00:00:00')
+
+a7_track <- 
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = a7_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "A7 inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
 # Antares -> ???
+
+antares_nd <- osprey%>%
+         filter(ring_id == 'Antares', timestamp > ???)
+
+antares_track <- 
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = antares_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "Antares inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
 # IAD -> "timestamp" >= '2018-03-28 06:00:00' AND "timestamp" <= '2018-12-31 19:00:00'
+
+iad_nd <- osprey%>%
+         filter(ring_id == 'IAD', timestamp >= '2018-03-28 06:00:00' & timestamp <= '2018-12-31 19:00:00')
+
+iad_track <- 
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = iad_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "IAD inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
 # CAM -> ???
+
+cam_nd <- osprey%>%
+         filter(ring_id == 'CAM', timestamp >= ???)
+
+cam_track <- 
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = cam_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "CAM inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
 # IBI -> ???
+
+ibi_nd <- osprey%>%
+         filter(ring_id == 'IBI', timestamp >= ???)
+
+ibi_track <- 
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = ibi_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "IBI inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
 # IAB -> ???
+
+iab_nd <- osprey%>%
+         filter(ring_id == 'IAB', timestamp >= ???)
+
+iab_track <- 
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = iab_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "IAB inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
 # ICZ -> ???
+
+icz_nd <- osprey%>%
+         filter(ring_id == 'ICZ', timestamp >= ???)
+
+icz_track <- 
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = icz_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "ICZ inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
 # IBS -> "timestamp" > '2022-03-19 00:00:47' AND "timestamp" < '2022-06-05 00:01:24'
+
+ibs_nd <- osprey%>%
+         filter(ring_id == 'IBS', timestamp > '2022-03-19 00:00:47' & timestamp < '2022-06-05 00:01:24')
+
+ibs_track <- 
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = ibs_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "IBS inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
 # IBH -> "timestamp" >= '2022-04-09 04:47:05'
+
+ibh_nd <- osprey%>%
+         filter(ring_id == 'IBH', timestamp >= '2022-04-09 04:47:05')
+
+ibh_track <- 
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = ibh_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "IBH inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
 # IBK -> "timestamp" >= '2022-01-24 06:44:48'
+
+ibk_nd <- osprey%>%
+         filter(ring_id == 'IBK', timestamp >= '2022-01-24 06:44:48')
+
+ibk_track <- 
+ggplot(eu_bond) +
+  geom_spatvector()+
+  geom_path(data = ibk_nd, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "IBK inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
 
 # let's check if there is na in position's columns
 table(is.na(osprey$long))
