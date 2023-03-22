@@ -120,6 +120,34 @@ osprey <- osprey_raw %>%
 
 head(osprey)
 
+
+# wintering osprey
+
+h7_winter <- osprey%>%
+                  filter (ring_id == "H7", season == "Winter")%>%
+                  dplyr::select(long, lat)
+
+h7_winter_sp <- SpatialPoints(h7_winter)
+
+h7_winter_mcp <- mcp(h7_winter, percent = 95)
+
+h7_plot_mcp <- 
+ggplot(eu_bond) +
+geom_spatvector()+
+  geom_path(data = h7_winter, aes(x = long, y = lat), 
+            linewidth = 0.5, lineend = "round", col = 'red') +
+  labs(x = " ", y = " ", title = "H7 inividual track") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
+# wintering home range
+
+h7_winter_sp <- SpatialPointsDataFrame(coords = h7_winter, proj4string = CRS("+proj=longlat +datum=WGS84"))
+
+h7_winter_hr <- clusthr(h7_winter_sp)
+
+
 # Visualize the movement
 
 cbbox <- make_bbox(lon = osprey$long, lat = osprey$lat, f = .1) #from ggmap
@@ -352,18 +380,6 @@ ggplot(eu_bond) +
   theme_minimal() +
   theme(legend.position = "none")
 
-
-# wintering osprey
-
-osprey_winter <- osprey%>%
-                  filter (season == "Winter")%>%
-                  dplyr::select(ring_id, long, lat)
-
-# wintering home range
-
-osprey_winter_sp <- SpatialPoints(osprey_winter)
-
-osprey_winter_hr <- clusthr(osprey_winter)
 
 
 # let's check if there is na in position's columns
