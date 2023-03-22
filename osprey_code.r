@@ -36,6 +36,7 @@ list.of.packages <- c("tidyverse",
                       "sf", 
                       "mapview", 
                       "adehabitatLT",
+                      "adehabitatHR",
                       "stargazer",
                       "kableExtra",
                       "ggmap",
@@ -350,6 +351,19 @@ ggplot(eu_bond) +
   labs(x = " ", y = " ", title = "IBK inividual track") +
   theme_minimal() +
   theme(legend.position = "none")
+
+
+# wintering osprey
+
+osprey_winter <- osprey%>%
+                  filter (season == "Winter")%>%
+                  dplyr::select(ring_id, long, lat)
+
+# wintering home range
+
+osprey_winter_sp <- SpatialPoints(osprey_winter)
+
+osprey_winter_hr <- clusthr(osprey_winter)
 
 
 # let's check if there is na in position's columns
