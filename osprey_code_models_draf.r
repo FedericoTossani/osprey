@@ -384,11 +384,18 @@ plot(table(diff(data$time)), xlim = c(0, 1000),
 xlab = "time interval (min)", ylab = "count")
 
 
-data_reg <- crawlWrap(data, timeStep = "30 min")
 
-ggplot(data_reg$crwPredict, aes(lon, lat, col = ID)) +
+
+
+data_reg <- crawlWrap(data_sf, timeStep = "1 hour")
+
+ggplot(data_pred, aes(lon, lat, col = ID)) +
 geom_point(size = 0.5) +
 geom_path()
+
+data_pred <- data_reg$crwPredict
+
+
 
 
 
