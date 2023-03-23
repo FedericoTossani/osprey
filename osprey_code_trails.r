@@ -64,7 +64,7 @@ osprey_dead <- c("Balearics2013_FOSP11-Juv_ringH7", "Corsica2013_FOSP17_Juv_ring
 osprey <- osprey_raw %>%
             dplyr::select("timestamp", "location.long", "location.lat", "external.temperature", 
                           "gsm.gsm.signal.strength", "sensor.type", "individual.local.identifier")%>%
-            rename("long"="location.long",
+            rename("lon"="location.long",
                    "lat"="location.lat",
                    "ext_temp"="external.temperature",
                    "gsm_signal_strength"="gsm.gsm.signal.strength",
@@ -83,7 +83,7 @@ osprey <- osprey_raw %>%
                        month %in%  1:3  ~ "Winter",
                        month %in%  4:6  ~ "Spring",
                        TRUE ~ "Summer"),
-                    ring_id = case_when(
+                    ID = case_when(
                     id == "Balearics2013_FOSP11-Juv_ringH7" ~ "H7",
                     id == "Corsica2013_FOSP17_Juv_ringCBK" ~ "CBK",
                     id == "Corsica2014_FOSP21-Juv_ringCIV" ~ "CIV",
@@ -103,11 +103,11 @@ osprey <- osprey_raw %>%
 # subsetting only the columns we need
 
 data <- osprey%>%
-      dplyr::select(ring_id, timestamp, long, lat)
+      dplyr::select(ID, timestamp, lon, lat)
 
 
 # visualize the data set
-ggplot(data, aes(long, lat, col = ring_id)) +
+ggplot(data, aes(lon, lat, col = ID)) +
 geom_point(size = 0.5) +
 geom_path() +
 coord_map("mercator")
@@ -119,8 +119,8 @@ coord_map("mercator")
 ##########################
 
 # Longitude vs time
-all_long_time <-
-ggplot(data, aes(timestamp, long, col = ring_id)) +
+all_lon_time <-
+ggplot(data, aes(timestamp, lon, col = ID)) +
 geom_point(size = 0.5) +
 #facet_wrap(~ ring_id) +
 geom_path()
@@ -128,47 +128,47 @@ geom_path()
 
 # Latitude vs time
 all_lat_time <-
-ggplot(data, aes(timestamp, lat, col = ring_id)) +
+ggplot(data, aes(timestamp, lat, col = ID)) +
 geom_point(size = 0.5) +
 #facet_wrap(~ ring_id) +
 geom_path()
 
-grid.arrange(all_long_time, all_lat_time, nrow=2)
+grid.arrange(all_lon_time, all_lat_time, nrow=2)
 
 # plot of coord vs time for every animals
 
         #"H7" 
         h7 <- data%>%
-            filter(ring_id == "H7")
+            filter(ID == "H7")
 
         h7_lat_time <-
-        ggplot(h7, aes(timestamp, lat, col = ring_id)) +
+        ggplot(h7, aes(timestamp, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        h7_long_time <-
-        ggplot(h7, aes(timestamp, long, col = ring_id)) +
+        h7_lon_time <-
+        ggplot(h7, aes(timestamp, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(h7_long_time, h7_lat_time, nrow=2)
+        grid.arrange(h7_lon_time, h7_lat_time, nrow=2)
 
 
         #"CBK"
         cbk <- data%>%
-            filter(ring_id == "CBK")
+            filter(ID == "CBK")
 
         cbk_lat_time <-
-        ggplot(cbk, aes(timestamp, lat, col = ring_id)) +
+        ggplot(cbk, aes(timestamp, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        cbk_long_time <-
-        ggplot(cbk, aes(timestamp, long, col = ring_id)) +
+        cbk_lon_time <-
+        ggplot(cbk, aes(timestamp, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(cbk_long_time, cbk_lat_time, nrow=2)
+        grid.arrange(cbk_lon_time, cbk_lat_time, nrow=2)
 
         #"CIV"
         civ <- data%>%
