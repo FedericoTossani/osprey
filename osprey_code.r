@@ -92,9 +92,9 @@ osprey <- osprey_raw %>%
             mutate(id = as.factor(id),
                    time = as.POSIXct(timestamp, tz = "UTC"),
                    signal_interruption_cause = ifelse (id %in% osprey_dead, "Death", "GPS lifecycle"),
-                   day = day(timestamp),
-                   month = month(timestamp),
-                   year = year(timestamp))%>%
+                   day = day(time),
+                   month = month(time),
+                   year = year(time))%>%
             unite(m_day, c(month, day), sep="/", remove = F)%>%
             left_join(osprey_death, by = c("id" = "id"))%>%
             mutate( season = case_when(
@@ -171,10 +171,10 @@ theme_minimal()
 
 # Subsetting for natal dispersal
 
-# H7 -> "timestamp" > '2015-04-02 08:00:00' AND "timestamp" < '2015-04-30 16:30:00'
+# H7 -> "time" > '2015-04-02 08:00:00' AND "time" < '2015-04-30 16:30:00'
 
 h7_nd <- osprey%>%
-         filter(ID == 'H7', timestamp > '2015-04-02 08:00:00' & timestamp < '2015-04-30 16:30:00')
+         filter(ID == 'H7', time > '2015-04-02 08:00:00' & time < '2015-04-30 16:30:00')
 
 h7_track <- 
 ggplot(eu_bond) +
@@ -186,10 +186,10 @@ geom_spatvector()+
   theme(legend.position = "none")
 
 
-# CIV -> "timestamp" > '2016-03-29 00:01:00' AND "timestamp" < '2016-10-29 18:00:00'
+# CIV -> "time" > '2016-03-29 00:01:00' AND "time" < '2016-10-29 18:00:00'
 
 civ_nd <- osprey%>%
-         filter(ID == 'CIV', timestamp > '2016-03-29 00:01:00' & timestamp < '2016-10-29 18:00:00')
+         filter(ID == 'CIV', time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00')
 
 civ_track <- 
 ggplot(eu_bond) +
@@ -204,7 +204,7 @@ ggplot(eu_bond) +
 # CBK -> ???
 
 cbk_nd <- osprey%>%
-         filter(ID == 'CBK', timestamp > ??? & timestamp < ???)
+         filter(ID == 'CBK', time > ??? & time < ???)
 
 cbk_track <- 
 ggplot(eu_bond) +
@@ -216,10 +216,10 @@ ggplot(eu_bond) +
   theme(legend.position = "none")
 
 
-# E7 -> "timestamp" > '2016-03-10 05:00:00'
+# E7 -> "time" > '2016-03-10 05:00:00'
 
 e7_nd <- osprey%>%
-         filter(ID == 'E7', timestamp > '2016-03-10 05:00:00')
+         filter(ID == 'E7', time > '2016-03-10 05:00:00')
 
 e7_track <- 
 ggplot(eu_bond) +
@@ -231,10 +231,10 @@ ggplot(eu_bond) +
   theme(legend.position = "none")
 
 
-# A7 -> "timestamp" >= '2017-02-20 00:00:00'
+# A7 -> "time" >= '2017-02-20 00:00:00'
 
 a7_nd <- osprey%>%
-         filter(ID == 'A7', timestamp >= '2017-02-20 00:00:00')
+         filter(ID == 'A7', time >= '2017-02-20 00:00:00')
 
 a7_track <- 
 ggplot(eu_bond) +
@@ -249,7 +249,7 @@ ggplot(eu_bond) +
 # Antares -> ???
 
 antares_nd <- osprey%>%
-         filter(ID == 'Antares', timestamp > ???)
+         filter(ID == 'Antares', time > ???)
 
 antares_track <- 
 ggplot(eu_bond) +
@@ -261,10 +261,10 @@ ggplot(eu_bond) +
   theme(legend.position = "none")
 
 
-# IAD -> "timestamp" >= '2018-03-28 06:00:00' AND "timestamp" <= '2018-12-31 19:00:00'
+# IAD -> "time" >= '2018-03-28 06:00:00' AND "time" <= '2018-12-31 19:00:00'
 
 iad_nd <- osprey%>%
-         filter(ID == 'IAD', timestamp >= '2018-03-28 06:00:00' & timestamp <= '2018-12-31 19:00:00')
+         filter(ID == 'IAD', time >= '2018-03-28 06:00:00' & time <= '2018-12-31 19:00:00')
 
 iad_track <- 
 ggplot(eu_bond) +
@@ -279,7 +279,7 @@ ggplot(eu_bond) +
 # CAM -> ???
 
 cam_nd <- osprey%>%
-         filter(ID == 'CAM', timestamp >= ???)
+         filter(ID == 'CAM', time >= ???)
 
 cam_track <- 
 ggplot(eu_bond) +
@@ -294,7 +294,7 @@ ggplot(eu_bond) +
 # IBI -> ???
 
 ibi_nd <- osprey%>%
-         filter(ID == 'IBI', timestamp >= ???)
+         filter(ID == 'IBI', time >= ???)
 
 ibi_track <- 
 ggplot(eu_bond) +
@@ -309,7 +309,7 @@ ggplot(eu_bond) +
 # IAB -> ???
 
 iab_nd <- osprey%>%
-         filter(ID == 'IAB', timestamp >= ???)
+         filter(ID == 'IAB', time >= ???)
 
 iab_track <- 
 ggplot(eu_bond) +
@@ -324,7 +324,7 @@ ggplot(eu_bond) +
 # ICZ -> ???
 
 icz_nd <- osprey%>%
-         filter(ID == 'ICZ', timestamp >= ???)
+         filter(ID == 'ICZ', time >= ???)
 
 icz_track <- 
 ggplot(eu_bond) +
@@ -336,10 +336,10 @@ ggplot(eu_bond) +
   theme(legend.position = "none")
 
 
-# IBS -> "timestamp" > '2022-03-19 00:00:47' AND "timestamp" < '2022-06-05 00:01:24'
+# IBS -> "time" > '2022-03-19 00:00:47' AND "time" < '2022-06-05 00:01:24'
 
 ibs_nd <- osprey%>%
-         filter(ID == 'IBS', timestamp > '2022-03-19 00:00:47' & timestamp < '2022-06-05 00:01:24')
+         filter(ID == 'IBS', time > '2022-03-19 00:00:47' & time < '2022-06-05 00:01:24')
 
 ibs_track <- 
 ggplot(eu_bond) +
@@ -351,10 +351,10 @@ ggplot(eu_bond) +
   theme(legend.position = "none")
 
 
-# IBH -> "timestamp" >= '2022-04-09 04:47:05'
+# IBH -> "time" >= '2022-04-09 04:47:05'
 
 ibh_nd <- osprey%>%
-         filter(ID == 'IBH', timestamp >= '2022-04-09 04:47:05')
+         filter(ID == 'IBH', time >= '2022-04-09 04:47:05')
 
 ibh_track <- 
 ggplot(eu_bond) +
@@ -366,10 +366,10 @@ ggplot(eu_bond) +
   theme(legend.position = "none")
 
 
-# IBK -> "timestamp" >= '2022-01-24 06:44:48'
+# IBK -> "time" >= '2022-01-24 06:44:48'
 
 ibk_nd <- osprey%>%
-         filter(ID == 'IBK', timestamp >= '2022-01-24 06:44:48')
+         filter(ID == 'IBK', time >= '2022-01-24 06:44:48')
 
 ibk_track <- 
 ggplot(eu_bond) +
@@ -408,7 +408,7 @@ table(osprey$ID) %>%
 
 dates <- osprey%>%
          group_by(ID)%>%
-         summarize(start = min(timestamp), end = max(timestamp))%>% 
+         summarize(start = min(time), end = max(time))%>% 
          dplyr::select(ID, start, end)%>%
          unique()
 
@@ -454,10 +454,10 @@ osprey%>%
 #   Winter 40266
 
 # for how long this ospreys are monitored?
-difftime(max(osprey$timestamp), min(osprey$timestamp), units = "days")
+difftime(max(osprey$time), min(osprey$time), units = "days")
 #Time difference of 3539.25 days
 
-(difftime(max(osprey$timestamp), min(osprey$timestamp), units = "days") %>% as.numeric)/365.25
+(difftime(max(osprey$time), min(osprey$time), units = "days") %>% as.numeric)/365.25
 # 9.69 years
 
 # create a table that shows the number of fix per seasons grouped by individual
@@ -480,7 +480,7 @@ osprey_plot_season <-
 # visualize monitoring duration per individual
 n_summary <- osprey %>%
                 group_by(ID) %>% 
-                summarize(start = min(timestamp), end = max(timestamp))%>% 
+                summarize(start = min(time), end = max(time))%>% 
                 arrange(start) %>% 
                 mutate(ID = factor(ID, levels = ID))
 
