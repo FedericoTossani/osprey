@@ -73,9 +73,9 @@ osprey <- osprey_raw %>%
             mutate(id = as.factor(id),
                    time = as.POSIXct(timestamp, tz = "UTC"),
                    signal_interruption_cause = ifelse (id %in% osprey_dead, "Death", "GPS lifecycle"),
-                   day = day(timestamp),
-                   month = month(timestamp),
-                   year = year(timestamp))%>%
+                   day = day(time),
+                   month = month(time),
+                   year = year(time))%>%
             unite(m_day, c(month, day), sep="/", remove = F)%>%
             left_join(osprey_death, by = c("id" = "id"))%>%
             mutate( season = case_when(
