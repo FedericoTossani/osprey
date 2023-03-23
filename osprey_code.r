@@ -83,14 +83,14 @@ osprey_dead <- c("Balearics2013_FOSP11-Juv_ringH7", "Corsica2013_FOSP17_Juv_ring
 osprey <- osprey_raw %>%
             dplyr::select("timestamp", "location.long", "location.lat", "external.temperature", 
                           "gsm.gsm.signal.strength", "sensor.type", "individual.local.identifier")%>%
-            rename("long"="location.long",
+            rename("lon"="location.long",
                    "lat"="location.lat",
                    "ext_temp"="external.temperature",
                    "gsm_signal_strength"="gsm.gsm.signal.strength",
                    "sensor_type"="sensor.type",
                    "id"="individual.local.identifier")%>%
             mutate(id = as.factor(id),
-                   timestamp = as.POSIXct(timestamp, tz = "UTC"),
+                   time = as.POSIXct(timestamp, tz = "UTC"),
                    signal_interruption_cause = ifelse (id %in% osprey_dead, "Death", "GPS lifecycle"),
                    day = day(timestamp),
                    month = month(timestamp),
@@ -102,7 +102,7 @@ osprey <- osprey_raw %>%
                        month %in%  1:3  ~ "Winter",
                        month %in%  4:6  ~ "Spring",
                        TRUE ~ "Summer"),
-                    ring_id = case_when(
+                    ID = case_when(
                     id == "Balearics2013_FOSP11-Juv_ringH7" ~ "H7",
                     id == "Corsica2013_FOSP17_Juv_ringCBK" ~ "CBK",
                     id == "Corsica2014_FOSP21-Juv_ringCIV" ~ "CIV",
@@ -124,8 +124,8 @@ head(osprey)
 # wintering osprey
 
 h7_winter <- osprey%>%
-                  filter (ring_id == "H7", season == "Winter")%>%
-                  dplyr::select(long, lat)
+                  filter (ID == "H7", season == "Winter")%>%
+                  dplyr::select(lon, lat)
 
 h7_winter_sp <- SpatialPoints(h7_winter)
 
@@ -134,7 +134,7 @@ h7_winter_mcp <- mcp(h7_winter, percent = 95)
 h7_plot_mcp <- 
 ggplot(eu_bond) +
 geom_spatvector()+
-  geom_path(data = h7_winter, aes(x = long, y = lat), 
+  geom_path(data = h7_winter, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "H7 inividual track") +
   theme_minimal() +
@@ -150,7 +150,7 @@ h7_winter_hr <- clusthr(h7_winter_sp)
 
 # Visualize the movement
 
-cbbox <- make_bbox(lon = osprey$long, lat = osprey$lat, f = .1) #from ggmap
+cbbox <- make_bbox(lon = osprey$lon, lat = osprey$lat, f = .1) #from ggmap
 sq_map <- get_map(location = cbbox, maptype = "terrain", source = "stamen")
 
 eu_bond <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
@@ -161,10 +161,10 @@ eu_bond <- crop(eu_bond, osprey_ext)
 osprey_track <- 
 ggplot(eu_bond) +
 geom_spatvector() + 
- geom_path(data = osprey, aes(x = long, y = lat, color = ring_id), 
+ geom_path(data = osprey, aes(x = lon, y = lat, color = ID), 
             linewidth = 0.5, lineend = "round") +
 labs(x = " ", y = " ", title = "Inividual tracks") +
-#facet_wrap(~ ring_id) +
+#facet_wrap(~ ID) +
 theme(legend.position="none") +
 theme_minimal()
 
@@ -174,12 +174,12 @@ theme_minimal()
 # H7 -> "timestamp" > '2015-04-02 08:00:00' AND "timestamp" < '2015-04-30 16:30:00'
 
 h7_nd <- osprey%>%
-         filter(ring_id == 'H7', timestamp > '2015-04-02 08:00:00' & timestamp < '2015-04-30 16:30:00')
+         filter(ID == 'H7', timestamp > '2015-04-02 08:00:00' & timestamp < '2015-04-30 16:30:00')
 
 h7_track <- 
 ggplot(eu_bond) +
 geom_spatvector()+
-  geom_path(data = h7_nd, aes(x = long, y = lat), 
+  geom_path(data = h7_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "H7 inividual track") +
   theme_minimal() +
@@ -189,12 +189,12 @@ geom_spatvector()+
 # CIV -> "timestamp" > '2016-03-29 00:01:00' AND "timestamp" < '2016-10-29 18:00:00'
 
 civ_nd <- osprey%>%
-         filter(ring_id == 'CIV', timestamp > '2016-03-29 00:01:00' & timestamp < '2016-10-29 18:00:00')
+         filter(ID == 'CIV', timestamp > '2016-03-29 00:01:00' & timestamp < '2016-10-29 18:00:00')
 
 civ_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = civ_nd, aes(x = long, y = lat), 
+  geom_path(data = civ_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "CIV inividual track") +
   theme_minimal() +
@@ -204,12 +204,12 @@ ggplot(eu_bond) +
 # CBK -> ???
 
 cbk_nd <- osprey%>%
-         filter(ring_id == 'CBK', timestamp > ??? & timestamp < ???)
+         filter(ID == 'CBK', timestamp > ??? & timestamp < ???)
 
 cbk_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = cbk_nd, aes(x = long, y = lat), 
+  geom_path(data = cbk_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "CBK inividual track") +
   theme_minimal() +
@@ -219,12 +219,12 @@ ggplot(eu_bond) +
 # E7 -> "timestamp" > '2016-03-10 05:00:00'
 
 e7_nd <- osprey%>%
-         filter(ring_id == 'E7', timestamp > '2016-03-10 05:00:00')
+         filter(ID == 'E7', timestamp > '2016-03-10 05:00:00')
 
 e7_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = e7_nd, aes(x = long, y = lat), 
+  geom_path(data = e7_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "E7 inividual track") +
   theme_minimal() +
@@ -234,12 +234,12 @@ ggplot(eu_bond) +
 # A7 -> "timestamp" >= '2017-02-20 00:00:00'
 
 a7_nd <- osprey%>%
-         filter(ring_id == 'A7', timestamp >= '2017-02-20 00:00:00')
+         filter(ID == 'A7', timestamp >= '2017-02-20 00:00:00')
 
 a7_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = a7_nd, aes(x = long, y = lat), 
+  geom_path(data = a7_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "A7 inividual track") +
   theme_minimal() +
@@ -249,12 +249,12 @@ ggplot(eu_bond) +
 # Antares -> ???
 
 antares_nd <- osprey%>%
-         filter(ring_id == 'Antares', timestamp > ???)
+         filter(ID == 'Antares', timestamp > ???)
 
 antares_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = antares_nd, aes(x = long, y = lat), 
+  geom_path(data = antares_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "Antares inividual track") +
   theme_minimal() +
@@ -264,12 +264,12 @@ ggplot(eu_bond) +
 # IAD -> "timestamp" >= '2018-03-28 06:00:00' AND "timestamp" <= '2018-12-31 19:00:00'
 
 iad_nd <- osprey%>%
-         filter(ring_id == 'IAD', timestamp >= '2018-03-28 06:00:00' & timestamp <= '2018-12-31 19:00:00')
+         filter(ID == 'IAD', timestamp >= '2018-03-28 06:00:00' & timestamp <= '2018-12-31 19:00:00')
 
 iad_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = iad_nd, aes(x = long, y = lat), 
+  geom_path(data = iad_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "IAD inividual track") +
   theme_minimal() +
@@ -279,12 +279,12 @@ ggplot(eu_bond) +
 # CAM -> ???
 
 cam_nd <- osprey%>%
-         filter(ring_id == 'CAM', timestamp >= ???)
+         filter(ID == 'CAM', timestamp >= ???)
 
 cam_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = cam_nd, aes(x = long, y = lat), 
+  geom_path(data = cam_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "CAM inividual track") +
   theme_minimal() +
@@ -294,12 +294,12 @@ ggplot(eu_bond) +
 # IBI -> ???
 
 ibi_nd <- osprey%>%
-         filter(ring_id == 'IBI', timestamp >= ???)
+         filter(ID == 'IBI', timestamp >= ???)
 
 ibi_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = ibi_nd, aes(x = long, y = lat), 
+  geom_path(data = ibi_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "IBI inividual track") +
   theme_minimal() +
@@ -309,12 +309,12 @@ ggplot(eu_bond) +
 # IAB -> ???
 
 iab_nd <- osprey%>%
-         filter(ring_id == 'IAB', timestamp >= ???)
+         filter(ID == 'IAB', timestamp >= ???)
 
 iab_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = iab_nd, aes(x = long, y = lat), 
+  geom_path(data = iab_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "IAB inividual track") +
   theme_minimal() +
@@ -324,12 +324,12 @@ ggplot(eu_bond) +
 # ICZ -> ???
 
 icz_nd <- osprey%>%
-         filter(ring_id == 'ICZ', timestamp >= ???)
+         filter(ID == 'ICZ', timestamp >= ???)
 
 icz_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = icz_nd, aes(x = long, y = lat), 
+  geom_path(data = icz_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "ICZ inividual track") +
   theme_minimal() +
@@ -339,12 +339,12 @@ ggplot(eu_bond) +
 # IBS -> "timestamp" > '2022-03-19 00:00:47' AND "timestamp" < '2022-06-05 00:01:24'
 
 ibs_nd <- osprey%>%
-         filter(ring_id == 'IBS', timestamp > '2022-03-19 00:00:47' & timestamp < '2022-06-05 00:01:24')
+         filter(ID == 'IBS', timestamp > '2022-03-19 00:00:47' & timestamp < '2022-06-05 00:01:24')
 
 ibs_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = ibs_nd, aes(x = long, y = lat), 
+  geom_path(data = ibs_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "IBS inividual track") +
   theme_minimal() +
@@ -354,12 +354,12 @@ ggplot(eu_bond) +
 # IBH -> "timestamp" >= '2022-04-09 04:47:05'
 
 ibh_nd <- osprey%>%
-         filter(ring_id == 'IBH', timestamp >= '2022-04-09 04:47:05')
+         filter(ID == 'IBH', timestamp >= '2022-04-09 04:47:05')
 
 ibh_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = ibh_nd, aes(x = long, y = lat), 
+  geom_path(data = ibh_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "IBH inividual track") +
   theme_minimal() +
@@ -369,12 +369,12 @@ ggplot(eu_bond) +
 # IBK -> "timestamp" >= '2022-01-24 06:44:48'
 
 ibk_nd <- osprey%>%
-         filter(ring_id == 'IBK', timestamp >= '2022-01-24 06:44:48')
+         filter(ID == 'IBK', timestamp >= '2022-01-24 06:44:48')
 
 ibk_track <- 
 ggplot(eu_bond) +
   geom_spatvector()+
-  geom_path(data = ibk_nd, aes(x = long, y = lat), 
+  geom_path(data = ibk_nd, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round", col = 'red') +
   labs(x = " ", y = " ", title = "IBK inividual track") +
   theme_minimal() +
@@ -383,17 +383,17 @@ ggplot(eu_bond) +
 
 
 # let's check if there is na in position's columns
-table(is.na(osprey$long))
+table(is.na(osprey$lon))
 table(is.na(osprey$lat))
 
 
 # let's calculate some basic statistics per individual
-table(osprey$ring_id) %>% sd
+table(osprey$ID) %>% sd
 
 
 # osprey fix summary stat per individual
 osprey_fix_stat_id <- 
-table(osprey$ring_id) %>%
+table(osprey$ID) %>%
   data.frame %>%
   summary
 
@@ -407,19 +407,19 @@ table(osprey$ring_id) %>%
 # (Other)                         :8 
 
 dates <- osprey%>%
-         group_by(ring_id)%>%
+         group_by(ID)%>%
          summarize(start = min(timestamp), end = max(timestamp))%>% 
-         dplyr::select(ring_id, start, end)%>%
+         dplyr::select(ID, start, end)%>%
          unique()
 
 
 osprey_fix_stat_id_tab <- osprey%>%
-         group_by(ring_id)%>%
-         count(ring_id)%>%
+         group_by(ID)%>%
+         count(ID)%>%
          mutate(n_fix = n,
                 percent = (n/sum(osprey_fix_stat_id_tab$n))*100)%>%
          dplyr::select(-n)%>%
-         left_join(dates, by = ('ring_id'))%>%
+         left_join(dates, by = ('ID'))%>%
          arrange(start)%>%
          mutate(duration = round(difftime(end, start)))
 
@@ -462,13 +462,13 @@ difftime(max(osprey$timestamp), min(osprey$timestamp), units = "days")
 
 # create a table that shows the number of fix per seasons grouped by individual
 osprey_summary1 <- osprey %>%
-  group_by(ring_id, season) %>%
+  group_by(ID, season) %>%
   count(season)%>%
-  arrange(ring_id,desc(n))
+  arrange(ID,desc(n))
 
 osprey_plot_season <-
          osprey_summary1%>%
-         ggplot(osprey, mapping = aes(x = ring_id, y = n, fill = season))+
+         ggplot(osprey, mapping = aes(x = ID, y = n, fill = season))+
          geom_bar(stat = "identity")+
          geom_text(aes(label = n), vjust = 1)+
          labs()+
@@ -479,28 +479,28 @@ osprey_plot_season <-
 
 # visualize monitoring duration per individual
 n_summary <- osprey %>%
-                group_by(ring_id) %>% 
+                group_by(ID) %>% 
                 summarize(start = min(timestamp), end = max(timestamp))%>% 
                 arrange(start) %>% 
-                mutate(ring_id = factor(ring_id, levels = ring_id))
+                mutate(ID = factor(ID, levels = ID))
 
 osprey_dead <- osprey%>%
-                  dplyr::select(c("signal_interruption_cause", "ring_id"))%>%
+                  dplyr::select(c("signal_interruption_cause", "ID"))%>%
                   drop_na(signal_interruption_cause)%>%
                   unique()
 
 
 n_summary <- n_summary%>%
-                  left_join(osprey_dead, by = c("ring_id"))%>% 
-                  mutate(ring_id = factor(ring_id, levels = ring_id))
+                  left_join(osprey_dead, by = c("ID"))%>% 
+                  mutate(ID = factor(ID, levels = ID))
          
 
-bystart <- with(n_summary, reorder(ring_id, start))
+bystart <- with(n_summary, reorder(ID, start))
 
-ggplot(n_summary, aes(y = ring_id, xmin = start, xmax = end)) + 
+ggplot(n_summary, aes(y = ID, xmin = start, xmax = end)) + 
 geom_linerange(linewidth = 1)+
-geom_jitter(data = n_summary[n_summary$signal_interruption_cause == "Death", ], aes(x = start, y = ring_id), position = position_nudge(y = 0.3), shape = "†", size=4, color="black")+
-geom_text(aes(x = start, y = ring_id, label = ring_id), nudge_y = -0.25) +
+geom_jitter(data = n_summary[n_summary$signal_interruption_cause == "Death", ], aes(x = start, y = ID), position = position_nudge(y = 0.3), shape = "†", size=4, color="black")+
+geom_text(aes(x = start, y = ID, label = ID), nudge_y = -0.25) +
 theme_bw()+
 xlab("Year")+
 ylab("Animals ID")+
