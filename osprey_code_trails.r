@@ -71,7 +71,7 @@ osprey <- osprey_raw %>%
                    "sensor_type"="sensor.type",
                    "id"="individual.local.identifier")%>%
             mutate(id = as.factor(id),
-                   timestamp = as.POSIXct(timestamp, tz = "UTC"),
+                   time = as.POSIXct(timestamp, tz = "UTC"),
                    signal_interruption_cause = ifelse (id %in% osprey_dead, "Death", "GPS lifecycle"),
                    day = day(timestamp),
                    month = month(timestamp),
@@ -103,7 +103,7 @@ osprey <- osprey_raw %>%
 # subsetting only the columns we need
 
 data <- osprey%>%
-      dplyr::select(ID, timestamp, lon, lat)
+      dplyr::select(ID, time, lon, lat)
 
 
 # visualize the data set
@@ -120,17 +120,17 @@ coord_map("mercator")
 
 # Longitude vs time
 all_lon_time <-
-ggplot(data, aes(timestamp, lon, col = ID)) +
+ggplot(data, aes(time, lon, col = ID)) +
 geom_point(size = 0.5) +
-#facet_wrap(~ ring_id) +
+#facet_wrap(~ ID) +
 geom_path()
 
 
 # Latitude vs time
 all_lat_time <-
-ggplot(data, aes(timestamp, lat, col = ID)) +
+ggplot(data, aes(time, lat, col = ID)) +
 geom_point(size = 0.5) +
-#facet_wrap(~ ring_id) +
+#facet_wrap(~ ID) +
 geom_path()
 
 grid.arrange(all_lon_time, all_lat_time, nrow=2)
@@ -142,12 +142,12 @@ grid.arrange(all_lon_time, all_lat_time, nrow=2)
             filter(ID == "H7")
 
         h7_lat_time <-
-        ggplot(h7, aes(timestamp, lat)) +
+        ggplot(h7, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
         h7_lon_time <-
-        ggplot(h7, aes(timestamp, lon)) +
+        ggplot(h7, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
@@ -159,12 +159,12 @@ grid.arrange(all_lon_time, all_lat_time, nrow=2)
             filter(ID == "CBK")
 
         cbk_lat_time <-
-        ggplot(cbk, aes(timestamp, lat)) +
+        ggplot(cbk, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
         cbk_lon_time <-
-        ggplot(cbk, aes(timestamp, lon)) +
+        ggplot(cbk, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
@@ -172,200 +172,200 @@ grid.arrange(all_lon_time, all_lat_time, nrow=2)
 
         #"CIV"
         civ <- data%>%
-            filter(ring_id == "CIV")
+            filter(ID == "CIV")
 
         civ_lat_time <-
-        ggplot(civ, aes(timestamp, lat, col = ring_id)) +
+        ggplot(civ, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        civ_long_time <-
-        ggplot(civ, aes(timestamp, long, col = ring_id)) +
+        civ_lon_time <-
+        ggplot(civ, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(civ_long_time, civ_lat_time, nrow=2)
+        grid.arrange(civ_lon_time, civ_lat_time, nrow=2)
 
         #"E7"
         e7 <- data%>%
-            filter(ring_id == "E7")
+            filter(ID == "E7")
 
         e7_lat_time <-
-        ggplot(e7, aes(timestamp, lat, col = ring_id)) +
+        ggplot(e7, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        e7_long_time <-
-        ggplot(e7, aes(timestamp, long, col = ring_id)) +
+        e7_lon_time <-
+        ggplot(e7, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(e7_long_time, e7_lat_time, nrow=2)
+        grid.arrange(e7_lon_time, e7_lat_time, nrow=2)
 
         #"A7" 
         #"E7"
         a7 <- data%>%
-            filter(ring_id == "A7")
+            filter(ID == "A7")
 
         a7_lat_time <-
-        ggplot(a7, aes(timestamp, lat, col = ring_id)) +
+        ggplot(a7, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        a7_long_time <-
-        ggplot(a7, aes(timestamp, long, col = ring_id)) +
+        a7_lon_time <-
+        ggplot(a7, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(a7_long_time, a7_lat_time, nrow=2)
+        grid.arrange(a7_lon_time, a7_lat_time, nrow=2)
 
         #"Antares"
         antares <- data%>%
-            filter(ring_id == "Antares")
+            filter(ID == "Antares")
 
         antares_lat_time <-
-        ggplot(antares, aes(timestamp, lat, col = ring_id)) +
+        ggplot(antares, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        antares_long_time <-
-        ggplot(antares, aes(timestamp, long, col = ring_id)) +
+        antares_lon_time <-
+        ggplot(antares, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(antares_long_time, antares_lat_time, nrow=2)
+        grid.arrange(antares_lon_time, antares_lat_time, nrow=2)
 
         #"IAD"
         iad <- data%>%
-            filter(ring_id == "IAD")
+            filter(ID == "IAD")
 
         iad_lat_time <-
-        ggplot(iad, aes(timestamp, lat, col = ring_id)) +
+        ggplot(iad, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        iad_long_time <-
-        ggplot(iad, aes(timestamp, long, col = ring_id)) +
+        iad_lon_time <-
+        ggplot(iad, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(iad_long_time, iad_lat_time, nrow=2)
+        grid.arrange(iad_lon_time, iad_lat_time, nrow=2)
 
         #"CAM" 
         cam <- data%>%
-            filter(ring_id == "CAM")
+            filter(ID == "CAM")
 
         cam_lat_time <-
-        ggplot(cam, aes(timestamp, lat, col = ring_id)) +
+        ggplot(cam, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        cam_long_time <-
-        ggplot(cam, aes(timestamp, long, col = ring_id)) +
+        cam_lon_time <-
+        ggplot(cam, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(cam_long_time, cam_lat_time, nrow=2)
+        grid.arrange(cam_lon_time, cam_lat_time, nrow=2)
 
         #"IBI" 
         ibi <- data%>%
-            filter(ring_id == "IBI")
+            filter(ID == "IBI")
 
         ibi_lat_time <-
-        ggplot(ibi, aes(timestamp, lat, col = ring_id)) +
+        ggplot(ibi, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        ibi_long_time <-
-        ggplot(ibi, aes(timestamp, long, col = ring_id)) +
+        ibi_lon_time <-
+        ggplot(ibi, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(ibi_long_time, ibi_lat_time, nrow=2)
+        grid.arrange(ibi_lon_time, ibi_lat_time, nrow=2)
 
         #"IAB"     
         iab <- data%>%
-            filter(ring_id == "IAB")
+            filter(ID == "IAB")
 
         iab_lat_time <-
-        ggplot(iab, aes(timestamp, lat, col = ring_id)) +
+        ggplot(iab, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        iab_long_time <-
-        ggplot(iab, aes(timestamp, long, col = ring_id)) +
+        iab_lon_time <-
+        ggplot(iab, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(iab_long_time, iab_lat_time, nrow=2)
+        grid.arrange(iab_lon_time, iab_lat_time, nrow=2)
 
         #"ICZ"    
         icz <- data%>%
-            filter(ring_id == "ICZ")
+            filter(ID == "ICZ")
 
         icz_lat_time <-
-        ggplot(icz, aes(timestamp, lat, col = ring_id)) +
+        ggplot(icz, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        icz_long_time <-
-        ggplot(icz, aes(timestamp, long, col = ring_id)) +
+        icz_lon_time <-
+        ggplot(icz, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(icz_long_time, icz_lat_time, nrow=2)
+        grid.arrange(icz_lon_time, icz_lat_time, nrow=2)
 
         #"IBS"   
         ibs <- data%>%
-            filter(ring_id == "IBS")
+            filter(ID == "IBS")
 
         ibs_lat_time <-
-        ggplot(ibs, aes(timestamp, lat, col = ring_id)) +
+        ggplot(ibs, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        ibs_long_time <-
-        ggplot(ibs, aes(timestamp, long, col = ring_id)) +
+        ibs_lon_time <-
+        ggplot(ibs, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(ibs_long_time, ibs_lat_time, nrow=2)
+        grid.arrange(ibs_lon_time, ibs_lat_time, nrow=2)
 
         #"IBH" 
         ibh <- data%>%
-            filter(ring_id == "IBH")
+            filter(ID == "IBH")
 
         ibh_lat_time <-
-        ggplot(ibh, aes(timestamp, lat, col = ring_id)) +
+        ggplot(ibh, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        ibh_long_time <-
-        ggplot(ibh, aes(timestamp, long, col = ring_id)) +
+        ibh_lon_time <-
+        ggplot(ibh, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(ibh_long_time, ibh_lat_time, nrow=2)
+        grid.arrange(ibh_lon_time, ibh_lat_time, nrow=2)
 
         #"IBK"
         ibk <- data%>%
-            filter(ring_id == "IBK")
+            filter(ID == "IBK")
 
         ibk_lat_time <-
-        ggplot(ibk, aes(timestamp, lat, col = ring_id)) +
+        ggplot(ibk, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        ibk_long_time <-
-        ggplot(ibk, aes(timestamp, long, col = ring_id)) +
+        ibk_lon_time <-
+        ggplot(ibk, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(ibk_long_time, ibk_lat_time, nrow=2)
+        grid.arrange(ibk_lon_time, ibk_lat_time, nrow=2)
 
 
 # Project to UTM
-llcoord <- st_as_sf(data[, c("long", "lat")], coords = c("long", "lat"),
+llcoord <- st_as_sf(data[, c("lon", "lat")], coords = c("lon", "lat"),
 crs = CRS("+proj=longlat +datum=WGS84"))
 utmcoord <- st_transform(llcoord, crs = CRS("+proj=utm +zone=32 +datum=WGS84"))
 
@@ -373,13 +373,13 @@ utmcoord <- st_transform(llcoord, crs = CRS("+proj=utm +zone=32 +datum=WGS84"))
 data[, c("x", "y")] <- st_coordinates(utmcoord)/1000
 
 # Plot Northing vs Easting
-ggplot(data, aes(x, y, col = ring_id)) +
+ggplot(data, aes(x, y, col = ID)) +
 geom_point(size = 0.5) +
 geom_path() +
 coord_equal()
 
 # Table of time intervals in data
-plot(table(diff(data$timestamp)), xlim = c(0, 300),
+plot(table(diff(data$time)), xlim = c(0, 300),
 xlab = "time interval (min)", ylab = "count")
 
 
