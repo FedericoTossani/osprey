@@ -113,6 +113,31 @@ relocate("ID", "time", "date", "day", "month", "year", "m_day",
 data <- osprey%>%
       dplyr::select(ID, time, lon, lat)
 
+llcoord <- st_as_sf(data[, c("lon", "lat")], coords = c("lon", "lat"),
+crs = CRS("+proj=longlat +datum=WGS84"))
+utmcoord <- st_transform(llcoord, crs = CRS("+proj=utm +zone=32 +datum=WGS84"))
+
+# Add Easting-Northing to data (in km)
+data[, c("x", "y")] <- st_coordinates(utmcoord)/1000
+
+
+# Create an ltraj object
+
+data2 <- data %>%
+  group_by(ID, time) %>%
+  distinct() %>%
+  ungroup()
+
+dupl <- which(duplicated(data$time))
+
+time <- as.POSIXct(strptime(as.character(data2$time),"%Y-%m-%d %H:%M:%S"))
+
+
+data_lt <- as.ltraj(xy = data2[,c("x","y")], date = time, id = data2$ID)
+
+
+
+
 
 # visualize the data set
 ggplot(data, aes(lon, lat, col = ID)) +
