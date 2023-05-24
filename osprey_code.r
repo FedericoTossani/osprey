@@ -135,7 +135,7 @@ h7_winter <- osprey%>%
 
 h7_winter_sp <- SpatialPoints(h7_winter)
 
-h7_winter_mcp <- mcp(h7_winter, percent = 95)
+h7_winter_mcp <- mcp(h7_winter_sp, percent = 95)
 
 h7_plot_mcp <- 
 ggplot(eu_bond) +
