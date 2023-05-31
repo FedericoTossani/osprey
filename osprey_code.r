@@ -128,24 +128,45 @@ head(osprey)
 
 
 # wintering osprey
+eu_bond <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
+h7_ext <- ext(c(-7.0000, -5.30000, 35.4000, 37.00000))
+h7_eu <- crop(eu_bond, h7_ext)
 
-h7_winter <- osprey%>%
-                  filter (ID == "H7", season == "Winter")%>%
-                  dplyr::select(lon, lat)
+h7 <- osprey%>%
+                  filter(ID == "H7")%>%
+                  dplyr::select(lon, lat, date)
 
-h7_winter_sp <- SpatialPoints(h7_winter)
+# First define the winter period
 
-h7_winter_mcp <- mcp(h7_winter_sp, percent = 95)
+h7_winter <- h7%>%
+                  dplyr::filter(date >= "2014-12-01" & date < "2015-04-02")%>%
+                  dplyr::select(lon, lat, date)
 
-h7_plot_mcp <- 
-ggplot(eu_bond) +
+
+h7_winter_2 <- h7_winter%>%
+                  select(-date)
+
+
+h7_winter_sp <- SpatialPoints(h7_winter_2)
+
+h7_winter_kde <- kernelUD(h7_winter_sp, h = "href")
+h7_winter_khr <- getverticeshr(h7_winter_kde)
+
+h7_w_hr <- fortify(h7_winter_khr)
+
+h7_winter_mcp <- mcp(h7_winter_sp, percent = 95) 
+
+h7_plot <- 
+ggplot(h7_eu) +
 geom_spatvector()+
-  geom_path(data = h7_winter, aes(x = lon, y = lat), 
-            linewidth = 0.5, lineend = "round", col = 'red') +
-  labs(x = " ", y = " ", title = "H7 inividual track") +
-  theme_minimal() +
+#  geom_path(data = h7_winter, aes(x = lon, y = lat), 
+#            linewidth = 0.5, lineend = "round", col = 'red') +
+geom_polygon(h7_w_hr, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+  labs(x = " ", y = " ", title = "H7 2014/2015 winter homerange") +
+  theme_minimal() #+
   theme(legend.position = "none")
 
+h7_plot
 
 # wintering home range
 
@@ -161,7 +182,7 @@ sq_map <- get_map(location = cbbox, maptype = "terrain", source = "stamen")
 
 eu_bond <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
 osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
-eu_bond <- crop(eu_bond, osprey_ext)
+osprey_eu <- crop(eu_bond, osprey_ext)
 
 
 osprey_track <- 
@@ -214,7 +235,7 @@ grid.arrange(all_lon_time, all_lat_time, nrow=2)
 # plot of coord vs time for every animals
 
         #"H7" 
-        h7 <- data%>%
+        h7 <- osprey%>%
             filter(ID == "H7")
 
         h7_lat_time <-
