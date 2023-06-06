@@ -204,7 +204,7 @@
 
         h7_lon_lat <- ggarrange(h7_lon_time, h7_lat_time, ncol = 1, nrow = 2)
      
-        ggsave("h7_lon_lat.jpg", plot=h7_lon_lat)
+       # ggsave("h7_lon_lat.jpg", plot=h7_lon_lat)
 
         h7_lon_lat <- grid.arrange(h7_lon_time, h7_lat_time, nrow=2)
 
@@ -225,7 +225,7 @@
 
         cbk_lon_lat <- ggarrange(cbk_lon_time, cbk_lat_time, ncol = 1, nrow = 2)
      
-        ggsave("cbk_lon_lat.jpg", plot=cbk_lon_lat)
+       # ggsave("cbk_lon_lat.jpg", plot=cbk_lon_lat)
 
         grid.arrange(cbk_lon_time, cbk_lat_time, nrow=2)
 
@@ -245,7 +245,7 @@
 
         civ_lon_lat <- ggarrange(civ_lon_time, civ_lat_time, ncol = 1, nrow = 2)
      
-        ggsave("civ_lon_lat.jpg", plot=civ_lon_lat)
+      #  ggsave("civ_lon_lat.jpg", plot=civ_lon_lat)
 
         grid.arrange(civ_lon_time, civ_lat_time, nrow=2)
 
@@ -265,7 +265,7 @@
 
         e7_lon_lat <- ggarrange(e7_lon_time, e7_lat_time, ncol = 1, nrow = 2)
      
-        ggsave("e7_lon_lat.jpg", plot=e7_lon_lat)
+       # ggsave("e7_lon_lat.jpg", plot=e7_lon_lat)
 
         grid.arrange(e7_lon_time, e7_lat_time, nrow=2)
 
@@ -285,7 +285,7 @@
 
         a7_lon_lat <- ggarrange(a7_lon_time, a7_lat_time, ncol = 1, nrow = 2)
      
-        ggsave("a7_lon_lat.jpg", plot=a7_lon_lat)
+       # ggsave("a7_lon_lat.jpg", plot=a7_lon_lat)
 
         grid.arrange(a7_lon_time, a7_lat_time, nrow=2)
 
@@ -305,7 +305,7 @@
 
         antares_lon_lat <- ggarrange(antares_lon_time, antares_lat_time, ncol = 1, nrow = 2)
      
-        ggsave("antares_lon_lat.jpg", plot=antares_lon_lat)
+       # ggsave("antares_lon_lat.jpg", plot=antares_lon_lat)
 
         grid.arrange(antares_lon_time, antares_lat_time, nrow=2)
 
@@ -325,7 +325,7 @@
 
         iad_lon_lat <- ggarrange(iad_lon_time, iad_lat_time, ncol = 1, nrow = 2)
      
-        ggsave("iad_lon_lat.jpg", plot=iad_lon_lat)
+      #  ggsave("iad_lon_lat.jpg", plot=iad_lon_lat)
 
         grid.arrange(iad_lon_time, iad_lat_time, nrow=2)
 
