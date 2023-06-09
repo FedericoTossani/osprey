@@ -336,7 +336,8 @@
                                     dplyr::filter(ID == "H7" & date >= "2014-12-01" & date < "2015-04-02" |
                                                   ID == "A7" & date >= "2016-12-01" & date < "2017-02-20" |
                                                   ID == "E7" & date >= "2015-12-01" & date < "2016-03-10" |
-                                                  ID == "IAD" & date >= "2017-12-01" & date < "2018-03-28"
+                                                  ID == "IAD" & date >= "2017-12-01" & date < "2018-03-28" |
+                                                  ID == "CIV" & date >= "2014-12-01" & date < "2015-03-01"           # controlla la data di partenza
                                                  )%>%
                                     dplyr::select(ID, lon, lat, date)
 
