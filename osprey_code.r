@@ -967,6 +967,56 @@ ggplot(countries) +
            theme(legend.position = "none")
 
 
+##########################
+# Distances between fix  #
+##########################
+
+# H7
+
+
+         # Estimating movement rate
+                  h7_winter <- osprey%>%
+                                    dplyr::filter(ID == "H7" & date >= "2014-12-01" & date < "2015-04-02")%>%
+                                    dplyr::select(ID, time, lon, lat)   
+
+                  crdref <- "+proj=longlat +datum=WGS84"
+                  h7_winter_shp <- vect(h7_winter, crs=crdref)
+                  h7_winter_df <- as.data.frame(h7_winter_shp)
+
+
+                  getMoveStats <- function(df){
+                    # df - is a generic data frame that will contain X,Y and Time columns
+                    Z <- df$lon + 1i*df$lat
+                    Time <- df$time
+                    Step <- c(NA, diff(Z)) # we add the extra NA because there is no step to the first location
+                    dT <- c(NA, difftime(Time[-1], Time[-length(Time)], hours) %>% as.numeric)
+
+                    SL <- Mod(Step)/1e3 # convert to km - so the speed is in km/hour
+                    MR <- SL/dT # computing the movement rate
+
+                    # this is what the function returns
+                    data.frame(df, Z, dT, Step, SL, MR)
+                  }
+
+
+                  h7_winter_move <- getMoveStats(h7_winter) 
+                                    
+                  ggplot(h7_winter_move, aes(ID, MR)) +
+                           geom_boxplot()
+
+
+                  mr_summarystats <- h7_winter_move %>%
+                           plyr::ddply(c("ID"), summarize,
+                            min = min(MR, na.rm = TRUE), max = max(MR, na.rm = TRUE),
+                            n = length(MR), NA.count = sum(is.na(MR)),
+                            Zero.count = sum(MR == 0, na.rm = TRUE))
+
+         # Mean ditance between fixs during winter
+
+         # Mean ditance between fixs during natal dispersal
+
+
+
 
 ##########################
 # Descriptive statistics #
