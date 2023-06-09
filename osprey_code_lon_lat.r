@@ -141,10 +141,10 @@
         geom_path()
 
         h7_lon_lat <- ggarrange(h7_lon_time, h7_lat_time, ncol = 1, nrow = 2)
-     
-       # ggsave("h7_lon_lat.jpg", plot=h7_lon_lat)
+         
+        h7_lon_lat
 
-        h7_lon_lat <- grid.arrange(h7_lon_time, h7_lat_time, nrow=2)
+       # ggsave("h7_lon_lat.jpg", plot=h7_lon_lat)
 
 
   # CBK
