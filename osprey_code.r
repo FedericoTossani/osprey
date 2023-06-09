@@ -210,6 +210,9 @@
 
 
   # CBK
+
+# si sposta tra roost notturno e area di foraggiamento
+# dalla latitudine si vede che si comporta come uno svernante normale
         cbk <- osprey%>%
             filter(ID == "CBK")
 
@@ -230,6 +233,7 @@
         grid.arrange(cbk_lon_time, cbk_lat_time, nrow=2)
 
   # CIV
+
         civ <- osprey%>%
             filter(ID == "CIV")
 
@@ -290,6 +294,9 @@
         grid.arrange(a7_lon_time, a7_lat_time, nrow=2)
 
   # Antares
+
+# controlla come sono stati trattati gli individui residenti nell'articolo di IBIS
+# calcola media dei movimenti e individua spostamento significativo
         antares <- osprey%>%
             filter(ID == "Antares")
 
@@ -330,6 +337,7 @@
         grid.arrange(iad_lon_time, iad_lat_time, nrow=2)
 
   # CAM 
+# tienilo per ultimo
         cam <- osprey%>%
             filter(ID == "CAM")
 
@@ -343,9 +351,11 @@
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(cam_lon_time, cam_lat_time, nrow=2)
+        cam_lon_lat <- grid.arrange(cam_lon_time, cam_lat_time, nrow=2)
 
   # IBI
+# trattalo come residente
+
         ibi <- osprey%>%
             filter(ID == "IBI")
 
@@ -359,7 +369,7 @@
         geom_point(size = 0.5) +
         geom_path()
 
-        grid.arrange(ibi_lon_time, ibi_lat_time, nrow=2)
+        ibi_lon_lat <- grid.arrange(ibi_lon_time, ibi_lat_time, nrow=2)
 
   # IAB     
         iab <- osprey%>%
@@ -483,6 +493,9 @@ ggplot(countries) +
 ####################
 # Winter Homerange #
 ####################
+
+
+# KernelUD al 95 a al 50 (è la core area) 
 
 # Here I will calculate the homerange of Ospreys during the winter before the beginning of natal dispersal movements
 
@@ -697,6 +710,9 @@ ggplot(countries) +
 
                   iad_plot
 
+# CIV Winter HR in 2014/2015 poi stat solo primo viaggio (analizza poi anche il secondo)
+
+
 # Ospreys WinterHR
 
          # First let's crop
@@ -878,6 +894,8 @@ ggplot(countries) +
 
 
     # IBI -> ???
+
+# trattato come residente
 
          ibi_nd <- osprey%>%
                   filter(ID == 'IBI', time >= ???)
