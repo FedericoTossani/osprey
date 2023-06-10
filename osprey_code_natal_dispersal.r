@@ -98,7 +98,9 @@
          osprey <- osprey%>%
          select(-c("timestamp", "id"))%>%
          relocate("ID", "time", "date", "day", "month", "year", "m_day",
-                              "death_date", "season", "ext_temp", "lon", "lat", "sensor_type", "gsm_signal_strength", "signal_interruption_cause", "death_comment")
+                              "death_date", "season", "ext_temp", "lon", "lat", "sensor_type", "gsm_signal_strength", "signal_interruption_cause", "death_comment")%>%
+         select(-c("day", "month", "year", "m_day", "ext_temp", "sensor_type", "gsm_signal_strength", "signal_interruption_cause", "death_comment"))%>%
+         unique()
 
 
 
@@ -322,4 +324,80 @@
 #########################
 #  Natal dispersal stat #
 #########################
+
+        getMoveStats <- function(df){
+         # df - is a generic data frame that will contain X,Y and Time columns
+         Z <- df$lon + 1i*df$lat
+         Time <- df$time
+         Step <- c(NA, diff(Z)) # we add the extra NA because there is no step to the first location
+         dT <- c(NA, difftime(Time[-1], Time[-length(Time)], hours) %>% as.numeric)
+
+         SL <- Mod(Step)/1e3 # convert to km - so the speed is in km/hour
+         MR <- SL/dT # computing the movement rate
+
+         # this is what the function returns
+         data.frame(df, Z, dT, Step, SL, MR)
+                  }
+
+
+
+         osprey_move <- getMoveStats(osprey) 
+                                    
+         ggplot(osprey_move, aes(ID, MR)) +
+         geom_boxplot()
+
+
+         mr_summarystats <- osprey_move %>%
+                           plyr::ddply(c("ID", "season"), summarize,
+                            min = min(MR, na.rm = TRUE), max = max(MR, na.rm = TRUE),
+                            n = length(MR), NA.count = sum(is.na(MR)),
+                            Zero.count = sum(MR == 0, na.rm = TRUE))
+
+         osprey_move_nd <- osprey_move%>%
+                  filter(ID == 'H7' & time > '2015-04-02 05:00:00' & time < '2015-05-10 00:00:00' |
+                         ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00' | # ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00' | 
+                         ID == 'E7' & time > '2016-03-10 05:00:00' |
+                         ID == 'A7' & time >= '2017-02-20 00:00:00' |
+                         ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00' | # ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-05-07 15:00:00' | 
+                         ID == 'IBS' & time > '2022-03-22 00:00:00' & time < '2022-06-04 15:00:00' |
+                         ID == 'IBH' & time >= '2022-04-09 06:00:00' |
+                         ID == 'IBK' & time >= '2022-01-24 06:44:48'
+                           )
+
+         NatalDispersal_mr_summarystats <- osprey_move_nd %>%
+                           plyr::ddply(c("ID"), summarize,
+                            min = min(MR, na.rm = TRUE), max = max(MR, na.rm = TRUE),
+                            n = length(MR), NA.count = sum(is.na(MR)),
+                            Zero.count = sum(MR == 0, na.rm = TRUE))
+
+
+
+
+           h7 <- osprey%>%
+            filter( ID == 'IAD' & time >= '2019-05-07 00:00:00' & time <= '2019-05-07 15:00:00')
+       
+     h7_lat_time <-
+        ggplot(h7, aes(time, lat)) +
+        geom_point(size = 0.5) +
+        geom_path()
+
+        h7_lon_time <-
+        ggplot(h7, aes(time, lon)) +
+        geom_point(size = 0.5) +
+        geom_path()
+
+        h7_lon_lat <- ggarrange(h7_lon_time, h7_lat_time, ncol = 1, nrow = 2)
+         
+        h7_lon_lat
+
+
+
+
+
+
+
+
+
+
+
 
