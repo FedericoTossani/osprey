@@ -103,9 +103,10 @@ osprey <- osprey_raw %>%
                     id == "Italy2020_Ornitela_juv_ringIBK_Imbabura" ~ "IBK"))
               
 osprey <- osprey%>%
-select(-c("timestamp", "id"))%>%
-relocate("ID", "time", "date", "day", "month", "year", "m_day",
-                     "death_date", "season", "ext_temp", "lon", "lat", "sensor_type", "gsm_signal_strength", "signal_interruption_cause", "death_comment")
+        select(-c("timestamp", "id"))%>%
+        relocate("ID", "time", "date", "day", "month", "year", "m_day",
+                             "death_date", "season", "ext_temp", "lon", "lat", "sensor_type", "gsm_signal_strength", "signal_interruption_cause", "death_comment")%>%
+         unique()
 
 
 # subsetting only the columns we need
