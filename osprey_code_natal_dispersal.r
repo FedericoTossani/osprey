@@ -353,6 +353,12 @@
                             n = length(MR), NA.count = sum(is.na(MR)),
                             Zero.count = sum(MR == 0, na.rm = TRUE))
 
+         SL_summarystats <- osprey_move %>%
+                           plyr::ddply(c("ID", "season"), summarize,
+                            min = min(SL, na.rm = TRUE), max = max(SL, na.rm = TRUE),
+                            n = length(SL), NA.count = sum(is.na(SL)),
+                            Zero.count = sum(SL == 0, na.rm = TRUE))
+
          osprey_move_nd <- osprey_move%>%
                   filter(ID == 'H7' & time > '2015-04-02 05:00:00' & time < '2015-05-10 00:00:00' |
                          ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00' | # ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00' | 
@@ -370,6 +376,11 @@
                             n = length(MR), NA.count = sum(is.na(MR)),
                             Zero.count = sum(MR == 0, na.rm = TRUE))
 
+         NatalDispersal_SL_summarystats <- osprey_move_nd %>%
+                           plyr::ddply(c("ID", "season"), summarize,
+                            min = min(SL, na.rm = TRUE), max = max(SL, na.rm = TRUE),
+                            n = length(SL), NA.count = sum(is.na(SL)),
+                            Zero.count = sum(SL == 0, na.rm = TRUE))
 
 
 
