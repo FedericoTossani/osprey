@@ -1,9 +1,11 @@
-
-
 # ================================ #
 #       1.SetWD and packages       #
 # ================================ #
          setwd("C:/Tesi/R/osprey/data/")
+
+         # this doesn't work, fix it!
+         # source(file = "https://github.com/FedericoTossani/osprey/blob/main/osprey_code_packages.r")
+
 
          list.of.packages <- c("tidyverse",
                                "lubridate",
@@ -17,7 +19,8 @@
                                "terra",
                                "tidyterra",
                                "gridExtra",
-                               "ggpubr")
+                               "ggpubr",
+                               "DescTools")
 
          # with this line of code I check if alll the packages are installed and then I load it
 
@@ -37,7 +40,7 @@
          csv_allfile <- lapply(list_csv, read.csv)
 
          col_selected <- c("timestamp", "location.long", "location.lat", "external.temperature", 
-                           "gsm.gsm.signal.strength", "sensor.type", "individual.local.identifier")
+                           "individual.local.identifier")
 
          csv_file_sel_col <- lapply(csv_allfile, "[", , col_selected)
          osprey_raw <- bind_rows(csv_file_sel_col)
@@ -56,14 +59,12 @@
 
 # dataset to use for further analysis
 
-         osprey <- osprey_raw %>%
+         osprey_nd <- osprey_raw %>%
                      dplyr::select("timestamp", "location.long", "location.lat", "external.temperature", 
-                                   "gsm.gsm.signal.strength", "sensor.type", "individual.local.identifier")%>%
+                                   "individual.local.identifier")%>%
                      rename("lon"="location.long",
                             "lat"="location.lat",
                             "ext_temp"="external.temperature",
-                            "gsm_signal_strength"="gsm.gsm.signal.strength",
-                            "sensor_type"="sensor.type",
                             "id"="individual.local.identifier")%>%
                      mutate(id = as.factor(id),
                             time = as.POSIXct(timestamp, tz = "UTC"),
@@ -93,14 +94,27 @@
                              id == "Italy2019_OrnitelaWhite_juv_ringICZ_Odaba" ~ "ICZ",
                              id == "Italy2020_FIOS21_juv_ringIBS_Mauna Loa" ~ "IBS",
                              id == "Italy2020_Ornitela_juv_ringIBH_Infiernillo" ~ "IBH",
-                             id == "Italy2020_Ornitela_juv_ringIBK_Imbabura" ~ "IBK"))
+                             id == "Italy2020_Ornitela_juv_ringIBK_Imbabura" ~ "IBK",
+                             id == "Italy2022_OSPI08_juv_ringIFP_Ildebrando" ~ "IFP"))
 
-         osprey <- osprey%>%
-         select(-c("timestamp", "id"))%>%
-         relocate("ID", "time", "date", "day", "month", "year", "m_day",
-                              "death_date", "season", "ext_temp", "lon", "lat", "sensor_type", "gsm_signal_strength", "signal_interruption_cause", "death_comment")%>%
-         select(-c("day", "month", "year", "m_day", "ext_temp", "sensor_type", "gsm_signal_strength", "signal_interruption_cause", "death_comment"))%>%
-         unique()
+         osprey_nd <- osprey_nd%>%
+                  select(-c("timestamp", "id"))%>%
+                  relocate("ID", "time", "date", "day", "month", "year", "m_day",
+                                       "death_date", "season", "ext_temp", "lon", "lat", "signal_interruption_cause", "death_comment")%>%
+                  select(-c("day", "month", "year", "m_day", "ext_temp", "signal_interruption_cause", "death_comment"))%>%
+                  unique()
+
+         osprey_nd <- osprey_nd%>%
+                  filter(ID == 'H7' & time > '2015-04-02 05:00:00' & time < '2015-05-10 00:00:00' |
+                         ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00' | # ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00' | 
+                         ID == 'E7' & time > '2016-03-10 05:00:00' |
+                         ID == 'A7' & time >= '2017-02-20 00:00:00' |
+                         ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00' | # ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-05-07 15:00:00' | 
+                         ID == 'IBS' & time > '2022-03-22 00:00:00' & time < '2022-06-04 15:00:00' |
+                         ID == 'IBH' & time >= '2022-04-09 06:00:00' |
+                         ID == 'IBK' & time >= '2022-01-24 06:44:48'
+                           )
+
 
 
 
