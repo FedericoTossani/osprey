@@ -4,6 +4,10 @@
 # ================================ #
          setwd("C:/Tesi/R/osprey/data/")
 
+         # this doesn't work, fix it!
+         # source(file = "https://github.com/FedericoTossani/osprey/blob/main/osprey_code_packages.r")
+
+
          list.of.packages <- c("tidyverse",
                                "lubridate",
                                "sf", 
@@ -16,7 +20,8 @@
                                "terra",
                                "tidyterra",
                                "gridExtra",
-                               "ggpubr")
+                               "ggpubr",
+                               "DescTools")
 
          # with this line of code I check if alll the packages are installed and then I load it
 
@@ -36,7 +41,7 @@
          csv_allfile <- lapply(list_csv, read.csv)
 
          col_selected <- c("timestamp", "location.long", "location.lat", "external.temperature", 
-                           "gsm.gsm.signal.strength", "sensor.type", "individual.local.identifier")
+                           "individual.local.identifier")
 
          csv_file_sel_col <- lapply(csv_allfile, "[", , col_selected)
          osprey_raw <- bind_rows(csv_file_sel_col)
@@ -57,12 +62,10 @@
 
          osprey <- osprey_raw %>%
                      dplyr::select("timestamp", "location.long", "location.lat", "external.temperature", 
-                                   "gsm.gsm.signal.strength", "sensor.type", "individual.local.identifier")%>%
+                                   "individual.local.identifier")%>%
                      rename("lon"="location.long",
                             "lat"="location.lat",
                             "ext_temp"="external.temperature",
-                            "gsm_signal_strength"="gsm.gsm.signal.strength",
-                            "sensor_type"="sensor.type",
                             "id"="individual.local.identifier")%>%
                      mutate(id = as.factor(id),
                             time = as.POSIXct(timestamp, tz = "UTC"),
@@ -92,13 +95,14 @@
                              id == "Italy2019_OrnitelaWhite_juv_ringICZ_Odaba" ~ "ICZ",
                              id == "Italy2020_FIOS21_juv_ringIBS_Mauna Loa" ~ "IBS",
                              id == "Italy2020_Ornitela_juv_ringIBH_Infiernillo" ~ "IBH",
-                             id == "Italy2020_Ornitela_juv_ringIBK_Imbabura" ~ "IBK"))
+                             id == "Italy2020_Ornitela_juv_ringIBK_Imbabura" ~ "IBK",
+                             id == "Italy2022_OSPI08_juv_ringIFP_Ildebrando" ~ "IFP"))
 
-         osprey <- osprey%>%
-         select(-c("timestamp", "id"))%>%
-         relocate("ID", "time", "date", "day", "month", "year", "m_day",
-                              "death_date", "season", "ext_temp", "lon", "lat", "sensor_type", "gsm_signal_strength", "signal_interruption_cause", "death_comment")%>%
-         unique()
+         osprey<- osprey%>%
+                  select(-c("timestamp", "id"))%>%
+                  relocate("ID", "time", "date", "day", "month", "year", "m_day",
+                                       "death_date", "season", "ext_temp", "lon", "lat", "signal_interruption_cause", "death_comment")%>%
+                  unique()
 
 
 
@@ -391,6 +395,27 @@
         grid.arrange(ibk_lon_time, ibk_lat_time, nrow=2)
 
 
+  # IFP 
+        ifp <- osprey%>%
+            filter(ID == "IFP")
+
+        ifp_lat_time <-
+        ggplot(ifp, aes(time, lat)) +
+        geom_point(size = 0.5) +
+        geom_path()
+
+        ifp_lon_time <-
+        ggplot(ifp, aes(time, lon)) +
+        geom_point(size = 0.5) +
+        geom_path()
+
+        ifp_lon_lat <- ggarrange(ifp_lon_time, ifp_lat_time, ncol = 1, nrow = 2)
+         
+        ifp_lon_lat
+
+       # ggsave("ifp_lon_lat.jpg", plot=ifp_lon_lat)
+
+
 # Check this part!
          # Project to UTM
          llcoord <- st_as_sf(data[, c("lon", "lat")], coords = c("lon", "lat"),
@@ -414,7 +439,7 @@
 # H7 track
 
 h7 <- osprey%>%
-filter(ID == "H7")%>%
+filter(ID == "IFP")%>%
 group_by(date)
 
 
