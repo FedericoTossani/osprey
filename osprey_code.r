@@ -122,7 +122,8 @@
                              id == "Italy2019_OrnitelaWhite_juv_ringICZ_Odaba" ~ "ICZ",
                              id == "Italy2020_FIOS21_juv_ringIBS_Mauna Loa" ~ "IBS",
                              id == "Italy2020_Ornitela_juv_ringIBH_Infiernillo" ~ "IBH",
-                             id == "Italy2020_Ornitela_juv_ringIBK_Imbabura" ~ "IBK"))
+                             id == "Italy2020_Ornitela_juv_ringIBK_Imbabura" ~ "IBK",
+                             id == "Italy2022_OSPI08_juv_ringIFP_Ildebrando" ~ "IFP"))
 
          osprey <- osprey%>%
          select(-c("timestamp", "id"))%>%
@@ -225,7 +226,14 @@
 # Descriptive statistics #
 ##########################
 
+# Usa questo pezzo di codice per esportare tabelle in Latex
+
+è
+
 Desc(osprey)
+
+d.ID <- Desc(osprey$ID, maxrows=15)
+tab_ID <- d.ID[[1]]$freq
 
 ########################
 ## Mean fixes per day ##
