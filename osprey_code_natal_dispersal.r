@@ -113,7 +113,8 @@
                          ID == 'IBS' & time > '2022-03-22 00:00:00' & time < '2022-06-04 15:00:00' |
                          ID == 'IBH' & time >= '2022-04-09 06:00:00' |
                          ID == 'IBK' & time >= '2022-01-24 06:44:48' |
-                         ID == 'IFP' & time > '2023-04-24 00:00:00' & time < '2023-04-30 04:00:00' | # ID == "IFP" & time > '2023-05-16 00:00:00' & time < '2023-06-08 20:00:00'
+                         ID == 'IFP' & time > '2023-04-24 00:00:00' & time < '2023-04-30 04:00:00' | # ID == "IFP" & time > '2023-05-16 00:00:00' & time < '2023-06-08 20:00:00' |
+                         ID == 'ICZ' & time >= '2020-04-11 10:45:00' & time <= '2020-04-25 00:00:00' |
                            )
 
 
@@ -276,7 +277,7 @@
            theme(legend.position = "none")
 
 
-    # ICZ -> ???
+    # ICZ -> time >= '2020-04-11 10:45:00' & time <= '2020-04-25 00:00:00'
 
          icz_nd <- osprey%>%
                   filter(ID == 'ICZ', time >= ???)
@@ -397,10 +398,10 @@
                             n = length(SL), NA.count = sum(is.na(SL)),
                             Zero.count = sum(SL == 0, na.rm = TRUE))
 
-
+& time >= '2019-05-07 00:00:00' & time <= '2019-05-07 15:00:00'
 
            h7 <- osprey%>%
-            filter( ID == 'IAD' & time >= '2019-05-07 00:00:00' & time <= '2019-05-07 15:00:00')
+            filter( ID == 'IAB')
        
      h7_lat_time <-
         ggplot(h7, aes(time, lat)) +
