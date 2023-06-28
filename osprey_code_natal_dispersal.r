@@ -115,6 +115,7 @@
                          ID == 'IBK' & time >= '2022-01-24 06:44:48' |
                          ID == 'IFP' & time > '2023-04-24 00:00:00' & time < '2023-04-30 04:00:00' | # ID == "IFP" & time > '2023-05-16 00:00:00' & time < '2023-06-08 20:00:00' |
                          ID == 'ICZ' & time >= '2020-04-11 10:45:00' & time <= '2020-04-25 00:00:00' |
+                         ID == 'CBK'& time >= '2014-04-08 06:30:00' & time <= '2014-04-12 11:00:00' |
                            )
 
 
@@ -154,10 +155,10 @@
            theme(legend.position = "none")
 
 
-   # CBK -> ???
+   # CBK -> time >= '2014-04-08 06:30:00' & time <= '2014-04-12 11:00:00'
 
          cbk_nd <- osprey%>%
-                  filter(ID == 'CBK', time > ??? & time < ???)
+                  filter(ID == 'CBK' & time >= '2014-04-08 06:30:00' & time <= '2014-04-12 11:00:00')
 
          cbk_track <- 
          ggplot(countries) +
@@ -401,7 +402,7 @@
 & time >= '2019-05-07 00:00:00' & time <= '2019-05-07 15:00:00'
 
            h7 <- osprey%>%
-            filter( ID == 'IAB')
+            filter( ID == 'IAB' & time >= '2019-05-04 00:00:00' & time <= '2019-06-15 15:00:00')
        
      h7_lat_time <-
         ggplot(h7, aes(time, lat)) +
