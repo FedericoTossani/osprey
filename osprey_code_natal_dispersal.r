@@ -59,7 +59,7 @@
 
 # dataset to use for further analysis
 
-         osprey_nd <- osprey_raw %>%
+         osprey <- osprey_raw %>%
                      dplyr::select("timestamp", "location.long", "location.lat", "external.temperature", 
                                    "individual.local.identifier")%>%
                      rename("lon"="location.long",
@@ -97,7 +97,7 @@
                              id == "Italy2020_Ornitela_juv_ringIBK_Imbabura" ~ "IBK",
                              id == "Italy2022_OSPI08_juv_ringIFP_Ildebrando" ~ "IFP"))
 
-         osprey_nd <- osprey_nd%>%
+         osprey_nd <- osprey%>%
                   select(-c("timestamp", "id"))%>%
                   relocate("ID", "time", "date", "day", "month", "year", "m_day",
                                        "death_date", "season", "ext_temp", "lon", "lat", "signal_interruption_cause", "death_comment")%>%
@@ -116,7 +116,48 @@
                          ID == 'IFP' & time > '2023-04-24 00:00:00' & time < '2023-04-30 04:00:00' | # ID == "IFP" & time > '2023-05-16 00:00:00' & time < '2023-06-08 20:00:00' |
                          ID == 'ICZ' & time >= '2020-04-11 10:45:00' & time <= '2020-04-25 00:00:00' |
                          ID == 'CBK'& time >= '2014-04-08 06:30:00' & time <= '2014-04-12 11:00:00' |
-                           )
+                         ID == 'IAB' & time >= '2019-05-05 06:00:00' & time <= '2019-06-10 14:00:00'
+                        )
+
+# manca IBI (residente), CAM e Antares
+
+
+
+# Convert lon and lat columns to a spatial object with WGS84 coordinate system
+osp_nd_v <- vect(osprey_nd, geom = c("lon", "lat"), crs = "+proj=longlat +datum=WGS84")
+
+# Define the desired projected coordinate system in meters. You can choose a suitable CRS for your specific location.
+proj_crs <- "+proj=utm +zone=32 +datum=WGS84 +ellps:WGS84 +units=m"
+
+# Convert the lon-lat points to the projected coordinate system
+osp_nd_v_utm <- terra::project(osp_nd_v, proj_crs)
+
+utm_coord <- geom(osp_nd_v_utm, df = T)
+
+# Extract the X and Y coordinates in meters from the projected points
+osprey_nd <- osprey_nd%>%
+                  mutate(x = utm_coord$x,
+                         y = utm_coord$y)
+
+# View the updated data.frame with the converted coordinates
+str(osprey_nd)
+
+
+osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum=WGS84 +ellps:WGS84 +units=m")
+
+
+     osprey_track <- 
+         ggplot(osprey_eu) +
+         geom_spatvector() + 
+          geom_path(data = osp_nd_v, aes(x = x, y = y, color = ID), 
+                     linewidth = 0.5, lineend = "round") +
+         labs(x = " ", y = " ", title = "Inividual tracks") +
+         #facet_wrap(~ ID) +
+         theme(legend.position="none") +
+         theme_minimal()
+
+         osprey_track
+
 
 
 
@@ -125,19 +166,27 @@
 # Natal dispersal track #
 #########################
 
-    # H7 -> "time" > '2015-04-02 08:00:00' AND "time" < '2015-04-30 16:30:00'
+         countries <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
 
-         h7_nd <- osprey%>%
-                  filter(ID == 'H7', time > '2015-04-02 08:00:00' & time < '2015-04-30 16:30:00')
+         osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
+         osprey_eu <- crop(countries, osprey_ext)
+         osprey_eu_utm <- terra::project(osprey_eu, proj_crs)
+
+    # H7 
+
+         h7_nd <- osprey_nd%>%
+                  filter(ID == 'H7')
 
          h7_track <- 
-         ggplot(countries)+
+         ggplot(osprey_eu_utm)+
          geom_spatvector()+
-         geom_path(data = h7_nd, aes(x = lon, y = lat), 
+         geom_path(data = h7_nd, aes(x = x, y = y), 
                    linewidth = 0.5, lineend = "round", col = 'red') +
-         labs(x = " ", y = " ", title = "H7 inividual track") +
+         labs(x = " ", y = " ", title = "H7 natal dispersal track") +
          theme_minimal() +
          theme(legend.position = "none")
+
+         h7_track
 
 
     # CIV -> "time" > '2016-03-29 00:01:00' AND "time" < '2016-10-29 18:00:00'
@@ -263,10 +312,10 @@
            theme(legend.position = "none")
 
 
-    # IAB -> ???
+    # IAB -> time >= '2019-05-05 06:00:00' & time <= '2019-06-10 14:00:00'
 
          iab_nd <- osprey%>%
-                  filter(ID == 'IAB', time >= ???)
+                  filter(ID == 'IAB', time >= time >= '2019-05-05 06:00:00' & time <= '2019-06-10 14:00:00')
 
          iab_track <- 
          ggplot(countries) +
@@ -358,74 +407,36 @@
 
 
 
-         osprey_move <- getMoveStats(osprey) 
+         osprey_move_nd <- getMoveStats(osprey_nd) 
+
+         osprey_move_nd <- osprey_move_nd %>%
+                           dplyr::filter( ID != "IBS" & ID != "IBH")
                                     
-         ggplot(osprey_move, aes(ID, MR)) +
+         ggplot(osprey_move_nd, aes(ID, MR)) +
          geom_boxplot()
 
 
-         mr_summarystats <- osprey_move %>%
+         mr_summarystats <- osprey_move_nd %>%
+                           dplyr::filter( ID != "IBS")%>%
                            plyr::ddply(c("ID", "season"), summarize,
                             min = min(MR, na.rm = TRUE), max = max(MR, na.rm = TRUE),
                             n = length(MR), NA.count = sum(is.na(MR)),
                             Zero.count = sum(MR == 0, na.rm = TRUE))
 
-         SL_summarystats <- osprey_move %>%
+         SL_summarystats <- osprey_move_nd %>%
                            plyr::ddply(c("ID", "season"), summarize,
                             min = min(SL, na.rm = TRUE), max = max(SL, na.rm = TRUE),
                             n = length(SL), NA.count = sum(is.na(SL)),
                             Zero.count = sum(SL == 0, na.rm = TRUE))
 
-         osprey_move_nd <- osprey_move%>%
-                  filter(ID == 'H7' & time > '2015-04-02 05:00:00' & time < '2015-05-10 00:00:00' |
-                         ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00' | # ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00' | 
-                         ID == 'E7' & time > '2016-03-10 05:00:00' |
-                         ID == 'A7' & time >= '2017-02-20 00:00:00' |
-                         ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00' | # ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-05-07 15:00:00' | 
-                         ID == 'IBS' & time > '2022-03-22 00:00:00' & time < '2022-06-04 15:00:00' |
-                         ID == 'IBH' & time >= '2022-04-09 06:00:00' |
-                         ID == 'IBK' & time >= '2022-01-24 06:44:48'
-                           )
 
-         NatalDispersal_mr_summarystats <- osprey_move_nd %>%
-                           plyr::ddply(c("ID"), summarize,
-                            min = min(MR, na.rm = TRUE), max = max(MR, na.rm = TRUE),
-                            n = length(MR), NA.count = sum(is.na(MR)),
-                            Zero.count = sum(MR == 0, na.rm = TRUE))
 
-         NatalDispersal_SL_summarystats <- osprey_move_nd %>%
-                           plyr::ddply(c("ID", "season"), summarize,
-                            min = min(SL, na.rm = TRUE), max = max(SL, na.rm = TRUE),
-                            n = length(SL), NA.count = sum(is.na(SL)),
-                            Zero.count = sum(SL == 0, na.rm = TRUE))
-
-& time >= '2019-05-07 00:00:00' & time <= '2019-05-07 15:00:00'
-
-           h7 <- osprey%>%
-            filter( ID == 'IAB' & time >= '2019-05-05 06:00:00' & time <= '2019-06-10 15:00:00')
-       
-     h7_lat_time <-
-        ggplot(h7, aes(time, lat)) +
-        geom_point(size = 0.5) +
-        geom_path()
-
-        h7_lon_time <-
-        ggplot(h7, aes(time, lon)) +
-        geom_point(size = 0.5) +
-        geom_path()
-
-        h7_lon_lat <- ggarrange(h7_lon_time, h7_lat_time, ncol = 1, nrow = 2)
          
-        h7_lon_lat
+         plot(osprey_move_nd$Step, asp=1, type="n")
+         arrows(rep(0, length(osprey_move_nd$Step)), rep(0, length(osprey_move_nd$Step)), Re(osprey_move_nd$Step), Im(osprey_move_nd$Step), col=rgb(0,0,0,.5), lwd=2, length=0.1)
 
-
-
-
-
-
-
-
-
+hist(osprey_move_nd$SL, col="grey", bor="darkgrey", freq=FALSE)
+lines(density(osprey_move_nd$SL), col=2, lwd=2)
 
 
 
