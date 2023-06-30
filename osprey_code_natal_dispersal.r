@@ -115,7 +115,7 @@
                          ID == 'IBK' & time >= '2022-01-24 06:44:48' |
                          ID == 'IFP' & time > '2023-04-24 00:00:00' & time < '2023-04-30 04:00:00' | # ID == "IFP" & time > '2023-05-16 00:00:00' & time < '2023-06-08 20:00:00' |
                          ID == 'ICZ' & time >= '2020-04-11 10:45:00' & time <= '2020-04-25 00:00:00' |
-                         ID == 'CBK'& time >= '2014-04-08 06:30:00' & time <= '2014-04-12 11:00:00' |
+                         ID == 'CBK' & time >= '2014-04-08 06:30:00' & time <= '2014-04-12 11:00:00' |
                          ID == 'IAB' & time >= '2019-05-05 06:00:00' & time <= '2019-06-10 14:00:00'
                         )
 
@@ -189,22 +189,38 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
          h7_track
 
 
-    # CIV -> "time" > '2016-03-29 00:01:00' AND "time" < '2016-10-29 18:00:00'
+    # CIV
 
-         civ_nd <- osprey%>%
-                  filter(ID == 'CIV', time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00')
+         civ_nd15 <- osprey_nd%>%
+                  filter(ID == 'CIV', time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00')
 
-         civ_track <- 
+         civ_track15 <- 
          ggplot(countries) +
            geom_spatvector()+
-           geom_path(data = civ_nd, aes(x = lon, y = lat), 
+           geom_path(data = civ_nd15, aes(x = lon, y = lat), 
                      linewidth = 0.5, lineend = "round", col = 'red') +
            labs(x = " ", y = " ", title = "CIV inividual track") +
            theme_minimal() +
            theme(legend.position = "none")
 
+         civ_track15
 
-   # CBK -> time >= '2014-04-08 06:30:00' & time <= '2014-04-12 11:00:00'
+         civ_nd16 <- osprey_nd%>%
+                  filter(ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00')
+
+         civ_track16 <- 
+         ggplot(countries) +
+           geom_spatvector()+
+           geom_path(data = civ_nd16, aes(x = lon, y = lat), 
+                     linewidth = 0.5, lineend = "round", col = 'red') +
+           labs(x = " ", y = " ", title = "CIV inividual track") +
+           theme_minimal() +
+           theme(legend.position = "none")
+
+         civ_track16
+
+
+   # CBK
 
          cbk_nd <- osprey%>%
                   filter(ID == 'CBK' & time >= '2014-04-08 06:30:00' & time <= '2014-04-12 11:00:00')
@@ -219,10 +235,10 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
            theme(legend.position = "none")
 
 
-   # E7 -> "time" > '2016-03-10 05:00:00'
+   # E7
 
          e7_nd <- osprey%>%
-                  filter(ID == 'E7', time > '2016-03-10 05:00:00')
+                  filter(ID == 'E7' 6 time > '2016-03-10 05:00:00')
 
          e7_track <- 
          ggplot(europe) +
@@ -235,10 +251,11 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
 
          e7_track
 
-    # A7 -> "time" >= '2017-02-20 00:00:00'
+
+    # A7
 
          a7_nd <- osprey%>%
-                  filter(ID == 'A7', time >= '2017-02-20 00:00:00')
+                  filter(ID == 'A7' & time >= '2017-02-20 00:00:00')
 
          a7_track <- 
          ggplot(countries) +
@@ -248,6 +265,8 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
            labs(x = " ", y = " ", title = "A7 inividual track") +
            theme_minimal() +
            theme(legend.position = "none")
+         
+         a7_track
 
 
     # Antares -> ???
@@ -264,20 +283,24 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
            theme_minimal() +
            theme(legend.position = "none")
 
+         antares_track
+
 
     # IAD -> "time" >= '2018-03-28 06:00:00' AND "time" <= '2018-12-31 19:00:00'
 
-         iad_nd <- osprey%>%
-                  filter(ID == 'IAD', time >= '2018-03-28 06:00:00' & time <= '2018-12-31 19:00:00')
+         iad_nd18 <- osprey%>%
+                  filter(ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00')
 
-         iad_track <- 
+         iad_track18 <- 
          ggplot(countries) +
            geom_spatvector()+
-           geom_path(data = iad_nd, aes(x = lon, y = lat), 
+           geom_path(data = iad_nd18, aes(x = lon, y = lat), 
                      linewidth = 0.5, lineend = "round", col = 'red') +
            labs(x = " ", y = " ", title = "IAD inividual track") +
            theme_minimal() +
            theme(legend.position = "none")
+
+         iad_track18
 
 
     # CAM -> ???
