@@ -10,7 +10,7 @@
          list.of.packages <- c("tidyverse",
                                "lubridate",
                                "sf", 
-                               "mapview", 
+                               "mapview",          
                                "adehabitatLT",
                                "adehabitatHR",
                                "stargazer",
@@ -446,6 +446,30 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
 
          ibk_track
 
+    # IFP
+
+         # First let's crop
+ 
+                  ifp_ext <- ext(c(4.00000, 17.00000, 41.00000, 45.00000))
+                  ifp_eu <- crop(countries, ifp_ext)
+                  ifp_eu_utm <- terra::project(ifp_eu, proj_crs)
+
+         ifp_nd <- osprey_nd%>%
+                  filter(ID == 'IFP')
+
+         ifp_track <- 
+         ggplot(ifp_eu_utm) +
+           geom_spatvector()+
+           geom_path(data = ifp_nd, aes(x = x, y = y), 
+                     linewidth = 0.5, lineend = "round", col = 'red') +
+           labs(x = " ", y = " ", title = "IFP inividual track") +
+           theme_minimal() +
+           theme(legend.position = "none")
+
+         ifp_track
+
+# ND track da definire
+
     # IBI
          # residente
 
@@ -493,7 +517,6 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
          cam_track
 
     # Antares
-         # ND track da definire
 
          # First let's crop
  
@@ -521,7 +544,7 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
 
         getMoveStats <- function(df){
          # df - is a generic data frame that will contain X,Y and Time columns
-         Z <- df$lon + 1i*df$lat
+         Z <- df$x + 1i*df$y
          Time <- df$time
          Step <- c(NA, diff(Z)) # we add the extra NA because there is no step to the first location
          dT <- c(NA, difftime(Time[-1], Time[-length(Time)], hours) %>% as.numeric)
