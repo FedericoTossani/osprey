@@ -538,9 +538,42 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
 
          antares_track
 
+# save the plots!!
+
+ggsave("", plots = )
+
 #########################
 #  Natal dispersal stat #
 #########################
+
+# First let's create a ltraj object with UTM coordinates 
+
+         osp_ndlt <- as.ltraj(osprey_nd[, c("x", "y")],
+                               date = osprey_nd$time, 
+                               id = osprey_nd$ID,
+                               typeII=TRUE)
+
+# let's create a function that split bursts with multiple years         
+        
+         foo <- function(dt){ 
+                  return(dt>(100*3600*24))
+                          }
+         
+         osp_ndlt2 <- cutltraj(osp_ndlt,"foo(dt)",nextr=TRUE)
+
+         a7lt <- ld(osp_ndlt2[[1]])
+
+         plotltr(a7lt)
+
+         plotltr(osp_ndlt2, "dist")
+
+osp_ndlt_df <- ld(osp_ndlt2)
+
+osp_stat <- osp_ndlt_df%>%
+
+
+
+# ---------------------------------------------------------------  #
 
         getMoveStats <- function(df){
          # df - is a generic data frame that will contain X,Y and Time columns
