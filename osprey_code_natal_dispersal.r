@@ -567,11 +567,33 @@ ggsave("", plots = )
 
          plotltr(osp_ndlt2, "dist")
 
-osp_ndlt_df <- ld(osp_ndlt2)
+         osp_ndlt_df <- ld(osp_ndlt2)
+         
+         osp_stat <- osp_ndlt_df%>%
+                  group_by(id)%>%
+                  summarize(duration = max(osp_ndlt_df$date)-min(osp_ndlt_df$date))
 
-osp_stat <- osp_ndlt_df%>%
+# SUMMARY dfs
+         # Create an empty list to store the summary data frames:
 
+                  osp_summaries <- list()
 
+         # Use the split() function to split the larger data frame based on the unique IDs:
+
+                  id_groups <- split(osp_ndlt_df, osp_ndlt_df$id)
+
+         # Iterate over each ID group using a for loop:
+                  for (id in names(id_groups)) {
+                    id_group <- id_groups[[id]]                   # Access the current ID group
+                    summary_stats <- lapply(id_group, summary)    # Calculate summary statistics (e.g., mean, median) for each variable in the ID group
+                    summary_df <- as.data.frame(summary_stats)    # Convert the summary statistics into a data frame
+                    summary_dfs[[id]] <- summary_df               # Append the summary data frame to the list
+                  }
+
+totDistxDay = 
+minDistxDay = 
+meanDistxDay = 
+maxDistxDay = 
 
 # ---------------------------------------------------------------  #
 
