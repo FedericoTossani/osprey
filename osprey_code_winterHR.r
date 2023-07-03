@@ -57,12 +57,10 @@
 
          osprey <- osprey_raw %>%
                      dplyr::select("timestamp", "location.long", "location.lat", "external.temperature", 
-                                   "gsm.gsm.signal.strength", "sensor.type", "individual.local.identifier")%>%
+                                   "individual.local.identifier")%>%
                      rename("lon"="location.long",
                             "lat"="location.lat",
                             "ext_temp"="external.temperature",
-                            "gsm_signal_strength"="gsm.gsm.signal.strength",
-                            "sensor_type"="sensor.type",
                             "id"="individual.local.identifier")%>%
                      mutate(id = as.factor(id),
                             time = as.POSIXct(timestamp, tz = "UTC"),
@@ -92,18 +90,34 @@
                              id == "Italy2019_OrnitelaWhite_juv_ringICZ_Odaba" ~ "ICZ",
                              id == "Italy2020_FIOS21_juv_ringIBS_Mauna Loa" ~ "IBS",
                              id == "Italy2020_Ornitela_juv_ringIBH_Infiernillo" ~ "IBH",
-                             id == "Italy2020_Ornitela_juv_ringIBK_Imbabura" ~ "IBK"))
+                             id == "Italy2020_Ornitela_juv_ringIBK_Imbabura" ~ "IBK",
+                             id == "Italy2022_OSPI08_juv_ringIFP_Ildebrando" ~ "IFP"))
 
-         osprey <- osprey%>%
-         select(-c("timestamp", "id"))%>%
-         relocate("ID", "time", "date", "day", "month", "year", "m_day",
-                              "death_date", "season", "ext_temp", "lon", "lat", "sensor_type", "gsm_signal_strength", "signal_interruption_cause", "death_comment")%>%
-         unique()
+         osprey<- osprey%>%
+                  select(-c("timestamp", "id"))%>%
+                  relocate("ID", "time", "date", "day", "month", "year", "m_day",
+                                       "death_date", "season", "ext_temp", "lon", "lat", "signal_interruption_cause", "death_comment")%>%
+                  unique()
 
+# Convert lon and lat columns to a spatial object with WGS84 coordinate system
+osp_hr_v <- vect(osprey, geom = c("lon", "lat"), crs = "+proj=longlat +datum=WGS84")
+
+# Define the desired projected coordinate system in meters. You can choose a suitable CRS for your specific location.
+proj_crs <- "+proj=utm +zone=32 +datum=WGS84 +ellps:WGS84 +units=m"
+
+# Convert the lon-lat points to the projected coordinate system
+osp_hr_utm <- terra::project(osp_hr_v, proj_crs)
+
+utm_coord <- geom(osp_hr_utm, df = T)
+
+# Extract the X and Y coordinates in meters from the projected points
+osprey <- osprey%>%
+                  mutate(x = utm_coord$x,
+                         y = utm_coord$y)
 
 
 ####################
-# Winter Homerange #
+# Homerange's List #
 ####################
 
 # KernelUD al 95 a al 50 (è la core area) 
@@ -111,9 +125,9 @@
 # Here I will calculate the homerange of Ospreys during the winter before the beginning of natal dispersal movements
 
 # Let's import countries boundaries shapefile
-         countries <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
-         europe <- countries%>%
-                           filter(EU_STAT == "T")
+                  countries <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
+                  osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
+                  osprey_eu <- crop(countries, osprey_ext)
 
 # H7 WinterHR
 
@@ -124,7 +138,7 @@
          # First define the winter period
                   h7_winter <- osprey%>%
                                     dplyr::filter(ID == "H7" & date >= "2014-12-01" & date < "2015-04-02")%>%
-                                    dplyr::select(lon, lat, date)
+                                    dplyr::select(x, y, date)
 
          # Then I will remove date column in order to create a spatial point object
                   h7_winter_2 <- h7_winter%>%
@@ -136,11 +150,6 @@
                   # h7_winter_sp <- crs(h7_winter_sp, value = "+proj=longlat +datum=WGS84")
 
          # Calculate distances between pairs of points using the euclidean method
-
-                  # Project to UTM
-                  llcoord <- st_as_sf(h7_winter_sp[, c("lon", "lat")], coords = c("lon", "lat"),
-                  crs = CRS("+proj=longlat +datum=WGS84"))
-                  utmcoord <- st_transform(llcoord, crs = CRS("+proj=utm +zone=32 +datum=WGS84"))
 
                   distances <- distance(h7_winter_sp, unit = "m")
 
