@@ -439,16 +439,17 @@
 # H7 track
 
 h7 <- osprey%>%
-filter(ID == "IFP")%>%
+filter(ID == "IBK")%>%
 group_by(date)
 
 
 h7_track <- 
-ggplot(countries) +
-#geom_spatvector()+
+ggplot(ibk_eu) +
+geom_spatvector()+
   geom_path(data = h7, aes(x = lon, y = lat), 
             linewidth = 0.5, lineend = "round") +
-  labs(x = " ", y = " ", title = "H7 inividual track") +
+  labs(x = " ", y = " ", title = "IBK inividual track") +
   theme_minimal() +
   theme(legend.position = "none")
 
+h7_track
