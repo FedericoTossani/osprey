@@ -146,22 +146,6 @@ str(osprey_nd)
 osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum=WGS84 +ellps:WGS84 +units=m")
 
 
-     osprey_track <- 
-         ggplot(osprey_eu_utm) +
-         geom_spatvector() + 
-          geom_path(data = osprey_nd, aes(x = x, y = y, color = ID), 
-                     linewidth = 0.5, lineend = "round") +
-         labs(x = " ", y = " ", title = "Inividual tracks") +
-         #facet_wrap(~ ID) +
-         theme(legend.position="none") +
-         theme_minimal()
-
-         osprey_track
-
-
-
-
-
 #########################
 # Natal dispersal track #
 #########################
@@ -171,11 +155,29 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
                   osprey_eu <- crop(countries, osprey_ext)
                   osprey_eu_utm <- terra::project(osprey_eu, proj_crs)
+
+         # let's see all the tracks togheter
+
+              osprey_track <- 
+                  ggplot(osprey_eu_utm) +
+                  geom_spatvector() + 
+                   geom_path(data = osprey_nd, aes(x = x, y = y, color = ID), 
+                              linewidth = 0.5, lineend = "round") +
+                  labs(x = " ", y = " ", title = "Inividual tracks") +
+                  #facet_wrap(~ ID) +
+                  theme(legend.position="none") +
+                  theme_minimal()
          
+                  osprey_track
+
+                 # save the plot to the working directory 
+                  ggsave( "osprey_nd.jpg", plot = osprey_track)
+
+
              # H7 
          
                   # First let's crop 
-                           h7_ext <- ext(c(-7.0000, -5.30000, 35.7000, 37.00000))
+                           h7_ext <- ext(c(-7.0000, 8.50000, 35.5000, 45.00000))
                            h7_eu <- crop(countries, h7_ext)
                            h7_eu_utm <- terra::project(h7_eu, proj_crs)
          
@@ -187,13 +189,16 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   geom_spatvector()+
                   geom_path(data = h7_nd, aes(x = x, y = y), 
                             linewidth = 0.5, lineend = "round", col = 'red') +
-                  labs(x = " ", y = " ", title = "H7 natal dispersal track") +
+                  labs(x = " ", y = " ", title = "H7 natal dispersal GPS track") +
                   theme_minimal() +
                   theme(legend.position = "none")
          
                   h7_track
-         
-         
+
+                 # save the plot to the working directory 
+                  ggsave( "h7_nd.jpg", plot = h7_track)
+
+
              # CIV
          
                   # First let's crop 
@@ -209,12 +214,15 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = civ_nd15, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "CIV 2015 inividual track") +
+                    labs(x = " ", y = " ", title = "CIV 2015 natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
                   civ_track15
-         
+
+                 # save the plot to the working directory 
+                  ggsave( "civ_nd15.jpg", plot = civ_track15)
+
                   civ_nd16 <- osprey_nd%>%
                            filter(ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00')
          
@@ -223,14 +231,19 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = civ_nd16, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "CIV 2016 inividual track") +
+                    labs(x = " ", y = " ", title = "CIV 2016 natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
                   civ_track16
+
+                 # save the plot to the working directory 
+                  ggsave( "civ_nd16.jpg", plot = civ_track16)
          
-                  ggarrange(civ_track15, civ_track16, ncol = 2, nrow = 1)
-         
+                  civ_all_nd <- ggarrange(civ_track15, civ_track16, ncol = 2, nrow = 1)
+                  ggsave( "civ_all_nd.jpg", plot = civ_all_nd)
+
+
             # CBK
          
                   # First let's crop 
@@ -246,12 +259,16 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = cbk_nd, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "CBK inividual track") +
+                    labs(x = " ", y = " ", title = "CBK natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
                   cbk_track
          
+                 # save the plot to the working directory 
+                  ggsave( "cbk_nd.jpg", plot = cbk_track)
+
+
             # E7
          
                   # First let's crop
@@ -268,13 +285,16 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = e7_nd, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "E7 inividual track") +
+                    labs(x = " ", y = " ", title = "E7 natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
                   e7_track
          
-         
+                 # save the plot to the working directory 
+                  ggsave( "e7_nd.jpg", plot = e7_track)
+
+
              # A7
          
                   # First let's crop
@@ -291,12 +311,16 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = a7_nd, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "A7 inividual track") +
+                    labs(x = " ", y = " ", title = "A7 natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
                   
                   a7_track
          
+                 # save the plot to the working directory 
+                  ggsave( "a7_nd.jpg", plot = a7_track)
+
+
              # IAD
          
                   # First let's crop
@@ -313,12 +337,15 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = iad_nd18, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "IAD 2018 inividual track") +
+                    labs(x = " ", y = " ", title = "IAD 2018 natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
                   iad_track18
          
+                 # save the plot to the working directory 
+                  ggsave( "iad_nd18.jpg", plot = iad_track18)
+
                   # BERLIN
                   iad_nd19 <- osprey_nd%>%
                            filter(ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-05-07 15:00:00')
@@ -328,14 +355,18 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = iad_nd19, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "IAD 2019 inividual track") +
+                    labs(x = " ", y = " ", title = "IAD 2019 natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
                   iad_track19
          
-                  ggarrange(iad_track18, iad_track19, ncol = 2, nrow = 1)
-         
+                 # save the plot to the working directory 
+                  ggsave( "iad_nd19.jpg", plot = iad_track19)
+
+                  iad_all_nd <- ggarrange(iad_track18, iad_track19, ncol = 2, nrow = 1)
+                  ggsave( "iad_all_nd.jpg", plot = iad_all_nd)
+
              # IAB
          
                   # First let's crop
@@ -352,12 +383,15 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = iab_nd, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "IAB inividual track") +
+                    labs(x = " ", y = " ", title = "IAB natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
                   iab_track
          
+                 # save the plot to the working directory 
+                  ggsave( "iab_nd.jpg", plot = iab_track)
+
              # ICZ
          
                   # First let's crop
@@ -374,12 +408,15 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = icz_nd, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "ICZ inividual track") +
+                    labs(x = " ", y = " ", title = "ICZ natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
                   icz_track
          
+                 # save the plot to the working directory 
+                  ggsave( "icz_nd.jpg", plot = icz_track)
+
              # IBS
                                     
                   # First let's crop
@@ -395,12 +432,16 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                              geom_spatvector()+
                              geom_path(data = ibs_nd, aes(x = x, y = y), 
                                        linewidth = 0.5, lineend = "round", col = 'red') +
-                             labs(x = " ", y = " ", title = "IBS inividual track") +
+                             labs(x = " ", y = " ", title = "IBS natal dispersal GPS track") +
                              theme_minimal() +
                              theme(legend.position = "none")
          
                   ibs_track
          
+                 # save the plot to the working directory 
+                  ggsave( "ibs_nd.jpg", plot = ibs_track)
+
+
              # IBH
          
                   # First let's crop
@@ -417,12 +458,15 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = ibh_nd, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "IBH inividual track") +
+                    labs(x = " ", y = " ", title = "IBH natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
                   ibh_track
          
+                 # save the plot to the working directory 
+                  ggsave( "ibh_nd.jpg", plot = ibh_track)
+
              # IBK
                   # residente
          
@@ -440,12 +484,15 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = ibk_nd, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "IBK inividual track") +
+                    labs(x = " ", y = " ", title = "IBK natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
                   ibk_track
          
+                 # save the plot to the working directory 
+                  ggsave( "ibk_nd.jpg", plot = ibk_track)
+
              # IFP
          
                   # First let's crop
@@ -462,12 +509,15 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = ifp_nd, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "IFP inividual track") +
+                    labs(x = " ", y = " ", title = "IFP natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
                   ifp_track
          
+                 # save the plot to the working directory 
+                  ggsave( "ifp_nd.jpg", plot = ifp_track)
+
          # ND track da definire
          
              # IBI
@@ -487,7 +537,7 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = ibi_nd, aes(x = lon, y = lat), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "IBI inividual track") +
+                    labs(x = " ", y = " ", title = "IBI natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
@@ -510,7 +560,7 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = cam_nd, aes(x = lon, y = lat), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "CAM inividual track") +
+                    labs(x = " ", y = " ", title = "CAM natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
                   
@@ -532,7 +582,7 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                     geom_spatvector()+
                     geom_path(data = antares_nd, aes(x = lon, y = lat), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "Antares inividual track") +
+                    labs(x = " ", y = " ", title = "Antares natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
