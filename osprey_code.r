@@ -71,7 +71,7 @@
                            "individual.local.identifier")
 
          csv_file_sel_col <- lapply(csv_allfile, "[", , col_selected)
-         osprey_raw <- bind_rows(csv_file_sel_col)
+         osprey_raw <- dplyr::bind_rows(csv_file_sel_col)
 
          osprey_death <- read.csv("osprey_death.csv")
 
@@ -101,14 +101,14 @@
                             day = day(time),
                             month = month(time),
                             year = year(time))%>%
-                     unite(m_day, c(month, day), sep="/", remove = F)%>%
-                     left_join(osprey_death, by = c("id" = "id"))%>%
-                     mutate( season = case_when(
+                     tidyr::unite(m_day, c(month, day), sep="/", remove = F)%>%
+                     dplyr::left_join(osprey_death, by = c("id" = "id"))%>%
+                     mutate( season = dplyr::case_when(
                                 month %in% 10:12 ~ "Fall",
                                 month %in%  1:3  ~ "Winter",
                                 month %in%  4:6  ~ "Spring",
                                 TRUE ~ "Summer"),
-                             ID = case_when(
+                             ID = dplyr::case_when(
                              id == "Balearics2013_FOSP11-Juv_ringH7" ~ "H7",
                              id == "Corsica2013_FOSP17_Juv_ringCBK" ~ "CBK",
                              id == "Corsica2014_FOSP21-Juv_ringCIV" ~ "CIV",
@@ -313,10 +313,10 @@ tab_ID <- d.ID[[1]]$freq
 
 # for how long this ospreys are monitored?
          difftime(max(osprey$time), min(osprey$time), units = "days")
-         #Time difference of 3539.25 days
+         #Time difference of 3645.625 days
 
          (difftime(max(osprey$time), min(osprey$time), units = "days") %>% as.numeric)/365.25
-         # 9.69 years
+         #  9.98 years
 
 # create a table that shows the number of fix per seasons grouped by individual
          osprey_summary1 <- osprey %>%
@@ -352,6 +352,11 @@ tab_ID <- d.ID[[1]]$freq
                            left_join(osprey_dead, by = c("ID"))%>% 
                            mutate(ID = factor(ID, levels = ID))
 
+
+         Start <- min(n_summary$start)
+         End <- max(n_summary$end)
+         as.vector(difftime(End, Start, units='years'))
+#[1] 707
 
          bystart <- with(n_summary, reorder(ID, start))
 
