@@ -165,484 +165,481 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
 #########################
 # Natal dispersal track #
 #########################
-
-         countries <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
-
-         osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
-         osprey_eu <- crop(countries, osprey_ext)
-         osprey_eu_utm <- terra::project(osprey_eu, proj_crs)
-
-    # H7 
-
-         # First let's crop 
-                  h7_ext <- ext(c(-7.0000, -5.30000, 35.7000, 37.00000))
-                  h7_eu <- crop(countries, h7_ext)
-                  h7_eu_utm <- terra::project(h7_eu, proj_crs)
-
-         h7_nd <- osprey_nd%>%
-                  filter(ID == 'H7')
-
-         h7_track <- 
-         ggplot(h7_eu_utm)+
-         geom_spatvector()+
-         geom_path(data = h7_nd, aes(x = x, y = y), 
-                   linewidth = 0.5, lineend = "round", col = 'red') +
-         labs(x = " ", y = " ", title = "H7 natal dispersal track") +
-         theme_minimal() +
-         theme(legend.position = "none")
-
-         h7_track
-
-
-    # CIV
-
-         # First let's crop 
-                  civ_ext <- ext(c(5.0000, 12.0000, 36.0000, 44.00000))
-                  civ_eu <- crop(countries, civ_ext)
-                  civ_eu_utm <- terra::project(civ_eu, proj_crs)
-
-         civ_nd15 <- osprey_nd%>%
-                  filter(ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00')
-
-         civ_track15 <- 
-         ggplot(civ_eu_utm) +
-           geom_spatvector()+
-           geom_path(data = civ_nd15, aes(x = x, y = y), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "CIV 2015 inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         civ_track15
-
-         civ_nd16 <- osprey_nd%>%
-                  filter(ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00')
-
-         civ_track16 <- 
-         ggplot(civ_eu_utm) +
-           geom_spatvector()+
-           geom_path(data = civ_nd16, aes(x = x, y = y), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "CIV 2016 inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         civ_track16
-
-         ggarrange(civ_track15, civ_track16, ncol = 2, nrow = 1)
-
-   # CBK
-
-         # First let's crop 
-                  cbk_ext <- ext(c(7.0000, 12.5000, 37.5000, 44.00000))
-                  cbk_eu <- crop(countries, cbk_ext)
-                  cbk_eu_utm <- terra::project(cbk_eu, proj_crs)
-
-         cbk_nd <- osprey_nd%>%
-                  filter(ID == 'CBK')
-
-         cbk_track <- 
-         ggplot(cbk_eu_utm) +
-           geom_spatvector()+
-           geom_path(data = cbk_nd, aes(x = x, y = y), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "CBK inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         cbk_track
-
-   # E7
-
-         # First let's crop
- 
-                  e7_ext <- ext(c(-1.00000, 17.5000, 36.9409, 49.00000))
-                  e7_eu <- crop(countries, e7_ext)
-                  e7_eu_utm <- terra::project(e7_eu, proj_crs)
-
-         e7_nd <- osprey_nd%>%
-                  filter(ID == 'E7')
-
-         e7_track <- 
-         ggplot(e7_eu_utm) +
-           geom_spatvector()+
-           geom_path(data = e7_nd, aes(x = x, y = y), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "E7 inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         e7_track
-
-
-    # A7
-
-         # First let's crop
- 
-                  a7_ext <- ext(c(7.00000, 17.50000, 40.00000, 46.50000 ))
-                  a7_eu <- crop(countries, a7_ext)
-                  a7_eu_utm <- terra::project(a7_eu, proj_crs)
-
-         a7_nd <- osprey_nd%>%
-                  filter(ID == 'A7')
-
-         a7_track <- 
-         ggplot(a7_eu_utm) +
-           geom_spatvector()+
-           geom_path(data = a7_nd, aes(x = x, y = y), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "A7 inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
          
-         a7_track
-
-    # IAD
-
-         # First let's crop
- 
-                  iad_ext <- ext(c(1.50000, 19.50000, 38.00000, 54.00000 ))
-                  iad_eu <- crop(countries, iad_ext)
-                  iad_eu_utm <- terra::project(iad_eu, proj_crs)
-
-         iad_nd18 <- osprey_nd%>%
-                  filter(ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00')
-
-         iad_track18 <- 
-         ggplot(iad_eu_utm) +
-           geom_spatvector()+
-           geom_path(data = iad_nd18, aes(x = x, y = y), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "IAD 2018 inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         iad_track18
-
-         # BERLIN
-         iad_nd19 <- osprey_nd%>%
-                  filter(ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-05-07 15:00:00')
-
-         iad_track19 <- 
-         ggplot(iad_eu_utm) +
-           geom_spatvector()+
-           geom_path(data = iad_nd19, aes(x = x, y = y), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "IAD 2019 inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         iad_track19
-
-         ggarrange(iad_track18, iad_track19, ncol = 2, nrow = 1)
-
-    # IAB
-
-         # First let's crop
- 
-                  iab_ext <- ext(c(7.00000, 17.50000, 37.00000, 45.00000 ))
-                  iab_eu <- crop(countries, iab_ext)
-                  iab_eu_utm <- terra::project(iab_eu, proj_crs)
-
-         iab_nd <- osprey_nd%>%
-                  filter(ID == 'IAB')
-
-         iab_track <- 
-         ggplot(iab_eu_utm) +
-           geom_spatvector()+
-           geom_path(data = iab_nd, aes(x = x, y = y), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "IAB inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         iab_track
-
-    # ICZ
-
-         # First let's crop
- 
-                  icz_ext <- ext(c(10.00000, 16.00000, 37.00000, 44.00000 ))
-                  icz_eu <- crop(countries, icz_ext)
-                  icz_eu_utm <- terra::project(icz_eu, proj_crs)
-
-         icz_nd <- osprey_nd%>%
-                  filter(ID == 'ICZ')
-
-         icz_track <- 
-         ggplot(icz_eu_utm) +
-           geom_spatvector()+
-           geom_path(data = icz_nd, aes(x = x, y = y), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "ICZ inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         icz_track
-
-    # IBS
-                           
-         # First let's crop
- 
-                  ibs_ext <- ext(c(2.00000, 21.00000, 39.00000, 48.00000 ))
-                  ibs_eu <- crop(countries, ibs_ext)
-                  ibs_eu_utm <- terra::project(ibs_eu, proj_crs)
-
-         ibs_nd <- osprey_nd%>%
-                  filter(ID == 'IBS')
-
-         ibs_track <- ggplot(ibs_eu_utm) +
+                  countries <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
+         
+                  osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
+                  osprey_eu <- crop(countries, osprey_ext)
+                  osprey_eu_utm <- terra::project(osprey_eu, proj_crs)
+         
+             # H7 
+         
+                  # First let's crop 
+                           h7_ext <- ext(c(-7.0000, -5.30000, 35.7000, 37.00000))
+                           h7_eu <- crop(countries, h7_ext)
+                           h7_eu_utm <- terra::project(h7_eu, proj_crs)
+         
+                  h7_nd <- osprey_nd%>%
+                           filter(ID == 'H7')
+         
+                  h7_track <- 
+                  ggplot(h7_eu_utm)+
+                  geom_spatvector()+
+                  geom_path(data = h7_nd, aes(x = x, y = y), 
+                            linewidth = 0.5, lineend = "round", col = 'red') +
+                  labs(x = " ", y = " ", title = "H7 natal dispersal track") +
+                  theme_minimal() +
+                  theme(legend.position = "none")
+         
+                  h7_track
+         
+         
+             # CIV
+         
+                  # First let's crop 
+                           civ_ext <- ext(c(5.0000, 12.0000, 36.0000, 44.00000))
+                           civ_eu <- crop(countries, civ_ext)
+                           civ_eu_utm <- terra::project(civ_eu, proj_crs)
+         
+                  civ_nd15 <- osprey_nd%>%
+                           filter(ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00')
+         
+                  civ_track15 <- 
+                  ggplot(civ_eu_utm) +
                     geom_spatvector()+
-                    geom_path(data = ibs_nd, aes(x = x, y = y), 
+                    geom_path(data = civ_nd15, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "IBS inividual track") +
+                    labs(x = " ", y = " ", title = "CIV 2015 inividual track") +
                     theme_minimal() +
                     theme(legend.position = "none")
-
-         ibs_track
-
-    # IBH
-
-         # First let's crop
- 
-                  ibh_ext <- ext(c(9.00000, 16.50000, 36.50000, 45.50000))
-                  ibh_eu <- crop(countries, ibh_ext)
-                  ibh_eu_utm <- terra::project(ibh_eu, proj_crs)
-
-         ibh_nd <- osprey_nd%>%
-                  filter(ID == 'IBH')
-
-         ibh_track <- 
-         ggplot(ibh_eu_utm) +
-           geom_spatvector()+
-           geom_path(data = ibh_nd, aes(x = x, y = y), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "IBH inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         ibh_track
-
-    # IBK
-         # residente
-
-         # First let's crop
- 
-                  ibk_ext <- ext(c(9.00000, 12.00000, 42.00000, 43.50000))
-                  ibk_eu <- crop(countries, ibk_ext)
-                  ibk_eu_utm <- terra::project(ibk_eu, proj_crs)
-
-         ibk_nd <- osprey_nd%>%
-                  filter(ID == 'IBK')
-
-         ibk_track <- 
-         ggplot(ibk_eu_utm) +
-           geom_spatvector()+
-           geom_path(data = ibk_nd, aes(x = x, y = y), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "IBK inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         ibk_track
-
-    # IFP
-
-         # First let's crop
- 
-                  ifp_ext <- ext(c(4.00000, 17.00000, 41.00000, 45.00000))
-                  ifp_eu <- crop(countries, ifp_ext)
-                  ifp_eu_utm <- terra::project(ifp_eu, proj_crs)
-
-         ifp_nd <- osprey_nd%>%
-                  filter(ID == 'IFP')
-
-         ifp_track <- 
-         ggplot(ifp_eu_utm) +
-           geom_spatvector()+
-           geom_path(data = ifp_nd, aes(x = x, y = y), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "IFP inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         ifp_track
-
-# ND track da definire
-
-    # IBI
-         # residente
-
-         # First let's crop
- 
-                  ibi_ext <- ext(c(6.50000, 13.00000, 41.50000, 45.00000))
-                  ibi_eu <- crop(countries, ibi_ext)
-                  ibi_eu_utm <- terra::project(ibi_eu, proj_crs)
-
-         ibi_nd <- osprey%>%
-                  filter(ID == 'IBI')
-
-         ibi_track <- 
-         ggplot(ibi_eu) +
-           geom_spatvector()+
-           geom_path(data = ibi_nd, aes(x = lon, y = lat), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "IBI inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         ibi_track
-
-    # CAM 
-         # residente
-
-         # First let's crop
- 
-                  cam_ext <- ext(c(5.00000, 12.00000, 39.50000, 44.50000 ))
-                  cam_eu <- crop(countries, cam_ext)
-                  cam_eu_utm <- terra::project(cam_eu, proj_crs)
-
-         cam_nd <- osprey%>%
-                  filter(ID == 'CAM')
-
-         cam_track <- 
-         ggplot(cam_eu) +
-           geom_spatvector()+
-           geom_path(data = cam_nd, aes(x = lon, y = lat), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "CAM inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
          
-         cam_track
-
-    # Antares
-
-         # First let's crop
- 
-                  antares_ext <- ext(c(8.50000, 14.50000, 40.50000, 45.50000 ))
-                  antares_eu <- crop(countries, antares_ext)
-                  antares_eu_utm <- terra::project(antares_eu, proj_crs)
-
-         antares_nd <- osprey%>%
-                  filter(ID == 'Antares')
-
-         antares_track <- 
-         ggplot(antares_eu) +
-           geom_spatvector()+
-           geom_path(data = antares_nd, aes(x = lon, y = lat), 
-                     linewidth = 0.5, lineend = "round", col = 'red') +
-           labs(x = " ", y = " ", title = "Antares inividual track") +
-           theme_minimal() +
-           theme(legend.position = "none")
-
-         antares_track
-
-# save the plots!!
-
-ggsave("", plots = )
+                  civ_track15
+         
+                  civ_nd16 <- osprey_nd%>%
+                           filter(ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00')
+         
+                  civ_track16 <- 
+                  ggplot(civ_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = civ_nd16, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "CIV 2016 inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  civ_track16
+         
+                  ggarrange(civ_track15, civ_track16, ncol = 2, nrow = 1)
+         
+            # CBK
+         
+                  # First let's crop 
+                           cbk_ext <- ext(c(7.0000, 12.5000, 37.5000, 44.00000))
+                           cbk_eu <- crop(countries, cbk_ext)
+                           cbk_eu_utm <- terra::project(cbk_eu, proj_crs)
+         
+                  cbk_nd <- osprey_nd%>%
+                           filter(ID == 'CBK')
+         
+                  cbk_track <- 
+                  ggplot(cbk_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = cbk_nd, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "CBK inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  cbk_track
+         
+            # E7
+         
+                  # First let's crop
+          
+                           e7_ext <- ext(c(-1.00000, 17.5000, 36.9409, 49.00000))
+                           e7_eu <- crop(countries, e7_ext)
+                           e7_eu_utm <- terra::project(e7_eu, proj_crs)
+         
+                  e7_nd <- osprey_nd%>%
+                           filter(ID == 'E7')
+         
+                  e7_track <- 
+                  ggplot(e7_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = e7_nd, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "E7 inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  e7_track
+         
+         
+             # A7
+         
+                  # First let's crop
+          
+                           a7_ext <- ext(c(7.00000, 17.50000, 40.00000, 46.50000 ))
+                           a7_eu <- crop(countries, a7_ext)
+                           a7_eu_utm <- terra::project(a7_eu, proj_crs)
+         
+                  a7_nd <- osprey_nd%>%
+                           filter(ID == 'A7')
+         
+                  a7_track <- 
+                  ggplot(a7_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = a7_nd, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "A7 inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+                  
+                  a7_track
+         
+             # IAD
+         
+                  # First let's crop
+          
+                           iad_ext <- ext(c(1.50000, 19.50000, 38.00000, 54.00000 ))
+                           iad_eu <- crop(countries, iad_ext)
+                           iad_eu_utm <- terra::project(iad_eu, proj_crs)
+         
+                  iad_nd18 <- osprey_nd%>%
+                           filter(ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00')
+         
+                  iad_track18 <- 
+                  ggplot(iad_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = iad_nd18, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "IAD 2018 inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  iad_track18
+         
+                  # BERLIN
+                  iad_nd19 <- osprey_nd%>%
+                           filter(ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-05-07 15:00:00')
+         
+                  iad_track19 <- 
+                  ggplot(iad_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = iad_nd19, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "IAD 2019 inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  iad_track19
+         
+                  ggarrange(iad_track18, iad_track19, ncol = 2, nrow = 1)
+         
+             # IAB
+         
+                  # First let's crop
+          
+                           iab_ext <- ext(c(7.00000, 17.50000, 37.00000, 45.00000 ))
+                           iab_eu <- crop(countries, iab_ext)
+                           iab_eu_utm <- terra::project(iab_eu, proj_crs)
+         
+                  iab_nd <- osprey_nd%>%
+                           filter(ID == 'IAB')
+         
+                  iab_track <- 
+                  ggplot(iab_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = iab_nd, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "IAB inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  iab_track
+         
+             # ICZ
+         
+                  # First let's crop
+          
+                           icz_ext <- ext(c(10.00000, 16.00000, 37.00000, 44.00000 ))
+                           icz_eu <- crop(countries, icz_ext)
+                           icz_eu_utm <- terra::project(icz_eu, proj_crs)
+         
+                  icz_nd <- osprey_nd%>%
+                           filter(ID == 'ICZ')
+         
+                  icz_track <- 
+                  ggplot(icz_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = icz_nd, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "ICZ inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  icz_track
+         
+             # IBS
+                                    
+                  # First let's crop
+          
+                           ibs_ext <- ext(c(2.00000, 21.00000, 39.00000, 48.00000 ))
+                           ibs_eu <- crop(countries, ibs_ext)
+                           ibs_eu_utm <- terra::project(ibs_eu, proj_crs)
+         
+                  ibs_nd <- osprey_nd%>%
+                           filter(ID == 'IBS')
+         
+                  ibs_track <- ggplot(ibs_eu_utm) +
+                             geom_spatvector()+
+                             geom_path(data = ibs_nd, aes(x = x, y = y), 
+                                       linewidth = 0.5, lineend = "round", col = 'red') +
+                             labs(x = " ", y = " ", title = "IBS inividual track") +
+                             theme_minimal() +
+                             theme(legend.position = "none")
+         
+                  ibs_track
+         
+             # IBH
+         
+                  # First let's crop
+          
+                           ibh_ext <- ext(c(9.00000, 16.50000, 36.50000, 45.50000))
+                           ibh_eu <- crop(countries, ibh_ext)
+                           ibh_eu_utm <- terra::project(ibh_eu, proj_crs)
+         
+                  ibh_nd <- osprey_nd%>%
+                           filter(ID == 'IBH')
+         
+                  ibh_track <- 
+                  ggplot(ibh_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = ibh_nd, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "IBH inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  ibh_track
+         
+             # IBK
+                  # residente
+         
+                  # First let's crop
+          
+                           ibk_ext <- ext(c(9.00000, 12.00000, 42.00000, 43.50000))
+                           ibk_eu <- crop(countries, ibk_ext)
+                           ibk_eu_utm <- terra::project(ibk_eu, proj_crs)
+         
+                  ibk_nd <- osprey_nd%>%
+                           filter(ID == 'IBK')
+         
+                  ibk_track <- 
+                  ggplot(ibk_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = ibk_nd, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "IBK inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  ibk_track
+         
+             # IFP
+         
+                  # First let's crop
+          
+                           ifp_ext <- ext(c(4.00000, 17.00000, 41.00000, 45.00000))
+                           ifp_eu <- crop(countries, ifp_ext)
+                           ifp_eu_utm <- terra::project(ifp_eu, proj_crs)
+         
+                  ifp_nd <- osprey_nd%>%
+                           filter(ID == 'IFP')
+         
+                  ifp_track <- 
+                  ggplot(ifp_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = ifp_nd, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "IFP inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  ifp_track
+         
+         # ND track da definire
+         
+             # IBI
+                  # residente
+         
+                  # First let's crop
+          
+                           ibi_ext <- ext(c(6.50000, 13.00000, 41.50000, 45.00000))
+                           ibi_eu <- crop(countries, ibi_ext)
+                           ibi_eu_utm <- terra::project(ibi_eu, proj_crs)
+         
+                  ibi_nd <- osprey%>%
+                           filter(ID == 'IBI')
+         
+                  ibi_track <- 
+                  ggplot(ibi_eu) +
+                    geom_spatvector()+
+                    geom_path(data = ibi_nd, aes(x = lon, y = lat), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "IBI inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  ibi_track
+         
+             # CAM 
+                  # residente
+         
+                  # First let's crop
+          
+                           cam_ext <- ext(c(5.00000, 12.00000, 39.50000, 44.50000 ))
+                           cam_eu <- crop(countries, cam_ext)
+                           cam_eu_utm <- terra::project(cam_eu, proj_crs)
+         
+                  cam_nd <- osprey%>%
+                           filter(ID == 'CAM')
+         
+                  cam_track <- 
+                  ggplot(cam_eu) +
+                    geom_spatvector()+
+                    geom_path(data = cam_nd, aes(x = lon, y = lat), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "CAM inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+                  
+                  cam_track
+         
+             # Antares
+         
+                  # First let's crop
+          
+                           antares_ext <- ext(c(8.50000, 14.50000, 40.50000, 45.50000 ))
+                           antares_eu <- crop(countries, antares_ext)
+                           antares_eu_utm <- terra::project(antares_eu, proj_crs)
+         
+                  antares_nd <- osprey%>%
+                           filter(ID == 'Antares')
+         
+                  antares_track <- 
+                  ggplot(antares_eu) +
+                    geom_spatvector()+
+                    geom_path(data = antares_nd, aes(x = lon, y = lat), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "Antares inividual track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  antares_track
+         
+         # save the plots!!
+         
+         ggsave("", plots = )
 
 #########################
 #  Natal dispersal stat #
 #########################
-
-# First let's create a ltraj object with UTM coordinates 
-
-         osp_ndlt <- as.ltraj(osprey_nd[, c("x", "y")],
-                               date = osprey_nd$time, 
-                               id = osprey_nd$ID,
-                               typeII=TRUE)
-
-# let's create a function that split bursts with multiple years         
-        
-         foo <- function(dt){ 
-                  return(dt>(100*3600*24))
-                          }
          
-         osp_ndlt2 <- cutltraj(osp_ndlt,"foo(dt)",nextr=TRUE)
-
-         a7lt <- ld(osp_ndlt2[[1]])
-
-         plotltr(a7lt)
-
-         plotltr(osp_ndlt2, "dist")
-
-         osp_ndlt_df <- ld(osp_ndlt2)
+         # First let's create a ltraj object with UTM coordinates 
          
-         osp_stat <- osp_ndlt_df%>%
-                  group_by(id)%>%
-                  summarize(duration = max(osp_ndlt_df$date)-min(osp_ndlt_df$date))
-
-# SUMMARY dfs
-         # Create an empty list to store the summary data frames:
-
-                  osp_summaries <- list()
-
-         # Use the split() function to split the larger data frame based on the unique IDs:
-
-                  id_groups <- split(osp_ndlt_df, osp_ndlt_df$id)
-
-         # Iterate over each ID group using a for loop:
-                  for (id in names(id_groups)) {
-                    id_group <- id_groups[[id]]                   # Access the current ID group
-                    summary_stats <- lapply(id_group, summary)    # Calculate summary statistics (e.g., mean, median) for each variable in the ID group
-                    summary_df <- as.data.frame(summary_stats)    # Convert the summary statistics into a data frame
-                    summary_dfs[[id]] <- summary_df               # Append the summary data frame to the list
-                  }
-
-totDistxDay = 
-minDistxDay = 
-meanDistxDay = 
-maxDistxDay = 
-
-# ---------------------------------------------------------------  #
-
-        getMoveStats <- function(df){
-         # df - is a generic data frame that will contain X,Y and Time columns
-         Z <- df$x + 1i*df$y
-         Time <- df$time
-         Step <- c(NA, diff(Z)) # we add the extra NA because there is no step to the first location
-         dT <- c(NA, difftime(Time[-1], Time[-length(Time)], hours) %>% as.numeric)
-
-         SL <- Mod(Step)/1e3 # convert to km - so the speed is in km/hour
-         MR <- SL/dT # computing the movement rate
-
-         # this is what the function returns
-         data.frame(df, Z, dT, Step, SL, MR)
-                  }
-
-
-
-         osprey_move_nd <- getMoveStats(osprey_nd) 
-
-         osprey_move_nd <- osprey_move_nd %>%
-                           dplyr::filter( ID != "IBS" & ID != "IBH")
-                                    
-         ggplot(osprey_move_nd, aes(ID, MR)) +
-         geom_boxplot()
-
-
-         mr_summarystats <- osprey_move_nd %>%
-                           dplyr::filter( ID != "IBS")%>%
-                           plyr::ddply(c("ID", "season"), summarize,
-                            min = min(MR, na.rm = TRUE), max = max(MR, na.rm = TRUE),
-                            n = length(MR), NA.count = sum(is.na(MR)),
-                            Zero.count = sum(MR == 0, na.rm = TRUE))
-
-         SL_summarystats <- osprey_move_nd %>%
-                           plyr::ddply(c("ID", "season"), summarize,
-                            min = min(SL, na.rm = TRUE), max = max(SL, na.rm = TRUE),
-                            n = length(SL), NA.count = sum(is.na(SL)),
-                            Zero.count = sum(SL == 0, na.rm = TRUE))
-
-
-
+                  osp_ndlt <- as.ltraj(osprey_nd[, c("x", "y")],
+                                        date = osprey_nd$time, 
+                                        id = osprey_nd$ID,
+                                        typeII=TRUE)
          
-         plot(osprey_move_nd$Step, asp=1, type="n")
-         arrows(rep(0, length(osprey_move_nd$Step)), rep(0, length(osprey_move_nd$Step)), Re(osprey_move_nd$Step), Im(osprey_move_nd$Step), col=rgb(0,0,0,.5), lwd=2, length=0.1)
-
-hist(osprey_move_nd$SL, col="grey", bor="darkgrey", freq=FALSE)
-lines(density(osprey_move_nd$SL), col=2, lwd=2)
-
-
-
+         # let's create a function that split bursts with multiple years         
+                 
+                  foo <- function(dt){ 
+                           return(dt>(100*3600*24))
+                                   }
+                  
+                  osp_ndlt2 <- cutltraj(osp_ndlt,"foo(dt)",nextr=TRUE)
+         
+                  a7lt <- ld(osp_ndlt2[[1]])
+         
+                  plotltr(a7lt)
+         
+                  plotltr(osp_ndlt2, "dist")
+         
+                  osp_ndlt_df <- ld(osp_ndlt2)
+                  
+         
+         # SUMMARY dfs
+                  # Create an empty list to store the summary data frames:
+         
+                           osp_summaries <- list()
+         
+                  # Use the split() function to split the larger data frame based on the unique IDs:
+         
+                           id_groups <- split(osp_ndlt_df, osp_ndlt_df$id)
+         
+                  # Iterate over each ID group using a for loop:
+                           for (id in names(id_groups)) {
+                             id_group <- id_groups[[id]]                   # Access the current ID group
+                             summary_stats <- lapply(id_group, summary)    # Calculate summary statistics (e.g., mean, median) for each variable in the ID group
+                             summary_df <- as.data.frame(summary_stats)    # Convert the summary statistics into a data frame
+                             summary_dfs[[id]] <- summary_df               # Append the summary data frame to the list
+                           }
+         
+         totDistxDay = 
+         minDistxDay = 
+         meanDistxDay = 
+         maxDistxDay = 
+         
+         # ---------------------------------------------------------------  #
+         
+                 getMoveStats <- function(df){
+                  # df - is a generic data frame that will contain X,Y and Time columns
+                  Z <- df$x + 1i*df$y
+                  Time <- df$time
+                  Step <- c(NA, diff(Z)) # we add the extra NA because there is no step to the first location
+                  dT <- c(NA, difftime(Time[-1], Time[-length(Time)], hours) %>% as.numeric)
+         
+                  SL <- Mod(Step)/1e3 # convert to km - so the speed is in km/hour
+                  MR <- SL/dT # computing the movement rate
+         
+                  # this is what the function returns
+                  data.frame(df, Z, dT, Step, SL, MR)
+                           }
+         
+         
+         
+                  osprey_move_nd <- getMoveStats(osprey_nd) 
+         
+                  osprey_move_nd <- osprey_move_nd %>%
+                                    dplyr::filter( ID != "IBS" & ID != "IBH")
+                                             
+                  ggplot(osprey_move_nd, aes(ID, MR)) +
+                  geom_boxplot()
+         
+         
+                  mr_summarystats <- osprey_move_nd %>%
+                                    dplyr::filter( ID != "IBS")%>%
+                                    plyr::ddply(c("ID", "season"), summarize,
+                                     min = min(MR, na.rm = TRUE), max = max(MR, na.rm = TRUE),
+                                     n = length(MR), NA.count = sum(is.na(MR)),
+                                     Zero.count = sum(MR == 0, na.rm = TRUE))
+         
+                  SL_summarystats <- osprey_move_nd %>%
+                                    plyr::ddply(c("ID", "season"), summarize,
+                                     min = min(SL, na.rm = TRUE), max = max(SL, na.rm = TRUE),
+                                     n = length(SL), NA.count = sum(is.na(SL)),
+                                     Zero.count = sum(SL == 0, na.rm = TRUE))
+         
+         
+         
+                  
+                  plot(osprey_move_nd$Step, asp=1, type="n")
+                  arrows(rep(0, length(osprey_move_nd$Step)), rep(0, length(osprey_move_nd$Step)), Re(osprey_move_nd$Step), Im(osprey_move_nd$Step), col=rgb(0,0,0,.5), lwd=2, length=0.1)
+         
+         hist(osprey_move_nd$SL, col="grey", bor="darkgrey", freq=FALSE)
+         lines(density(osprey_move_nd$SL), col=2, lwd=2)
+         
+         
+         
