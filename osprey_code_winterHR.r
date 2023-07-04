@@ -164,8 +164,9 @@ osprey <- osprey%>%
 
                   # get the winter HR
 
-                           A7_winter_HR <- getverticeshr(winter_HR$A7)
-                           A7_winter_HR
+                           A7_winter_HR <- getverticeshr(winter_HR$A7, percent = 50)
+                           A7_winter_HR <- A7_winter_HR%>%
+                                        dplyr::filter(group == "homerange.1")
 
                   # fortify() function is needed to plot the winter homerange with ggplot
                            A7_winter_HR <- fortify(A7_winter_HR)
@@ -177,20 +178,44 @@ osprey <- osprey%>%
                            a7_HR_plot <- 
                            ggplot(a7_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(A7_winter_HR$homerange.1, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = a7, aes(x = x, y = y), 
-                                      linewidth = 0.5, lineend = "round", col = 'green') +
-                           geom_path(data = a7_nd, aes(x = x, y = y), 
-                                      linewidth = 0.5, lineend = "round", col = 'red') +
-                             labs(x = " ", y = " ", title = "A7 2014/2015 winter homerange") +
-                             theme_minimal() #+
-                             theme(legend.position = "none")
+                           geom_polygon(A7_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           geom_path(data = a7, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = a7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                             labs(x = " ", y = " ", title = "A7 winter homerange and tracks") +
+                             theme_minimal()+
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
          
                            a7_HR_plot
          
          # "Antares" 
-                  Antares_winter_HR <- getverticeshr(winter_HR$Antares)
-                  Antares_winter_HR
+                  # First let's crop
+          
+                           antares_ext <- ext(c(8.50000, 14.50000, 40.50000, 45.50000 ))
+                           antares_eu <- crop(countries, antares_ext)
+                           antares_eu_utm <- terra::project(antares_eu, proj_crs)
+
+                 # get Antares winter HR
+                            Antares_winter_HR <- getverticeshr(winter_HR$Antares)
+                            Antares_winter_HR
+
+                  # fortify() function is needed to plot the winter homerange with ggplot
+                           Antares_winter_HR <- fortify(Antares_winter_HR)
+
+                            a7<- osprey%>%
+                                     filter(ID == 'A7')
+
+                  # Plot the winter homerange
+                           a7_HR_plot <- 
+                           ggplot(antares_eu_utm) +
+                           geom_spatvector()+
+                           geom_polygon(Antares_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           geom_path(data = a7, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = a7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                             labs(x = " ", y = " ", title = "A7 winter homerange and tracks") +
+                             theme_minimal()+
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+         
+                           a7_HR_plot
 
          # "CAM"    
                   CAM_winter_HR <- getverticeshr(winter_HR$CAM)
