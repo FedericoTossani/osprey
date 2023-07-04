@@ -2,7 +2,11 @@
 # ================================ #
 #       1.SetWD and packages       #
 # ================================ #
-         setwd("C:/Tesi/R/osprey/data/")
+          setwd("C:/Tesi/R/osprey/data/")
+
+         # this doesn't work, fix it!
+         # source(file = "https://github.com/FedericoTossani/osprey/blob/main/osprey_code_packages.r")
+
 
          list.of.packages <- c("tidyverse",
                                "lubridate",
@@ -16,7 +20,8 @@
                                "terra",
                                "tidyterra",
                                "gridExtra",
-                               "ggpubr")
+                               "ggpubr",
+                               "DescTools")
 
          # with this line of code I check if alll the packages are installed and then I load it
 
@@ -36,10 +41,10 @@
          csv_allfile <- lapply(list_csv, read.csv)
 
          col_selected <- c("timestamp", "location.long", "location.lat", "external.temperature", 
-                           "gsm.gsm.signal.strength", "sensor.type", "individual.local.identifier")
+                           "individual.local.identifier")
 
          csv_file_sel_col <- lapply(csv_allfile, "[", , col_selected)
-         osprey_raw <- bind_rows(csv_file_sel_col)
+         osprey_raw <- dplyr::bind_rows(csv_file_sel_col)
 
          osprey_death <- read.csv("osprey_death.csv")
 
@@ -69,14 +74,14 @@
                             day = day(time),
                             month = month(time),
                             year = year(time))%>%
-                     unite(m_day, c(month, day), sep="/", remove = F)%>%
-                     left_join(osprey_death, by = c("id" = "id"))%>%
-                     mutate( season = case_when(
+                     tidyr::unite(m_day, c(month, day), sep="/", remove = F)%>%
+                     dplyr::left_join(osprey_death, by = c("id" = "id"))%>%
+                     mutate( season = dplyr::case_when(
                                 month %in% 10:12 ~ "Fall",
                                 month %in%  1:3  ~ "Winter",
                                 month %in%  4:6  ~ "Spring",
                                 TRUE ~ "Summer"),
-                             ID = case_when(
+                             ID = dplyr::case_when(
                              id == "Balearics2013_FOSP11-Juv_ringH7" ~ "H7",
                              id == "Corsica2013_FOSP17_Juv_ringCBK" ~ "CBK",
                              id == "Corsica2014_FOSP21-Juv_ringCIV" ~ "CIV",
@@ -93,11 +98,11 @@
                              id == "Italy2020_Ornitela_juv_ringIBK_Imbabura" ~ "IBK",
                              id == "Italy2022_OSPI08_juv_ringIFP_Ildebrando" ~ "IFP"))
 
-         osprey<- osprey%>%
-                  select(-c("timestamp", "id"))%>%
-                  relocate("ID", "time", "date", "day", "month", "year", "m_day",
-                                       "death_date", "season", "ext_temp", "lon", "lat", "signal_interruption_cause", "death_comment")%>%
-                  unique()
+         osprey <- osprey%>%
+         select(-c("timestamp", "id"))%>%
+         relocate("ID", "time", "date", "day", "month", "year", "m_day",
+                              "death_date", "season", "ext_temp", "lon", "lat", "signal_interruption_cause", "death_comment")%>%
+         unique()
 
 # Convert lon and lat columns to a spatial object with WGS84 coordinate system
 osp_hr_v <- vect(osprey, geom = c("lon", "lat"), crs = "+proj=longlat +datum=WGS84")
@@ -120,7 +125,7 @@ osprey <- osprey%>%
 # Homerange's List #
 ####################
 
-# KernelUD al 95 a al 50 (è la core area) 
+# KernelUD al 95 e al 50 (è la core area) 
 
 # Here I will calculate the homerange of Ospreys during the winter before the beginning of natal dispersal movements
 
@@ -128,6 +133,117 @@ osprey <- osprey%>%
                   countries <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
                   osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
                   osprey_eu <- crop(countries, osprey_ext)
+                  osprey_eu_utm <- terra::project(osprey_eu, proj_crs)
+
+# WinterHR
+
+         # First define the winter season
+                  osp_winter <- osprey%>%
+                                    dplyr::filter(season == "Winter")%>%
+                                    dplyr::select(ID, x, y)%>%
+                                    filter_at(vars(x, y), all_vars(!is.na(.)))
+
+                  osp_winter$ID <- factor(osp_winter$ID)
+
+         # Let's create a spatialPoint object
+                  osp_winter_sp <- SpatialPointsDataFrame(osp_winter[,c("x", "y")], osp_winter)   
+
+                  ext_kud <- c(-874519.5, 1311590, 4064962, 5429805)
+
+         # Here I calculate the winter homerange with a Kernel Density Estimation
+                  osp_winter_kde <- kernelUD(osp_winter_sp[,1], h = "href") # h = "LSCV"
+
+                  winter_HR <- unlist(osp_winter_kde)
+
+         # "A7"
+
+                  # First let's crop
+                           a7_ext <- ext(c(7.00000, 17.50000, 40.00000, 46.50000 ))
+                           a7_eu <- crop(countries, a7_ext)
+                           a7_eu_utm <- terra::project(a7_eu, proj_crs)
+
+                  # get the winter HR
+
+                           A7_winter_HR <- getverticeshr(winter_HR$A7)
+                           A7_winter_HR
+
+                  # fortify() function is needed to plot the winter homerange with ggplot
+                           A7_winter_HR <- fortify(A7_winter_HR)
+
+                  a7<- osprey%>%
+                           filter(ID == 'A7')
+
+                  # Plot the winter homerange
+                           a7_HR_plot <- 
+                           ggplot(a7_eu_utm) +
+                           geom_spatvector()+
+                           geom_polygon(A7_winter_HR$homerange.1, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           geom_path(data = a7, aes(x = x, y = y), 
+                                      linewidth = 0.5, lineend = "round", col = 'green') +
+                           geom_path(data = a7_nd, aes(x = x, y = y), 
+                                      linewidth = 0.5, lineend = "round", col = 'red') +
+                             labs(x = " ", y = " ", title = "A7 2014/2015 winter homerange") +
+                             theme_minimal() #+
+                             theme(legend.position = "none")
+         
+                           a7_HR_plot
+         
+         # "Antares" 
+                  Antares_winter_HR <- getverticeshr(winter_HR$Antares)
+                  Antares_winter_HR
+
+         # "CAM"    
+                  CAM_winter_HR <- getverticeshr(winter_HR$CAM)
+                  CAM_winter_HR
+
+         # "CBK"     
+                  CBK_winter_HR <- getverticeshr(winter_HR$CBK)
+                  CBK_winter_HR
+
+         # "CIV"     
+                  CIV_winter_HR <- getverticeshr(winter_HR$CIV)
+                  CIV_winter_HR
+
+         # "E7"     
+                  E7_winter_HR <- getverticeshr(winter_HR$E7)
+                  E7_winter_HR
+
+         # "H7"      
+                  H7_winter_HR <- getverticeshr(winter_HR$H7)
+                  H7_winter_HR
+
+         # "IAB"     
+                  IAB_winter_HR <- getverticeshr(winter_HR$IAB)
+                  IAB_winter_HR
+
+         # "IAD"    
+                  IAD_winter_HR <- getverticeshr(winter_HR$IAD)
+                  IAD_winter_HR
+
+         # "IBH"     
+                  IBH_winter_HR <- getverticeshr(winter_HR$IBH)
+                  IBH_winter_HR
+
+         # "IBI"    
+                  IBI_winter_HR <- getverticeshr(winter_HR$IBI)
+                  IBI_winter_HR
+
+         # "IBK"    
+                  IBK_winter_HR <- getverticeshr(winter_HR$IBK)
+                  IBK_winter_HR
+
+         # "IBS"     
+                  IBS_winter_HR <- getverticeshr(winter_HR$IBS)
+                  IBS_winter_HR
+
+         # "ICZ"     
+                  ICZ_winter_HR <- getverticeshr(winter_HR$ICZ)
+                  ICZ_winter_HR
+
+         # "IFP"
+                  IFP_winter_HR <- getverticeshr(winter_HR$IFP)
+                  IFP_winter_HR
+
 
 # H7 WinterHR
 
