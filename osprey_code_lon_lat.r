@@ -435,11 +435,12 @@
          plot(table(diff(data$time)), xlim = c(0, 1000),
          xlab = "time interval (min)", ylab = "count")
 
- & time <= "2017-07-27 20:00:00"
+
+
 
   # use this graph to check for departure dates 
         osp <- osprey%>%
-            filter(ID == "IBK" & time >= "2020-06-12 05:00:00")
+            filter(ID == "Antares" & time >= "2016-03-19 13:00:00" & time <= "2016-05-23 14:00:00")
 
         osp_lat_time <-
         ggplot(osp, aes(time, lat)) +
