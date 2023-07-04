@@ -179,7 +179,7 @@ osprey <- osprey%>%
                            ggplot(A7_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(A7_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = A7, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = A7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = A7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "A7 winter homerange and tracks") +
                            theme_minimal()+
@@ -194,7 +194,7 @@ osprey <- osprey%>%
                            Antares_eu_utm <- terra::project(Antares_eu, proj_crs)
 
                  # get Antares winter HR
-                            Antares_winter_HR <- getverticeshr(winter_HR$Antares)
+                            Antares_winter_HR <- getverticeshr(winter_HR$Antares, percent = 50) # 50% is the value to obtain the core area of the HR
                             Antares_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -203,12 +203,15 @@ osprey <- osprey%>%
                             Antares <- osprey%>%
                                      filter(ID == 'Antares')
 
+                            Antares_nd <- osprey_nd%>%
+                                     filter(ID == 'Antares')
+
                   # Plot the winter homerange
                            Antares_HR_plot <- 
                            ggplot(antares_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(Antares_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = Antares, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = Antares, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = Antares_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "Antares winter homerange and tracks") +
                            theme_minimal()+
@@ -223,7 +226,7 @@ osprey <- osprey%>%
                            CAM_eu_utm <- terra::project(CAM_eu, proj_crs)
 
                  # get CAM winter HR
-                            CAM_winter_HR <- getverticeshr(winter_HR$CAM)
+                            CAM_winter_HR <- getverticeshr(winter_HR$CAM, percent = 50) # 50% is the value to obtain the core area of the HR
                             CAM_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -232,12 +235,15 @@ osprey <- osprey%>%
                             CAM <- osprey%>%
                                      filter(ID == 'CAM')
 
+                            CAM_nd <- osprey_nd%>%
+                                     filter(ID == 'CAM')
+
                   # Plot the winter homerange
                            CAM_HR_plot <- 
                            ggplot(CAM_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(CAM_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = CAM, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CAM, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CAM_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "CAM winter homerange and tracks") +
                            theme_minimal()+
@@ -252,7 +258,7 @@ osprey <- osprey%>%
                            CBK_eu_utm <- terra::project(CBK_eu, proj_crs)
 
                  # get CBK winter HR
-                            CBK_winter_HR <- getverticeshr(winter_HR$CBK)
+                            CBK_winter_HR <- getverticeshr(winter_HR$CBK, percent = 50) # 50% is the value to obtain the core area of the HR
                             CBK_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -261,12 +267,15 @@ osprey <- osprey%>%
                             CBK <- osprey%>%
                                      filter(ID == 'CBK')
 
+                            CBK_nd <- osprey_nd%>%
+                                     filter(ID == 'CBK')
+
                   # Plot the winter homerange
                            CBK_HR_plot <- 
                            ggplot(CBK_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(CBK_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = CBK, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CBK, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CBK_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "CBK winter homerange and tracks") +
                            theme_minimal()+
@@ -281,7 +290,7 @@ osprey <- osprey%>%
                            CIV_eu_utm <- terra::project(CIV_eu, proj_crs)
 
                  # get CIV winter HR
-                            CIV_winter_HR <- getverticeshr(winter_HR$CIV)
+                            CIV_winter_HR <- getverticeshr(winter_HR$CIV, percent = 50) # 50% is the value to obtain the core area of the HR
                             CIV_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -290,12 +299,15 @@ osprey <- osprey%>%
                             CIV <- osprey%>%
                                      filter(ID == 'CIV')
 
+                            CIV_nd <- osprey_nd%>%
+                                     filter(ID == 'CIV')
+
                   # Plot the winter homerange
                            CIV_HR_plot <- 
                            ggplot(CIV_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(CIV_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = CIV, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CIV, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CIV_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "CIV winter homerange and tracks") +
                            theme_minimal()+
@@ -310,7 +322,7 @@ osprey <- osprey%>%
                            E7_eu_utm <- terra::project(E7_eu, proj_crs)
 
                  # get E7 winter HR
-                            E7_winter_HR <- getverticeshr(winter_HR$E7)
+                            E7_winter_HR <- getverticeshr(winter_HR$E7, percent = 50) # 50% is the value to obtain the core area of the HR
                             E7_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -319,12 +331,15 @@ osprey <- osprey%>%
                             E7 <- osprey%>%
                                      filter(ID == 'E7')
 
+                            E7_nd <- osprey_nd%>%
+                                     filter(ID == 'E7')
+
                   # Plot the winter homerange
                            E7_HR_plot <- 
                            ggplot(E7_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(E7_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = E7, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = E7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = E7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "E7 winter homerange and tracks") +
                            theme_minimal()+
@@ -339,7 +354,7 @@ osprey <- osprey%>%
                            H7_eu_utm <- terra::project(H7_eu, proj_crs)
 
                  # get H7 winter HR
-                            H7_winter_HR <- getverticeshr(winter_HR$H7)
+                            H7_winter_HR <- getverticeshr(winter_HR$H7, percent = 50) # 50% is the value to obtain the core area of the HR
                             H7_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -348,12 +363,15 @@ osprey <- osprey%>%
                             H7 <- osprey%>%
                                      filter(ID == 'H7')
 
+                            H7_nd <- osprey_nd%>%
+                                     filter(ID == 'H7')
+
                   # Plot the winter homerange
                            H7_HR_plot <- 
                            ggplot(H7_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(H7_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = H7, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = H7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = H7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "H7 winter homerange and tracks") +
                            theme_minimal()+
@@ -368,7 +386,7 @@ osprey <- osprey%>%
                            IAB_eu_utm <- terra::project(IAB_eu, proj_crs)
 
                  # get IAB winter HR
-                            IAB_winter_HR <- getverticeshr(winter_HR$IAB)
+                            IAB_winter_HR <- getverticeshr(winter_HR$IAB, percent = 50) # 50% is the value to obtain the core area of the HR
                             IAB_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -377,12 +395,15 @@ osprey <- osprey%>%
                             IAB <- osprey%>%
                                      filter(ID == 'IAB')
 
+                            IAB_nd <- osprey_nd%>%
+                                     filter(ID == 'IAB')
+
                   # Plot the winter homerange
                            IAB_HR_plot <- 
-                           ggplot(H7_eu_utm) +
+                           ggplot(IAB_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(IAB_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = IAB, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IAB, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IAB_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "IAB winter homerange and tracks") +
                            theme_minimal()+
@@ -397,7 +418,7 @@ osprey <- osprey%>%
                            IAD_eu_utm <- terra::project(IAD_eu, proj_crs)
 
                  # get IAD winter HR
-                            IAD_winter_HR <- getverticeshr(winter_HR$IAD)
+                            IAD_winter_HR <- getverticeshr(winter_HR$IAD, percent = 50) # 50% is the value to obtain the core area of the HR
                             IAD_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -406,12 +427,15 @@ osprey <- osprey%>%
                             IAD <- osprey%>%
                                      filter(ID == 'IAD')
 
+                            IAD_nd <- osprey_nd%>%
+                                     filter(ID == 'IAD')
+
                   # Plot the winter homerange
                            IAD_HR_plot <- 
                            ggplot(IAD_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(IAD_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = IAD, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IAD, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IAD_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "IAD winter homerange and tracks") +
                            theme_minimal()+
@@ -426,8 +450,12 @@ osprey <- osprey%>%
                            IBH_eu_utm <- terra::project(IBH_eu, proj_crs)
 
                  # get IBH winter HR
-                            IBH_winter_HR <- getverticeshr(winter_HR$IBH)
+                            IBH_winter_HR <- getverticeshr(winter_HR$IBH) # 50% is the value to obtain the core area of the HR
                             IBH_winter_HR
+
+                              # Errore in getverticeshr.estUD(winter_HR$IBH) : 
+                              # The grid is too small to allow the estimation of home-range.
+                              # You should rerun kernelUD with a larger extent parameter
 
                   # fortify() function is needed to plot the winter homerange with ggplot
                            IBH_winter_HR <- fortify(IBH_winter_HR)
@@ -435,12 +463,15 @@ osprey <- osprey%>%
                             IBH <- osprey%>%
                                      filter(ID == 'IBH')
 
+                            IBH_nd <- osprey_nd%>%
+                                     filter(ID == 'IBH')
+
                   # Plot the winter homerange
                            IBH_HR_plot <- 
                            ggplot(IBH_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(IBH_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = IBH, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBH, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IBH_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "IBH winter homerange and tracks") +
                            theme_minimal()+
@@ -455,7 +486,7 @@ osprey <- osprey%>%
                            IBI_eu_utm <- terra::project(IBI_eu, proj_crs)
 
                  # get IBI winter HR
-                            IBI_winter_HR <- getverticeshr(winter_HR$IBI)
+                            IBI_winter_HR <- getverticeshr(winter_HR$IBI, percent = 50) # 50% is the value to obtain the core area of the HR
                             IBI_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -464,12 +495,15 @@ osprey <- osprey%>%
                             IBI <- osprey%>%
                                      filter(ID == 'IBI')
 
+                            IBI_nd <- osprey_nd%>%
+                                     filter(ID == 'IBI')
+
                   # Plot the winter homerange
                            IBI_HR_plot <- 
                            ggplot(IBI_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(IBI_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = IBI, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBI, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IBI_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "IBI winter homerange and tracks") +
                            theme_minimal()+
@@ -484,7 +518,7 @@ osprey <- osprey%>%
                            IBK_eu_utm <- terra::project(IBK_eu, proj_crs)
 
                  # get IBK winter HR
-                            IBK_winter_HR <- getverticeshr(winter_HR$IBK)
+                            IBK_winter_HR <- getverticeshr(winter_HR$IBK, percent = 50) # 50% is the value to obtain the core area of the HR
                             IBK_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -493,13 +527,16 @@ osprey <- osprey%>%
                             IBK <- osprey%>%
                                      filter(ID == 'IBK')
 
+                            IBK_nd <- osprey_nd%>%
+                                     filter(ID == 'IBK')
+
                   # Plot the winter homerange
                            IBK_HR_plot <- 
                            ggplot(IBK_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(IBK_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = IBK, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBK, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IBK_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(IBK_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "IBK winter homerange and tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
@@ -513,7 +550,7 @@ osprey <- osprey%>%
                            IBS_eu_utm <- terra::project(IBS_eu, proj_crs)
 
                  # get IBS winter HR
-                            IBS_winter_HR <- getverticeshr(winter_HR$IBS)
+                            IBS_winter_HR <- getverticeshr(winter_HR$IBS, percent = 50) # 50% is the value to obtain the core area of the HR
                             IBS_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -522,12 +559,15 @@ osprey <- osprey%>%
                             IBS <- osprey%>%
                                      filter(ID == 'IBS')
 
+                            IBS_nd <- osprey_nd%>%
+                                     filter(ID == 'IBS')
+
                   # Plot the winter homerange
                            IBS_HR_plot <- 
                            ggplot(IBS_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(IBS_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = IBS, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBS, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IBS_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "IBS winter homerange and tracks") +
                            theme_minimal()+
@@ -542,7 +582,7 @@ osprey <- osprey%>%
                            ICZ_eu_utm <- terra::project(ICZ_eu, proj_crs)
 
                  # get ICZ winter HR
-                            ICZ_winter_HR <- getverticeshr(winter_HR$ICZ)
+                            ICZ_winter_HR <- getverticeshr(winter_HR$ICZ, percent = 50) # 50% is the value to obtain the core area of the HR
                             ICZ_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -551,12 +591,15 @@ osprey <- osprey%>%
                             ICZ <- osprey%>%
                                      filter(ID == 'ICZ')
 
+                            ICZ_nd <- osprey_nd%>%
+                                     filter(ID == 'ICZ')
+
                   # Plot the winter homerange
                            ICZ_HR_plot <- 
                            ggplot(ICZ_eu_utm) +
                            geom_spatvector()+
                            geom_polygon(ICZ_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = ICZ, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = ICZ, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = ICZ_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "ICZ winter homerange and tracks") +
                            theme_minimal()+
@@ -571,7 +614,7 @@ osprey <- osprey%>%
                            IFP_eu_utm <- terra::project(IFP_eu, proj_crs)
 
                  # get IFP winter HR
-                            IFP_winter_HR <- getverticeshr(winter_HR$IFP)
+                            IFP_winter_HR <- getverticeshr(winter_HR$IFP, percent = 50) # 50% is the value to obtain the core area of the HR
                             IFP_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -580,13 +623,16 @@ osprey <- osprey%>%
                             IFP <- osprey%>%
                                      filter(ID == 'IFP')
 
+                            IFP_nd <- osprey_nd%>%
+                                     filter(ID == 'IFP')
+
                   # Plot the winter homerange
                            IFP_HR_plot <- 
                            ggplot(IFP_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(IFP_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = IFP, aes(x = x, y = y, colour = "All track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IFP, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IFP_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(IFP_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "IFP winter homerange and tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
