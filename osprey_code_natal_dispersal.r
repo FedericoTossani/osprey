@@ -97,7 +97,7 @@
                              id == "Italy2020_Ornitela_juv_ringIBK_Imbabura" ~ "IBK",
                              id == "Italy2022_OSPI08_juv_ringIFP_Ildebrando" ~ "IFP"))
 
-         osprey <- osprey%>%
+         osprey_nd <- osprey%>%
                   select(-c("timestamp", "id"))%>%
                   relocate("ID", "time", "date", "day", "month", "year", "m_day",
                                        "death_date", "season", "ext_temp", "lon", "lat", "signal_interruption_cause", "death_comment")%>%
