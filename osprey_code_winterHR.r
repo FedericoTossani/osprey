@@ -174,6 +174,9 @@ osprey <- osprey%>%
                   A7<- osprey%>%
                            filter(ID == 'A7')
 
+                  A7_nd<- osprey_nd%>%
+                           filter(ID == 'A7')
+
                   # Plot the winter homerange
                            A7_HR_plot <- 
                            ggplot(A7_eu_utm) +
@@ -188,6 +191,7 @@ osprey <- osprey%>%
                            A7_HR_plot
          
 # "Antares" 
+          # Messy track, difficult to find separete travel
                   # First let's crop
                            Antares_ext <- ext(c(8.50000, 14.50000, 40.50000, 45.50000 ))
                            Antares_eu <- crop(countries, Antares_ext)
@@ -208,10 +212,10 @@ osprey <- osprey%>%
 
                   # Plot the winter homerange
                            Antares_HR_plot <- 
-                           ggplot(antares_eu_utm) +
+                           ggplot(Antares_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(Antares_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            geom_path(data = Antares, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(Antares_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            geom_path(data = Antares_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "Antares winter homerange and tracks") +
                            theme_minimal()+
@@ -235,23 +239,36 @@ osprey <- osprey%>%
                             CAM <- osprey%>%
                                      filter(ID == 'CAM')
 
-                            CAM_nd <- osprey_nd%>%
-                                     filter(ID == 'CAM')
+                            CAM_nd1 <- osprey_nd%>%
+                                     filter(ID == "CAM" & time >= "2016-04-14 06:00:00" & time <= "2016-04-19 20:00:00")
+
+                            CAM_nd2 <- osprey_nd%>%
+                                     filter(ID == "CAM" & time >= "2016-05-03 08:00:00" & time <= "2016-05-06 18:00:00")
+
+                            CAM_nd3 <- osprey_nd%>%
+                                     filter(ID == "CAM" & time >= "2016-05-20 05:00:00" & time <= "2016-05-24 18:00:00")
+
+                            CAM_nd4 <- osprey_nd%>%
+                                     filter(ID == "CAM" & time >= "2016-07-02 23:00:00" & time <= "2016-07-06 20:00:00")
 
                   # Plot the winter homerange
                            CAM_HR_plot <- 
                            ggplot(CAM_eu_utm) +
                            geom_spatvector()+
                            geom_path(data = CAM, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CAM_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CAM_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CAM_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CAM_nd3, aes(x = x, y = y, colour = "Natal dispersal third travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CAM_nd4, aes(x = x, y = y, colour = "Natal dispersal fourth travel"), linewidth = 0.5, lineend = "round") +
                            geom_polygon(CAM_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "CAM winter homerange and tracks") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal first travel" = "red", "Natal dispersal second travel" = "orange", "Natal dispersal third travel" = "yellow", "Natal dispersal fourth travel" = "magenta"))
          
                            CAM_HR_plot
 
 # "CBK"     
+          # Doesn't work: Errore in re[[i]] : subscript fuori limite
                   # First let's crop
                            CBK_ext <- ext(c(7.0000, 12.5000, 37.5000, 44.00000))
                            CBK_eu <- crop(countries, CBK_ext)
@@ -284,6 +301,7 @@ osprey <- osprey%>%
                            CBK_HR_plot
 
 # "CIV"     
+          # Doesn't work: Errore in re[[i]] : subscript fuori limite
                   # First let's crop
                            CIV_ext <- ext(c(5.0000, 12.0000, 36.0000, 44.00000))
                            CIV_eu <- crop(countries, CIV_ext)
@@ -299,19 +317,23 @@ osprey <- osprey%>%
                             CIV <- osprey%>%
                                      filter(ID == 'CIV')
 
-                            CIV_nd <- osprey_nd%>%
-                                     filter(ID == 'CIV')
+                            CIV_nd15 <- osprey_nd%>%
+                                     filter(ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00')
+
+                            CIV_nd16 <- osprey_nd%>%
+                                     filter(ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00')
 
                   # Plot the winter homerange
                            CIV_HR_plot <- 
                            ggplot(CIV_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(CIV_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           # geom_polygon(CIV_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            geom_path(data = CIV, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CIV_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CIV_nd15, aes(x = x, y = y, colour = "Natal dispersal 2015"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CIV_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "CIV winter homerange and tracks") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal 2015" = "red", "Natal dispersal 2016" = "orange"))
          
                            CIV_HR_plot
 
@@ -395,8 +417,11 @@ osprey <- osprey%>%
                             IAB <- osprey%>%
                                      filter(ID == 'IAB')
 
-                            IAB_nd <- osprey_nd%>%
-                                     filter(ID == 'IAB')
+                            IAB_nd19 <- osprey_nd%>%
+                                     filter(ID == 'IAB' & time >= '2019-05-05 06:00:00' & time <= '2019-06-10 14:00:00')
+
+                            IAB_nd20 <- osprey_nd%>%
+                                     filter(ID == 'IAB' & time >= '2020-03-16 00:00:00')
 
                   # Plot the winter homerange
                            IAB_HR_plot <- 
@@ -404,10 +429,11 @@ osprey <- osprey%>%
                            geom_spatvector()+
                            geom_polygon(IAB_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            geom_path(data = IAB, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IAB_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IAB_nd19, aes(x = x, y = y, colour = "Natal dispersal 2019"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IAB_nd20, aes(x = x, y = y, colour = "Natal dispersal 2020"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "IAB winter homerange and tracks") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal 2019" = "red", "Natal dispersal 2020" = "orange"))
          
                            IAB_HR_plot
 
@@ -427,8 +453,11 @@ osprey <- osprey%>%
                             IAD <- osprey%>%
                                      filter(ID == 'IAD')
 
-                            IAD_nd <- osprey_nd%>%
-                                     filter(ID == 'IAD')
+                            IAD_nd18 <- osprey_nd%>%
+                                     filter(ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00')
+
+                            IAD_nd19 <- osprey_nd%>%
+                                     filter(ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-05-07 15:00:00')
 
                   # Plot the winter homerange
                            IAD_HR_plot <- 
@@ -436,10 +465,11 @@ osprey <- osprey%>%
                            geom_spatvector()+
                            geom_polygon(IAD_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            geom_path(data = IAD, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IAD_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IAD_nd18, aes(x = x, y = y, colour = "Natal dispersal 2018"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IAD_nd19, aes(x = x, y = y, colour = "Natal dispersal 2019"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "IAD winter homerange and tracks") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal 2018" = "red", "Natal dispersal 2019" = "orange"))
          
                            IAD_HR_plot
 
@@ -623,18 +653,22 @@ osprey <- osprey%>%
                             IFP <- osprey%>%
                                      filter(ID == 'IFP')
 
-                            IFP_nd <- osprey_nd%>%
-                                     filter(ID == 'IFP')
+                            IFP_nd1 <- osprey_nd%>%
+                                     filter(ID == 'IFP' & time >= '2023-04-24 00:00:00' & time <= '2023-04-30 04:00:00')
+
+                            IFP_nd2 <- osprey_nd%>%
+                                     filter(ID == "IFP" & time > '2023-05-16 00:00:00' & time < '2023-06-08 20:00:00')
 
                   # Plot the winter homerange
                            IFP_HR_plot <- 
                            ggplot(IFP_eu_utm) +
                            geom_spatvector()+
                            geom_path(data = IFP, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IFP_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IFP_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IFP_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
                            geom_polygon(IFP_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "IFP winter homerange and tracks") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal first travel" = "red", "Natal dispersal second travel" = "orange"))
          
                            IFP_HR_plot
