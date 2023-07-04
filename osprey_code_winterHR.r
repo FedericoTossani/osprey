@@ -242,9 +242,9 @@ osprey <- osprey%>%
                            CAM_HR_plot <- 
                            ggplot(CAM_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(CAM_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            geom_path(data = CAM, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CAM_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(CAM_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "CAM winter homerange and tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
@@ -258,7 +258,7 @@ osprey <- osprey%>%
                            CBK_eu_utm <- terra::project(CBK_eu, proj_crs)
 
                  # get CBK winter HR
-                            CBK_winter_HR <- getverticeshr(winter_HR$CBK, percent = 50) # 50% is the value to obtain the core area of the HR
+                            CBK_winter_HR <- getverticeshr(winter_HR$CBK) # 50% is the value to obtain the core area of the HR
                             CBK_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -354,7 +354,7 @@ osprey <- osprey%>%
                            H7_eu_utm <- terra::project(H7_eu, proj_crs)
 
                  # get H7 winter HR
-                            H7_winter_HR <- getverticeshr(winter_HR$H7, percent = 50) # 50% is the value to obtain the core area of the HR
+                            H7_winter_HR <- getverticeshr(winter_HR$H7) # 50% is the value to obtain the core area of the HR
                             H7_winter_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
@@ -370,9 +370,9 @@ osprey <- osprey%>%
                            H7_HR_plot <- 
                            ggplot(H7_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(H7_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            geom_path(data = H7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = H7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(H7_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "H7 winter homerange and tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
