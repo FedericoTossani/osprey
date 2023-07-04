@@ -435,22 +435,22 @@
          plot(table(diff(data$time)), xlim = c(0, 1000),
          xlab = "time interval (min)", ylab = "count")
 
+ & time <= "2017-07-27 20:00:00"
 
+  # use this graph to check for departure dates 
+        osp <- osprey%>%
+            filter(ID == "IBK" & time >= "2020-06-12 05:00:00")
 
-# H7 track
+        osp_lat_time <-
+        ggplot(osp, aes(time, lat)) +
+        geom_point(size = 0.5) +
+        geom_path()
 
-h7 <- osprey%>%
-filter(ID == "IBK")%>%
-group_by(date)
+        osp_lon_time <-
+        ggplot(osp, aes(time, lon)) +
+        geom_point(size = 0.5) +
+        geom_path()
 
-
-h7_track <- 
-ggplot(ibk_eu) +
-geom_spatvector()+
-  geom_path(data = h7, aes(x = lon, y = lat), 
-            linewidth = 0.5, lineend = "round") +
-  labs(x = " ", y = " ", title = "IBK inividual track") +
-  theme_minimal() +
-  theme(legend.position = "none")
-
-h7_track
+        osp_lon_lat <- ggarrange(osp_lon_time, osp_lat_time, ncol = 1, nrow = 2)
+         
+        osp_lon_lat
