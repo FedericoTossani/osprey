@@ -174,8 +174,7 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   ggsave( "osprey_nd.jpg", plot = osprey_track)
 
 
-             # H7 
-         
+# H7 
                   # First let's crop 
                            h7_ext <- ext(c(-7.0000, 8.50000, 35.5000, 45.00000))
                            h7_eu <- crop(countries, h7_ext)
@@ -199,8 +198,7 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   ggsave( "h7_nd.jpg", plot = h7_track)
 
 
-             # CIV
-         
+# CIV
                   # First let's crop 
                            civ_ext <- ext(c(5.0000, 12.0000, 36.0000, 44.00000))
                            civ_eu <- crop(countries, civ_ext)
@@ -244,8 +242,7 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   ggsave( "civ_all_nd.jpg", plot = civ_all_nd)
 
 
-            # CBK
-         
+# CBK
                   # First let's crop 
                            cbk_ext <- ext(c(7.0000, 12.5000, 37.5000, 44.00000))
                            cbk_eu <- crop(countries, cbk_ext)
@@ -269,10 +266,8 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   ggsave( "cbk_nd.jpg", plot = cbk_track)
 
 
-            # E7
-         
+# E7
                   # First let's crop
-          
                            e7_ext <- ext(c(-1.00000, 17.5000, 36.9409, 49.00000))
                            e7_eu <- crop(countries, e7_ext)
                            e7_eu_utm <- terra::project(e7_eu, proj_crs)
@@ -295,10 +290,8 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   ggsave( "e7_nd.jpg", plot = e7_track)
 
 
-             # A7
-         
+# A7
                   # First let's crop
-          
                            a7_ext <- ext(c(7.00000, 17.50000, 40.00000, 46.50000 ))
                            a7_eu <- crop(countries, a7_ext)
                            a7_eu_utm <- terra::project(a7_eu, proj_crs)
@@ -321,10 +314,8 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   ggsave( "a7_nd.jpg", plot = a7_track)
 
 
-             # IAD
-         
+# IAD
                   # First let's crop
-          
                            iad_ext <- ext(c(1.50000, 19.50000, 38.00000, 54.00000 ))
                            iad_eu <- crop(countries, iad_ext)
                            iad_eu_utm <- terra::project(iad_eu, proj_crs)
@@ -367,10 +358,8 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   iad_all_nd <- ggarrange(iad_track18, iad_track19, ncol = 2, nrow = 1)
                   ggsave( "iad_all_nd.jpg", plot = iad_all_nd)
 
-             # IAB
-         
+# IAB
                   # First let's crop
-          
                            iab_ext <- ext(c(7.00000, 17.50000, 37.00000, 45.00000 ))
                            iab_eu <- crop(countries, iab_ext)
                            iab_eu_utm <- terra::project(iab_eu, proj_crs)
@@ -392,10 +381,8 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                  # save the plot to the working directory 
                   ggsave( "iab_nd.jpg", plot = iab_track)
 
-             # ICZ
-         
+# ICZ
                   # First let's crop
-          
                            icz_ext <- ext(c(10.00000, 16.00000, 37.00000, 44.00000 ))
                            icz_eu <- crop(countries, icz_ext)
                            icz_eu_utm <- terra::project(icz_eu, proj_crs)
@@ -417,10 +404,8 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                  # save the plot to the working directory 
                   ggsave( "icz_nd.jpg", plot = icz_track)
 
-             # IBS
-                                    
+# IBS      
                   # First let's crop
-          
                            ibs_ext <- ext(c(2.00000, 21.00000, 39.00000, 48.00000 ))
                            ibs_eu <- crop(countries, ibs_ext)
                            ibs_eu_utm <- terra::project(ibs_eu, proj_crs)
@@ -442,10 +427,8 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   ggsave( "ibs_nd.jpg", plot = ibs_track)
 
 
-             # IBH
-         
+# IBH
                   # First let's crop
-          
                            ibh_ext <- ext(c(9.00000, 16.50000, 36.50000, 45.50000))
                            ibh_eu <- crop(countries, ibh_ext)
                            ibh_eu_utm <- terra::project(ibh_eu, proj_crs)
@@ -467,11 +450,9 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                  # save the plot to the working directory 
                   ggsave( "ibh_nd.jpg", plot = ibh_track)
 
-             # IBK
-                  # residente
-         
+# IBK
+# residente
                   # First let's crop
-          
                            ibk_ext <- ext(c(9.00000, 12.00000, 42.00000, 43.50000))
                            ibk_eu <- crop(countries, ibk_ext)
                            ibk_eu_utm <- terra::project(ibk_eu, proj_crs)
@@ -493,10 +474,8 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                  # save the plot to the working directory 
                   ggsave( "ibk_nd.jpg", plot = ibk_track)
 
-             # IFP
-         
+# IFP
                   # First let's crop
-          
                            ifp_ext <- ext(c(4.00000, 17.00000, 41.00000, 45.00000))
                            ifp_eu <- crop(countries, ifp_ext)
                            ifp_eu_utm <- terra::project(ifp_eu, proj_crs)
@@ -518,13 +497,13 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                  # save the plot to the working directory 
                   ggsave( "ifp_nd.jpg", plot = ifp_track)
 
-         # ND track da definire
-         
-             # IBI
-                  # residente
-         
+         ########################
+         # ND track da definire #
+         ########################
+
+# IBI
+# residente
                   # First let's crop
-          
                            ibi_ext <- ext(c(6.50000, 13.00000, 41.50000, 45.00000))
                            ibi_eu <- crop(countries, ibi_ext)
                            ibi_eu_utm <- terra::project(ibi_eu, proj_crs)
@@ -543,11 +522,9 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
          
                   ibi_track
          
-             # CAM 
-                  # residente
-         
-                  # First let's crop
-          
+# CAM 
+# residente
+         # First let's crop
                            cam_ext <- ext(c(5.00000, 12.00000, 39.50000, 44.50000 ))
                            cam_eu <- crop(countries, cam_ext)
                            cam_eu_utm <- terra::project(cam_eu, proj_crs)
@@ -566,10 +543,8 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   
                   cam_track
          
-             # Antares
-         
+# Antares
                   # First let's crop
-          
                            antares_ext <- ext(c(8.50000, 14.50000, 40.50000, 45.50000 ))
                            antares_eu <- crop(countries, antares_ext)
                            antares_eu_utm <- terra::project(antares_eu, proj_crs)
