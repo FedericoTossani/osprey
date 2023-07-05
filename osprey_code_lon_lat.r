@@ -469,7 +469,7 @@
 
   # use this graph to check for departure dates 
         osp <- osprey%>%
-            filter(ID == "Antares" & time >= "2016-03-19 13:00:00" & time <= "2016-05-23 14:00:00")
+            filter(ID == "Antares" & time >= "2016-03-15 10:30:00" & time <= "2016-07-01 00:00:00")
 
         osp_lat_time <-
         ggplot(osp, aes(time, lat)) +
