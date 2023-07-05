@@ -139,8 +139,8 @@ osprey_nd <- osprey%>%
                          ID == 'IAB' & time >= '2019-05-05 06:00:00' & time <= '2019-06-10 14:00:00' | ID == 'IAB' & time >= '2020-03-16 00:00:00' |
                          ID == "CAM" & time >= "2016-04-14 06:00:00" & time <= "2016-04-19 20:00:00" | ID == "CAM" & time >= "2016-05-03 08:00:00" & time <= "2016-05-06 18:00:00" | ID == "CAM" & time >= "2016-05-20 05:00:00" & time <= "2016-05-24 18:00:00" | ID == "CAM" & time >= "2016-07-02 23:00:00" & time <= "2016-07-06 20:00:00" |
                          ID == "Antares" & time >= "2016-03-19 00:00:00" & time <= "2016-06-29 00:00:00" |
-                         ID == "IBI" & time >= "2017-07-21 05:00:00" & time <= "2017-07-27 20:00:00" |
-                         ID == "Antares" & time >= "2016-03-19 13:00:00" & time >= "2016-05-23 14:00:00"
+                         ID == "IBI" & time >= "2017-07-21 05:00:00" & time <= "2017-07-27 20:00:00" #|
+                         #ID == "Antares" & time >= "2016-03-19 13:00:00" & time >= "2016-05-23 14:00:00"
                         )
 
 
@@ -212,6 +212,8 @@ osprey_nd <- osprey%>%
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
          
                            A7_HR_plot
+
+                   # ggsave("A7_HR_ND_plot.jpg", plot = A7_HR_plot)
          
 # "Antares" 
           # Messy track, difficult to find separete travel
@@ -238,13 +240,15 @@ osprey_nd <- osprey%>%
                            ggplot(Antares_eu_utm) +
                            geom_spatvector()+
                            geom_path(data = Antares, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(Antares_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            geom_path(data = Antares_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(Antares_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "Antares winter homerange and tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
          
                            Antares_HR_plot
+
+                   # ggsave("Antares_HR_ND_plot.jpg", plot = Antares_HR_plot)
 
 # "CAM"    
                   # First let's crop
@@ -290,6 +294,8 @@ osprey_nd <- osprey%>%
          
                            CAM_HR_plot
 
+                   # ggsave("CAM_HR_ND_plot.jpg", plot = CAM_HR_plot)
+
 # "CBK"     
           # Doesn't work: Errore in re[[i]] : subscript fuori limite
                   # First let's crop
@@ -314,7 +320,7 @@ osprey_nd <- osprey%>%
                            CBK_HR_plot <- 
                            ggplot(CBK_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(CBK_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           #geom_polygon(CBK_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            geom_path(data = CBK, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CBK_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "CBK winter homerange and tracks") +
@@ -322,6 +328,8 @@ osprey_nd <- osprey%>%
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
          
                            CBK_HR_plot
+
+                   # ggsave("CBK_HR_ND_plot.jpg", plot = CBK_HR_plot)
 
 # "CIV"     
           # Doesn't work: Errore in re[[i]] : subscript fuori limite
@@ -360,6 +368,8 @@ osprey_nd <- osprey%>%
          
                            CIV_HR_plot
 
+                   # ggsave("CIV_HR_ND_plot.jpg", plot = CIV_HR_plot)
+
 # "E7"     
                   # First let's crop
                            E7_ext <- ext(c(-1.00000, 17.5000, 36.9409, 49.00000))
@@ -392,6 +402,8 @@ osprey_nd <- osprey%>%
          
                            E7_HR_plot
 
+                   # ggsave("E7_HR_ND_plot.jpg", plot = E7_HR_plot)
+
 # "H7"      
                   # First let's crop
                            H7_ext <- ext(c(-7.0000, 8.50000, 35.5000, 45.00000))
@@ -423,6 +435,8 @@ osprey_nd <- osprey%>%
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
          
                            H7_HR_plot
+
+                   # ggsave("H7_HR_ND_plot.jpg", plot = H7_HR_plot)
 
 # "IAB"     
                   # First let's crop
@@ -460,6 +474,8 @@ osprey_nd <- osprey%>%
          
                            IAB_HR_plot
 
+                   # ggsave("IAB_HR_ND_plot.jpg", plot = IAB_HR_plot)
+
 # "IAD"    
                   # First let's crop
                            IAD_ext <- ext(c(1.50000, 19.50000, 38.00000, 54.00000 ))
@@ -496,6 +512,8 @@ osprey_nd <- osprey%>%
          
                            IAD_HR_plot
 
+                   # ggsave("IAD_HR_ND_plot.jpg", plot = IAD_HR_plot)
+
 # "IBH"     
                   # First let's crop
                            IBH_ext <- ext(c(9.00000, 16.50000, 36.50000, 45.50000))
@@ -523,7 +541,7 @@ osprey_nd <- osprey%>%
                            IBH_HR_plot <- 
                            ggplot(IBH_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(IBH_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           #geom_polygon(IBH_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            geom_path(data = IBH, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IBH_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "IBH winter homerange and tracks") +
@@ -531,6 +549,8 @@ osprey_nd <- osprey%>%
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
          
                            IBH_HR_plot
+
+                   # ggsave("IBH_HR_ND_plot.jpg", plot = IBH_HR_plot)
 
 # "IBI"    
                   # First let's crop
@@ -564,9 +584,11 @@ osprey_nd <- osprey%>%
          
                            IBI_HR_plot
 
+                   # ggsave("IBI_HR_ND_plot.jpg", plot = IBI_HR_plot)
+
 # "IBK"    
                   # First let's crop
-                           IBK_ext <- ext(c(9.00000, 12.00000, 42.00000, 43.50000))
+                           IBK_ext <- ext(c(9.00000, 12.50000, 41.50000, 44.50000))
                            IBK_eu <- crop(countries, IBK_ext)
                            IBK_eu_utm <- terra::project(IBK_eu, proj_crs)
 
@@ -595,6 +617,8 @@ osprey_nd <- osprey%>%
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
          
                            IBK_HR_plot
+
+                   # ggsave("IBK_HR_ND_plot.jpg", plot = IBK_HR_plot)
 
 # "IBS"     
                   # First let's crop
@@ -628,6 +652,8 @@ osprey_nd <- osprey%>%
          
                            IBS_HR_plot
 
+                   # ggsave("IBS_HR_ND_plot.jpg", plot = IBS_HR_plot)
+
 # "ICZ"     
                   # First let's crop
                            ICZ_ext <- ext(c(10.00000, 16.00000, 37.00000, 44.00000 ))
@@ -660,9 +686,11 @@ osprey_nd <- osprey%>%
          
                            ICZ_HR_plot
 
+                   # ggsave("ICZ_HR_ND_plot.jpg", plot = ICZ_HR_plot)
+
 # "IFP"
                   # First let's crop
-                           IFP_ext <- ext(c(4.00000, 17.00000, 41.00000, 45.00000))
+                           IFP_ext <- ext(c(4.00000, 17.00000, 41.00000, 46.00000))
                            IFP_eu <- crop(countries, IFP_ext)
                            IFP_eu_utm <- terra::project(IFP_eu, proj_crs)
 
@@ -695,3 +723,5 @@ osprey_nd <- osprey%>%
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal first travel" = "red", "Natal dispersal second travel" = "orange"))
          
                            IFP_HR_plot
+
+                   # ggsave("IFP_HR_ND_plot.jpg", plot = IFP_HR_plot)
