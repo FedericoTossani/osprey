@@ -143,7 +143,8 @@
         h7_lon_time <-
         ggplot(h7, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "H7 longitude and latitude movement graph")
 
         h7_lon_lat <- ggarrange(h7_lon_time, h7_lat_time, ncol = 1, nrow = 2)
          
@@ -167,7 +168,8 @@
         cbk_lon_time <-
         ggplot(cbk, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "CBK longitude and latitude movement graph")
 
         cbk_lon_lat <- ggarrange(cbk_lon_time, cbk_lat_time, ncol = 1, nrow = 2)
      
@@ -188,7 +190,8 @@
         civ_lon_time <-
         ggplot(civ, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "CIV longitude and latitude movement graph")
 
         civ_lon_lat <- ggarrange(civ_lon_time, civ_lat_time, ncol = 1, nrow = 2)
      
@@ -208,7 +211,8 @@
         e7_lon_time <-
         ggplot(e7, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "E7 longitude and latitude movement graph")
 
         e7_lon_lat <- ggarrange(e7_lon_time, e7_lat_time, ncol = 1, nrow = 2)
      
@@ -228,7 +232,8 @@
         a7_lon_time <-
         ggplot(a7, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "A7 longitude and latitude movement graph")
 
         a7_lon_lat <- ggarrange(a7_lon_time, a7_lat_time, ncol = 1, nrow = 2)
      
@@ -251,7 +256,8 @@
         antares_lon_time <-
         ggplot(antares, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "Antares longitude and latitude movement graph")
 
         antares_lon_lat <- ggarrange(antares_lon_time, antares_lat_time, ncol = 1, nrow = 2)
      
@@ -271,7 +277,8 @@
         iad_lon_time <-
         ggplot(iad, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "IAD longitude and latitude movement graph")
 
         iad_lon_lat <- ggarrange(iad_lon_time, iad_lat_time, ncol = 1, nrow = 2)
      
@@ -292,9 +299,12 @@
         cam_lon_time <-
         ggplot(cam, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "CAM longitude and latitude movement graph")
 
         cam_lon_lat <- grid.arrange(cam_lon_time, cam_lat_time, nrow=2)
+
+      #  ggsave("cam_lon_lat.jpg", plot=cam_lon_lat)
 
   # IBI
 # trattalo come residente
@@ -310,9 +320,12 @@
         ibi_lon_time <-
         ggplot(ibi, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "IBI longitude and latitude movement graph")
 
         ibi_lon_lat <- grid.arrange(ibi_lon_time, ibi_lat_time, nrow=2)
+
+      #  ggsave("ibi_lon_lat.jpg", plot=ibi_lon_lat)
 
   # IAB     
         iab <- osprey%>%
@@ -326,9 +339,12 @@
         iab_lon_time <-
         ggplot(iab, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "IAB longitude and latitude movement graph")
 
-        grid.arrange(iab_lon_time, iab_lat_time, nrow=2)
+        iab_lon_lat <- grid.arrange(iab_lon_time, iab_lat_time, nrow=2)
+
+      #  ggsave("iab_lon_lat.jpg", plot=iab_lon_lat)
 
   # ICZ  
         icz <- osprey%>%
@@ -342,9 +358,12 @@
         icz_lon_time <-
         ggplot(icz, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "ICZ longitude and latitude movement graph")
 
-        grid.arrange(icz_lon_time, icz_lat_time, nrow=2)
+        icz_lon_lat <- grid.arrange(icz_lon_time, icz_lat_time, nrow=2)
+
+      #  ggsave("icz_lon_lat.jpg", plot=icz_lon_lat)
 
   # IBS  
         ibs <- osprey%>%
@@ -358,9 +377,12 @@
         ibs_lon_time <-
         ggplot(ibs, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "IBS longitude and latitude movement graph")
 
-        grid.arrange(ibs_lon_time, ibs_lat_time, nrow=2)
+        ibs_lon_lat <- grid.arrange(ibs_lon_time, ibs_lat_time, nrow=2)
+
+      #  ggsave("ibs_lon_lat.jpg", plot=ibs_lon_lat)
 
   # IBH 
         ibh <- osprey%>%
@@ -374,9 +396,12 @@
         ibh_lon_time <-
         ggplot(ibh, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "IBH longitude and latitude movement graph")
 
-        grid.arrange(ibh_lon_time, ibh_lat_time, nrow=2)
+        ibh_lon_lat <- grid.arrange(ibh_lon_time, ibh_lat_time, nrow=2)
+
+      #  ggsave("ibh_lon_lat.jpg", plot=ibh_lon_lat)
 
   # IBK
         ibk <- osprey%>%
@@ -390,9 +415,12 @@
         ibk_lon_time <-
         ggplot(ibk, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "IBK longitude and latitude movement graph")
 
-        grid.arrange(ibk_lon_time, ibk_lat_time, nrow=2)
+        ibk_lon_lat <- grid.arrange(ibk_lon_time, ibk_lat_time, nrow=2)
+
+      #  ggsave("ibk_lon_lat.jpg", plot=ibk_lon_lat)
 
 
   # IFP 
@@ -407,7 +435,8 @@
         ifp_lon_time <-
         ggplot(ifp, aes(time, lon)) +
         geom_point(size = 0.5) +
-        geom_path()
+        geom_path()+
+        labs(x = " ", y = " ", title = "IFP longitude and latitude movement graph")
 
         ifp_lon_lat <- ggarrange(ifp_lon_time, ifp_lat_time, ncol = 1, nrow = 2)
          
