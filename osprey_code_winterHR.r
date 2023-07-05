@@ -139,8 +139,8 @@ osprey_nd <- osprey%>%
                          ID == 'IAB' & time >= '2019-05-05 06:00:00' & time <= '2019-06-10 14:00:00' | ID == 'IAB' & time >= '2020-03-16 00:00:00' |
                          ID == "CAM" & time >= "2016-04-14 06:00:00" & time <= "2016-04-19 20:00:00" | ID == "CAM" & time >= "2016-05-03 08:00:00" & time <= "2016-05-06 18:00:00" | ID == "CAM" & time >= "2016-05-20 05:00:00" & time <= "2016-05-24 18:00:00" | ID == "CAM" & time >= "2016-07-02 23:00:00" & time <= "2016-07-06 20:00:00" |
                          ID == "Antares" & time >= "2016-03-19 00:00:00" & time <= "2016-06-29 00:00:00" |
-                         ID == "IBI" & time >= "2017-07-21 05:00:00" & time <= "2017-07-27 20:00:00" #|
-                         #ID == "Antares" & time >= "2016-03-19 13:00:00" & time >= "2016-05-23 14:00:00"
+                         ID == "IBI" & time >= "2017-07-21 05:00:00" & time <= "2017-07-27 20:00:00" |
+                         ID == "Antares" & time >= "2015-08-15 11:00:00" & time <= "2015-08-18 19:00:00" | ID == "Antares" & time >= "2015-09-08 10:30:00" & time <= "2015-09-13 20:00:00" | ID == "Antares" & time >= "2016-03-19 13:00:00" & time <= "2016-06-28 18:00:00" 
                         )
 
 
@@ -232,19 +232,27 @@ osprey_nd <- osprey%>%
                             Antares <- osprey%>%
                                      filter(ID == 'Antares')
 
-                            Antares_nd <- osprey_nd%>%
-                                     filter(ID == 'Antares')
+                            Antares_nd15_1 <- osprey_nd%>%
+                                     filter(ID == "Antares" & time >= "2015-08-15 11:00:00" & time <= "2015-08-18 19:00:00")
+
+                            Antares_nd15_2 <- osprey_nd%>%
+                                     filter(ID == "Antares" & time >= "2015-09-08 10:30:00" & time <= "2015-09-13 20:00:00")
+
+                            Antares_nd16 <- osprey_nd%>%
+                                     filter(ID == "Antares" & time >= "2016-03-19 13:00:00" & time <= "2016-06-28 18:00:00" )
 
                   # Plot the winter homerange
                            Antares_HR_plot <- 
                            ggplot(Antares_eu_utm) +
                            geom_spatvector()+
                            geom_path(data = Antares, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = Antares_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = Antares_nd15_1, aes(x = x, y = y, colour = "Natal dispersal 2015 first travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = Antares_nd15_2, aes(x = x, y = y, colour = "Natal dispersal 2015 second travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = Antares_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
                            geom_polygon(Antares_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "Antares winter homerange and tracks") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal 2015 first travel" = "red", "Natal dispersal 2015 second travel" = "orange", "Natal dispersal 2016" = "yellow"))
          
                            Antares_HR_plot
 
