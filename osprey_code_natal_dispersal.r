@@ -118,7 +118,6 @@
                          ID == 'CBK' & time >= '2014-04-08 06:30:00' & time <= '2014-04-12 11:00:00' |
                          ID == 'IAB' & time >= '2019-05-05 06:00:00' & time <= '2019-06-10 14:00:00' | ID == 'IAB' & time >= '2020-03-16 00:00:00' |
                          ID == "CAM" & time >= "2016-04-14 06:00:00" & time <= "2016-04-19 20:00:00" | ID == "CAM" & time >= "2016-05-03 08:00:00" & time <= "2016-05-06 18:00:00" | ID == "CAM" & time >= "2016-05-20 05:00:00" & time <= "2016-05-24 18:00:00" | ID == "CAM" & time >= "2016-07-02 23:00:00" & time <= "2016-07-06 20:00:00" |
-                         ID == "Antares" & time >= "2016-03-19 00:00:00" & time <= "2016-06-29 00:00:00" |
                          ID == "IBI" & time >= "2017-07-21 05:00:00" & time <= "2017-07-27 20:00:00" |
                          ID == "Antares" & time >= "2016-03-19 13:00:00" & time >= "2016-05-23 14:00:00"
                         )
@@ -594,9 +593,80 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   plotltr(osp_ndlt2, "dist")
          
                   osp_ndlt_df <- ld(osp_ndlt2)
-                  
+
+                  osp_ndlt_df <- osp_ndlt_df%>%
+                                    mutate(day = as.Date(date))
          
-         # SUMMARY dfs
+
+# SUMMARY dfs
+
+         summary_distance <- osp_ndlt_df%>%
+                                    group_by(burst, day)%>%
+                                    summarize(minDistxDay = min(dist),
+                                              meanDistxDay = mean(dist),
+                                              maxDistxDay = max(dist))
+
+         summary_id_distance <- summary_distance%>%
+                                    group_by(burst)%>%
+                                    summarize(minDist = min(minDistxDay, na.rm=T),
+                                              meanDist = mean(meanDistxDay, na.rm=T),
+                                              maxDist = max(maxDistxDay, na.rm=T))
+
+
+         # export this table to tex
+         
+                  summary_dt %>%
+                      kable(format = 'latex', booktabs = TRUE, digits =c(1, 1, 1, 1)) 
+
+
+nd_duration <- osp_ndlt_df %>%
+  group_by(burst) %>% 
+  summarize(start = min(date), end = max(date)) %>%
+  mutate(duration = round(difftime(end, start)))
+
+summary_speed <- osp_ndlt_df%>%
+  group_by(burst)%>%
+  mutate(Speed = (dist/1000)/(dt/3600)) %>% 
+  summarize(minSpeed = min(Speed, na.rm=T),
+            meanSpeed = mean(Speed, na.rm=T),
+            maxSpeed = max(Speed, na.rm=T)) 
+
+osp_ndlt_df<- osp_ndlt_df%>%
+  mutate(Speed = (dist/1000)/(dt/3600),
+         deg_turnAngle = rel.angle * (180/pi))
+
+                  
+                  speed_plot <- ggplot(osp_ndlt_df, aes(x = Speed)) +
+                    geom_histogram(binwidth = 1) +
+                    labs(x = "Speed", y = "Frequency") +
+                    theme_bw()
+
+summary_dt <- osp_ndlt_df%>%
+  group_by(burst)%>%
+  mutate(dt = dt/3600) %>% 
+  summarize(minDt = min(dt, na.rm=T),
+            meanDt = mean(dt, na.rm=T),
+            maxDt = max(dt, na.rm=T)) 
+
+
+osp_ndlt_df <- osp_ndlt_df%>%
+                  mutate(deg_turnAngle = rel.angle * (180/pi))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                   # Create an empty list to store the summary data frames:
          
                            osp_summaries <- list()
@@ -613,10 +683,7 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                              summary_dfs[[id]] <- summary_df               # Append the summary data frame to the list
                            }
          
-         totDistxDay = 
-         minDistxDay = 
-         meanDistxDay = 
-         maxDistxDay = 
+
          
          # ---------------------------------------------------------------  #
          
