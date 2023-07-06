@@ -595,7 +595,8 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                   osp_ndlt_df <- ld(osp_ndlt2)
 
                   osp_ndlt_df <- osp_ndlt_df%>%
-                                    mutate(day = as.Date(date))
+                                    mutate(day = as.Date(date),
+                                           distKM = dist/1000)
          
 
 # SUMMARY dfs
@@ -611,6 +612,14 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
                                     summarize(minDist = min(minDistxDay, na.rm=T),
                                               meanDist = mean(meanDistxDay, na.rm=T),
                                               maxDist = max(maxDistxDay, na.rm=T))
+
+
+dist_plot <- ggplot(osp_ndlt_df, aes(x = osp_ndlt_df$distKM)) +
+  geom_histogram(binwidth = 0.1) +
+  xlab("Distance (Km)") +
+  ylab("Count") +
+  ggtitle("Distribution of Distance")
+
 
 
          # export this table to tex
