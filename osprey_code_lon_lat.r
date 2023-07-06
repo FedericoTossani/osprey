@@ -370,12 +370,12 @@
             filter(ID == "IBS")
 
         ibs_lat_time <-
-        ggplot(ibs, aes(time, lat)) +
+        ggplot(ibs, aes(time, y)) +
         geom_point(size = 0.5) +
         geom_path()
 
         ibs_lon_time <-
-        ggplot(ibs, aes(time, lon)) +
+        ggplot(ibs, aes(time, x)) +
         geom_point(size = 0.5) +
         geom_path()+
         labs(x = " ", y = " ", title = "IBS longitude and latitude movement graph")
@@ -465,19 +465,19 @@
          xlab = "time interval (min)", ylab = "count")
 
 
-
+ & time >= "2021-02-08 16:00:00" & time <= "2023-02-28 00:00:00"
 
   # use this graph to check for departure dates 
         osp <- osprey%>%
-            filter(ID == "Antares" & time >= "2016-03-15 10:30:00" & time <= "2016-07-01 00:00:00")
+            filter(ID == "IBS"& time >= "2020-08-07 08:00:00" & time <= "2020-08-18 19:00:00")
 
         osp_lat_time <-
-        ggplot(osp, aes(time, lat)) +
+        ggplot(osp, aes(time, y)) +
         geom_point(size = 0.5) +
         geom_path()
 
         osp_lon_time <-
-        ggplot(osp, aes(time, lon)) +
+        ggplot(osp, aes(time, x)) +
         geom_point(size = 0.5) +
         geom_path()
 
