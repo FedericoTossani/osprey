@@ -615,8 +615,8 @@ osp_nd_v <- vect(osprey_nd, geom = c("x", "y"), crs = "+proj=utm +zone=32 +datum
 
          # export this table to tex
          
-                  summary_dt %>%
-                      kable(format = 'latex', booktabs = TRUE, digits =c(1, 1, 1, 1)) 
+                  summary_id_distance %>%
+                      kable(format = 'latex', booktabs = TRUE, digits = c(1, 2, 2, 2)) 
 
 
 nd_duration <- osp_ndlt_df %>%
