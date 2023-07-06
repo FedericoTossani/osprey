@@ -124,13 +124,13 @@ osprey_nd <- osprey%>%
                   select(-c("day", "month", "year", "m_day", "ext_temp", "signal_interruption_cause", "death_comment"))%>%
                   unique()
 
-         osprey_nd <- osprey%>%
+         osprey_nd <- osprey_nd%>%
                   filter(ID == 'H7' & time > '2015-04-02 05:00:00' & time < '2015-05-10 00:00:00' |
                          ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00' | ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00' | 
                          ID == 'E7' & time > '2016-03-10 05:00:00' |
                          ID == 'A7' & time >= '2017-02-20 00:00:00' |
                          ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00' | ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-05-07 15:00:00' | 
-                         ID == 'IBS' & time > '2022-03-22 00:00:00' & time < '2022-06-04 15:00:00' |
+                         ID == "IBS"& time >= "2020-08-07 08:00:00" & time <= "2020-08-18 19:00:00" | ID == "IBS" & time >= "2021-02-15 09:00:00" & time <= "2021-05-01 16:00:00" | ID == 'IBS' & time > '2022-03-22 00:00:00' & time < '2022-06-04 15:00:00' | ID == "IBS" & time >= "2023-02-08 16:00:00" & time <= "2023-02-28 00:00:00" |
                          ID == 'IBH' & time >= '2022-04-09 06:00:00' |
                          ID == 'IBK' & time >= '2022-01-24 06:44:48' |
                          ID == 'IFP' & time > '2023-04-24 00:00:00' & time < '2023-04-30 04:00:00' | ID == "IFP" & time > '2023-05-16 00:00:00' & time < '2023-06-08 20:00:00' |
@@ -630,7 +630,7 @@ osprey_nd <- osprey%>%
 
 # "IBS"     
                   # First let's crop
-                           IBS_ext <- ext(c(2.00000, 21.00000, 39.00000, 48.00000 ))
+                           IBS_ext <- ext(c(2.00000, 21.00000, 36.50000, 48.00000 ))
                            IBS_eu <- crop(countries, IBS_ext)
                            IBS_eu_utm <- terra::project(IBS_eu, proj_crs)
 
@@ -644,8 +644,17 @@ osprey_nd <- osprey%>%
                             IBS <- osprey%>%
                                      filter(ID == 'IBS')
 
-                            IBS_nd <- osprey_nd%>%
-                                     filter(ID == 'IBS')
+                            IBS_nd20 <- osprey_nd%>%
+                                     filter(ID == "IBS"& time >= "2020-08-07 08:00:00" & time <= "2020-08-18 19:00:00")
+
+                            IBS_nd21 <- osprey_nd%>%
+                                     filter(ID == "IBS" & time >= "2021-02-15 09:00:00" & time <= "2021-05-01 16:00:00")
+
+                            IBS_nd22 <- osprey_nd%>%
+                                     filter(ID == 'IBS' & time > '2022-03-22 00:00:00' & time < '2022-06-04 15:00:00')
+
+                            IBS_nd23 <- osprey_nd%>%
+                                     filter(ID == "IBS" & time >= "2023-02-08 16:00:00" & time <= "2023-02-28 00:00:00")
 
                   # Plot the winter homerange
                            IBS_HR_plot <- 
@@ -653,10 +662,13 @@ osprey_nd <- osprey%>%
                            geom_spatvector()+
                            geom_polygon(IBS_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            geom_path(data = IBS, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IBS_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBS_nd20, aes(x = x, y = y, colour = "Natal dispersal 2020"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBS_nd21, aes(x = x, y = y, colour = "Natal dispersal 2021"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBS_nd22, aes(x = x, y = y, colour = "Natal dispersal 2022"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBS_nd23, aes(x = x, y = y, colour = "Natal dispersal 2023"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "IBS winter homerange and tracks") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal 2020" = "magenta", "Natal dispersal 2021" = "red", "Natal dispersal 2022" = "orange", "Natal dispersal 2023" = "yellow"))
          
                            IBS_HR_plot
 
