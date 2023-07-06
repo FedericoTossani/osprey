@@ -138,13 +138,15 @@
         h7_lat_time <-
         ggplot(h7, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(h7$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         h7_lon_time <-
         ggplot(h7, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(h7$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "H7 longitude and latitude movement graph")
+        labs(title = "H7 longitude and latitude movement graph")
 
         h7_lon_lat <- ggarrange(h7_lon_time, h7_lat_time, ncol = 1, nrow = 2)
          
@@ -163,13 +165,15 @@
         cbk_lat_time <-
         ggplot(cbk, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(cbk$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         cbk_lon_time <-
         ggplot(cbk, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(cbk$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "CBK longitude and latitude movement graph")
+        labs(title = "CBK longitude and latitude movement graph")
 
         cbk_lon_lat <- ggarrange(cbk_lon_time, cbk_lat_time, ncol = 1, nrow = 2)
      
@@ -185,13 +189,15 @@
         civ_lat_time <-
         ggplot(civ, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(civ$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         civ_lon_time <-
         ggplot(civ, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(civ$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "CIV longitude and latitude movement graph")
+        labs(title = "CIV longitude and latitude movement graph")
 
         civ_lon_lat <- ggarrange(civ_lon_time, civ_lat_time, ncol = 1, nrow = 2)
      
@@ -206,13 +212,15 @@
         e7_lat_time <-
         ggplot(e7, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(e7$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         e7_lon_time <-
         ggplot(e7, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(e7$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "E7 longitude and latitude movement graph")
+        labs(title = "E7 longitude and latitude movement graph")
 
         e7_lon_lat <- ggarrange(e7_lon_time, e7_lat_time, ncol = 1, nrow = 2)
      
@@ -227,13 +235,15 @@
         a7_lat_time <-
         ggplot(a7, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(a7$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         a7_lon_time <-
         ggplot(a7, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(a7$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "A7 longitude and latitude movement graph")
+        labs(title = "A7 longitude and latitude movement graph")
 
         a7_lon_lat <- ggarrange(a7_lon_time, a7_lat_time, ncol = 1, nrow = 2)
      
@@ -251,13 +261,15 @@
         antares_lat_time <-
         ggplot(antares, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(antares$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         antares_lon_time <-
         ggplot(antares, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(antares$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "Antares longitude and latitude movement graph")
+        labs(title = "Antares longitude and latitude movement graph")
 
         antares_lon_lat <- ggarrange(antares_lon_time, antares_lat_time, ncol = 1, nrow = 2)
      
@@ -272,14 +284,15 @@
         iad_lat_time <-
         ggplot(iad, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(iad$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         iad_lon_time <-
         ggplot(iad, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(iad$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "IAD longitude and latitude movement graph")
-
+        labs(title = "IAD longitude and latitude movement graph") 
         iad_lon_lat <- ggarrange(iad_lon_time, iad_lat_time, ncol = 1, nrow = 2)
      
       #  ggsave("iad_lon_lat.jpg", plot=iad_lon_lat)
@@ -294,13 +307,15 @@
         cam_lat_time <-
         ggplot(cam, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(cam$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         cam_lon_time <-
         ggplot(cam, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(cam$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "CAM longitude and latitude movement graph")
+        labs(title = "CAM longitude and latitude movement graph")
 
         cam_lon_lat <- grid.arrange(cam_lon_time, cam_lat_time, nrow=2)
 
@@ -315,13 +330,15 @@
         ibi_lat_time <-
         ggplot(ibi, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(ibi$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         ibi_lon_time <-
         ggplot(ibi, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(ibi$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "IBI longitude and latitude movement graph")
+        labs(title = "IBI longitude and latitude movement graph")
 
         ibi_lon_lat <- grid.arrange(ibi_lon_time, ibi_lat_time, nrow=2)
 
@@ -334,13 +351,15 @@
         iab_lat_time <-
         ggplot(iab, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(iab$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         iab_lon_time <-
         ggplot(iab, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(iab$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "IAB longitude and latitude movement graph")
+        labs(title = "IAB longitude and latitude movement graph")
 
         iab_lon_lat <- grid.arrange(iab_lon_time, iab_lat_time, nrow=2)
 
@@ -353,13 +372,15 @@
         icz_lat_time <-
         ggplot(icz, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(icz$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         icz_lon_time <-
         ggplot(icz, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(icz$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "ICZ longitude and latitude movement graph")
+        labs(title = "ICZ longitude and latitude movement graph")
 
         icz_lon_lat <- grid.arrange(icz_lon_time, icz_lat_time, nrow=2)
 
@@ -372,13 +393,15 @@
         ibs_lat_time <-
         ggplot(ibs, aes(time, y)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(ibs$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         ibs_lon_time <-
         ggplot(ibs, aes(time, x)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(ibs$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "IBS longitude and latitude movement graph")
+        labs(title = "IBS longitude and latitude movement graph")
 
         ibs_lon_lat <- grid.arrange(ibs_lon_time, ibs_lat_time, nrow=2)
 
@@ -391,13 +414,15 @@
         ibh_lat_time <-
         ggplot(ibh, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(ibh$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         ibh_lon_time <-
         ggplot(ibh, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(ibh$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "IBH longitude and latitude movement graph")
+        labs(title = "IBH longitude and latitude movement graph")
 
         ibh_lon_lat <- grid.arrange(ibh_lon_time, ibh_lat_time, nrow=2)
 
@@ -410,13 +435,15 @@
         ibk_lat_time <-
         ggplot(ibk, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(ibk$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         ibk_lon_time <-
         ggplot(ibk, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(ibk$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "IBK longitude and latitude movement graph")
+        labs(title = "IBK longitude and latitude movement graph")
 
         ibk_lon_lat <- grid.arrange(ibk_lon_time, ibk_lat_time, nrow=2)
 
@@ -430,13 +457,15 @@
         ifp_lat_time <-
         ggplot(ifp, aes(time, lat)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(ifp$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
         ifp_lon_time <-
         ggplot(ifp, aes(time, lon)) +
         geom_point(size = 0.5) +
+        geom_hline(yintercept = mean(ifp$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(x = " ", y = " ", title = "IFP longitude and latitude movement graph")
+        labs(title = "IFP longitude and latitude movement graph")
 
         ifp_lon_lat <- ggarrange(ifp_lon_time, ifp_lat_time, ncol = 1, nrow = 2)
          
