@@ -334,6 +334,21 @@ tab_ID <- d.ID[[1]]$freq
                   facet_wrap(~season)
 
 
+# summary lon lat delta
+
+lon_lat_summary <- osprey%>%
+                           arrange(ID)%>%
+                           group_by(ID)%>%
+                           summarize(dlon = max(osprey$lon)-lag(osprey$lon),
+                                     dlat = max(osprey$lat)-lag(osprey$lat))
+
+lon_lat_summary <- osprey %>%
+         group_by(ID)%>%
+         mutate(lat_delta = c(0, diff(osprey$lat)),
+                    lon_delta = c(0, diff(osprey$lon))) %>%
+           summarise(max_lat_delta = max(lat_delta),
+                     max_lon_delta = max(lon_delta))
+
 
 # visualize monitoring duration per individual
          n_summary <- osprey %>%
