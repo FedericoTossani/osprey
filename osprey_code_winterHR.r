@@ -126,7 +126,7 @@ osprey_nd <- osprey%>%
 
          osprey_nd <- osprey_nd%>%
                   filter(ID == 'H7' & time > '2015-04-02 05:00:00' & time < '2015-05-10 00:00:00' |
-                         ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00' | ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00' | 
+                         ID == "CIV" & time >= "2014-08-16 06:00:00" & time <= "2014-10-22 12:00:00" | ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00' | ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00' | 
                          ID == 'E7' & time > '2016-03-10 05:00:00' |
                          ID == 'A7' & time >= '2017-02-20 00:00:00' |
                          ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00' | ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-05-07 15:00:00' | 
@@ -356,6 +356,9 @@ osprey_nd <- osprey%>%
                             CIV <- osprey%>%
                                      filter(ID == 'CIV')
 
+                            CIV_nd14 <- osprey_nd%>%
+                                     filter(ID == "CIV" & time >= "2014-08-16 06:00:00" & time <= "2014-10-22 12:00:00")
+
                             CIV_nd15 <- osprey_nd%>%
                                      filter(ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00')
 
@@ -368,11 +371,12 @@ osprey_nd <- osprey%>%
                            geom_spatvector()+
                            # geom_polygon(CIV_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            geom_path(data = CIV, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CIV_nd14, aes(x = x, y = y, colour = "Natal dispersal 2014"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CIV_nd15, aes(x = x, y = y, colour = "Natal dispersal 2015"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CIV_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "CIV winter homerange and tracks") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal 2015" = "red", "Natal dispersal 2016" = "orange"))
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal 2015" = "magenta", "Natal dispersal 2015" = "red", "Natal dispersal 2016" = "orange"))
          
                            CIV_HR_plot
 
