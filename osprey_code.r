@@ -235,6 +235,25 @@ Desc(osprey)
 d.ID <- Desc(osprey$ID, maxrows=15)
 tab_ID <- d.ID[[1]]$freq
 
+         dates <- osprey%>%
+                  group_by(ID)%>%
+                  summarize(start = min(time), end = max(time))%>% 
+                  dplyr::select(ID, start, end)%>%
+                  unique()
+
+tab_ID <- tab_ID%>%
+                  left_join(dates, by = c("level" = "ID"))%>%
+                  mutate(duration = round(difftime(end, start)))
+
+tab_ID <- tab_ID%>%
+         mutate(perc = perc*100,
+                cumperc = cumperc*100)
+
+# export this table to tex
+
+         tab_ID %>%
+             kable(format = 'latex', booktabs = TRUE, digits = c(0,0,1,0,1,0,0,0)) 
+
 ########################
 ## Mean fixes per day ##
 ########################
@@ -362,11 +381,9 @@ lon_lat_summary <- osprey %>%
                            drop_na(signal_interruption_cause)%>%
                            unique()
 
-
          n_summary <- n_summary%>%
                            left_join(osprey_dead, by = c("ID"))%>% 
                            mutate(ID = factor(ID, levels = ID))
-
 
          Start <- min(n_summary$start)
          End <- max(n_summary$end)
@@ -375,7 +392,7 @@ lon_lat_summary <- osprey %>%
 
          bystart <- with(n_summary, reorder(ID, start))
 
-         ggplot(n_summary, aes(y = ID, xmin = start, xmax = end)) + 
+         ggplot(n_summary, aes(y = ID, xmin = start, xmax = end, colour = )) + 
          geom_linerange(linewidth = 1)+
          geom_jitter(data = n_summary[n_summary$signal_interruption_cause == "Death", ], aes(x = start, y = ID), position = position_nudge(y = 0.3), shape = "†", size=4, color="black")+
          geom_text(aes(x = start, y = ID, label = ID), nudge_y = -0.25) +
@@ -388,13 +405,4 @@ lon_lat_summary <- osprey %>%
                axis.title.y = element_text(color="#000000", size=13, face="bold"))
 
          ggsave( "mon_duration.jpg", plot = last_plot())
-
-
-
-
-
-
-
-
-
 
