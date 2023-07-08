@@ -11,6 +11,12 @@
 
           source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_data_import_selection.r")
 
+# ===================================== #
+#          3.Basemaps & extent          #
+# ===================================== #
+
+          source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_basemap_extent.r")
+
 
 ####################
 # Homerange's List #
@@ -19,12 +25,6 @@
 # KernelUD al 95 e al 50 (è la core area) 
 
 # Here I will calculate the homerange of Ospreys during the winter before the beginning of natal dispersal movements
-
-# Let's import countries boundaries shapefile
-                  countries <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
-                  osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
-                  osprey_eu <- crop(countries, osprey_ext)
-                  osprey_eu_utm <- terra::project(osprey_eu, proj_crs)
 
 # WinterHR
 
@@ -48,11 +48,6 @@
 
           
 # "A7"
-                  # First let's crop
-          
-                           A7_ext <- ext(c(7.00000, 17.50000, 40.00000, 46.50000 ))
-                           A7_eu <- crop(countries, A7_ext)
-                           A7_eu_utm <- terra::project(A7_eu, proj_crs)
 
                   # get A7 winter HR
                            A7_winter_HR <- getverticeshr(winter_HR$A7, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -85,10 +80,6 @@
          
 # "Antares" 
           # Messy track, difficult to find separete travel
-                  # First let's crop
-                           Antares_ext <- ext(c(8.50000, 14.50000, 40.50000, 45.50000 ))
-                           Antares_eu <- crop(countries, Antares_ext)
-                           Antares_eu_utm <- terra::project(Antares_eu, proj_crs)
 
                  # get Antares winter HR
                             Antares_winter_HR <- getverticeshr(winter_HR$Antares, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -126,11 +117,7 @@
 
                    # ggsave("Antares_HR_ND_plot.jpg", plot = Antares_HR_plot)
 
-# "CAM"    
-                  # First let's crop
-                           CAM_ext <- ext(c(5.00000, 12.00000, 39.50000, 44.50000 ))
-                           CAM_eu <- crop(countries, CAM_ext)
-                           CAM_eu_utm <- terra::project(CAM_eu, proj_crs)
+# "CAM"  
 
                  # get CAM winter HR
                             CAM_winter_HR <- getverticeshr(winter_HR$CAM, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -174,10 +161,6 @@
 
 # "CBK"     
           # Doesn't work: Errore in re[[i]] : subscript fuori limite
-                  # First let's crop
-                           CBK_ext <- ext(c(7.0000, 12.5000, 37.5000, 44.00000))
-                           CBK_eu <- crop(countries, CBK_ext)
-                           CBK_eu_utm <- terra::project(CBK_eu, proj_crs)
 
                  # get CBK winter HR
                             CBK_winter_HR <- getverticeshr(winter_HR$CBK) # 50% is the value to obtain the core area of the HR
@@ -209,10 +192,6 @@
 
 # "CIV"     
           # Doesn't work: Errore in re[[i]] : subscript fuori limite
-                  # First let's crop
-                           CIV_ext <- ext(c(5.0000, 12.0000, 36.0000, 44.00000))
-                           CIV_eu <- crop(countries, CIV_ext)
-                           CIV_eu_utm <- terra::project(CIV_eu, proj_crs)
 
                  # get CIV winter HR
                             CIV_winter_HR <- getverticeshr(winter_HR$CIV, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -251,10 +230,6 @@
                    # ggsave("CIV_HR_ND_plot.jpg", plot = CIV_HR_plot)
 
 # "E7"     
-                  # First let's crop
-                           E7_ext <- ext(c(-1.00000, 17.5000, 36.9409, 49.00000))
-                           E7_eu <- crop(countries, E7_ext)
-                           E7_eu_utm <- terra::project(E7_eu, proj_crs)
 
                  # get E7 winter HR
                             E7_winter_HR <- getverticeshr(winter_HR$E7, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -284,11 +259,7 @@
 
                    # ggsave("E7_HR_ND_plot.jpg", plot = E7_HR_plot)
 
-# "H7"      
-                  # First let's crop
-                           H7_ext <- ext(c(-7.0000, 8.50000, 35.5000, 45.00000))
-                           H7_eu <- crop(countries, H7_ext)
-                           H7_eu_utm <- terra::project(H7_eu, proj_crs)
+# "H7"
 
                  # get H7 winter HR
                             H7_winter_HR <- getverticeshr(winter_HR$H7) # 50% is the value to obtain the core area of the HR
@@ -318,11 +289,7 @@
 
                    # ggsave("H7_HR_ND_plot.jpg", plot = H7_HR_plot)
 
-# "IAB"     
-                  # First let's crop
-                           IAB_ext <- ext(c(7.00000, 17.50000, 37.00000, 45.00000 ))
-                           IAB_eu <- crop(countries, IAB_ext)
-                           IAB_eu_utm <- terra::project(IAB_eu, proj_crs)
+# "IAB"
 
                  # get IAB winter HR
                             IAB_winter_HR <- getverticeshr(winter_HR$IAB, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -356,11 +323,7 @@
 
                    # ggsave("IAB_HR_ND_plot.jpg", plot = IAB_HR_plot)
 
-# "IAD"    
-                  # First let's crop
-                           IAD_ext <- ext(c(1.50000, 19.50000, 38.00000, 54.00000 ))
-                           IAD_eu <- crop(countries, IAD_ext)
-                           IAD_eu_utm <- terra::project(IAD_eu, proj_crs)
+# "IAD"
 
                  # get IAD winter HR
                             IAD_winter_HR <- getverticeshr(winter_HR$IAD, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -394,11 +357,7 @@
 
                    # ggsave("IAD_HR_ND_plot.jpg", plot = IAD_HR_plot)
 
-# "IBH"     
-                  # First let's crop
-                           IBH_ext <- ext(c(9.00000, 16.50000, 36.50000, 45.50000))
-                           IBH_eu <- crop(countries, IBH_ext)
-                           IBH_eu_utm <- terra::project(IBH_eu, proj_crs)
+# "IBH"
 
                  # get IBH winter HR
                             IBH_winter_HR <- getverticeshr(winter_HR$IBH) # 50% is the value to obtain the core area of the HR
@@ -432,11 +391,7 @@
 
                    # ggsave("IBH_HR_ND_plot.jpg", plot = IBH_HR_plot)
 
-# "IBI"    
-                  # First let's crop
-                           IBI_ext <- ext(c(6.50000, 13.00000, 41.50000, 45.00000))
-                           IBI_eu <- crop(countries, IBI_ext)
-                           IBI_eu_utm <- terra::project(IBI_eu, proj_crs)
+# "IBI"
 
                  # get IBI winter HR
                             IBI_winter_HR <- getverticeshr(winter_HR$IBI, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -466,11 +421,7 @@
 
                    # ggsave("IBI_HR_ND_plot.jpg", plot = IBI_HR_plot)
 
-# "IBK"    
-                  # First let's crop
-                           IBK_ext <- ext(c(9.00000, 12.50000, 41.50000, 44.50000))
-                           IBK_eu <- crop(countries, IBK_ext)
-                           IBK_eu_utm <- terra::project(IBK_eu, proj_crs)
+# "IBK"
 
                  # get IBK winter HR
                             IBK_winter_HR <- getverticeshr(winter_HR$IBK, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -500,11 +451,7 @@
 
                    # ggsave("IBK_HR_ND_plot.jpg", plot = IBK_HR_plot)
 
-# "IBS"     
-                  # First let's crop
-                           IBS_ext <- ext(c(2.00000, 21.00000, 36.50000, 48.00000 ))
-                           IBS_eu <- crop(countries, IBS_ext)
-                           IBS_eu_utm <- terra::project(IBS_eu, proj_crs)
+# "IBS"
 
                  # get IBS winter HR
                             IBS_winter_HR <- getverticeshr(winter_HR$IBS, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -546,11 +493,7 @@
 
                    # ggsave("IBS_HR_ND_plot.jpg", plot = IBS_HR_plot)
 
-# "ICZ"     
-                  # First let's crop
-                           ICZ_ext <- ext(c(10.00000, 16.00000, 37.00000, 44.00000 ))
-                           ICZ_eu <- crop(countries, ICZ_ext)
-                           ICZ_eu_utm <- terra::project(ICZ_eu, proj_crs)
+# "ICZ"
 
                  # get ICZ winter HR
                             ICZ_winter_HR <- getverticeshr(winter_HR$ICZ, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -581,10 +524,6 @@
                    # ggsave("ICZ_HR_ND_plot.jpg", plot = ICZ_HR_plot)
 
 # "IFP"
-                  # First let's crop
-                           IFP_ext <- ext(c(4.00000, 17.00000, 41.00000, 46.00000))
-                           IFP_eu <- crop(countries, IFP_ext)
-                           IFP_eu_utm <- terra::project(IFP_eu, proj_crs)
 
                  # get IFP winter HR
                             IFP_winter_HR <- getverticeshr(winter_HR$IFP, percent = 50) # 50% is the value to obtain the core area of the HR
