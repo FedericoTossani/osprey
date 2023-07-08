@@ -29,36 +29,8 @@
 # ================================ #
 #       1.SetWD and packages       #
 # ================================ #
-         setwd("C:/Tesi/R/osprey/data/")
 
-         # this doesn't work, fix it!
-         # source(file = "https://github.com/FedericoTossani/osprey/blob/main/osprey_code_packages.r")
-
-
-         list.of.packages <- c("tidyverse",
-                               "lubridate",
-                               "sf", 
-                               "mapview", 
-                               "adehabitatLT",
-                               "adehabitatHR",
-                               "stargazer",
-                               "kableExtra",
-                               "ggmap",
-                               "terra",
-                               "tidyterra",
-                               "gridExtra",
-                               "ggpubr",
-                               "DescTools")
-
-         # with this line of code I check if alll the packages are installed and then I load it
-
-         {
-           new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-
-           if(length(new.packages)) install.packages(new.packages)
-
-           lapply(list.of.packages, require, character.only = TRUE)
-         }
+source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_WD_packages.r")
 
 # ================================= #
 #          2.Data import            #
