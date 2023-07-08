@@ -1,5 +1,8 @@
 # this is the list of all packages required in this project
 
+         setwd("C:/Tesi/R/osprey/data/")
+
+
          list.of.packages <- c("tidyverse",
                                "lubridate",
                                "sf", 
@@ -12,7 +15,9 @@
                                "terra",
                                "tidyterra",
                                "gridExtra",
-                               "ggpubr")
+                               "ggpubr",
+                               "DescTools",
+                               "devtools")
 
          # with this line of code I check if alll the packages are installed and then I load it
 
