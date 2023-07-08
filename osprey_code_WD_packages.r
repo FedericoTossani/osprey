@@ -17,7 +17,12 @@
                                "gridExtra",
                                "ggpubr",
                                "DescTools",
-                               "devtools")
+                               "devtools",
+                               "moveHMM",
+                               "momentuHMM",
+                               "foieGras",
+                               "crawl",
+                               "ggspatial")
 
          # with this line of code I check if alll the packages are installed and then I load it
 
