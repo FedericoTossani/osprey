@@ -405,11 +405,10 @@
          xlab = "time interval (min)", ylab = "count")
 
 
- & time >= "2021-02-08 16:00:00" & time <= "2023-02-28 00:00:00"
 
   # use this graph to check for departure dates 
         osp <- osprey%>%
-            filter(ID == "IBS"& time >= "2020-08-07 08:00:00" & time <= "2020-08-18 19:00:00")
+            filter( ID == 'IFP' & time >= '2022-08-15 12:00:00' & time <= '2023-04-24 00:00:00')
 
         osp_lat_time <-
         ggplot(osp, aes(time, y)) +
