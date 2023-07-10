@@ -14,6 +14,9 @@
 # Univesity: Alma Mater Studiorum University of Bologna
 
 
+# The idea is to use this script to store all the work and thanks to the source() function keep it clean and tidy.
+# From here you will be able to select between ospreys and variables and get the data visualization plots.
+
 
 # =========================== #
          ## SUMMARY ##
