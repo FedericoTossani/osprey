@@ -41,26 +41,79 @@
                  # save the plot to the working directory 
                   ggsave( "osprey_nd.jpg", plot = osprey_track)
 
-
-# H7
+# A7
          
-                  h7_nd <- osprey_nd%>%
-                           filter(ID == 'H7')
+                  A7_nd <- osprey_nd%>%
+                           filter(ID == 'A7')
          
-                  h7_track <- 
-                  ggplot(h7_eu_utm)+
-                  geom_spatvector()+
-                  geom_path(data = h7_nd, aes(x = x, y = y), 
-                            linewidth = 0.5, lineend = "round", col = 'red') +
-                  labs(x = " ", y = " ", title = "H7 natal dispersal GPS track") +
-                  theme_minimal() +
-                  theme(legend.position = "none")
+                  A7_track <- 
+                  ggplot(A7_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = A7_nd, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "A7 natal dispersal GPS track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+                  
+                  a7_track
          
-                  h7_track
-
                  # save the plot to the working directory 
-                  ggsave( "h7_nd.jpg", plot = h7_track)
+                  ggsave( "a7_nd.jpg", plot = a7_track)
 
+# Antares
+
+                  antares_nd <- osprey%>%
+                           filter(ID == 'Antares')
+         
+                  antares_track <- 
+                  ggplot(antares_eu) +
+                    geom_spatvector()+
+                    geom_path(data = antares_nd, aes(x = lon, y = lat), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "Antares natal dispersal GPS track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  antares_track
+         
+         # save the plots!!
+         
+         ggsave("", plots = )
+
+# CAM
+         
+                  cam_nd <- osprey%>%
+                           filter(ID == 'CAM')
+         
+                  cam_track <- 
+                  ggplot(cam_eu) +
+                    geom_spatvector()+
+                    geom_path(data = cam_nd, aes(x = lon, y = lat), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "CAM natal dispersal GPS track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+                  
+                  cam_track
+
+# CBK
+         
+                  cbk_nd <- osprey_nd%>%
+                           filter(ID == 'CBK')
+         
+                  cbk_track <- 
+                  ggplot(cbk_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = cbk_nd, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "CBK natal dispersal GPS track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  cbk_track
+         
+                 # save the plot to the working directory 
+                  ggsave( "cbk_nd.jpg", plot = cbk_track)
 
 # CIV
          
@@ -101,27 +154,6 @@
                   civ_all_nd <- ggarrange(civ_track15, civ_track16, ncol = 2, nrow = 1)
                   ggsave( "civ_all_nd.jpg", plot = civ_all_nd)
 
-
-# CBK
-         
-                  cbk_nd <- osprey_nd%>%
-                           filter(ID == 'CBK')
-         
-                  cbk_track <- 
-                  ggplot(cbk_eu_utm) +
-                    geom_spatvector()+
-                    geom_path(data = cbk_nd, aes(x = x, y = y), 
-                              linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "CBK natal dispersal GPS track") +
-                    theme_minimal() +
-                    theme(legend.position = "none")
-         
-                  cbk_track
-         
-                 # save the plot to the working directory 
-                  ggsave( "cbk_nd.jpg", plot = cbk_track)
-
-
 # E7
          
                   e7_nd <- osprey_nd%>%
@@ -141,26 +173,43 @@
                  # save the plot to the working directory 
                   ggsave( "e7_nd.jpg", plot = e7_track)
 
+# H7
+         
+                  h7_nd <- osprey_nd%>%
+                           filter(ID == 'H7')
+         
+                  h7_track <- 
+                  ggplot(h7_eu_utm)+
+                  geom_spatvector()+
+                  geom_path(data = h7_nd, aes(x = x, y = y), 
+                            linewidth = 0.5, lineend = "round", col = 'red') +
+                  labs(x = " ", y = " ", title = "H7 natal dispersal GPS track") +
+                  theme_minimal() +
+                  theme(legend.position = "none")
+         
+                  h7_track
 
-# A7
+                 # save the plot to the working directory 
+                  ggsave( "h7_nd.jpg", plot = h7_track)
+
+# IAB
          
-                  a7_nd <- osprey_nd%>%
-                           filter(ID == 'A7')
+                  iab_nd <- osprey_nd%>%
+                           filter(ID == 'IAB')
          
-                  a7_track <- 
-                  ggplot(a7_eu_utm) +
+                  iab_track <- 
+                  ggplot(iab_eu_utm) +
                     geom_spatvector()+
-                    geom_path(data = a7_nd, aes(x = x, y = y), 
+                    geom_path(data = iab_nd, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "A7 natal dispersal GPS track") +
+                    labs(x = " ", y = " ", title = "IAB natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
-                  
-                  a7_track
+         
+                  iab_track
          
                  # save the plot to the working directory 
-                  ggsave( "a7_nd.jpg", plot = a7_track)
-
+                  ggsave( "iab_nd.jpg", plot = iab_track)
 
 # IAD
          
@@ -202,63 +251,6 @@
                   iad_all_nd <- ggarrange(iad_track18, iad_track19, ncol = 2, nrow = 1)
                   ggsave( "iad_all_nd.jpg", plot = iad_all_nd)
 
-# IAB
-         
-                  iab_nd <- osprey_nd%>%
-                           filter(ID == 'IAB')
-         
-                  iab_track <- 
-                  ggplot(iab_eu_utm) +
-                    geom_spatvector()+
-                    geom_path(data = iab_nd, aes(x = x, y = y), 
-                              linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "IAB natal dispersal GPS track") +
-                    theme_minimal() +
-                    theme(legend.position = "none")
-         
-                  iab_track
-         
-                 # save the plot to the working directory 
-                  ggsave( "iab_nd.jpg", plot = iab_track)
-
-# ICZ
-         
-                  icz_nd <- osprey_nd%>%
-                           filter(ID == 'ICZ')
-         
-                  icz_track <- 
-                  ggplot(icz_eu_utm) +
-                    geom_spatvector()+
-                    geom_path(data = icz_nd, aes(x = x, y = y), 
-                              linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "ICZ natal dispersal GPS track") +
-                    theme_minimal() +
-                    theme(legend.position = "none")
-         
-                  icz_track
-         
-                 # save the plot to the working directory 
-                  ggsave( "icz_nd.jpg", plot = icz_track)
-
-# IBS
-         
-                  ibs_nd <- osprey_nd%>%
-                           filter(ID == 'IBS')
-         
-                  ibs_track <- ggplot(ibs_eu_utm) +
-                             geom_spatvector()+
-                             geom_path(data = ibs_nd, aes(x = x, y = y), 
-                                       linewidth = 0.5, lineend = "round", col = 'red') +
-                             labs(x = " ", y = " ", title = "IBS natal dispersal GPS track") +
-                             theme_minimal() +
-                             theme(legend.position = "none")
-         
-                  ibs_track
-         
-                 # save the plot to the working directory 
-                  ggsave( "ibs_nd.jpg", plot = ibs_track)
-
-
 # IBH
          
                   ibh_nd <- osprey_nd%>%
@@ -277,6 +269,22 @@
          
                  # save the plot to the working directory 
                   ggsave( "ibh_nd.jpg", plot = ibh_track)
+
+# IBI
+         
+                  ibi_nd <- osprey%>%
+                           filter(ID == 'IBI')
+         
+                  ibi_track <- 
+                  ggplot(ibi_eu) +
+                    geom_spatvector()+
+                    geom_path(data = ibi_nd, aes(x = lon, y = lat), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "IBI natal dispersal GPS track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  ibi_track
 
 # IBK
          
@@ -297,6 +305,43 @@
                  # save the plot to the working directory 
                   ggsave( "ibk_nd.jpg", plot = ibk_track)
 
+# IBS
+         
+                  ibs_nd <- osprey_nd%>%
+                           filter(ID == 'IBS')
+         
+                  ibs_track <- ggplot(ibs_eu_utm) +
+                             geom_spatvector()+
+                             geom_path(data = ibs_nd, aes(x = x, y = y), 
+                                       linewidth = 0.5, lineend = "round", col = 'red') +
+                             labs(x = " ", y = " ", title = "IBS natal dispersal GPS track") +
+                             theme_minimal() +
+                             theme(legend.position = "none")
+         
+                  ibs_track
+         
+                 # save the plot to the working directory 
+                  ggsave( "ibs_nd.jpg", plot = ibs_track)
+
+# ICZ
+         
+                  icz_nd <- osprey_nd%>%
+                           filter(ID == 'ICZ')
+         
+                  icz_track <- 
+                  ggplot(icz_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = icz_nd, aes(x = x, y = y), 
+                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    labs(x = " ", y = " ", title = "ICZ natal dispersal GPS track") +
+                    theme_minimal() +
+                    theme(legend.position = "none")
+         
+                  icz_track
+         
+                 # save the plot to the working directory 
+                  ggsave( "icz_nd.jpg", plot = icz_track)
+
 # IFP
          
                   ifp_nd <- osprey_nd%>%
@@ -315,62 +360,6 @@
          
                  # save the plot to the working directory 
                   ggsave( "ifp_nd.jpg", plot = ifp_track)
-
-         ########################
-         # ND track da definire #
-         ########################
-
-# IBI
-         
-                  ibi_nd <- osprey%>%
-                           filter(ID == 'IBI')
-         
-                  ibi_track <- 
-                  ggplot(ibi_eu) +
-                    geom_spatvector()+
-                    geom_path(data = ibi_nd, aes(x = lon, y = lat), 
-                              linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "IBI natal dispersal GPS track") +
-                    theme_minimal() +
-                    theme(legend.position = "none")
-         
-                  ibi_track
-         
-# CAM
-         
-                  cam_nd <- osprey%>%
-                           filter(ID == 'CAM')
-         
-                  cam_track <- 
-                  ggplot(cam_eu) +
-                    geom_spatvector()+
-                    geom_path(data = cam_nd, aes(x = lon, y = lat), 
-                              linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "CAM natal dispersal GPS track") +
-                    theme_minimal() +
-                    theme(legend.position = "none")
-                  
-                  cam_track
-         
-# Antares
-
-                  antares_nd <- osprey%>%
-                           filter(ID == 'Antares')
-         
-                  antares_track <- 
-                  ggplot(antares_eu) +
-                    geom_spatvector()+
-                    geom_path(data = antares_nd, aes(x = lon, y = lat), 
-                              linewidth = 0.5, lineend = "round", col = 'red') +
-                    labs(x = " ", y = " ", title = "Antares natal dispersal GPS track") +
-                    theme_minimal() +
-                    theme(legend.position = "none")
-         
-                  antares_track
-         
-         # save the plots!!
-         
-         ggsave("", plots = )
 
 #########################
 #  Natal dispersal stat #
