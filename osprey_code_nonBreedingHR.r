@@ -478,7 +478,7 @@
                            geom_spatvector()+
                            geom_path(data = A7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = A7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(A7_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "A7 non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
@@ -518,11 +518,11 @@
                             E7_nonb_kde <- kernelUD(E7_nonb_sp[,1], h = "href") # h = "LSCV"
 
                  # get E7 winter HR
-                            E7_winter_HR <- getverticeshr( E7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
-                            E7_winter_HR
+                            E7_nonb_HR <- getverticeshr( E7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            E7_nonb_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
-                           E7_winter_HR <- fortify(E7_winter_HR)
+                           E7_nonb_HR <- fortify(E7_nonb_HR)
 
                             E7 <- osprey%>%
                                      filter(ID == 'E7')
@@ -536,7 +536,7 @@
                            geom_spatvector()+
                            geom_path(data = E7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = E7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(E7_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           geom_polygon(E7_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "E7 non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
@@ -576,11 +576,11 @@
                             H7_nonb_kde <- kernelUD(H7_nonb_sp[,1], h = "href") # h = "LSCV"
 
                  # get H7 winter HR
-                            H7_winter_HR <- getverticeshr(H7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
-                            H7_winter_HR
+                            H7_nonb_HR <- getverticeshr(H7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            H7_nonb_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
-                           H7_winter_HR <- fortify(H7_winter_HR)
+                           H7_nonb_HR <- fortify(H7_nonb_HR)
 
                             H7 <- osprey%>%
                                      filter(ID == 'H7')
@@ -594,7 +594,7 @@
                            geom_spatvector()+
                            geom_path(data = H7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = H7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(H7_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           geom_polygon(H7_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "H7 non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
@@ -634,11 +634,11 @@
                             IFP_nonb_kde <- kernelUD(IFP_nonb_sp[,1], h = "href") # h = "LSCV"
 
                  # get IFP winter HR
-                            IFP_winter_HR <- getverticeshr(IFP_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
-                            IFP_winter_HR
+                            IFP_nonb_HR <- getverticeshr(IFP_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            IFP_nonb_HR
 
                   # fortify() function is needed to plot the winter homerange with ggplot
-                           IFP_winter_HR <- fortify(IFP_winter_HR)
+                           IFP_nonb_HR <- fortify(IFP_nonb_HR)
 
                             IFP <- osprey%>%
                                      filter(ID == 'IFP')
@@ -656,7 +656,7 @@
                            geom_path(data = IFP, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IFP_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IFP_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(IFP_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           geom_polygon(IFP_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "IFP non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal first travel" = "red", "Natal dispersal second travel" = "orange"))
@@ -694,19 +694,21 @@
 
 
           # SUMMARY dfs
-          
+
+             # Summary table showing the minimum, mean and maximum distance travelled between successive GPS location every single day       
                    osp_nonb_summary_dist <- osp_nonb_df%>%
                                               group_by(id, day)%>%
-                                              summarize(minDistxDay = min(distKM),
-                                                        meanDistxDay = mean(distKM),
-                                                        maxDistxDay = max(distKM),
-                                                        totDistxDay = sum(distKM))
+                                              summarize(minDist = min(distKM),
+                                                        meanDist = mean(distKM),
+                                                        maxDist = max(distKM),
+                                                        totDist = sum(distKM))
 
-                   osp_nonb_summary_id <- osp_nonb_df%>%
+             # Summary table showing the minimum, mean and maximum distance travelled in a day
+                   osp_nonb_summary_id <- osp_nonb_summary_dist%>%
                                               group_by(id)%>%
-                                              summarize(minDist = min(sum(distKM)),
-                                                        meanDist = mean(sum(distKM)),
-                                                        maxDist = max(sum(distKM)))
+                                              summarize(minDistxDay = min(totDist, na.rm=T),
+                                                        meanDistxDay = mean(totDist, na.rm=T),
+                                                        maxDistxDay = max(totDist, na.rm=T))
 
 
 
