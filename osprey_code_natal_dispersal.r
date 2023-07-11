@@ -42,21 +42,67 @@
                   ggsave( "osprey_nd.jpg", plot = osprey_track)
 
 # A7
-         
+
                   A7_nd <- osprey_nd%>%
-                           filter(ID == 'A7')
-         
+                           filter(ID == 'A7')%>%
+                              select(-c("death_date", "season"))
+
+                  A7 <- osprey%>%
+                           filter(ID == 'A7')%>%
+                              select(-c("death_date", "season"))
+
+                  A7_nd_lt <- as.ltraj(A7_nd[, c("x", "y")],
+                                        date = A7_nd$time,
+                                        id = A7_nd$ID,
+                                        typeII = T)
+
+                  A7_lt <- as.ltraj(A7[, c("x", "y")],
+                                        date = A7$time,
+                                        id = A7$ID,
+                                        typeII = T)
+
+                  A7_nd_lt$day <- as.factor(as.Date(A7_nd_lt$date))
+
+                  A7_nd_lt_df <- ld(A7_nd_lt) 
+
+                  A7_nd_lt_df <- A7_nd_lt_df%>%
+                              mutate(day = as.Date(date))%>%
+                              mutate(day = as.factor(day))
+
+
+         # Daily track
+
+                  foo <- function(dt){ 
+                           return(dt>(1*3600*24))
+                                   }
+
+                  A7_nd_daily <- cutltraj(A7_nd_lt, "foo(dt)", nextr = T)
+
+                  A7_nd_daily_df <- ld(A7_nd_daily)
+
+                  A7_nd_daily_df <- A7_nd_daily_df%>%
+                                        mutate(day = as.Date(date))
+
+plotltr(A7_nd_lt, which="dist")
+
+plotltr(A7_lt, which="R2n")
+
+# NB. chech this URL for usefull help in analysis
+          # http://www.r-gators.com/2018/01/31/wildlife-tracking-data-in-r/
+
+          # track plot
+
                   A7_track <- 
                   ggplot(A7_eu_utm) +
                     geom_spatvector()+
-                    geom_path(data = A7_nd, aes(x = x, y = y), 
-                              linewidth = 0.5, lineend = "round", col = 'red') +
+                    geom_path(data = A7_nd_daily_df, aes(x = x, y = y, col = day), 
+                              linewidth = 0.5, lineend = "round") +
                     labs(x = " ", y = " ", title = "A7 natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
                   
-                  a7_track
-         
+                  A7_track
+
                  # save the plot to the working directory 
                   ggsave( "a7_nd.jpg", plot = a7_track)
 
@@ -156,27 +202,61 @@
 
 # E7
          
-                  e7_nd <- osprey_nd%>%
+                  E7_nd <- osprey_nd%>%
                            filter(ID == 'E7')
          
-                  e7_track <- 
-                  ggplot(e7_eu_utm) +
+                  E7 <- osprey%>%
+                           filter(ID == 'E7')
+
+                  E7_nd_lt <- as.ltraj(E7_nd[, c("x", "y")],
+                                        date = E7_nd$time,
+                                        id = E7_nd$ID,
+                                        typeII = T)
+
+                  E7_lt <- as.ltraj(E7[, c("x", "y")],
+                                        date = E7$time,
+                                        id = E7$ID,
+                                        typeII = T)
+
+plotltr(E7_lt, which="R2n")
+
+          # plot Natal Dispersal track
+
+                  E7_track <- 
+                  ggplot(E7_eu_utm) +
                     geom_spatvector()+
-                    geom_path(data = e7_nd, aes(x = x, y = y), 
+                    geom_path(data = E7_nd, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
                     labs(x = " ", y = " ", title = "E7 natal dispersal GPS track") +
                     theme_minimal() +
                     theme(legend.position = "none")
          
-                  e7_track
+                  E7_track
+
+
          
                  # save the plot to the working directory 
                   ggsave( "e7_nd.jpg", plot = e7_track)
 
 # H7
          
-                  h7_nd <- osprey_nd%>%
+                  H7_nd <- osprey_nd%>%
                            filter(ID == 'H7')
+
+                  H7 <- osprey%>%
+                           filter(ID == 'H7')
+
+                  H7_nd_lt <- as.ltraj(H7_nd[, c("x", "y")],
+                                        date = H7_nd$time,
+                                        id = H7_nd$ID,
+                                        typeII = T)
+
+                  H7_lt <- as.ltraj(H7[, c("x", "y")],
+                                        date = H7$time,
+                                        id = H7$ID,
+                                        typeII = T)
+
+plotltr(H7_lt, which="R2n")
          
                   h7_track <- 
                   ggplot(h7_eu_utm)+
