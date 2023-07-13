@@ -1,5 +1,5 @@
 # =============================== #
-#       1.SetWD & packages       #
+#        1.SetWD & packages       #
 # =============================== #
 
 # Here you will load all the packages needed and also the working directory
@@ -19,6 +19,33 @@
 # Here you will load all the maps needed and also the cropped geographic extent for all individual ospreys
           source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_basemap_extent.r")
 
+
+# ========================================== #
+#          Let's try a new approach          #
+# ========================================== #
+
+          # Let's define our dataset of natal dispersal
+
+                  nd <- osprey_nd%>%
+                           filter(ID == 'A7' | ID == 'E7' | ID == 'H7' | ID == 'IFP')%>%
+                              select(-c("death_date", "season"))
+
+          # convert it into an ltraj object
+                  nd_lt <- as.ltraj(nd[, c("x", "y")],
+                                        date = nd$time,
+                                        id = nd$ID,
+                                        typeII = T)
+
+          # usa this function to cut the ltraj object into severl day burst
+
+                    cut_by_day_named <- function(date, id) {
+                      unique_dates <- unique(as.Date(date))
+                      burst_labels <- paste(id, match(as.Date(date), unique_dates), sep = "_")
+                      return(burst_labels)
+                    }
+                    
+                    # Cut the ltraj object into bursts by day using the custom function and assign named bursts
+                    nd_lt_2 <- cutltraj(nd_lt, criterion = cut_by_day_named(nd_lt$date, nd_lt$id))
 
 #########################
 # Natal dispersal track #
@@ -51,10 +78,7 @@
                            filter(ID == 'A7')%>%
                               select(-c("death_date", "season"))
 
-                  A7_nd_lt <- as.ltraj(A7_nd[, c("x", "y")],
-                                        date = A7_nd$time,
-                                        id = A7_nd$ID,
-                                        typeII = T)
+ 
 
                   A7_lt <- as.ltraj(A7[, c("x", "y")],
                                         date = A7$time,
