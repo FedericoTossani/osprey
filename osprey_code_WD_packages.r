@@ -22,7 +22,8 @@
                                "momentuHMM",
                                "foieGras",
                                "crawl",
-                               "ggspatial")
+                               "ggspatial",
+                               "gganimate")
 
          # with this line of code I check if alll the packages are installed and then I load it
 
