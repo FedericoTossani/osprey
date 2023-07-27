@@ -36,6 +36,18 @@
                                         id = nd$ID,
                                         typeII = T)
 
+                    nd_lt <- nd_lt%>%
+                              ld()%>%
+                              mutate(doy = yday(date))%>%
+                              dl()
+
+          # F I X  I T ! ! !
+                    foo<-function(doy) {
+                        return(doy>=400 & lag(dist<400) | dist<400 & lag(dist>=400))
+                        }
+
+                   nd_lt <- cutltraj(nd_lt, nb.breaks = 3, criterion = "doy")
+
           # usa this function to cut the ltraj object into severl day burst
 
                     cut_by_day_named <- function(date, id) {
