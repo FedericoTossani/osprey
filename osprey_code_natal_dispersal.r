@@ -42,11 +42,11 @@
                               dl()
 
           # F I X  I T ! ! !
-                    foo<-function(doy) {
-                        return(doy>=400 & lag(dist<400) | dist<400 & lag(dist>=400))
+                    foo<-function(date) {
+                        return(day(date))
                         }
 
-                   nd_lt <- cutltraj(nd_lt, nb.breaks = 3, criterion = "doy")
+                   nd_lt <- cutltraj(nd_lt, criterion = foo(date))
 
           # usa this function to cut the ltraj object into severl day burst
 
