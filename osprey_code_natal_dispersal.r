@@ -39,25 +39,25 @@
                     nd_lt <- nd_lt%>%
                               ld()%>%
                               mutate(doy = yday(date))%>%
+                              tidyr::unite(burst, c(burst, doy), sep=".", remove = F)%>%
                               dl()
 
+
+
+
+
           # F I X  I T ! ! !
-                    foo<-function(date) {
-                        return(day(date))
-                        }
+                    foo <- function(date) {
+                                             da <- as.POSIXlt(nd$date, "UTC")
+                                             ho <- da$hour
+                                             return(ho)
+                                        }
 
-                   nd_lt <- cutltraj(nd_lt, criterion = foo(date))
+                   nd_lt <- cutltraj(nd_lt, criterion = "foo(date)")
 
-          # usa this function to cut the ltraj object into severl day burst
 
-                    cut_by_day_named <- function(date, id) {
-                      unique_dates <- unique(as.Date(date))
-                      burst_labels <- paste(id, match(as.Date(date), unique_dates), sep = "_")
-                      return(burst_labels)
-                    }
-                    
-                    # Cut the ltraj object into bursts by day using the custom function and assign named bursts
-                    nd_lt_2 <- cutltraj(nd_lt, criterion = cut_by_day_named(nd_lt$date, nd_lt$id))
+
+
 
 #########################
 # Natal dispersal track #
@@ -127,6 +127,21 @@ plotltr(A7_lt, which="R2n")
           # http://www.r-gators.com/2018/01/31/wildlife-tracking-data-in-r/
 
           # track plot
+
+nd_lt <- nd_lt%>%
+ld()
+                  osp_track <- 
+                  ggplot(osprey_eu_utm) +
+                    geom_spatvector()+
+                    geom_path(data = nd_lt, aes(x = x, y = y, col = burst), 
+                              linewidth = 0.5, lineend = "round") +
+                    labs(x = " ", y = " ", title = "A7 natal dispersal GPS track") +
+                    facet_wrap(~id)+
+                    theme_minimal() +
+                    theme(legend.position = "none")
+
+                  osp_track
+
 
                   A7_track <- 
                   ggplot(A7_eu_utm) +
