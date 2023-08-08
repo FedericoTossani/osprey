@@ -36,11 +36,12 @@
                                         id = nd$ID,
                                         typeII = T)
 
-                    nd_lt <- nd_lt%>%
+                    nd_df <- nd_lt%>%
                               ld()%>%
-                              mutate(doy = yday(date))%>%
+                              mutate(doy = yday(date),
+                                     ymd = as.Date(date))%>%
                               tidyr::unite(burst, c(burst, doy), sep=".", remove = F)%>%
-                              dl()
+                              select(-c("pkey"))
 
 
 
