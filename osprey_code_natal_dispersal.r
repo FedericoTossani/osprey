@@ -36,13 +36,51 @@
                                         id = nd$ID,
                                         typeII = T)
 
-                    nd_df <- nd_lt%>%
+          # create a data frame
+                  nd_df <- nd_lt%>%
                               ld()%>%
                               mutate(doy = yday(date),
                                      ymd = as.Date(date))%>%
                               tidyr::unite(burst, c(burst, doy), sep=".", remove = F)%>%
                               select(-c("pkey"))
 
+# daily track (= successive telemetry locations in each day)
+
+          daily <- nd_df%>%
+                    mutate(deg_turnAngle = rel.angle * (180/pi))%>%
+                    group_by(id, ymd)%>%
+                    summarize(meanDir = mean(deg_turnAngle),
+                              medianDir = median(deg_turnAngle))
+
+          dirBreaks <- c(22.5, 67.5,112.5, 157.5, 202.5, 247.5, 292.5, 337.5)
+
+
+ggplot(daily) +
+  geom_bar(aes(category)) +
+  xlab("Angle of Flight") +
+  ylab("Count of birds") +
+  theme_light() 
+
+ggplot(daily, aes(x = "", y = meanDir)) + 
+  geom_bar(width = 1, stat = "identity") + 
+  coord_polar("y", start = 0) +
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+        panel.border = element_blank(),
+        plot.title = element_text(hjust = 0.5)) +  # Change the legend label
+  ggtitle("Pie Chart Example")
+
+
+
+# long-distance event (= continuous, usually multiday, unidirectional movements of ??≥300 km?? from the initial location)
+
+# Options:
+# - change >90degree and continued moving in the new direction: daily track before was the last track of the LD event. However, if the point of the turn occurred more than halfway throughnthe day was still included and was the last
+# - change of >90, but within 8 days, resume the original direction, then tracks after the directional change were still included in the long-distance event.
+# - change of >90, but due to a stopover of ≤7 days, after which the resumed travel in the original direction, then stopover tracks still included in the LD event
+# - gap in the telemetry data, or a stopover, lasting >7 days, then the daily track before the gap or stopover was the last track of the long-distance event.
 
 
 
@@ -160,7 +198,7 @@ ld()
 
 # Antares
 
-                  antares_nd <- osprey%>%
+                  antares_nd <- osprey_nd%>%
                            filter(ID == 'Antares')
          
                   antares_track <- 
@@ -180,7 +218,7 @@ ld()
 
 # CAM
          
-                  cam_nd <- osprey%>%
+                  cam_nd <- osprey_nd%>%
                            filter(ID == 'CAM')
          
                   cam_track <- 
