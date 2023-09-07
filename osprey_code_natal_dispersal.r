@@ -178,6 +178,11 @@ plot(seg_A7_lt[1])
 plot(seg_A7_lt[2])
 plot(seg_A7_lt[3])
 
+end_point <- A7_nd_lt_df%>%
+          filter(diff_direction > 90.0 | diff_direction < -90.0)
+
+
+
 # NB. chech this URL for usefull help in analysis
           # http://www.r-gators.com/2018/01/31/wildlife-tracking-data-in-r/
 
