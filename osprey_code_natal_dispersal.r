@@ -77,9 +77,9 @@ ggplot(daily, aes(x = "", y = meanDir)) +
 # long-distance event (= continuous, usually multiday, unidirectional movements of ??≥300 km?? from the initial location)
 
 # Options:
-# - change >90degree and continued moving in the new direction: daily track before was the last track of the LD event. However, if the point of the turn occurred more than halfway throughnthe day was still included and was the last
-# - change of >90, but within 8 days, resume the original direction, then tracks after the directional change were still included in the long-distance event.
-# - change of >90, but due to a stopover of ≤7 days, after which the resumed travel in the original direction, then stopover tracks still included in the LD event
+# - change >90degree and continued moving in the new direction: daily track before was the last track of the LD event. However, if the point of the turn occurred more than halfway through the day was still included and was the last
+# - change of >90degree, but within 8 days, resume the original direction, then tracks after the directional change were still included in the long-distance event.
+# - change of >90degree, but due to a stopover of ≤7 days, after which the resumed travel in the original direction, then stopover tracks still included in the LD event
 # - gap in the telemetry data, or a stopover, lasting >7 days, then the daily track before the gap or stopover was the last track of the long-distance event.
 
 
@@ -129,7 +129,11 @@ ggplot(daily, aes(x = "", y = meanDir)) +
                            filter(ID == 'A7')%>%
                               select(-c("death_date", "season"))
 
- 
+
+                  A7_nd_lt <- as.ltraj(A7_nd[, c("x", "y")],
+                                        date = A7_nd$time,
+                                        id = A7_nd$ID,
+                                        typeII = T)
 
                   A7_lt <- as.ltraj(A7[, c("x", "y")],
                                         date = A7$time,
@@ -142,8 +146,10 @@ ggplot(daily, aes(x = "", y = meanDir)) +
 
                   A7_nd_lt_df <- A7_nd_lt_df%>%
                               mutate(day = as.Date(date))%>%
-                              mutate(day = as.factor(day))
+                              mutate(day = as.factor(day))%>%
+                              mutate(deg_turnAngle = rel.angle * (180/pi))
 
+                    A7_nd_lt_df$diff_direction <- c(0, diff(A7_nd_lt_df$deg_turnAngle))
 
          # Daily track
 
@@ -158,9 +164,19 @@ ggplot(daily, aes(x = "", y = meanDir)) +
                   A7_nd_daily_df <- A7_nd_daily_df%>%
                                         mutate(day = as.Date(date))
 
-plotltr(A7_nd_lt, which="dist")
 
 plotltr(A7_lt, which="R2n")
+
+lav_A7_lt <- lavielle(A7_lt, Lmin=10, Kmax=10, type="mean", which="R2n")
+chooseseg(lav_A7_lt)
+
+seg_A7_lt <- findpath(lav_A7_lt, 3)
+
+# plot of the segments
+par(mfrow=c(1,3))
+plot(seg_A7_lt[1])
+plot(seg_A7_lt[2])
+plot(seg_A7_lt[3])
 
 # NB. chech this URL for usefull help in analysis
           # http://www.r-gators.com/2018/01/31/wildlife-tracking-data-in-r/
@@ -308,7 +324,22 @@ ld()
                                         id = E7$ID,
                                         typeII = T)
 
+#NetSquaredDisplacement path segmentation
 plotltr(E7_lt, which="R2n")
+
+lav_E7_lt <- lavielle(E7_lt, Lmin=10, Kmax=10, type="mean", which="R2n")
+chooseseg(lav_E7_lt)
+
+seg_E7_lt <- findpath(lav_E7_lt, 6)
+
+# plot of the segments
+par(mfrow=c(2,3))
+plot(seg_E7_lt[1])
+plot(seg_E7_lt[2])
+plot(seg_E7_lt[3])
+plot(seg_E7_lt[4])
+plot(seg_E7_lt[5])
+plot(seg_E7_lt[6])
 
           # plot Natal Dispersal track
 
@@ -347,7 +378,12 @@ plotltr(E7_lt, which="R2n")
                                         typeII = T)
 
 plotltr(H7_lt, which="R2n")
-         
+
+lav_H7_lt <- lavielle(H7_lt, Lmin=10, Kmax=10, type="mean", which="R2n")
+chooseseg(lav_H7_lt)
+
+seg_H7_lt <- findpath(lav_H7_lt, 3)
+
                   h7_track <- 
                   ggplot(h7_eu_utm)+
                   geom_spatvector()+
@@ -516,7 +552,28 @@ plotltr(H7_lt, which="R2n")
          
                   ifp_nd <- osprey_nd%>%
                            filter(ID == 'IFP')
-         
+
+                  ifp <- osprey%>%
+                           filter(ID == 'IFP')
+
+                  ifp_nd_lt <- as.ltraj(ifp_nd[, c("x", "y")],
+                                        date = ifp_nd$time,
+                                        id = ifp_nd$ID,
+                                        typeII = T)
+
+                  ifp_lt <- as.ltraj(ifp[, c("x", "y")],
+                                        date = ifp$time,
+                                        id = ifp$ID,
+                                        typeII = T)
+
+plotltr(ifp_lt, which="R2n")
+
+lav_ifp_lt <- lavielle(ifp_lt, Lmin=10, Kmax=10, type="mean", which="R2n")
+chooseseg(lav_ifp_lt)
+
+seg_ifp_lt <- findpath(lav_ifp_lt, 5)
+
+
                   ifp_track <- 
                   ggplot(ifp_eu_utm) +
                     geom_spatvector()+
@@ -530,6 +587,12 @@ plotltr(H7_lt, which="R2n")
          
                  # save the plot to the working directory 
                   ggsave( "ifp_nd.jpg", plot = ifp_track)
+
+
+lav_H7_lt <- lavielle(H7_lt, Lmin=10, Kmax=10, type="mean", which="R2n")
+chooseseg(lav_H7_lt)
+
+seg_H7_lt <- findpath(lav_H7_lt, 3)
 
 #########################
 #  Natal dispersal stat #
