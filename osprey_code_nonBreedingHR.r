@@ -463,8 +463,12 @@
                            A7_nonb_HR <- getverticeshr(A7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
                            A7_nonb_HR
 
+                           A7_nonb_HRcore <- getverticeshr(A7_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                           A7_nonb_HRcore
+
                   # fortify() function is needed to plot the winter homerange with ggplot
                            A7_nonb_HR <- fortify(A7_nonb_HR)
+                           A7_nonb_HRcore <- fortify(A7_nonb_HRcore)
 
                   A7<- osprey%>%
                            filter(ID == 'A7')
@@ -478,7 +482,8 @@
                            geom_spatvector()+
                            geom_path(data = A7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = A7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat), color = "white") +
+                           geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "red"), color = "white") +
                            labs(x = " ", y = " ", title = "A7 non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
