@@ -478,10 +478,10 @@
 
                   # Plot the winter homerange
                            A7_HR_plot <- 
-                           ggplot(A7_eu_utm) +
+                           ggplot() +
                            geom_spatvector()+
-                           geom_path(data = A7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = A7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = A7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = A7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat), color = "white") +
                            geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "red"), color = "white") +
                            labs(x = " ", y = " ", title = "A7 non-breeding homerange and natal dispersal tracks") +
@@ -520,11 +520,14 @@
                             E7_nonb_sp <- SpatialPointsDataFrame(E7_nonb[,c("x", "y")], E7_nonb)   
           
                    # Here I calculate the winter homerange with a Kernel Density Estimation
-                            E7_nonb_kde <- kernelUD(E7_nonb_sp[,1], h = "href") # h = "LSCV"
+                            E7_nonb_kde <- kernelUD(E7_nonb_sp[,1], h = "LSCV") # h = "LSCV"
 
                  # get E7 winter HR
                             E7_nonb_HR <- getverticeshr( E7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
                             E7_nonb_HR
+
+E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            E7_nonb_HRcore
 
                   # fortify() function is needed to plot the winter homerange with ggplot
                            E7_nonb_HR <- fortify(E7_nonb_HR)
@@ -537,11 +540,12 @@
 
                   # Plot the winter homerange
                            E7_HR_plot <- 
-                           ggplot(E7_eu_utm) +
+                           ggplot() +
                            geom_spatvector()+
-                           geom_path(data = E7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = E7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = E7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                    #geom_path(data = E7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
                            geom_polygon(E7_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                              geom_polygon(E7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "red"), color = "white") +
                            labs(x = " ", y = " ", title = "E7 non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
