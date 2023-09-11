@@ -26,9 +26,21 @@
 
           # Let's define our dataset of natal dispersal
 
+osprey_nd_no_duplicates <- osprey_nd[!duplicated(osprey_nd[c("ID", "time")]) & !duplicated(osprey_nd[c("ID", "time")], fromLast = TRUE), ]
+
+
                   nd <- osprey_nd%>%
-                           filter(ID == 'A7' | ID == 'E7' | ID == 'H7' | ID == 'IFP')%>%
-                              select(-c("death_date", "season"))
+                           #filter(ID == 'A7' | ID == 'E7' | ID == 'H7' | ID == 'IFP')%>%
+                              select(-c("date", "death_date", "season"))
+
+          table(is.na(nd$lon))
+          table(is.na(nd$lat))
+          table(is.na(nd$x))
+          table(is.na(nd$y))
+
+nd_with_na <- nd[is.na(nd$x) & is.na(nd$y), ]
+
+nd_with_na
 
           # convert it into an ltraj object
                   nd_lt <- as.ltraj(nd[, c("x", "y")],
@@ -40,9 +52,20 @@
                   nd_df <- nd_lt%>%
                               ld()%>%
                               mutate(doy = yday(date),
-                                     ymd = as.Date(date))%>%
-                              tidyr::unite(burst, c(burst, doy), sep=".", remove = F)%>%
+                                     ymd = as.Date(date),
+                                     year = year(date))%>%
+                              tidyr::unite(burst, c(burst, year, doy), sep="_", remove = F)%>%
+                              tidyr::unite(id_y, c(id, year), sep="_", remove = F)%>%
                               select(-c("pkey"))
+
+
+nd$time <- as.POSIXct(strptime(as.character(nd$time),"%Y-%m-%d %H:%M"))
+
+# Find duplicate dates
+duplicate_dates <- osprey_nd[duplicated(osprey_nd$time) | duplicated(osprey_nd$time, fromLast = TRUE), ]
+
+# Print the duplicate dates
+print(duplicate_dates)
 
 # daily track (= successive telemetry locations in each day)
 
