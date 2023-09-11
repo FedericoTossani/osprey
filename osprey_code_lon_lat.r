@@ -22,44 +22,57 @@
 #####################
 #   COORD vs TIME   #
 #####################
+          
+          # Longitude vs time
+                   all_lon_time <-
+                   ggplot(nd_df, aes(doy, x, col = id)) +
+                   geom_point(size = 0.5) +
+                   facet_wrap(~ id_y) +
+                   geom_path()
 
-# Longitude vs time
-         all_lon_time <-
-         ggplot(osprey, aes(time, lon, col = ID)) +
-         geom_point(size = 0.5) +
-         #facet_wrap(~ ID) +
-         geom_path()
+all_lon_time <- all_lon_time + xlim(1,365)
+
+all_lon_time
 
 
 # Latitude vs time
          all_lat_time <-
-         ggplot(osprey, aes(time, lat, col = ID)) +
+         ggplot(nd_df, aes(doy, y, col = id)) +
          geom_point(size = 0.5) +
-         #facet_wrap(~ ID) +
+         facet_wrap(~ id_y) +
          geom_path()
 
-         grid.arrange(all_lon_time, all_lat_time, nrow=2)
+all_lat_time <- all_lat_time + xlim(1, 365)
+
+all_lat_time
+
+         grid.arrange(all_lon_time, all_lat_time, nrow=23)
 
 # COORD vs TIME per animal
 
   # H7 
-        h7 <- osprey%>%
-            filter(ID == "H7")
+        h7 <- nd_df%>%
+            filter(id == "H7")
 
         h7_lat_time <-
-        ggplot(h7, aes(time, lat)) +
+        ggplot(h7, aes(doy, y)) +
         geom_point(size = 0.5) +
-        geom_hline(yintercept = mean(h7$lat), color = "red", linetype = "dashed", size = 1) +
-        geom_path()
+        #geom_hline(yintercept = mean(h7$lat), color = "red", linetype = "dashed", size = 1) +
+        geom_path()+
+        labs(title = "H7 latitude variation during natal dispersal")
+
+          h7_lat_time <- h7_lat_time + xlim(1, 365)
 
         h7_lon_time <-
-        ggplot(h7, aes(time, lon)) +
+        ggplot(h7, aes(doy, x)) +
         geom_point(size = 0.5) +
-        geom_hline(yintercept = mean(h7$lon), color = "red", linetype = "dashed", size = 1) +
+        #geom_hline(yintercept = mean(h7$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
-        labs(title = "H7 longitude and latitude movement graph")
+        labs(title = "H7 longitude variation during natal dispersal")
 
-        h7_lon_lat <- ggarrange(h7_lon_time, h7_lat_time, ncol = 1, nrow = 2)
+          h7_lon_time <- h7_lon_time + xlim(1, 365)
+
+        h7_lon_lat <- ggarrange(h7_lon_time, h7_lat_time, ncol = 2, nrow = 1)
          
         h7_lon_lat
 
@@ -70,27 +83,34 @@
 
 # si sposta tra roost notturno e area di foraggiamento
 # dalla latitudine si vede che si comporta come uno svernante normale
-        cbk <- osprey%>%
-            filter(ID == "CBK")
+
+        cbk <- nd_df%>%
+            filter(id == "CBK")
 
         cbk_lat_time <-
-        ggplot(cbk, aes(time, lat)) +
+        ggplot(cbk, aes(doy, y)) +
         geom_point(size = 0.5) +
-        geom_hline(yintercept = mean(cbk$lat), color = "red", linetype = "dashed", size = 1) +
+        #geom_hline(yintercept = mean(cbk$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
+          cbk_lat_time <- cbk_lat_time + xlim(1, 365)
+
         cbk_lon_time <-
-        ggplot(cbk, aes(time, lon)) +
+        ggplot(cbk, aes(doy, x)) +
         geom_point(size = 0.5) +
-        geom_hline(yintercept = mean(cbk$lon), color = "red", linetype = "dashed", size = 1) +
+        #geom_hline(yintercept = mean(cbk$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
         labs(title = "CBK longitude and latitude movement graph")
 
-        cbk_lon_lat <- ggarrange(cbk_lon_time, cbk_lat_time, ncol = 1, nrow = 2)
-     
+          cbk_lon_time <- cbk_lon_time + xlim(1, 365)
+
+        cbk_lon_lat <- ggarrange(cbk_lon_time, cbk_lat_time, ncol = 2, nrow = 1)
+
+          cbk_lon_lat
+
        # ggsave("cbk_lon_lat.jpg", plot=cbk_lon_lat)
 
-        grid.arrange(cbk_lon_time, cbk_lat_time, nrow=2)
+        grid.arrange(cbk_lon_time, cbk_lat_time, nrow=1)
 
   # CIV
 
@@ -117,46 +137,58 @@
         grid.arrange(civ_lon_time, civ_lat_time, nrow=2)
 
   # E7
-        e7 <- osprey%>%
-            filter(ID == "E7")
+        e7 <- nd_df%>%
+            filter(id == "E7")
 
         e7_lat_time <-
-        ggplot(e7, aes(time, lat)) +
+        ggplot(e7, aes(doy, y)) +
         geom_point(size = 0.5) +
-        geom_hline(yintercept = mean(e7$lat), color = "red", linetype = "dashed", size = 1) +
+        #geom_hline(yintercept = mean(e7$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
+          e7_lat_time <- e7_lat_time + xlim(1, 365)
+
         e7_lon_time <-
-        ggplot(e7, aes(time, lon)) +
+        ggplot(e7, aes(doy, x)) +
         geom_point(size = 0.5) +
-        geom_hline(yintercept = mean(e7$lon), color = "red", linetype = "dashed", size = 1) +
+        #geom_hline(yintercept = mean(e7$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
         labs(title = "E7 longitude and latitude movement graph")
 
-        e7_lon_lat <- ggarrange(e7_lon_time, e7_lat_time, ncol = 1, nrow = 2)
+          e7_lon_time <- e7_lon_time + xlim(1,365)
+
+        e7_lon_lat <- ggarrange(e7_lon_time, e7_lat_time, ncol = 2, nrow = 1)
+
+          e7_lon_lat
      
        # ggsave("e7_lon_lat.jpg", plot=e7_lon_lat)
 
         grid.arrange(e7_lon_time, e7_lat_time, nrow=2)
 
   # A7 
-        a7 <- osprey%>%
-            filter(ID == "A7")
+        a7 <- nd_df%>%
+            filter(id == "A7")
 
         a7_lat_time <-
-        ggplot(a7, aes(time, lat)) +
+        ggplot(a7, aes(doy, y)) +
         geom_point(size = 0.5) +
-        geom_hline(yintercept = mean(a7$lat), color = "red", linetype = "dashed", size = 1) +
+        #geom_hline(yintercept = mean(a7$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
+          a7_lat_time <- a7_lat_time + xlim(1,365)
+
         a7_lon_time <-
-        ggplot(a7, aes(time, lon)) +
+        ggplot(a7, aes(doy, x)) +
         geom_point(size = 0.5) +
-        geom_hline(yintercept = mean(a7$lon), color = "red", linetype = "dashed", size = 1) +
+        #geom_hline(yintercept = mean(a7$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
         labs(title = "A7 longitude and latitude movement graph")
 
-        a7_lon_lat <- ggarrange(a7_lon_time, a7_lat_time, ncol = 1, nrow = 2)
+          a7_lon_time <- a7_lon_time + xlim(1,365)
+
+        a7_lon_lat <- ggarrange(a7_lon_time, a7_lat_time, ncol = 2, nrow = 1)
+
+          a7_lon_lat
      
        # ggsave("a7_lon_lat.jpg", plot=a7_lon_lat)
 
@@ -298,21 +330,25 @@
       #  ggsave("icz_lon_lat.jpg", plot=icz_lon_lat)
 
   # IBS  
-        ibs <- osprey%>%
+                  ibs <- osprey_nd%>%
             filter(ID == "IBS")
 
         ibs_lat_time <-
-        ggplot(ibs, aes(time, y)) +
+        ggplot(ibs, aes(doy, y)) +
         geom_point(size = 0.5) +
-        geom_hline(yintercept = mean(ibs$lat), color = "red", linetype = "dashed", size = 1) +
+        #geom_hline(yintercept = mean(ibs$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
+ibs_lat_time <- ibs_lat_time + xlim(1,365)
+
         ibs_lon_time <-
-        ggplot(ibs, aes(time, x)) +
+        ggplot(ibs, aes(doy, x)) +
         geom_point(size = 0.5) +
-        geom_hline(yintercept = mean(ibs$lon), color = "red", linetype = "dashed", size = 1) +
+        #geom_hline(yintercept = mean(ibs$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
         labs(title = "IBS longitude and latitude movement graph")
+
+          ibs_lon_time <- ibs_lon_time + xlim(1, 365)
 
         ibs_lon_lat <- grid.arrange(ibs_lon_time, ibs_lat_time, nrow=2)
 
@@ -362,21 +398,25 @@
 
 
   # IFP 
-        ifp <- osprey%>%
-            filter(ID == "IFP")
+        ifp <- nd_df%>%
+            filter(id == "IFP")
 
         ifp_lat_time <-
-        ggplot(ifp, aes(time, lat)) +
+        ggplot(ifp, aes(doy, y)) +
         geom_point(size = 0.5) +
-        geom_hline(yintercept = mean(ifp$lat), color = "red", linetype = "dashed", size = 1) +
+        #geom_hline(yintercept = mean(ifp$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
 
+          ifp_lat_time <- ifp_lat_time + xlim(1,365)
+
         ifp_lon_time <-
-        ggplot(ifp, aes(time, lon)) +
+        ggplot(ifp, aes(doy, x)) +
         geom_point(size = 0.5) +
-        geom_hline(yintercept = mean(ifp$lon), color = "red", linetype = "dashed", size = 1) +
+        #geom_hline(yintercept = mean(ifp$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
         labs(title = "IFP longitude and latitude movement graph")
+
+          ifp_lon_time <- ifp_lon_time + xlim(1,365)
 
         ifp_lon_lat <- ggarrange(ifp_lon_time, ifp_lat_time, ncol = 1, nrow = 2)
          
