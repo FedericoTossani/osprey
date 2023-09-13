@@ -17,6 +17,290 @@
 
           source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_basemap_extent.r")
 
+###########################
+#     Non-breeding HR     #
+###########################
+
+# "A7"
+          # ANIMAL USED TO TEST A NEW APPROACH
+
+                    # First define the non-breeding period
+                            A7_nonb <- osprey%>%
+                                              dplyr::filter(ID == "A7" & time >= '2015-08-17 20:00:00' & time <= '2017-02-20 00:00:00')%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            A7_nonb$ID <- factor(A7_nonb$ID)
+          
+                   # Let's create a spatialPoint object
+                            A7_nonb_sp <- SpatialPointsDataFrame(A7_nonb[,c("x", "y")], A7_nonb)   
+          
+                   # Here I calculate the winter homerange with a Kernel Density Estimation
+                            A7_nonb_kde <- kernelUD(A7_nonb_sp[,1], h = "LSCV") # h = "href"
+
+
+                  # get A7 winter HR
+                           A7_nonb_HR <- getverticeshr(A7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                           A7_nonb_HR
+
+                           A7_nonb_HRcore <- getverticeshr(A7_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                           A7_nonb_HRcore
+
+                  # fortify() function is needed to plot the winter homerange with ggplot
+                           A7_nonb_HR <- fortify(A7_nonb_HR)
+                           A7_nonb_HRcore <- fortify(A7_nonb_HRcore)
+
+                  A7<- osprey%>%
+                           filter(ID == 'A7')
+
+                  A7_nd<- osprey_nd%>%
+                           filter(ID == 'A7')
+
+                  # Plot the NonBreeding HR
+                           A7_HR_plot <- 
+                           ggplot() +
+                           geom_spatvector()+
+                           #geom_path(data = A7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = A7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           #geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat), color = "white") +
+                           geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "red"), color = "white") +
+                           labs(x = " ", y = " ", title = "A7 non-breeding homerange and natal dispersal tracks") +
+                           theme_minimal()+
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+         
+                           A7_HR_plot
+
+                   # ggsave("A7_HR_ND_plot.jpg", plot = A7_HR_plot)
+
+          
+          # Non-breeding ltraj object
+
+                       # Let's create a ltraj object with UTM coordinates
+                              
+                            A7_nonb_lt <- osprey%>%
+                                              dplyr::filter(ID == "A7" & time >= '2015-08-17 20:00:00' & time <= '2017-02-20 00:00:00')
+         
+                            A7_nonb_lt <- as.ltraj(A7_nonb_lt[, c("x", "y")],
+                                                  date = A7_nonb_lt$time, 
+                                                  id = A7_nonb_lt$ID,
+                                                  typeII=TRUE)
+
+# "E7"
+          # ANIMAL USED TO TEST A NEW APPROACH
+
+                    # First define the non-breeding period
+                            E7_nonb <- osprey%>%
+                                              dplyr::filter(ID == 'E7' & time >= '2014-08-27 12:30:00' & time <= '2016-03-10 05:00:00')%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            E7_nonb$ID <- factor(E7_nonb$ID)
+          
+                   # Let's create a spatialPoint object
+                            E7_nonb_sp <- SpatialPointsDataFrame(E7_nonb[,c("x", "y")], E7_nonb)   
+          
+                   # Here I calculate the winter homerange with a Kernel Density Estimation
+                            E7_nonb_kde <- kernelUD(E7_nonb_sp[,1], h = "LSCV") # h = "LSCV"
+
+                 # get E7 winter HR
+                            E7_nonb_HR <- getverticeshr( E7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            E7_nonb_HR
+
+E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            E7_nonb_HRcore
+
+                  # fortify() function is needed to plot the winter homerange with ggplot
+                           E7_nonb_HR <- fortify(E7_nonb_HR)
+
+                            E7 <- osprey%>%
+                                     filter(ID == 'E7')
+
+                            E7_nd <- osprey_nd%>%
+                                     filter(ID == 'E7')
+
+                  # Plot the winter homerange
+                           E7_HR_plot <- 
+                           ggplot() +
+                           geom_spatvector()+
+                           #geom_path(data = E7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                    #geom_path(data = E7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(E7_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                              geom_polygon(E7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "red"), color = "white") +
+                           labs(x = " ", y = " ", title = "E7 non-breeding homerange and natal dispersal tracks") +
+                           theme_minimal()+
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+         
+                           E7_HR_plot
+
+                   # ggsave("E7_HR_ND_plot.jpg", plot = E7_HR_plot)
+
+          
+          # Non-breeding ltraj object
+
+                       # Let's create a ltraj object with UTM coordinates
+                              
+                            E7_nonb_lt <- osprey%>%
+                                              dplyr::filter(ID == 'E7' & time >= '2014-08-27 12:30:00' & time <= '2016-03-10 05:00:00')
+         
+                            E7_nonb_lt <- as.ltraj(E7_nonb_lt[, c("x", "y")],
+                                                  date = E7_nonb_lt$time, 
+                                                  id = E7_nonb_lt$ID,
+                                                  typeII=TRUE)
+
+# "H7"
+          # ANIMAL USED TO TEST A NEW APPROACH
+
+                    # First define the non-breeding period
+                            H7_nonb <- osprey%>%
+                                              dplyr::filter(ID == 'H7' & time >= '2013-08-10 00:00:00' & time <= '2015-04-02 05:00:00')%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            H7_nonb$ID <- factor(H7_nonb$ID)
+          
+                   # Let's create a spatialPoint object
+                            H7_nonb_sp <- SpatialPointsDataFrame(H7_nonb[,c("x", "y")], H7_nonb)   
+          
+                   # Here I calculate the winter homerange with a Kernel Density Estimation
+                            H7_nonb_kde <- kernelUD(H7_nonb_sp[,1], h = "href") # h = "LSCV"
+
+                 # get H7 winter HR
+                            H7_nonb_HR <- getverticeshr(H7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            H7_nonb_HR
+
+                  # fortify() function is needed to plot the winter homerange with ggplot
+                           H7_nonb_HR <- fortify(H7_nonb_HR)
+
+                            H7 <- osprey%>%
+                                     filter(ID == 'H7')
+
+                            H7_nd <- osprey_nd%>%
+                                     filter(ID == 'H7')
+
+                  # Plot the winter homerange
+                           H7_HR_plot <- 
+                           ggplot(H7_eu_utm) +
+                           geom_spatvector()+
+                           geom_path(data = H7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = H7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(H7_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           labs(x = " ", y = " ", title = "H7 non-breeding homerange and natal dispersal tracks") +
+                           theme_minimal()+
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+         
+                           H7_HR_plot
+
+                   # ggsave("H7_HR_ND_plot.jpg", plot = H7_HR_plot)
+
+          
+          # Non-breeding ltraj object
+
+                       # Let's create a ltraj object with UTM coordinates
+                              
+                            H7_nonb_lt <- osprey%>%
+                                              dplyr::filter(ID == 'H7' & time >= '2013-08-10 00:00:00' & time <= '2015-04-02 05:00:00')
+         
+                            H7_nonb_lt <- as.ltraj(H7_nonb_lt[, c("x", "y")],
+                                                  date = H7_nonb_lt$time, 
+                                                  id = H7_nonb_lt$ID,
+                                                  typeII=TRUE)
+
+# "IFP"
+          # ANIMAL USED TO TEST A NEW APPROACH
+
+                    # First define the non-breeding period
+                            IFP_nonb <- osprey%>%
+                                              dplyr::filter(ID == 'IFP' & time >= '2022-08-15 12:00:00' & time <= '2023-04-24 00:00:00')%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            IFP_nonb$ID <- factor(IFP_nonb$ID)
+          
+                   # Let's create a spatialPoint object
+                            IFP_nonb_sp <- SpatialPointsDataFrame(IFP_nonb[,c("x", "y")], IFP_nonb)   
+          
+                   # Here I calculate the winter homerange with a Kernel Density Estimation
+                            IFP_nonb_kde <- kernelUD(IFP_nonb_sp[,1], h = "href") # h = "LSCV"
+
+                 # get IFP winter HR
+                            IFP_nonb_HR <- getverticeshr(IFP_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            IFP_nonb_HR
+
+                  # fortify() function is needed to plot the winter homerange with ggplot
+                           IFP_nonb_HR <- fortify(IFP_nonb_HR)
+
+                            IFP <- osprey%>%
+                                     filter(ID == 'IFP')
+
+                            IFP_nd1 <- osprey_nd%>%
+                                     filter(ID == 'IFP' & time >= '2023-04-24 00:00:00' & time <= '2023-04-30 04:00:00')
+
+                            IFP_nd2 <- osprey_nd%>%
+                                     filter(ID == "IFP" & time > '2023-05-16 00:00:00' & time < '2023-06-08 20:00:00')
+
+                  # Plot the winter homerange
+                           IFP_HR_plot <- 
+                           ggplot(IFP_eu_utm) +
+                           geom_spatvector()+
+                           geom_path(data = IFP, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IFP_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IFP_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(IFP_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           labs(x = " ", y = " ", title = "IFP non-breeding homerange and natal dispersal tracks") +
+                           theme_minimal()+
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal first travel" = "red", "Natal dispersal second travel" = "orange"))
+         
+                           IFP_HR_plot
+
+                   # ggsave("IFP_HR_ND_plot.jpg", plot = IFP_HR_plot)
+
+          
+          # Non-breeding ltraj object
+
+                       # Let's create a ltraj object with UTM coordinates
+                              
+                            IFP_nonb_lt <- osprey%>%
+                                              dplyr::filter(ID == 'IFP' & time >= '2022-08-15 12:00:00' & time <= '2023-04-24 00:00:00')
+         
+                            IFP_nonb_lt <- as.ltraj(IFP_nonb_lt[, c("x", "y")],
+                                                  date = IFP_nonb_lt$time, 
+                                                  id = IFP_nonb_lt$ID,
+                                                  typeII=TRUE)
+
+
+################################
+#     Non-breeding HR stat     #
+################################
+
+
+                    osp_nonb_lt <- c(A7_nonb_lt, E7_nonb_lt, H7_nonb_lt, IFP_nonb_lt)
+          
+                    osp_nonb_df <- ld(osp_nonb_lt)
+
+                    osp_nonb_df <- osp_nonb_df%>%
+                                        mutate(day = as.Date(date),
+                                               distKM = dist/1000)      
+
+
+          # SUMMARY dfs
+
+             # Summary table showing the minimum, mean and maximum distance travelled between successive GPS location every single day       
+                   osp_nonb_summary_dist <- osp_nonb_df%>%
+                                              group_by(id, day)%>%
+                                              summarize(minDist = min(distKM),
+                                                        meanDist = mean(distKM),
+                                                        maxDist = max(distKM),
+                                                        totDist = sum(distKM))
+
+             # Summary table showing the minimum, mean and maximum distance travelled in a day
+                   osp_nonb_summary_id <- osp_nonb_summary_dist%>%
+                                              group_by(id)%>%
+                                              summarize(minDistxDay = min(totDist, na.rm=T),
+                                                        meanDistxDay = mean(totDist, na.rm=T),
+                                                        maxDistxDay = max(totDist, na.rm=T))
+
+
+
 
 ####################
 # Homerange's List #
@@ -434,290 +718,6 @@
 
                    # ggsave("ICZ_HR_ND_plot.jpg", plot = ICZ_HR_plot)
 
-
-
-
-###########################
-#     Non-breeding HR     #
-###########################
-
-# "A7"
-          # ANIMAL USED TO TEST A NEW APPROACH
-
-                    # First define the non-breeding period
-                            A7_nonb <- osprey%>%
-                                              dplyr::filter(ID == "A7" & time >= '2015-08-17 20:00:00' & time <= '2017-02-20 00:00:00')%>%
-                                              dplyr::select(ID, x, y)%>%
-                                              filter_at(vars(x, y), all_vars(!is.na(.)))
-          
-                            A7_nonb$ID <- factor(A7_nonb$ID)
-          
-                   # Let's create a spatialPoint object
-                            A7_nonb_sp <- SpatialPointsDataFrame(A7_nonb[,c("x", "y")], A7_nonb)   
-          
-                   # Here I calculate the winter homerange with a Kernel Density Estimation
-                            A7_nonb_kde <- kernelUD(A7_nonb_sp[,1], h = "href") # h = "LSCV"
-
-
-                  # get A7 winter HR
-                           A7_nonb_HR <- getverticeshr(A7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
-                           A7_nonb_HR
-
-                           A7_nonb_HRcore <- getverticeshr(A7_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
-                           A7_nonb_HRcore
-
-                  # fortify() function is needed to plot the winter homerange with ggplot
-                           A7_nonb_HR <- fortify(A7_nonb_HR)
-                           A7_nonb_HRcore <- fortify(A7_nonb_HRcore)
-
-                  A7<- osprey%>%
-                           filter(ID == 'A7')
-
-                  A7_nd<- osprey_nd%>%
-                           filter(ID == 'A7')
-
-                  # Plot the winter homerange
-                           A7_HR_plot <- 
-                           ggplot() +
-                           geom_spatvector()+
-                           #geom_path(data = A7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           #geom_path(data = A7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat), color = "white") +
-                           geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "red"), color = "white") +
-                           labs(x = " ", y = " ", title = "A7 non-breeding homerange and natal dispersal tracks") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
-         
-                           A7_HR_plot
-
-                   # ggsave("A7_HR_ND_plot.jpg", plot = A7_HR_plot)
-
-          
-          # Non-breeding ltraj object
-
-                       # Let's create a ltraj object with UTM coordinates
-                              
-                            A7_nonb_lt <- osprey%>%
-                                              dplyr::filter(ID == "A7" & time >= '2015-08-17 20:00:00' & time <= '2017-02-20 00:00:00')
-         
-                            A7_nonb_lt <- as.ltraj(A7_nonb_lt[, c("x", "y")],
-                                                  date = A7_nonb_lt$time, 
-                                                  id = A7_nonb_lt$ID,
-                                                  typeII=TRUE)
-
-# "E7"
-          # ANIMAL USED TO TEST A NEW APPROACH
-
-                    # First define the non-breeding period
-                            E7_nonb <- osprey%>%
-                                              dplyr::filter(ID == 'E7' & time >= '2014-08-27 12:30:00' & time <= '2016-03-10 05:00:00')%>%
-                                              dplyr::select(ID, x, y)%>%
-                                              filter_at(vars(x, y), all_vars(!is.na(.)))
-          
-                            E7_nonb$ID <- factor(E7_nonb$ID)
-          
-                   # Let's create a spatialPoint object
-                            E7_nonb_sp <- SpatialPointsDataFrame(E7_nonb[,c("x", "y")], E7_nonb)   
-          
-                   # Here I calculate the winter homerange with a Kernel Density Estimation
-                            E7_nonb_kde <- kernelUD(E7_nonb_sp[,1], h = "LSCV") # h = "LSCV"
-
-                 # get E7 winter HR
-                            E7_nonb_HR <- getverticeshr( E7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
-                            E7_nonb_HR
-
-E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
-                            E7_nonb_HRcore
-
-                  # fortify() function is needed to plot the winter homerange with ggplot
-                           E7_nonb_HR <- fortify(E7_nonb_HR)
-
-                            E7 <- osprey%>%
-                                     filter(ID == 'E7')
-
-                            E7_nd <- osprey_nd%>%
-                                     filter(ID == 'E7')
-
-                  # Plot the winter homerange
-                           E7_HR_plot <- 
-                           ggplot() +
-                           geom_spatvector()+
-                           #geom_path(data = E7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                    #geom_path(data = E7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(E7_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                              geom_polygon(E7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "red"), color = "white") +
-                           labs(x = " ", y = " ", title = "E7 non-breeding homerange and natal dispersal tracks") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
-         
-                           E7_HR_plot
-
-                   # ggsave("E7_HR_ND_plot.jpg", plot = E7_HR_plot)
-
-          
-          # Non-breeding ltraj object
-
-                       # Let's create a ltraj object with UTM coordinates
-                              
-                            E7_nonb_lt <- osprey%>%
-                                              dplyr::filter(ID == 'E7' & time >= '2014-08-27 12:30:00' & time <= '2016-03-10 05:00:00')
-         
-                            E7_nonb_lt <- as.ltraj(E7_nonb_lt[, c("x", "y")],
-                                                  date = E7_nonb_lt$time, 
-                                                  id = E7_nonb_lt$ID,
-                                                  typeII=TRUE)
-
-# "H7"
-          # ANIMAL USED TO TEST A NEW APPROACH
-
-                    # First define the non-breeding period
-                            H7_nonb <- osprey%>%
-                                              dplyr::filter(ID == 'H7' & time >= '2013-08-10 00:00:00' & time <= '2015-04-02 05:00:00')%>%
-                                              dplyr::select(ID, x, y)%>%
-                                              filter_at(vars(x, y), all_vars(!is.na(.)))
-          
-                            H7_nonb$ID <- factor(H7_nonb$ID)
-          
-                   # Let's create a spatialPoint object
-                            H7_nonb_sp <- SpatialPointsDataFrame(H7_nonb[,c("x", "y")], H7_nonb)   
-          
-                   # Here I calculate the winter homerange with a Kernel Density Estimation
-                            H7_nonb_kde <- kernelUD(H7_nonb_sp[,1], h = "href") # h = "LSCV"
-
-                 # get H7 winter HR
-                            H7_nonb_HR <- getverticeshr(H7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
-                            H7_nonb_HR
-
-                  # fortify() function is needed to plot the winter homerange with ggplot
-                           H7_nonb_HR <- fortify(H7_nonb_HR)
-
-                            H7 <- osprey%>%
-                                     filter(ID == 'H7')
-
-                            H7_nd <- osprey_nd%>%
-                                     filter(ID == 'H7')
-
-                  # Plot the winter homerange
-                           H7_HR_plot <- 
-                           ggplot(H7_eu_utm) +
-                           geom_spatvector()+
-                           geom_path(data = H7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = H7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(H7_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           labs(x = " ", y = " ", title = "H7 non-breeding homerange and natal dispersal tracks") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
-         
-                           H7_HR_plot
-
-                   # ggsave("H7_HR_ND_plot.jpg", plot = H7_HR_plot)
-
-          
-          # Non-breeding ltraj object
-
-                       # Let's create a ltraj object with UTM coordinates
-                              
-                            H7_nonb_lt <- osprey%>%
-                                              dplyr::filter(ID == 'H7' & time >= '2013-08-10 00:00:00' & time <= '2015-04-02 05:00:00')
-         
-                            H7_nonb_lt <- as.ltraj(H7_nonb_lt[, c("x", "y")],
-                                                  date = H7_nonb_lt$time, 
-                                                  id = H7_nonb_lt$ID,
-                                                  typeII=TRUE)
-
-# "IFP"
-          # ANIMAL USED TO TEST A NEW APPROACH
-
-                    # First define the non-breeding period
-                            IFP_nonb <- osprey%>%
-                                              dplyr::filter(ID == 'IFP' & time >= '2022-08-15 12:00:00' & time <= '2023-04-24 00:00:00')%>%
-                                              dplyr::select(ID, x, y)%>%
-                                              filter_at(vars(x, y), all_vars(!is.na(.)))
-          
-                            IFP_nonb$ID <- factor(IFP_nonb$ID)
-          
-                   # Let's create a spatialPoint object
-                            IFP_nonb_sp <- SpatialPointsDataFrame(IFP_nonb[,c("x", "y")], IFP_nonb)   
-          
-                   # Here I calculate the winter homerange with a Kernel Density Estimation
-                            IFP_nonb_kde <- kernelUD(IFP_nonb_sp[,1], h = "href") # h = "LSCV"
-
-                 # get IFP winter HR
-                            IFP_nonb_HR <- getverticeshr(IFP_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
-                            IFP_nonb_HR
-
-                  # fortify() function is needed to plot the winter homerange with ggplot
-                           IFP_nonb_HR <- fortify(IFP_nonb_HR)
-
-                            IFP <- osprey%>%
-                                     filter(ID == 'IFP')
-
-                            IFP_nd1 <- osprey_nd%>%
-                                     filter(ID == 'IFP' & time >= '2023-04-24 00:00:00' & time <= '2023-04-30 04:00:00')
-
-                            IFP_nd2 <- osprey_nd%>%
-                                     filter(ID == "IFP" & time > '2023-05-16 00:00:00' & time < '2023-06-08 20:00:00')
-
-                  # Plot the winter homerange
-                           IFP_HR_plot <- 
-                           ggplot(IFP_eu_utm) +
-                           geom_spatvector()+
-                           geom_path(data = IFP, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IFP_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IFP_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(IFP_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           labs(x = " ", y = " ", title = "IFP non-breeding homerange and natal dispersal tracks") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal first travel" = "red", "Natal dispersal second travel" = "orange"))
-         
-                           IFP_HR_plot
-
-                   # ggsave("IFP_HR_ND_plot.jpg", plot = IFP_HR_plot)
-
-          
-          # Non-breeding ltraj object
-
-                       # Let's create a ltraj object with UTM coordinates
-                              
-                            IFP_nonb_lt <- osprey%>%
-                                              dplyr::filter(ID == 'IFP' & time >= '2022-08-15 12:00:00' & time <= '2023-04-24 00:00:00')
-         
-                            IFP_nonb_lt <- as.ltraj(IFP_nonb_lt[, c("x", "y")],
-                                                  date = IFP_nonb_lt$time, 
-                                                  id = IFP_nonb_lt$ID,
-                                                  typeII=TRUE)
-
-
-################################
-#     Non-breeding HR stat     #
-################################
-
-
-                    osp_nonb_lt <- c(A7_nonb_lt, E7_nonb_lt, H7_nonb_lt, IFP_nonb_lt)
-          
-                    osp_nonb_df <- ld(osp_nonb_lt)
-
-                    osp_nonb_df <- osp_nonb_df%>%
-                                        mutate(day = as.Date(date),
-                                               distKM = dist/1000)      
-
-
-          # SUMMARY dfs
-
-             # Summary table showing the minimum, mean and maximum distance travelled between successive GPS location every single day       
-                   osp_nonb_summary_dist <- osp_nonb_df%>%
-                                              group_by(id, day)%>%
-                                              summarize(minDist = min(distKM),
-                                                        meanDist = mean(distKM),
-                                                        maxDist = max(distKM),
-                                                        totDist = sum(distKM))
-
-             # Summary table showing the minimum, mean and maximum distance travelled in a day
-                   osp_nonb_summary_id <- osp_nonb_summary_dist%>%
-                                              group_by(id)%>%
-                                              summarize(minDistxDay = min(totDist, na.rm=T),
-                                                        meanDistxDay = mean(totDist, na.rm=T),
-                                                        maxDistxDay = max(totDist, na.rm=T))
 
 
 
