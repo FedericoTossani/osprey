@@ -69,7 +69,7 @@ print(duplicate_dates)
 
 # daily track (= successive telemetry locations in each day)
 
-          daily <- nd_df%>%
+          dailyDirections <- nd_df%>%
                     mutate(deg_turnAngle = rel.angle * (180/pi))%>%
                     group_by(id, ymd)%>%
                     summarize(meanDir = mean(deg_turnAngle),
@@ -98,6 +98,8 @@ ggplot(daily, aes(x = "", y = meanDir)) +
 
 
 # long-distance event (= continuous, usually multiday, unidirectional movements of ??≥300 km?? from the initial location)
+
+
 
 # Options:
 # - change >90degree and continued moving in the new direction: daily track before was the last track of the LD event. However, if the point of the turn occurred more than halfway through the day was still included and was the last
@@ -130,10 +132,10 @@ ggplot(daily, aes(x = "", y = meanDir)) +
               osprey_track <- 
                   ggplot(osprey_eu_utm) +
                   geom_spatvector() + 
-                   geom_path(data = osprey_nd, aes(x = x, y = y, color = ID), 
+                   geom_path(data = nd_df, aes(x = x, y = y, color = id), 
                               linewidth = 0.5, lineend = "round") +
                   labs(x = " ", y = " ", title = "Inividual tracks") +
-                  #facet_wrap(~ ID) +
+                  #facet_wrap(~ id_y) +
                   theme(legend.position="none") +
                   theme_minimal()
          
