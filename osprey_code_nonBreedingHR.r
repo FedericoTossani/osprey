@@ -21,12 +21,48 @@
 #     Non-breeding HR     #
 ###########################
 
+hr_nonb <- osprey_nonb%>%
+                 dplyr::select(id_y, x, y)%>%
+                 filter_at(vars(x, y), all_vars(!is.na(.)))
+
+hr_nonb$id_y <- factor(hr_nonb$id_y)
+
+
+                   # Let's create a spatialPoint object
+                            hr_nonb_sp <- SpatialPointsDataFrame(hr_nonb[,c("x", "y")], hr_nonb)  
+
+
+                            hr_nonb_kde <- kernelUD(hr_nonb_sp[,1], h = "href") # h = "LSCV"
+
+# Loop through each element of hr_nonb_kde
+hr_nonb_list <- list()
+
+for (i in 1:length(hr_nonb_kde)) {
+  # Apply getverticeshr to the i-th element and store the result in hr_nonb_list
+  hr_nonb_list[[i]] <- getverticeshr(hr_nonb_kde[[i]], percent = 50)
+}
+
+
+                  # get A7 winter HR
+                           hr_nonb <- getverticeshr(hr_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                           hr_nonb
+
+                           hr_nonbCore <- getverticeshr(hr_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                           hr_nonbCore
+
+                  # fortify() function is needed to plot the winter homerange with ggplot
+                           hr_nonb <- fortify(hr_nonb)
+                           hr_nonbCore <- fortify(hr_nonbCore)
+
+
+          
+
 # "A7"
           # ANIMAL USED TO TEST A NEW APPROACH
 
                     # First define the non-breeding period
-                            A7_nonb <- osprey%>%
-                                              dplyr::filter(ID == "A7" & time >= '2015-08-17 20:00:00' & time <= '2017-02-20 00:00:00')%>%
+                            A7_nonb <- osprey_nonb%>%
+                                              dplyr::filter(ID == "A7")%>%
                                               dplyr::select(ID, x, y)%>%
                                               filter_at(vars(x, y), all_vars(!is.na(.)))
           
@@ -36,7 +72,7 @@
                             A7_nonb_sp <- SpatialPointsDataFrame(A7_nonb[,c("x", "y")], A7_nonb)   
           
                    # Here I calculate the winter homerange with a Kernel Density Estimation
-                            A7_nonb_kde <- kernelUD(A7_nonb_sp[,1], h = "LSCV") # h = "href"
+                            A7_nonb_kde <- kernelUD(A7_nonb_sp[,1], h = "href") # h = "LSCV"
 
 
                   # get A7 winter HR
@@ -62,7 +98,7 @@
                            geom_spatvector()+
                            #geom_path(data = A7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            #geom_path(data = A7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           #geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat), color = "white") +
+                           geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat, fill = "green"), color = "white") +
                            geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "red"), color = "white") +
                            labs(x = " ", y = " ", title = "A7 non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
@@ -72,18 +108,10 @@
 
                    # ggsave("A7_HR_ND_plot.jpg", plot = A7_HR_plot)
 
-          
-          # Non-breeding ltraj object
+         # get the cooerdinates of the core area's centroid
 
-                       # Let's create a ltraj object with UTM coordinates
-                              
-                            A7_nonb_lt <- osprey%>%
-                                              dplyr::filter(ID == "A7" & time >= '2015-08-17 20:00:00' & time <= '2017-02-20 00:00:00')
+hr_terra <- as.terra(A7_nonb_HRcore)
          
-                            A7_nonb_lt <- as.ltraj(A7_nonb_lt[, c("x", "y")],
-                                                  date = A7_nonb_lt$time, 
-                                                  id = A7_nonb_lt$ID,
-                                                  typeII=TRUE)
 
 # "E7"
           # ANIMAL USED TO TEST A NEW APPROACH
