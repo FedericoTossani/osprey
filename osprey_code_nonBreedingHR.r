@@ -117,8 +117,8 @@ hr_terra <- as.terra(A7_nonb_HRcore)
           # ANIMAL USED TO TEST A NEW APPROACH
 
                     # First define the non-breeding period
-                            E7_nonb <- osprey%>%
-                                              dplyr::filter(ID == 'E7' & time >= '2014-08-27 12:30:00' & time <= '2016-03-10 05:00:00')%>%
+                            E7_nonb <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'E7')%>%
                                               dplyr::select(ID, x, y)%>%
                                               filter_at(vars(x, y), all_vars(!is.na(.)))
           
@@ -128,7 +128,7 @@ hr_terra <- as.terra(A7_nonb_HRcore)
                             E7_nonb_sp <- SpatialPointsDataFrame(E7_nonb[,c("x", "y")], E7_nonb)   
           
                    # Here I calculate the winter homerange with a Kernel Density Estimation
-                            E7_nonb_kde <- kernelUD(E7_nonb_sp[,1], h = "LSCV") # h = "LSCV"
+                            E7_nonb_kde <- kernelUD(E7_nonb_sp[,1], h = "href") # h = "LSCV"
 
                  # get E7 winter HR
                             E7_nonb_HR <- getverticeshr( E7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
@@ -196,8 +196,13 @@ E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value t
                             H7_nonb_HR <- getverticeshr(H7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
                             H7_nonb_HR
 
+                 # get H7 winter HR
+                            H7_nonb_HRcore <- getverticeshr(H7_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            H7_nonb_HRcore
+
                   # fortify() function is needed to plot the winter homerange with ggplot
                            H7_nonb_HR <- fortify(H7_nonb_HR)
+                           H7_nonb_HRcore <- fortify(H7_nonb_HRcore)
 
                             H7 <- osprey%>%
                                      filter(ID == 'H7')
@@ -205,13 +210,14 @@ E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value t
                             H7_nd <- osprey_nd%>%
                                      filter(ID == 'H7')
 
-                  # Plot the winter homerange
+                  # Plot the winter homerange  -> H7_eu_utm
                            H7_HR_plot <- 
-                           ggplot(H7_eu_utm) +
+                           ggplot() +
                            geom_spatvector()+
-                           geom_path(data = H7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = H7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(H7_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           #geom_path(data = H7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = H7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(H7_nonb_HR, mapping = aes(x=long, y=lat, fill = "green"), color = "white") +
+                           geom_polygon(H7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "red"), color = "white") +
                            labs(x = " ", y = " ", title = "H7 non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
@@ -254,8 +260,13 @@ E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value t
                             IFP_nonb_HR <- getverticeshr(IFP_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
                             IFP_nonb_HR
 
+                 # get IFP winter HR
+                            IFP_nonb_HRcore <- getverticeshr(IFP_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            IFP_nonb_HRcore
+
                   # fortify() function is needed to plot the winter homerange with ggplot
                            IFP_nonb_HR <- fortify(IFP_nonb_HR)
+                           IFP_nonb_HRcore <- fortify(IFP_nonb_HRcore)
 
                             IFP <- osprey%>%
                                      filter(ID == 'IFP')
