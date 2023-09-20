@@ -21,42 +21,6 @@
 #     Non-breeding HR     #
 ###########################
 
-hr_nonb <- osprey_nonb%>%
-                 dplyr::select(id_y, x, y)%>%
-                 filter_at(vars(x, y), all_vars(!is.na(.)))
-
-hr_nonb$id_y <- factor(hr_nonb$id_y)
-
-
-                   # Let's create a spatialPoint object
-                            hr_nonb_sp <- SpatialPointsDataFrame(hr_nonb[,c("x", "y")], hr_nonb)  
-
-
-                            hr_nonb_kde <- kernelUD(hr_nonb_sp[,1], h = "href") # h = "LSCV"
-
-# Loop through each element of hr_nonb_kde
-hr_nonb_list <- list()
-
-for (i in 1:length(hr_nonb_kde)) {
-  # Apply getverticeshr to the i-th element and store the result in hr_nonb_list
-  hr_nonb_list[[i]] <- getverticeshr(hr_nonb_kde[[i]], percent = 50)
-}
-
-
-                  # get A7 winter HR
-                           hr_nonb <- getverticeshr(hr_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
-                           hr_nonb
-
-                           hr_nonbCore <- getverticeshr(hr_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
-                           hr_nonbCore
-
-                  # fortify() function is needed to plot the winter homerange with ggplot
-                           hr_nonb <- fortify(hr_nonb)
-                           hr_nonbCore <- fortify(hr_nonbCore)
-
-
-          
-
 # "A7"
           # ANIMAL USED TO TEST A NEW APPROACH
 
@@ -94,23 +58,19 @@ for (i in 1:length(hr_nonb_kde)) {
 
                   # Plot the NonBreeding HR
                            A7_HR_plot <- 
-                           ggplot() +
+                           ggplot(A7_eu_utm) +
                            geom_spatvector()+
-                           #geom_path(data = A7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           #geom_path(data = A7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat, fill = "green"), color = "white") +
-                           geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "red"), color = "white") +
-                           labs(x = " ", y = " ", title = "A7 non-breeding homerange and natal dispersal tracks") +
+                           geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                           geom_path(data = A7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = A7_nd, aes(x = x, y = y, colour = "Natal dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           labs(x = " ", y = " ", title = "A7 non-breeding homerange and natal dispersal track") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal movements" = "blue"))
          
                            A7_HR_plot
 
                    # ggsave("A7_HR_ND_plot.jpg", plot = A7_HR_plot)
-
-         # get the cooerdinates of the core area's centroid
-
-hr_terra <- as.terra(A7_nonb_HRcore)
          
 
 # "E7"
@@ -148,15 +108,15 @@ E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value t
 
                   # Plot the winter homerange
                            E7_HR_plot <- 
-                           ggplot() +
+                           ggplot(E7_eu_utm) +
                            geom_spatvector()+
-                           #geom_path(data = E7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                    #geom_path(data = E7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(E7_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                              geom_polygon(E7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "red"), color = "white") +
-                           labs(x = " ", y = " ", title = "E7 non-breeding homerange and natal dispersal tracks") +
+                           geom_polygon(E7_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           geom_polygon(E7_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                           geom_path(data = E7, aes(x = x, y = y, colour = "Complete track"), col ="green", linewidth = 0.5, lineend = "round") +
+                           geom_path(data = E7_nd, aes(x = x, y = y, colour = "Natal dispersal movements"), col ="blue", linewidth = 0.5, lineend = "round") +
+                           labs(x = " ", y = " ", title = "E7 non-breeding homerange and natal dispersal movements") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal movements" = "blue"))
          
                            E7_HR_plot
 
@@ -179,8 +139,8 @@ E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value t
           # ANIMAL USED TO TEST A NEW APPROACH
 
                     # First define the non-breeding period
-                            H7_nonb <- osprey%>%
-                                              dplyr::filter(ID == 'H7' & time >= '2013-08-10 00:00:00' & time <= '2015-04-02 05:00:00')%>%
+                            H7_nonb <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'H7')%>%
                                               dplyr::select(ID, x, y)%>%
                                               filter_at(vars(x, y), all_vars(!is.na(.)))
           
@@ -212,15 +172,15 @@ E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value t
 
                   # Plot the winter homerange  -> H7_eu_utm
                            H7_HR_plot <- 
-                           ggplot() +
+                           ggplot(H7_eu_utm) +
                            geom_spatvector()+
-                           #geom_path(data = H7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           #geom_path(data = H7_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(H7_nonb_HR, mapping = aes(x=long, y=lat, fill = "green"), color = "white") +
-                           geom_polygon(H7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "red"), color = "white") +
+                           geom_path(data = H7, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(H7_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           geom_polygon(H7_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                           geom_path(data = H7_nd, aes(x = x, y = y, colour = "Natal dispersal movements"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "H7 non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal movements" = "blue"))
          
                            H7_HR_plot
 
@@ -243,8 +203,8 @@ E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value t
           # ANIMAL USED TO TEST A NEW APPROACH
 
                     # First define the non-breeding period
-                            IFP_nonb <- osprey%>%
-                                              dplyr::filter(ID == 'IFP' & time >= '2022-08-15 12:00:00' & time <= '2023-04-24 00:00:00')%>%
+                            IFP_nonb <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'IFP')%>%
                                               dplyr::select(ID, x, y)%>%
                                               filter_at(vars(x, y), all_vars(!is.na(.)))
           
@@ -281,13 +241,14 @@ E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value t
                            IFP_HR_plot <- 
                            ggplot(IFP_eu_utm) +
                            geom_spatvector()+
+                           geom_polygon(IFP_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           geom_polygon(IFP_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
                            geom_path(data = IFP, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IFP_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IFP_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(IFP_nonb_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
                            labs(x = " ", y = " ", title = "IFP non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal first travel" = "red", "Natal dispersal second travel" = "orange"))
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal first travel" = "blue", "Natal dispersal second travel" = "brown"))
          
                            IFP_HR_plot
 
@@ -306,6 +267,305 @@ E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value t
                                                   id = IFP_nonb_lt$ID,
                                                   typeII=TRUE)
 
+# "Antares"
+
+                    # First define the non-breeding period
+                            Antares_nonb <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'Antares')%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            Antares_nonb$ID <- factor(Antares_nonb$ID)
+          
+                   # Let's create a spatialPoint object
+                            Antares_nonb_sp <- SpatialPointsDataFrame(Antares_nonb[,c("x", "y")], Antares_nonb)   
+          
+                   # Here I calculate the winter homerange with a Kernel Density Estimation
+                            Antares_nonb_kde <- kernelUD(Antares_nonb_sp[,1], h = "href") # h = "LSCV"
+
+                 # get Antares non-breeding HR
+                            Antares_nonb_HR <- getverticeshr(Antares_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            Antares_nonb_HR
+
+                 # get Antares non-breeding HR core area
+                            Antares_nonb_HRcore <- getverticeshr(Antares_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            Antares_nonb_HRcore
+
+                  # fortify() function is needed to plot the winter homerange with ggplot
+                           Antares_nonb_HR <- fortify(Antares_nonb_HR)
+                           Antares_nonb_HRcore <- fortify(Antares_nonb_HRcore)
+
+                            Antares <- osprey%>%
+                                     filter(ID == 'Antares')
+
+                            Antares_nd15_1 <- osprey_nd%>%
+                                     filter(ID == "Antares" & time >= "2015-08-15 11:00:00" & time <= "2015-08-18 19:00:00")
+
+                            Antares_nd15_2 <- osprey_nd%>%
+                                     filter(ID == "Antares" & time >= "2015-09-08 10:30:00" & time <= "2015-09-13 20:00:00")
+
+                            Antares_nd16 <- osprey_nd%>%
+                                     filter(ID == "Antares" & time >= "2016-03-19 13:00:00" & time <= "2016-06-28 18:00:00" )
+
+                  # Plot the winter homerange
+                           Antares_HR_plot <- 
+                           ggplot(Antares_eu_utm) +
+                           geom_spatvector()+
+                           geom_polygon(Antares_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           geom_polygon(Antares_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                           geom_path(data = Antares, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = Antares_nd15_1, aes(x = x, y = y, colour = "Natal dispersal 2015 first travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = Antares_nd15_2, aes(x = x, y = y, colour = "Natal dispersal 2015 second travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = Antares_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
+                           labs(x = " ", y = " ", title = "Antares non-breeding homerange and natal dispersal tracks") +
+                           theme_minimal()+
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal 2015 first travel" = "red", "Natal dispersal 2015 second travel" = "brown", "Natal dispersal 2016" = "yellow"))
+         
+                           Antares_HR_plot
+
+                   # ggsave("Antares_HR_ND_plot.jpg", plot = Antares_HR_plot)
+
+          
+          # Non-breeding ltraj object
+
+                       # Let's create a ltraj object with UTM coordinates
+                              
+                            Antares_nonb_lt <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'Antares')
+         
+                            Antares_nonb_lt <- as.ltraj(Antares_nonb_lt[, c("x", "y")],
+                                                  date = Antares_nonb_lt$time, 
+                                                  id = Antares_nonb_lt$ID,
+                                                  typeII=TRUE)
+
+# CAM
+
+                    # First define the non-breeding period
+                            CAM_nonb <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'CAM')%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            CAM_nonb$ID <- factor(CAM_nonb$ID)
+          
+                   # Let's create a spatialPoint object
+                            CAM_nonb_sp <- SpatialPointsDataFrame(CAM_nonb[,c("x", "y")], CAM_nonb)   
+          
+                   # Here I calculate the winter homerange with a Kernel Density Estimation
+                            CAM_nonb_kde <- kernelUD(CAM_nonb_sp[,1], h = "href") # h = "LSCV"
+
+                  # get CAM winter HR
+                            CAM_nonb_HR <- getverticeshr(CAM_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            CAM_nonb_HR
+
+                  # get CAM non-breeding HR core area
+                            CAM_nonb_HRcore <- getverticeshr(CAM_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            CAM_nonb_HRcore
+
+                  # fortify() function is needed to plot the winter homerange with ggplot
+                           CAM_winter_HR <- fortify(CAM_winter_HR)
+                           CAM_nonb_HRcore <- fortify(CAM_nonb_HRcore)
+
+                            CAM <- osprey%>%
+                                     filter(ID == 'CAM')
+
+                            CAM_nd1 <- osprey_nd%>%
+                                     filter(ID == "CAM" & time >= "2016-04-14 06:00:00" & time <= "2016-04-19 20:00:00")
+
+                            CAM_nd2 <- osprey_nd%>%
+                                     filter(ID == "CAM" & time >= "2016-05-03 08:00:00" & time <= "2016-05-06 18:00:00")
+
+                            CAM_nd3 <- osprey_nd%>%
+                                     filter(ID == "CAM" & time >= "2016-05-20 05:00:00" & time <= "2016-05-24 18:00:00")
+
+                            CAM_nd4 <- osprey_nd%>%
+                                     filter(ID == "CAM" & time >= "2016-07-02 23:00:00" & time <= "2016-07-06 20:00:00")
+
+                  # Plot the winter homerange
+                           CAM_HR_plot <- 
+                           ggplot(CAM_eu_utm) +
+                           geom_spatvector()+
+                           geom_polygon(CAM_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           geom_polygon(CAM_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                           geom_path(data = CAM, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CAM_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CAM_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CAM_nd3, aes(x = x, y = y, colour = "Natal dispersal third travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CAM_nd4, aes(x = x, y = y, colour = "Natal dispersal fourth travel"), linewidth = 0.5, lineend = "round") +
+                           labs(x = " ", y = " ", title = "CAM non-breeding homerange and natal dispersal tracks") +
+                           theme_minimal()+
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green",
+                                                                          "Natal dispersal first travel" = "red",
+                                                                          "Natal dispersal second travel" = "orange",
+                                                                          "Natal dispersal third travel" = "brown",
+                                                                          "Natal dispersal fourth travel" = "magenta"))
+         
+                           CAM_HR_plot
+
+                   # ggsave("CAM_HR_ND_plot.jpg", plot = CAM_HR_plot)
+
+# "CBK"     
+
+                    # First define the non-breeding period
+                            CBK_nonb <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'CBK')%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            CBK_nonb$ID <- factor(CBK_nonb$ID)
+          
+                   # Let's create a spatialPoint object
+                            CBK_nonb_sp <- SpatialPointsDataFrame(CBK_nonb[,c("x", "y")], CBK_nonb)   
+          
+                   # Here I calculate the winter homerange with a Kernel Density Estimation
+                            CBK_nonb_kde <- kernelUD(CBK_nonb_sp[,1], h = "href") # h = "LSCV"
+
+                 # get CBK winter HR
+                            CBK_nonb_HR <- getverticeshr(CBK_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            CBK_nonb_HR
+
+                 # get CBK winter HR
+                            CBK_nonb_HRcore <- getverticeshr(CBK_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            CBK_nonb_HRcore
+
+                  # fortify() function is needed to plot the winter homerange with ggplot
+                           CBK_nonb_HR <- fortify(CBK_nonb_HR)
+                           CBK_nonb_HRcore <- fortify(CBK_nonb_HRcore)
+
+                            CBK <- osprey%>%
+                                     filter(ID == 'CBK')
+
+                            CBK_nd <- osprey_nd%>%
+                                     filter(ID == 'CBK')
+
+                  # Plot the winter homerange
+                           CBK_HR_plot <- 
+                           ggplot(CBK_eu_utm) +
+                           geom_spatvector()+
+                           geom_polygon(CBK_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           geom_polygon(CBK_nonb_HRcore, mapping = aes(x=long, y=lat) fill = "red") +
+                           geom_path(data = CBK, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CBK_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
+                           labs(x = " ", y = " ", title = "CBK non-breeding homerange and natal dispersal tracks") +
+                           theme_minimal()+
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
+         
+                           CBK_HR_plot
+
+                   # ggsave("CBK_HR_ND_plot.jpg", plot = CBK_HR_plot)
+
+# "CIV"     
+
+                    # First define the non-breeding period
+                            CIV_nonb <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'CIV')%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            CIV_nonb$ID <- factor(CIV_nonb$ID)
+          
+                   # Let's create a spatialPoint object
+                            CIV_nonb_sp <- SpatialPointsDataFrame(CIV_nonb[,c("x", "y")], CIV_nonb)   
+          
+                   # Here I calculate the winter homerange with a Kernel Density Estimation
+                            CIV_nonb_kde <- kernelUD(CIV_nonb_sp[,1], h = "href") # h = "LSCV"
+
+                 # get CIV winter HR
+                            CIV_nonb_HR <- getverticeshr(CIV_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            CIV_nonb_HR
+
+                 # get CIV winter HR
+                            CIV_nonb_HRcore <- getverticeshr(CIV_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            CIV_nonb_HRcore
+
+                  # fortify() function is needed to plot the winter homerange with ggplot
+                           CIV_nonb_HR <- fortify(CIV_nonb_HR)
+                           CIV_nonb_HRcore <- fortify(CIV_nonb_HRcore)
+
+                            CIV <- osprey%>%
+                                     filter(ID == 'CIV')
+
+                            CIV_nd14 <- osprey_nd%>%
+                                     filter(ID == "CIV" & time >= "2014-08-16 06:00:00" & time <= "2014-10-22 12:00:00")
+
+                            CIV_nd15 <- osprey_nd%>%
+                                     filter(ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00')
+
+                            CIV_nd16 <- osprey_nd%>%
+                                     filter(ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00')
+
+                  # Plot the winter homerange
+                           CIV_HR_plot <- 
+                           ggplot(CIV_eu_utm) +
+                           geom_spatvector()+
+                           geom_polygon(CIV_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           geom_polygon(CIV_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                           geom_path(data = CIV, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CIV_nd14, aes(x = x, y = y, colour = "Natal dispersal 2014"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CIV_nd15, aes(x = x, y = y, colour = "Natal dispersal 2015"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CIV_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
+                           labs(x = " ", y = " ", title = "CIV non-breeding homerange and natal dispersal tracks") +
+                           theme_minimal()+
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green",
+                                                                          "Natal dispersal 2015" = "magenta",
+                                                                          "Natal dispersal 2015" = "red",
+                                                                          "Natal dispersal 2016" = "orange"))
+         
+                           CIV_HR_plot
+
+                   # ggsave("CIV_HR_ND_plot.jpg", plot = CIV_HR_plot)
+
+# "IAB"
+
+                    # First define the non-breeding period
+                            CIV_nonb <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'CIV')%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            CIV_nonb$ID <- factor(CIV_nonb$ID)
+          
+                   # Let's create a spatialPoint object
+                            CIV_nonb_sp <- SpatialPointsDataFrame(CIV_nonb[,c("x", "y")], CIV_nonb)   
+          
+                   # Here I calculate the winter homerange with a Kernel Density Estimation
+                            CIV_nonb_kde <- kernelUD(CIV_nonb_sp[,1], h = "href") # h = "LSCV"
+
+                 # get IAB winter HR
+                            IAB_winter_HR <- getverticeshr(winter_HR$IAB, percent = 50) # 50% is the value to obtain the core area of the HR
+                            IAB_winter_HR
+
+                            IAB_winter_HRcore <- getverticeshr(winter_HR$IAB, percent = 50) # 50% is the value to obtain the core area of the HR
+                            IAB_winter_HRcore
+
+                  # fortify() function is needed to plot the winter homerange with ggplot
+                           IAB_winter_HR <- fortify(IAB_winter_HR)
+                           IAB_winter_HRcore <- fortify(IAB_winter_HRcore)
+
+                            IAB <- osprey%>%
+                                     filter(ID == 'IAB')
+
+                            IAB_nd19 <- osprey_nd%>%
+                                     filter(ID == 'IAB' & time >= '2019-05-05 06:00:00' & time <= '2019-06-10 14:00:00')
+
+                            IAB_nd20 <- osprey_nd%>%
+                                     filter(ID == 'IAB' & time >= '2020-03-16 00:00:00')
+
+                  # Plot the winter homerange
+                           IAB_HR_plot <- 
+                           ggplot(IAB_eu_utm) +
+                           geom_spatvector()+
+                           geom_polygon(IAB_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
+                           geom_path(data = IAB, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IAB_nd19, aes(x = x, y = y, colour = "Natal dispersal 2019"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IAB_nd20, aes(x = x, y = y, colour = "Natal dispersal 2020"), linewidth = 0.5, lineend = "round") +
+                           labs(x = " ", y = " ", title = "IAB winter homerange and tracks") +
+                           theme_minimal()+
+                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal 2019" = "red", "Natal dispersal 2020" = "orange"))
+         
+                           IAB_HR_plot
+
+                   # ggsave("IAB_HR_ND_plot.jpg", plot = IAB_HR_plot)
 
 ################################
 #     Non-breeding HR stat     #
@@ -368,194 +628,6 @@ E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value t
                             osp_winter_kde <- kernelUD(osp_winter_sp[,1], h = "href") # h = "LSCV"
           
                             winter_HR <- unlist(osp_winter_kde)
-          
-         
-# "Antares" 
-          # Messy track, difficult to find separete travel
-
-                 # get Antares winter HR
-                            Antares_winter_HR <- getverticeshr(winter_HR$Antares, percent = 50) # 50% is the value to obtain the core area of the HR
-                            Antares_winter_HR
-
-                  # fortify() function is needed to plot the winter homerange with ggplot
-                           Antares_winter_HR <- fortify(Antares_winter_HR)
-
-                            Antares <- osprey%>%
-                                     filter(ID == 'Antares')
-
-                            Antares_nd15_1 <- osprey_nd%>%
-                                     filter(ID == "Antares" & time >= "2015-08-15 11:00:00" & time <= "2015-08-18 19:00:00")
-
-                            Antares_nd15_2 <- osprey_nd%>%
-                                     filter(ID == "Antares" & time >= "2015-09-08 10:30:00" & time <= "2015-09-13 20:00:00")
-
-                            Antares_nd16 <- osprey_nd%>%
-                                     filter(ID == "Antares" & time >= "2016-03-19 13:00:00" & time <= "2016-06-28 18:00:00" )
-
-                  # Plot the winter homerange
-                           Antares_HR_plot <- 
-                           ggplot(Antares_eu_utm) +
-                           geom_spatvector()+
-                           geom_path(data = Antares, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = Antares_nd15_1, aes(x = x, y = y, colour = "Natal dispersal 2015 first travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = Antares_nd15_2, aes(x = x, y = y, colour = "Natal dispersal 2015 second travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = Antares_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(Antares_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           labs(x = " ", y = " ", title = "Antares winter homerange and tracks") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal 2015 first travel" = "red", "Natal dispersal 2015 second travel" = "orange", "Natal dispersal 2016" = "yellow"))
-         
-                           Antares_HR_plot
-
-                   # ggsave("Antares_HR_ND_plot.jpg", plot = Antares_HR_plot)
-
-# "CAM"  
-
-                 # get CAM winter HR
-                            CAM_winter_HR <- getverticeshr(winter_HR$CAM, percent = 50) # 50% is the value to obtain the core area of the HR
-                            CAM_winter_HR
-
-                  # fortify() function is needed to plot the winter homerange with ggplot
-                           CAM_winter_HR <- fortify(CAM_winter_HR)
-
-                            CAM <- osprey%>%
-                                     filter(ID == 'CAM')
-
-                            CAM_nd1 <- osprey_nd%>%
-                                     filter(ID == "CAM" & time >= "2016-04-14 06:00:00" & time <= "2016-04-19 20:00:00")
-
-                            CAM_nd2 <- osprey_nd%>%
-                                     filter(ID == "CAM" & time >= "2016-05-03 08:00:00" & time <= "2016-05-06 18:00:00")
-
-                            CAM_nd3 <- osprey_nd%>%
-                                     filter(ID == "CAM" & time >= "2016-05-20 05:00:00" & time <= "2016-05-24 18:00:00")
-
-                            CAM_nd4 <- osprey_nd%>%
-                                     filter(ID == "CAM" & time >= "2016-07-02 23:00:00" & time <= "2016-07-06 20:00:00")
-
-                  # Plot the winter homerange
-                           CAM_HR_plot <- 
-                           ggplot(CAM_eu_utm) +
-                           geom_spatvector()+
-                           geom_path(data = CAM, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CAM_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CAM_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CAM_nd3, aes(x = x, y = y, colour = "Natal dispersal third travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CAM_nd4, aes(x = x, y = y, colour = "Natal dispersal fourth travel"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(CAM_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           labs(x = " ", y = " ", title = "CAM winter homerange and tracks") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal first travel" = "red", "Natal dispersal second travel" = "orange", "Natal dispersal third travel" = "yellow", "Natal dispersal fourth travel" = "magenta"))
-         
-                           CAM_HR_plot
-
-                   # ggsave("CAM_HR_ND_plot.jpg", plot = CAM_HR_plot)
-
-# "CBK"     
-          # Doesn't work: Errore in re[[i]] : subscript fuori limite
-
-                 # get CBK winter HR
-                            CBK_winter_HR <- getverticeshr(winter_HR$CBK) # 50% is the value to obtain the core area of the HR
-                            CBK_winter_HR
-
-                  # fortify() function is needed to plot the winter homerange with ggplot
-                           CBK_winter_HR <- fortify(CBK_winter_HR)
-
-                            CBK <- osprey%>%
-                                     filter(ID == 'CBK')
-
-                            CBK_nd <- osprey_nd%>%
-                                     filter(ID == 'CBK')
-
-                  # Plot the winter homerange
-                           CBK_HR_plot <- 
-                           ggplot(CBK_eu_utm) +
-                           geom_spatvector()+
-                           #geom_polygon(CBK_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = CBK, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CBK_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           labs(x = " ", y = " ", title = "CBK winter homerange and tracks") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal" = "red"))
-         
-                           CBK_HR_plot
-
-                   # ggsave("CBK_HR_ND_plot.jpg", plot = CBK_HR_plot)
-
-# "CIV"     
-          # Doesn't work: Errore in re[[i]] : subscript fuori limite
-
-                 # get CIV winter HR
-                            CIV_winter_HR <- getverticeshr(winter_HR$CIV, percent = 50) # 50% is the value to obtain the core area of the HR
-                            CIV_winter_HR
-
-                  # fortify() function is needed to plot the winter homerange with ggplot
-                           CIV_winter_HR <- fortify(CIV_winter_HR)
-
-                            CIV <- osprey%>%
-                                     filter(ID == 'CIV')
-
-                            CIV_nd14 <- osprey_nd%>%
-                                     filter(ID == "CIV" & time >= "2014-08-16 06:00:00" & time <= "2014-10-22 12:00:00")
-
-                            CIV_nd15 <- osprey_nd%>%
-                                     filter(ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00')
-
-                            CIV_nd16 <- osprey_nd%>%
-                                     filter(ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00')
-
-                  # Plot the winter homerange
-                           CIV_HR_plot <- 
-                           ggplot(CIV_eu_utm) +
-                           geom_spatvector()+
-                           # geom_polygon(CIV_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = CIV, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CIV_nd14, aes(x = x, y = y, colour = "Natal dispersal 2014"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CIV_nd15, aes(x = x, y = y, colour = "Natal dispersal 2015"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CIV_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
-                           labs(x = " ", y = " ", title = "CIV winter homerange and tracks") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal 2015" = "magenta", "Natal dispersal 2015" = "red", "Natal dispersal 2016" = "orange"))
-         
-                           CIV_HR_plot
-
-                   # ggsave("CIV_HR_ND_plot.jpg", plot = CIV_HR_plot)
-
-
-
-# "IAB"
-
-                 # get IAB winter HR
-                            IAB_winter_HR <- getverticeshr(winter_HR$IAB, percent = 50) # 50% is the value to obtain the core area of the HR
-                            IAB_winter_HR
-
-                  # fortify() function is needed to plot the winter homerange with ggplot
-                           IAB_winter_HR <- fortify(IAB_winter_HR)
-
-                            IAB <- osprey%>%
-                                     filter(ID == 'IAB')
-
-                            IAB_nd19 <- osprey_nd%>%
-                                     filter(ID == 'IAB' & time >= '2019-05-05 06:00:00' & time <= '2019-06-10 14:00:00')
-
-                            IAB_nd20 <- osprey_nd%>%
-                                     filter(ID == 'IAB' & time >= '2020-03-16 00:00:00')
-
-                  # Plot the winter homerange
-                           IAB_HR_plot <- 
-                           ggplot(IAB_eu_utm) +
-                           geom_spatvector()+
-                           geom_polygon(IAB_winter_HR, mapping = aes(x=long, y=lat, fill = group), color = "white") +
-                           geom_path(data = IAB, aes(x = x, y = y, colour = "Complete track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IAB_nd19, aes(x = x, y = y, colour = "Natal dispersal 2019"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IAB_nd20, aes(x = x, y = y, colour = "Natal dispersal 2020"), linewidth = 0.5, lineend = "round") +
-                           labs(x = " ", y = " ", title = "IAB winter homerange and tracks") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Complete track" = "green", "Natal dispersal 2019" = "red", "Natal dispersal 2020" = "orange"))
-         
-                           IAB_HR_plot
-
-                   # ggsave("IAB_HR_ND_plot.jpg", plot = IAB_HR_plot)
 
 # "IAD"
 
