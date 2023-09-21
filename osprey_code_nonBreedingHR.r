@@ -95,7 +95,7 @@
                             E7_nonb_HR <- getverticeshr( E7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
                             E7_nonb_HR
 
-E                           E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
                             E7_nonb_HRcore
 
                   # fortify() function is needed to plot the non-breeding homerange with ggplot
@@ -108,19 +108,19 @@ E                           E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percen
                                      filter(ID == 'E7')
 
                   # Plot the non-breeding homerange
-                           E7_HR_plot <- 
-                           ggplot(E7_eu_utm) +
-                           geom_spatvector()+
-                           geom_polygon(E7_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-                           geom_polygon(E7_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
-                           geom_path(data = E7, aes(x = x, y = y, colour = "Before dispersal track"), col ="green", linewidth = 0.5, lineend = "round") +
-                           geom_path(data = E7_nd, aes(x = x, y = y, colour = "Natal dispersal movements"), col ="blue", linewidth = 0.5, lineend = "round") +
-                           labs(x = " ", y = " ", title = "E7 non-breeding homerange and natal dispersal movements") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
-                                                                          "Natal dispersal movements" = "blue"))
-         
-                           E7_HR_plot
+                                     E7_HR_plot <- 
+                                     ggplot(E7_eu_utm) +
+                                     geom_spatvector()+
+                                     geom_polygon(E7_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                                     geom_polygon(E7_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                                     geom_path(data = E7, aes(x = x, y = y, colour = "Before dispersal track"), col ="green", linewidth = 0.5, lineend = "round") +
+                                     geom_path(data = E7_nd, aes(x = x, y = y, colour = "Natal dispersal movements"), col ="blue", linewidth = 0.5, lineend = "round") +
+                                     labs(x = " ", y = " ", title = "E7 non-breeding homerange and natal dispersal movements") +
+                                     theme_minimal()+
+                                     scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
+                                                                                    "Natal dispersal movements" = "blue"))
+                   
+                                     E7_HR_plot
 
                    # ggsave("E7_HR_ND_plot.jpg", plot = E7_HR_plot)
 
@@ -458,7 +458,7 @@ E                           E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percen
 
                    # ggsave("CBK_HR_ND_plot.jpg", plot = CBK_HR_plot)
 
-# "CIV"     
+# "CIV" -> HR da rivedere
 
                     # First define the non-breeding period
                             CIV_nonb <- osprey_nonb%>%
@@ -510,9 +510,9 @@ E                           E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percen
                            labs(x = " ", y = " ", title = "CIV non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
-                                                                          "Natal dispersal 2015" = "magenta",
-                                                                          "Natal dispersal 2015" = "red",
-                                                                          "Natal dispersal 2016" = "orange"))
+                                                                          "Natal dispersal 2014" = "yellow",
+                                                                          "Natal dispersal 2015" = "blue",
+                                                                          "Natal dispersal 2016" = "brown"))
          
                            CIV_HR_plot
 
@@ -573,7 +573,7 @@ E                           E7_nonb_HRcore <- getverticeshr( E7_nonb_kde, percen
 
                    # ggsave("IAB_HR_ND_plot.jpg", plot = IAB_HR_plot)
 
-# "IAD"
+# "IAD" -> HR da rivedere, track rientro in Italia da aggiungere
 
                     # First define the non-breeding period
                             IAD_nonb <- osprey_nonb%>%
