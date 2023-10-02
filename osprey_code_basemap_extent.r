@@ -31,7 +31,7 @@
 
 # "CIV"  
                   # First let's crop
-                           CIV_ext <- ext(c(5.0000, 12.0000, 36.0000, 44.00000))
+                           CIV_ext <- ext(c(4.0000, 12.0000, 36.0000, 44.00000))
                            CIV_eu <- crop(countries, CIV_ext)
                            CIV_eu_utm <- terra::project(CIV_eu, proj_crs)
 
