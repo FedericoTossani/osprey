@@ -303,7 +303,7 @@ ld()
                            filter(ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00')
          
                   civ_track15 <- 
-                  ggplot(civ_eu_utm) +
+                  ggplot(CIV_eu_utm) +
                     geom_spatvector()+
                     geom_path(data = civ_nd15, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
@@ -320,7 +320,7 @@ ld()
                            filter(ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00')
          
                   civ_track16 <- 
-                  ggplot(civ_eu_utm) +
+                  ggplot(CIV_eu_utm) +
                     geom_spatvector()+
                     geom_path(data = civ_nd16, aes(x = x, y = y), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
