@@ -131,7 +131,9 @@ all_lat_time
         labs(title = "CIV longitude and latitude movement graph")
 
         civ_lon_lat <- ggarrange(civ_lon_time, civ_lat_time, ncol = 1, nrow = 2)
-     
+
+        civ_lon_lat
+
       #  ggsave("civ_lon_lat.jpg", plot=civ_lon_lat)
 
         grid.arrange(civ_lon_time, civ_lat_time, nrow=2)
@@ -305,6 +307,8 @@ all_lat_time
         labs(title = "IAB longitude and latitude movement graph")
 
         iab_lon_lat <- grid.arrange(iab_lon_time, iab_lat_time, nrow=2)
+
+        iab_lon_lat
 
       #  ggsave("iab_lon_lat.jpg", plot=iab_lon_lat)
 
