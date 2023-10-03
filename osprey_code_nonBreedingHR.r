@@ -273,20 +273,51 @@
 # "Antares"
 
                     # First define the non-breeding period
+                            Antares_nonb15 <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'Antares', year == "2015")%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            Antares_nonb15$ID <- factor(Antares_nonb15$ID)
+
+
+                            Antares_nonb16 <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'Antares', year == "2016")%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            Antares_nonb16$ID <- factor(Antares_nonb16$ID)
+
                             Antares_nonb <- osprey_nonb%>%
                                               dplyr::filter(ID == 'Antares')%>%
                                               dplyr::select(ID, x, y)%>%
                                               filter_at(vars(x, y), all_vars(!is.na(.)))
           
-                            Antares_nonb$ID <- factor(Antares_nonb$ID)
+                            Antares_nonb$ID <- factor(Antares_non$ID)
           
                    # Let's create a spatialPoint object
+                            Antares_nonb15_sp <- SpatialPointsDataFrame(Antares_nonb15[,c("x", "y")], Antares_nonb15)  
+                            Antares_nonb16_sp <- SpatialPointsDataFrame(Antares_nonb16[,c("x", "y")], Antares_nonb16)   
                             Antares_nonb_sp <- SpatialPointsDataFrame(Antares_nonb[,c("x", "y")], Antares_nonb)   
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
+                            Antares_nonb15_kde <- kernelUD(Antares_nonb15_sp[,1], h = "href", grid = 90) # h = "LSCV"
+                            Antares_nonb16_kde <- kernelUD(Antares_nonb16_sp[,1], h = "href") # h = "LSCV"
                             Antares_nonb_kde <- kernelUD(Antares_nonb_sp[,1], h = "href") # h = "LSCV"
 
                  # get Antares non-breeding HR
+                            Antares_nonb15_HR <- getverticeshr(Antares_nonb15_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            Antares_nonb15_HR
+
+                            Antares_nonb15_HRcore <- getverticeshr(Antares_nonb15_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            Antares_nonb15_HRcore
+
+                            Antares_nonb16_HR <- getverticeshr(Antares_nonb16_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            Antares_nonb16_HR
+
+                            Antares_nonb16_HRcore <- getverticeshr(Antares_nonb16_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            Antares_nonb16_HRcore
+
                             Antares_nonb_HR <- getverticeshr(Antares_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
                             Antares_nonb_HR
 
@@ -294,6 +325,12 @@
                             Antares_nonb_HRcore
 
                   # fortify() function is needed to plot the non-breeding homerange with ggplot
+                           Antares_nonb15_HR <- fortify(Antares_nonb15_HR)
+                           Antares_nonb15_HRcore <- fortify(Antares_nonb15_HRcore)
+
+                           Antares_nonb16_HR <- fortify(Antares_nonb16_HR)
+                           Antares_nonb16_HRcore <- fortify(Antares_nonb16_HRcore)
+
                            Antares_nonb_HR <- fortify(Antares_nonb_HR)
                            Antares_nonb_HRcore <- fortify(Antares_nonb_HRcore)
 
@@ -313,8 +350,10 @@
                            Antares_HR_plot <- 
                            ggplot(Antares_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(Antares_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-                           geom_polygon(Antares_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                           geom_polygon(Antares_nonb16_HR, mapping = aes(x=long, y=lat), fill = "light blue") +
+                           geom_polygon(Antares_nonb16_HRcore, mapping = aes(x=long, y=lat), fill = "dark blue") +
+                           geom_polygon(Antares_nonb15_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           geom_polygon(Antares_nonb15_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
                            geom_path(data = Antares, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = Antares_nd15_1, aes(x = x, y = y, colour = "Natal dispersal 2015 first travel"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = Antares_nd15_2, aes(x = x, y = y, colour = "Natal dispersal 2015 second travel"), linewidth = 0.5, lineend = "round") +
@@ -357,7 +396,7 @@
                             CAM_nonb_sp <- SpatialPointsDataFrame(CAM_nonb[,c("x", "y")], CAM_nonb)   
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
-                            CAM_nonb_kde <- kernelUD(CAM_nonb_sp[,1], h = "href") # h = "LSCV"
+                            CAM_nonb_kde <- kernelUD(CAM_nonb_sp[,1], h = "href", grid = 200) # h = "LSCV"
 
                   # get CAM non-breeding HR
                             CAM_nonb_HR <- getverticeshr(CAM_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
@@ -389,13 +428,13 @@
                            CAM_HR_plot <- 
                            ggplot(CAM_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(CAM_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-                           geom_polygon(CAM_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
                            geom_path(data = CAM, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CAM_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CAM_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CAM_nd3, aes(x = x, y = y, colour = "Natal dispersal third travel"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CAM_nd4, aes(x = x, y = y, colour = "Natal dispersal fourth travel"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(CAM_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           geom_polygon(CAM_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
                            labs(x = " ", y = " ", title = "CAM non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
@@ -422,7 +461,7 @@
                             CBK_nonb_sp <- SpatialPointsDataFrame(CBK_nonb[,c("x", "y")], CBK_nonb)   
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
-                            CBK_nonb_kde <- kernelUD(CBK_nonb_sp[,1], h = "href") # h = "LSCV"
+                            CBK_nonb_kde <- kernelUD(CBK_nonb_sp[,1], h = "href", grid = 200) # h = "LSCV"
 
                  # get CBK non-breeding HR
                             CBK_nonb_HR <- getverticeshr(CBK_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
@@ -467,12 +506,39 @@
                                               filter_at(vars(x, y), all_vars(!is.na(.)))
           
                             CIV_nonb$ID <- factor(CIV_nonb$ID)
+
+                            CIV_nonb14 <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'CIV', year == "2014")%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            CIV_nonb14$ID <- factor(CIV_nonb14$ID)
+
+                            CIV_nonb15 <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'CIV', year == "2015")%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            CIV_nonb15$ID <- factor(CIV_nonb15$ID)
+
+                            CIV_nonb16 <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'CIV', year == "2016")%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            CIV_nonb16$ID <- factor(CIV_nonb16$ID)
           
                    # Let's create a spatialPoint object
-                            CIV_nonb_sp <- SpatialPointsDataFrame(CIV_nonb[,c("x", "y")], CIV_nonb)   
+                            CIV_nonb_sp <- SpatialPointsDataFrame(CIV_nonb[,c("x", "y")], CIV_nonb)
+                            CIV_nonb14_sp <- SpatialPointsDataFrame(CIV_nonb14[,c("x", "y")], CIV_nonb14) 
+                            CIV_nonb15_sp <- SpatialPointsDataFrame(CIV_nonb15[,c("x", "y")], CIV_nonb15)
+                            CIV_nonb16_sp <- SpatialPointsDataFrame(CIV_nonb16[,c("x", "y")], CIV_nonb16) 
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
                             CIV_nonb_kde <- kernelUD(CIV_nonb_sp[,1], h = "href") # h = "LSCV"
+                            CIV_nonb14_kde <- kernelUD(CIV_nonb14_sp[,1], h = "href") # h = "LSCV"
+                            CIV_nonb15_kde <- kernelUD(CIV_nonb15_sp[,1], h = "href", grid = 100) # h = "LSCV"
+                            CIV_nonb16_kde <- kernelUD(CIV_nonb16_sp[,1], h = "href", grid = 100) # h = "LSCV"
 
                  # get CIV non-breeding HR
                             CIV_nonb_HR <- getverticeshr(CIV_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
@@ -481,9 +547,36 @@
                             CIV_nonb_HRcore <- getverticeshr(CIV_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
                             CIV_nonb_HRcore
 
+                            CIV_nonb14_HR <- getverticeshr(CIV_nonb14_kde, percent = 60) # 50% is the value to obtain the core area of the HR
+                            CIV_nonb14_HR
+
+                            CIV_nonb14_HRcore <- getverticeshr(CIV_nonb14_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            CIV_nonb14_HRcore
+
+                            CIV_nonb15_HR <- getverticeshr(CIV_nonb15_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            CIV_nonb15_HR
+
+                            CIV_nonb15_HRcore <- getverticeshr(CIV_nonb15_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            CIV_nonb15_HRcore
+
+                            CIV_nonb16_HR <- getverticeshr(CIV_nonb16_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            CIV_nonb16_HR
+
+                            CIV_nonb16_HRcore <- getverticeshr(CIV_nonb16_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            CIV_nonb16_HRcore
+
                   # fortify() function is needed to plot the non-breeding homerange with ggplot
                            CIV_nonb_HR <- fortify(CIV_nonb_HR)
                            CIV_nonb_HRcore <- fortify(CIV_nonb_HRcore)
+
+                           CIV_nonb14_HR <- fortify(CIV_nonb14_HR)
+                           CIV_nonb14_HRcore <- fortify(CIV_nonb14_HRcore)
+
+                           CIV_nonb15_HR <- fortify(CIV_nonb15_HR)
+                           CIV_nonb15_HRcore <- fortify(CIV_nonb15_HRcore)
+
+                           CIV_nonb16_HR <- fortify(CIV_nonb16_HR)
+                           CIV_nonb16_HRcore <- fortify(CIV_nonb16_HRcore)
 
                             CIV <- osprey%>%
                                      filter(ID == 'CIV')
@@ -501,12 +594,16 @@
                            CIV_HR_plot <- 
                            ggplot(CIV_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(CIV_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-                           geom_polygon(CIV_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
                            geom_path(data = CIV, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CIV_nd14, aes(x = x, y = y, colour = "Natal dispersal 2014"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CIV_nd15, aes(x = x, y = y, colour = "Natal dispersal 2015"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CIV_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
+                           #geom_polygon(CIV_nonb14_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           #geom_polygon(CIV_nonb14_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                           geom_polygon(CIV_nonb15_HR, mapping = aes(x=long, y=lat), fill = "pink") +
+                           geom_polygon(CIV_nonb15_HRcore, mapping = aes(x=long, y=lat), fill = "purple") +
+                           geom_polygon(CIV_nonb16_HR, mapping = aes(x=long, y=lat), fill = "light blue") +
+                           geom_polygon(CIV_nonb16_HRcore, mapping = aes(x=long, y=lat), fill = "dark blue") +
                            labs(x = " ", y = " ", title = "CIV non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
@@ -518,7 +615,7 @@
 
                    # ggsave("CIV_HR_ND_plot.jpg", plot = CIV_HR_plot)
 
-# "IAB"
+# "IAB" -> da rivedere HR troppo grande
 
                     # First define the non-breeding period
                             IAB_nonb <- osprey_nonb%>%
@@ -527,23 +624,63 @@
                                               filter_at(vars(x, y), all_vars(!is.na(.)))
           
                             IAB_nonb$ID <- factor(IAB_nonb$ID)
+
+                            IAB_nonb19 <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'IAB', year == "2019")%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            IAB_nonb19$ID <- factor(IAB_nonb19$ID)
+
+                            IAB_nonb20 <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'IAB', year == "2020")%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            IAB_nonb20$ID <- factor(IAB_nonb20$ID)
           
                    # Let's create a spatialPoint object
-                            IAB_nonb_sp <- SpatialPointsDataFrame(IAB_nonb[,c("x", "y")], IAB_nonb)   
+                            IAB_nonb_sp <- SpatialPointsDataFrame(IAB_nonb[,c("x", "y")], IAB_nonb)
+
+                            IAB_nonb19_sp <- SpatialPointsDataFrame(IAB_nonb19[,c("x", "y")], IAB_nonb19) 
+
+                            IAB_nonb20_sp <- SpatialPointsDataFrame(IAB_nonb20[,c("x", "y")], IAB_nonb20) 
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
                             IAB_nonb_kde <- kernelUD(IAB_nonb_sp[,1], h = "href") # h = "LSCV"
 
+                            IAB_nonb19_kde <- kernelUD(IAB_nonb19_sp[,1], h = "href") # h = "LSCV"
+
+                            IAB_nonb20_kde <- kernelUD(IAB_nonb20_sp[,1], h = "href") # h = "LSCV"
+
                  # get IAB non-breeding HR
-                            IAB_nonb_HR <- getverticeshr(IAB_nonb_kde, percent = 95, grid = 70) # 50% is the value to obtain the core area of the HR
+                            IAB_nonb_HR <- getverticeshr(IAB_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
                             IAB_nonb_HR
 
                             IAB_nonb_HRcore <- getverticeshr(IAB_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
                             IAB_nonb_HRcore
 
+                            IAB_nonb19_HR <- getverticeshr(IAB_nonb19_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            IAB_nonb19_HR
+
+                            IAB_nonb19_HRcore <- getverticeshr(IAB_nonb19_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            IAB_nonb19_HRcore
+
+                            IAB_nonb20_HR <- getverticeshr(IAB_nonb20_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            IAB_nonb20_HR
+
+                            IAB_nonb20_HRcore <- getverticeshr(IAB_nonb20_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            IAB_nonb20_HRcore
+
                   # fortify() function is needed to plot the non-breeding homerange with ggplot
                            IAB_nonb_HR <- fortify(IAB_nonb_HR)
                            IAB_nonb_HRcore <- fortify(IAB_nonb_HRcore)
+
+                           IAB_nonb19_HR <- fortify(IAB_non19b_HR)
+                           IAB_nonb19_HRcore <- fortify(IAB_nonb19_HRcore)
+
+                           IAB_nonb20_HR <- fortify(IAB_nonb20_HR)
+                           IAB_nonb20_HRcore <- fortify(IAB_nonb20_HRcore)
 
                             IAB <- osprey%>%
                                      filter(ID == 'IAB')
@@ -558,8 +695,10 @@
                            IAB_HR_plot <- 
                            ggplot(IAB_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(IAB_nonb_HR, mapping = aes(x=long, y=lat) fill = "orange") +
-                           geom_polygon(IAB_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                           geom_polygon(IAB_nonb19_HR, mapping = aes(x=long, y=lat), fill = "pink") +
+                           geom_polygon(IAB_nonb19_HRcore, mapping = aes(x=long, y=lat), fill = "purple") +
+                           geom_polygon(IAB_nonb20_HR, mapping = aes(x=long, y=lat), fill = "light blue") +
+                           geom_polygon(IAB_nonb20_HRcore, mapping = aes(x=long, y=lat), fill = "dark blue") +
                            geom_path(data = IAB, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IAB_nd19, aes(x = x, y = y, colour = "Natal dispersal 2019"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IAB_nd20, aes(x = x, y = y, colour = "Natal dispersal 2020"), linewidth = 0.5, lineend = "round") +
