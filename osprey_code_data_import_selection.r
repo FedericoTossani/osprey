@@ -1,4 +1,10 @@
 
+# ================================ #
+#       1.SetWD and packages       #
+# ================================ #
+
+          source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_WD_packages.r")
+
 # ================================= #
 #          2.Data import            #
 # ================================= #
