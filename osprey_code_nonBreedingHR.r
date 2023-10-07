@@ -147,12 +147,24 @@
                                               filter_at(vars(x, y), all_vars(!is.na(.)))
           
                             H7_nonb$ID <- factor(H7_nonb$ID)
+
+                            H7_hr <- osprey%>%
+                                              dplyr::filter(ID == 'H7', time >= '2013-08-08 20:30:00' & time <= '2015-04-02 05:00:00')%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            H7_hr$ID <- factor(H7_hr$ID)
+
           
                    # Let's create a spatialPoint object
-                            H7_nonb_sp <- SpatialPointsDataFrame(H7_nonb[,c("x", "y")], H7_nonb)   
+                            H7_nonb_sp <- SpatialPointsDataFrame(H7_nonb[,c("x", "y")], H7_nonb)
+                            H7_hr_sp <- SpatialPointsDataFrame(H7_hr[,c("x", "y")], H7_hr)   
+
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
                             H7_nonb_kde <- kernelUD(H7_nonb_sp[,1], h = "href") # h = "LSCV"
+                            H7_hr_kde <- kernelUD(H7_hr_sp[,1], h = "href") # h = "LSCV"
+
 
                  # get H7 non-breeding HR
                             H7_nonb_HR <- getverticeshr(H7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
@@ -161,9 +173,22 @@
                             H7_nonb_HRcore <- getverticeshr(H7_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
                             H7_nonb_HRcore
 
+                            H7_hr_HR <- getverticeshr(H7_hr_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            H7_hr_HR
+
+                            H7_hr_HRcore <- getverticeshr(H7_hr_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            H7_hr_HRcore
+
                   # fortify() function is needed to plot the non-breeding homerange with ggplot
                            H7_nonb_HR <- fortify(H7_nonb_HR)
                            H7_nonb_HRcore <- fortify(H7_nonb_HRcore)
+
+                           H7_hr_HR <- fortify(H7_hr_HR)
+                           H7_hr_HRcore <- fortify(H7_hr_HRcore)
+
+                            H7_hr_HR_sp <- SpatialPointsDataFrame(H7_hr_HR[,c("long", "lat")], H7_hr_HR)   
+
+H7_hr_core <- vect(H7_hr_HRcore, geom = c("long", "lat"), crs = "+proj=longlat +datum=WGS84")
 
                             H7 <- osprey%>%
                                      filter(ID == 'H7')
@@ -173,11 +198,11 @@
 
                   # Plot the non-breeding homerange  -> H7_eu_utm
                            H7_HR_plot <- 
-                           ggplot(H7_eu_utm) +
+                           ggplot() +
                            geom_spatvector()+
                            geom_path(data = H7, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(H7_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-                           geom_polygon(H7_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                           geom_polygon(H7_hr_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           geom_polygon(H7_hr_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
                            geom_path(data = H7_nd, aes(x = x, y = y, colour = "Natal dispersal movements"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "H7 non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
