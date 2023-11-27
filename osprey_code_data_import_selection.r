@@ -93,7 +93,7 @@ osprey <- osprey%>%
                          y = utm_coord$y)
 
 # ltraj object
-osprey_no_duplicates <- osprey[!duplicated(osprey[c("id", "time")]) & !duplicated(osprey[c("id", "time")], fromLast = TRUE), ]
+osprey_no_duplicates <- osprey[!duplicated(osprey[c("ID", "time")]) & !duplicated(osprey[c("ID", "time")], fromLast = TRUE), ]
 
 osprey_lt <- as.ltraj(osprey[, c("x", "y")],
                                         date = osprey$time,
