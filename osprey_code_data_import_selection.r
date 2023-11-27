@@ -95,7 +95,7 @@ osprey <- osprey%>%
 # ltraj object
 osprey_no_duplicates <- osprey[!duplicated(osprey[c("id", "time")]) & !duplicated(osprey[c("id", "time")], fromLast = TRUE), ]
 
-osprey_lt <- as.ltraj((osprey[, c("x", "y")],
+osprey_lt <- as.ltraj(osprey[, c("x", "y")],
                                         date = osprey$time,
                                         id = osprey$id,
                                         typeII = T)
