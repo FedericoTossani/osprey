@@ -100,6 +100,9 @@ osprey_lt <- as.ltraj(osprey[, c("x", "y")],
                                         id = osprey$id,
                                         typeII = T)
 
+osp_lt_df <- ld(osprey_lt)
+
+
 osprey_nd <- osprey%>%
                   select(-c("day", "month", "year", "m_day", "ext_temp", "signal_interruption_cause", "death_comment"))%>%
                   unique()
