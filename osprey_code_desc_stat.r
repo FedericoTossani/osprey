@@ -25,6 +25,36 @@
 # ============================================ #
 
 
+
+# NSD #
+
+nsds <- do.call(rbind, osprey_lt)
+
+
+osp_nsd <- osp_lt_df %>%
+  group_by(id) %>%
+  summarize(nsd = sum(R2n),
+            msd = mean(R2n))%>%
+  arrange(desc(nsd))
+osp_nsd
+
+nsd_plot <- ggplot(osp_nsd, aes(x = reorder(id, -nsd), y = nsd)) +
+  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
+  labs(title = "Net Squared Displacement (NSD) for Each Individual",
+       x = "Individual ID",
+       y = "NSD Value") +
+  theme_minimal()
+nsd_plot
+
+nsd_plot <- ggplot(A7, aes(x = date, y = R2n)) +
+  geom_line() +
+  labs(title = "Squared Distance",
+       x = "Date",
+       y = "R2n Value") +
+  theme_minimal()
+nsd_plot
+
+
 ###########################
 # Visualize the movements #
 ###########################
