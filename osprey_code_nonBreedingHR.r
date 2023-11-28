@@ -198,7 +198,7 @@ H7_hr_core <- vect(H7_hr_HRcore, geom = c("long", "lat"), crs = "+proj=longlat +
 
                   # Plot the non-breeding homerange  -> H7_eu_utm
                            H7_HR_plot <- 
-                           ggplot() +
+                           ggplot(H7_eu_utm) +
                            geom_spatvector()+
                            geom_path(data = H7, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
                            geom_polygon(H7_hr_HR, mapping = aes(x=long, y=lat), fill = "orange") +
