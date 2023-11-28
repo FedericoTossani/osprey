@@ -196,6 +196,7 @@ H7_hr_core <- vect(H7_hr_HRcore, geom = c("long", "lat"), crs = "+proj=longlat +
                             H7_nd <- osprey_nd%>%
                                      filter(ID == 'H7')
 
+
                   # Plot the non-breeding homerange  -> H7_eu_utm
                            H7_HR_plot <- 
                            ggplot(H7_eu_utm) +
