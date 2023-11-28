@@ -455,12 +455,12 @@ ibs_lat_time <- ibs_lat_time + xlim(1,365)
             filter(ID == 'IBS') # & time >= '2020-07-01 00:00:00' & time <= '20-09-15 00:00:00'
 
         osp_lat_time <-
-        ggplot(osp, aes(time, y)) +
+        ggplot(osp, aes(time, lat)) +
         geom_point(size = 0.5) +
         geom_path()
 
         osp_lon_time <-
-        ggplot(osp, aes(time, x)) +
+        ggplot(osp, aes(time, lon)) +
         geom_point(size = 0.5) +
         geom_path()
 
