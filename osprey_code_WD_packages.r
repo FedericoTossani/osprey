@@ -18,10 +18,6 @@
                                "ggpubr",
                                "DescTools",
                                "devtools",
-                               "moveHMM",
-                               "momentuHMM",
-                               "foieGras",
-                               "crawl",
                                "ggspatial",
                                "gganimate")
 
