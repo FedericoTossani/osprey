@@ -452,7 +452,7 @@ ibs_lat_time <- ibs_lat_time + xlim(1,365)
 
   # use this graph to check for departure dates 
         osp <- osprey%>%
-            filter(ID == 'IBH' & time >= '2020-08-07 07:00:00' & time <= '2020-08-15 15:00:00') # & time >= '2020-07-01 00:00:00' & time <= '20-09-15 00:00:00'
+            filter(ID == 'IBS') # & time >= '2020-07-01 00:00:00' & time <= '20-09-15 00:00:00'
 
         osp_lat_time <-
         ggplot(osp, aes(time, y)) +
