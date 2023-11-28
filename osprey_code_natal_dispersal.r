@@ -542,19 +542,42 @@ seg_H7_lt <- findpath(lav_H7_lt, 3)
                   ggsave( "ibk_nd.jpg", plot = ibk_track)
 
 # IBS
+
+                            IBS <- osprey%>%
+                                     filter(ID == 'IBS')
+
+                  IBS_nd20 <- osprey_nd%>%
+                                     filter(ID == "IBS"& time >= "2020-08-07 08:00:00" & time <= "2020-08-18 19:00:00")
+
+                            IBS_nd21 <- osprey_nd%>%
+                                     filter(ID == "IBS" & time >= "2021-02-15 09:00:00" & time <= "2021-05-01 16:00:00")
+
+                            IBS_nd22 <- osprey_nd%>%
+                                     filter(ID == 'IBS' & time > '2022-03-22 00:00:00' & time < '2022-06-04 15:00:00')
+
+                            IBS_nd23 <- osprey_nd%>%
+                                     filter(ID == "IBS" & time >= "2023-02-08 16:00:00" & time <= "2023-02-28 00:00:00")
+
+                  # Plot the non-breeding homerange
+                           IBS_HR_plot <- 
+                           ggplot(IBS_eu_utm) +
+                           geom_spatvector()+
+                           geom_path(data = IBS, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBS_nd20, aes(x = x, y = y, colour = "Natal dispersal 2020"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBS_nd21, aes(x = x, y = y, colour = "Natal dispersal 2021"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBS_nd22, aes(x = x, y = y, colour = "Natal dispersal 2022"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBS_nd23, aes(x = x, y = y, colour = "Natal dispersal 2023"), linewidth = 0.5, lineend = "round") +
+                           labs(x = " ", y = " ", title = "IBS non-breeding homerange and natal dispersal tracks") +
+                          # facet_wrap(~year)+
+                           theme_minimal()+
+                           scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
+                                                                          "Natal dispersal 2020" = "magenta",
+                                                                          "Natal dispersal 2021" = "blue",
+                                                                          "Natal dispersal 2022" = "orange",
+                                                                          "Natal dispersal 2023" = "brown"))
          
-                  ibs_nd <- osprey_nd%>%
-                           filter(ID == 'IBS')
-         
-                  ibs_track <- ggplot(ibs_eu_utm) +
-                             geom_spatvector()+
-                             geom_path(data = ibs_nd, aes(x = x, y = y), 
-                                       linewidth = 0.5, lineend = "round", col = 'red') +
-                             labs(x = " ", y = " ", title = "IBS natal dispersal GPS track") +
-                             theme_minimal() +
-                             theme(legend.position = "none")
-         
-                  ibs_track
+                           IBS_HR_plot
+
          
                  # save the plot to the working directory 
                   ggsave( "ibs_nd.jpg", plot = ibs_track)
