@@ -46,13 +46,14 @@ nsd_plot <- ggplot(osp_nsd, aes(x = reorder(id, -nsd), y = nsd)) +
   theme_minimal()
 nsd_plot
 
-nsd_plot <- ggplot(A7, aes(x = date, y = R2n)) +
+r2n_plot <- ggplot(osprey_lt, aes(x = date, y = R2n)) +
   geom_line() +
   labs(title = "Squared Distance",
        x = "Date",
        y = "R2n Value") +
+  facet_wrap(~id)
   theme_minimal()
-nsd_plot
+rsn_plot
 
 
 ###########################
