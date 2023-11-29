@@ -789,28 +789,33 @@ H7_hr_core <- vect(H7_hr_HRcore, geom = c("long", "lat"), crs = "+proj=longlat +
                             IAD <- osprey%>%
                                      filter(ID == 'IAD')
 
+                            IAD_nd16 <- osprey_nd%>%
+                                     filter(ID == 'IAD' & time >= '2016-08-20 09:00:00' & time <= '2016-08-25 11:00:00')
+
                             IAD_nd18 <- osprey_nd%>%
                                      filter(ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00')
 
                             IAD_nd19 <- osprey_nd%>%
-                                     filter(ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-05-07 15:00:00')
+                                     filter(ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-05-07 15:00:00'| ID == 'IAD' & time >= '2019-07-08 09:00:00' & time <= '2019-07-15 18:00:00')
 
                   # Plot the non-breeding homerange
                            IAD_HR_plot <- 
                            ggplot(IAD_eu_utm) +
                            geom_spatvector()+
                            geom_path(data = IAD, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IAD_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IAD_nd18, aes(x = x, y = y, colour = "Natal dispersal 2018"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IAD_nd19, aes(x = x, y = y, colour = "Natal dispersal 2019"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(IAD_nonb18_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-                           geom_polygon(IAD_nonb18_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
-                           geom_polygon(IAD_nonb19_HR, mapping = aes(x=long, y=lat), fill = "pink") +
-                           geom_polygon(IAD_nonb19_HRcore, mapping = aes(x=long, y=lat), fill = "purple") +
+                           #geom_polygon(IAD_nonb18_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           #geom_polygon(IAD_nonb18_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                           #geom_polygon(IAD_nonb19_HR, mapping = aes(x=long, y=lat), fill = "pink") +
+                           #geom_polygon(IAD_nonb19_HRcore, mapping = aes(x=long, y=lat), fill = "purple") +
                            labs(x = " ", y = " ", title = "IAD non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
+                                                                          "Natal dispersal 2016" = "red",
                                                                           "Natal dispersal 2018" = "blue",
-                                                                          "Natal dispersal 2019" = "magenta"))
+                                                                          "Natal dispersal 2019" = "brown"))
          
                            IAD_HR_plot
 
