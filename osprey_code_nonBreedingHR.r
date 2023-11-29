@@ -258,10 +258,13 @@ H7_hr_core <- vect(H7_hr_HRcore, geom = c("long", "lat"), crs = "+proj=longlat +
                             IFP <- osprey%>%
                                      filter(ID == 'IFP')
 
-                            IFP_nd1 <- osprey_nd%>%
+                            IFP_nd22 <- osprey_nd%>%
+                                     filter(ID == 'IFP' & time >= '2022-07-23 06:00:00' & time <= '2022-08-15 00:00:00')
+
+                            IFP_nd23a <- osprey_nd%>%
                                      filter(ID == 'IFP' & time >= '2023-04-24 00:00:00' & time <= '2023-04-30 04:00:00')
 
-                            IFP_nd2 <- osprey_nd%>%
+                            IFP_nd23b <- osprey_nd%>%
                                      filter(ID == "IFP" & time > '2023-05-16 00:00:00' & time < '2023-06-08 20:00:00')
 
                   # Plot the non-breeding homerange
@@ -271,13 +274,15 @@ H7_hr_core <- vect(H7_hr_HRcore, geom = c("long", "lat"), crs = "+proj=longlat +
                            geom_polygon(IFP_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
                            geom_polygon(IFP_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
                            geom_path(data = IFP, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IFP_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IFP_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IFP_nd22, aes(x = x, y = y, colour = "Natal dispersal 2022"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IFP_nd23a, aes(x = x, y = y, colour = "Natal dispersal 2023 first travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IFP_nd23b, aes(x = x, y = y, colour = "Natal dispersal 2023 second travel"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "IFP non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
-                                                                          "Natal dispersal first travel" = "blue",
-                                                                          "Natal dispersal second travel" = "brown"))
+                                                                          "Natal dispersal 2022" = "red",
+                                                                          "Natal dispersal 2023 first travel" = "blue",
+                                                                          "Natal dispersal 2023 second travel" = "brown"))
          
                            IFP_HR_plot
 
