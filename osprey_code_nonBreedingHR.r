@@ -595,14 +595,21 @@ H7_hr_core <- vect(H7_hr_HRcore, geom = c("long", "lat"), crs = "+proj=longlat +
                                      filter(ID == 'CIV')
 
                             CIV_nd14 <- osprey_nd%>%
-                                     filter(ID == "CIV" & time >= "2014-08-16 06:00:00" & time <= "2014-10-22 12:00:00")
+                                     filter( ID == 'CIV' & time >= "2014-08-16 10:00:00" & time <= "2014-08-22 06:00:00" |
+                         ID == 'CIV' & time >= "2014-09-11 08:00:00" & time <= "2014-09-13 17:00:00" |
+                         ID == 'CIV' & time >= "2014-10-21 08:00:00" & time <= "2014-10-21 21:00:00")
 
                             CIV_nd15 <- osprey_nd%>%
-                                     filter(ID == 'CIV' & time > '2015-06-04 03:00:00' & time <= '2015-11-26 24:00:00')
+                                     filter(ID == 'CIV' & time >= "2015-03-21 02:00:00" & time <= "2015-03-21 24:00:00" |
+                         ID == 'CIV' & time >= "2015-06-04 04:00:00" & time <= "2015-06-22 18:00:00" |
+                         ID == 'CIV' & time >= "2015-08-13 06:00:00" & time <= "2015-08-14 00:00:00" |
+                         ID == 'CIV' & time >= "2015-11-21 16:00:00" & time <= "2015-11-27 00:00:00")
 
                             CIV_nd16 <- osprey_nd%>%
-                                     filter(ID == 'CIV' & time > '2016-03-29 00:01:00' & time < '2016-10-29 18:00:00')
-
+                                     filter( ID == 'CIV' & time >= '2016-03-28 18:00:00' & time <= '2016-04-01 06:00:00' |
+                         ID == 'CIV' & time >= '2016-04-15 06:00:00' & time <= '2016-04-18 22:00:00' |
+                         ID == 'CIV' & time >= '2016-10-28 06:00:00' & time <= '2016-10-30 06:00:00')
+                                            
                   # Plot the non-breeding homerange
                            CIV_HR_plot <- 
                            ggplot(CIV_eu_utm) +
@@ -611,10 +618,10 @@ H7_hr_core <- vect(H7_hr_HRcore, geom = c("long", "lat"), crs = "+proj=longlat +
                            geom_path(data = CIV_nd14, aes(x = x, y = y, colour = "Natal dispersal 2014"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CIV_nd15, aes(x = x, y = y, colour = "Natal dispersal 2015"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CIV_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(CIV_nonb15_HR, mapping = aes(x=long, y=lat), fill = "pink") +
-                           geom_polygon(CIV_nonb15_HRcore, mapping = aes(x=long, y=lat), fill = "purple") +
-                           geom_polygon(CIV_nonb16_HR, mapping = aes(x=long, y=lat), fill = "light blue") +
-                           geom_polygon(CIV_nonb16_HRcore, mapping = aes(x=long, y=lat), fill = "dark blue") +
+                           #geom_polygon(CIV_nonb15_HR, mapping = aes(x=long, y=lat), fill = "pink") +
+                           #geom_polygon(CIV_nonb15_HRcore, mapping = aes(x=long, y=lat), fill = "purple") +
+                           #geom_polygon(CIV_nonb16_HR, mapping = aes(x=long, y=lat), fill = "light blue") +
+                           #geom_polygon(CIV_nonb16_HRcore, mapping = aes(x=long, y=lat), fill = "dark blue") +
                            labs(x = " ", y = " ", title = "CIV non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
