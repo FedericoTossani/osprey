@@ -793,10 +793,18 @@ H7_hr_core <- vect(H7_hr_HRcore, geom = c("long", "lat"), crs = "+proj=longlat +
                                      filter(ID == 'IAD' & time >= '2016-08-20 09:00:00' & time <= '2016-08-25 11:00:00')
 
                             IAD_nd18 <- osprey_nd%>%
-                                     filter(ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00' | ID == 'IAD' & time >= '2018-12-15 00:00:00' & time <= '2018-12-20 15:00:00')
+                                     filter(ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00' |
+                                            ID == 'IAD' & time >= '2018-12-15 00:00:00' & time <= '2018-12-20 15:00:00')
 
                             IAD_nd19 <- osprey_nd%>%
-                                     filter(ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-04-01 17:00:00' | ID == 'IAD' & time >= '2019-04-14 20:00:00' & time <= '2019-05-07 15:00:00' | ID == 'IAD' & time >= '2019-07-08 09:00:00' & time <= '2019-07-15 18:00:00')
+                                     filter(ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-04-01 17:00:00' |
+                                            ID == 'IAD' & time >= '2019-04-14 20:00:00' & time <= '2019-04-19 13:00:00' |
+                                            ID == 'IAD' & time >= '2019-04-21 06:00:00' & time <= '2019-04-21 19:00:00' |
+                                            ID == 'IAD' & time >= '2019-04-29 07:00:00' & time <= '2019-05-01 24:00:00' |
+                                            ID == 'IAD' & time >= '2019-07-08 09:00:00' & time <= '2019-07-15 18:00:00')
+
+            IAD_nd19t <- osprey_nd%>%
+                                     filter(ID == 'IAD' & time >= '2019-04-14 20:00:00' & time <= '2019-04-19 13:00:00')
 
                   # Plot the non-breeding homerange
                            IAD_HR_plot <- 
@@ -818,7 +826,7 @@ H7_hr_core <- vect(H7_hr_HRcore, geom = c("long", "lat"), crs = "+proj=longlat +
                                                                           "Natal dispersal 2019" = "brown"))
          
                            IAD_HR_plot
-
+ 
                    # ggsave("IAD_HR_ND_plot.jpg", plot = IAD_HR_plot)
 
 # "IBH"
