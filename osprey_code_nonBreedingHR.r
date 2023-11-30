@@ -60,8 +60,8 @@
                            A7_HR_plot <- 
                            ggplot(A7_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-                           geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
+                           #geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
+                           #geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
                            geom_path(data = A7, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = A7_nd, aes(x = x, y = y, colour = "Natal dispersal movements"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "A7 non-breeding homerange and natal dispersal track") +
@@ -793,7 +793,8 @@ H7_hr_core <- vect(H7_hr_HRcore, geom = c("long", "lat"), crs = "+proj=longlat +
                                      filter(ID == 'IAD' & time >= '2016-08-20 09:00:00' & time <= '2016-08-25 11:00:00')
 
                             IAD_nd18 <- osprey_nd%>%
-                                     filter(ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00' |
+                                     filter(ID == 'IAD' & time >= '2018-02-04 18:00:00' & time <= '2018-02-07 19:00:00' | 
+                                            ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00' |
                                             ID == 'IAD' & time >= '2018-12-15 00:00:00' & time <= '2018-12-20 15:00:00')
 
                             IAD_nd19 <- osprey_nd%>%
