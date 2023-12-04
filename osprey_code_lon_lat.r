@@ -452,21 +452,26 @@ ibs_lat_time <- ibs_lat_time + xlim(1,365)
 
   # use this graph to check for departure dates  
 
-ID == 'ICZ' & time >= '2019-08-03 08:00:00' & time <= '2019-08-04 15:00:00'
+ID == 'ICZ' & time >= '2019-08-03 08:00:00' & time <= '2019-08-04 15:00:00' |
+ID == 'ICZ' & time >= '2019-09-09 08:00:00' & time <= '2019-09-14 14:30:00' |
+ID == 'ICZ' & time >= '2020-04-11 10:00:00' & time <= '2020-04-24 00:00:00' |
 
-                  osp <- osprey%>%
-                      filter(ID == 'ICZ' & time >= '2019-08-04 15:00:00') # & time <= '2019-08-04 15:00:00')
-          
-                  osp_lat_time <-
-                  ggplot(osp, aes(time, lat)) +
-                  geom_point(size = 0.5) +
-                  geom_path()
-          
-                  osp_lon_time <-
-                  ggplot(osp, aes(time, lon)) +
-                  geom_point(size = 0.5) +
-                  geom_path()
-          
-                  osp_lon_lat <- ggarrange(osp_lon_time, osp_lat_time, ncol = 1, nrow = 2)
-                   
-                  osp_lon_lat
+
+                            osp <- osprey%>%
+                                filter(ID == 'ICZ' & time >= '2020-04-24 00:00:00' & time <= '2020-06-24 00:00:00')
+                    
+                            osp_lat_time <-
+                            ggplot(osp, aes(time, lat)) +
+                            geom_point(size = 0.5) +
+                            geom_path()
+                    
+                            osp_lon_time <-
+                            ggplot(osp, aes(time, lon)) +
+                            geom_point(size = 0.5) +
+                            geom_path()
+                    
+                            osp_lon_lat <- ggarrange(osp_lon_time, osp_lat_time, ncol = 1, nrow = 2)
+                             
+                            osp_lon_lat
+
+
