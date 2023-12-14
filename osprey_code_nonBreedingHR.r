@@ -36,38 +36,67 @@
                             A7_nonb_sp <- SpatialPointsDataFrame(A7_nonb[,c("x", "y")], A7_nonb)   
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
-                            A7_nonb_kde <- kernelUD(A7_nonb_sp[,1], h = "href") # h = "LSCV"
+                            A7_nonb_kde <- kernelUD(A7_nonb_sp[,1], h = "href", grid = 50) # h = "LSCV"
 
 
                   # get A7 non-breeding HR
-                           A7_nonb_HR <- getverticeshr(A7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                           A7_nonb_HR <- getverticeshr(A7_nonb_kde, percent = 95)
                            A7_nonb_HR
 
-                           A7_nonb_HRcore <- getverticeshr(A7_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                           A7_nonb_HRcore <- getverticeshr(A7_nonb_kde, percent = 50)
                            A7_nonb_HRcore
 
                   # fortify() function is needed to plot the non-breeding homerange with ggplot
                            A7_nonb_HR <- fortify(A7_nonb_HR)
                            A7_nonb_HRcore <- fortify(A7_nonb_HRcore)
 
-                  A7<- osprey%>%
-                           filter(ID == 'A7')
+                  A7_nonb1 <- osprey_nonb%>%
+                           filter(ID == 'A7' & time >= '2015-08-18 12:00:00' & time <= '2017-02-20 00:00:00')
 
-                  A7_nd<- osprey_nd%>%
-                           filter(ID == 'A7')
+                  A7_nonb2 <- osprey_nonb%>%
+                           filter(ID == 'A7' & time >= '2017-03-01 20:00:00' & time <= '2017-03-17 00:00:00')
+
+                  A7_nonb3 <- osprey_nonb%>%
+                           filter(ID == 'A7' & time >= '2017-06-12 20:00:00' & time <= '2017-07-12 18:00:00')
+
+                  A7_nonb4 <- osprey_nonb%>%
+                           filter(ID == 'A7' & time >= '2017-07-28 06:00:00')
+
+                  A7_nd1 <- osprey_nd%>%
+                           filter(ID == 'A7' & time >= '2015-08-14 09:00:00' & time <= '2015-08-18 12:00:00')
+
+                  A7_nd2 <- osprey_nd%>%
+                           filter(ID == 'A7' & time >= '2017-02-20 00:00:00' & time <= '2017-03-01 20:00:00')
+
+                  A7_nd3 <- osprey_nd%>%
+                           filter(ID == 'A7' & time >= '2017-03-17 00:00:00' & time <= '2017-06-12 20:00:00')
+
+                  A7_nd4 <- osprey_nd%>%
+                           filter(ID == 'A7' & time >= '2017-07-12 18:00:00' & time <= '2017-07-28 06:00:00')
 
                   # Plot the NonBreeding HR
                            A7_HR_plot <- 
                            ggplot(A7_eu_utm) +
                            geom_spatvector()+
-                           #geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-                           #geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
-                           geom_path(data = A7, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = A7_nd, aes(x = x, y = y, colour = "Natal dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                           geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+                           geom_path(data = A7_nonb1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = A7_nonb2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = A7_nonb3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = A7_nonb4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = A7_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = A7_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = A7_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = A7_nd4, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "A7 non-breeding homerange and natal dispersal track") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
-                                                                          "Natal dispersal movements" = "blue"))
+                           scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
+                                                                          "Natal dispersal 1st travel" = "blue",
+                                                                          "Natal dispersal 2nd travel" = "orange",
+                                                                          "Natal dispersal 3rd travel" = "brown",
+                                                                          "Natal dispersal 4th travel" = "magenta")) +
+                            scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "orange",
+                                                                              "Non-Breeding HR core area" = "red"))
          
                            A7_HR_plot
 
