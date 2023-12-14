@@ -35,7 +35,7 @@
                             A7_nonb_sp <- SpatialPointsDataFrame(A7_nonb[,c("x", "y")], A7_nonb)   
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
-                            A7_nonb_kde <- kernelUD(A7_nonb_sp[,1], h = "href", grid = 60) # h = "LSCV"
+                            A7_nonb_kde <- kernelUD(A7_nonb_sp[,1], h = "href", grid = 750) # h = "LSCV"
 
 
                   # get A7 non-breeding HR
@@ -75,7 +75,7 @@
 
                   # Plot the NonBreeding HR
                            A7_HR_plot <- 
-                           ggplot(A7_eu_utm) +
+                           ggplot() + #A7_eu_utm
                            geom_spatvector()+
                            geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
                            geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
@@ -83,10 +83,10 @@
                            geom_path(data = A7_nonb2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = A7_nonb3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = A7_nonb4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = A7_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = A7_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = A7_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = A7_nd4, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = A7_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = A7_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = A7_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = A7_nd4, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "A7 non-breeding HR and ND movements tracks") +
                            theme_minimal()+
                            scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
@@ -117,7 +117,7 @@
                             E7_nonb_sp <- SpatialPointsDataFrame(E7_nonb[,c("x", "y")], E7_nonb)   
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
-                            E7_nonb_kde <- kernelUD(E7_nonb_sp[,1], h = "href", grid=55) # h = "LSCV"
+                            E7_nonb_kde <- kernelUD(E7_nonb_sp[,1], h = "href", grid=750) # h = "LSCV"
 
                  # get E7 non-breeding HR
                             E7_nonb_HR <- getverticeshr( E7_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
@@ -138,13 +138,13 @@
 
                   # Plot the non-breeding homerange
                                      E7_HR_plot <- 
-                                     ggplot(E7_eu_utm) + 
+                                     ggplot() +  #E7_eu_utm
                                      geom_spatvector()+
                                      geom_polygon(E7_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
                                      geom_polygon(E7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
                                      geom_path(data = E7_nonb, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                                     geom_path(data = E7_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-                                     geom_path(data = E7_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+                                     #geom_path(data = E7_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+                                     #geom_path(data = E7_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
                                      labs(x = " ", y = " ", title = "E7 non-breeding HR and ND movements tracks") +
                                      theme_minimal()+
                                      scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
@@ -239,7 +239,7 @@
                                                   typeII=TRUE)
 
 # "IFP"
-          # ANIMAL USED TO TEST A NEW APPROACH
+# too small dataset to calculate HR
 
                     # First define the non-breeding period
                             IFP_nonb <- osprey_nonb%>%
@@ -253,10 +253,10 @@
                             IFP_nonb_sp <- SpatialPointsDataFrame(IFP_nonb[,c("x", "y")], IFP_nonb)   
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
-                            IFP_nonb_kde <- kernelUD(IFP_nonb_sp[,1], h = "href") # h = "LSCV"
+                            IFP_nonb_kde <- kernelUD(IFP_nonb_sp[,1], h = "href", grid = 70) # h = "LSCV"
 
                  # get IFP non-breeding HR
-                            IFP_nonb_HR <- getverticeshr(IFP_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            IFP_nonb_HR <- getverticeshr(IFP_nonb_kde, percent = 95) 
                             IFP_nonb_HR
 
                             IFP_nonb_HRcore <- getverticeshr(IFP_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -266,9 +266,6 @@
                            IFP_nonb_HR <- fortify(IFP_nonb_HR)
                            IFP_nonb_HRcore <- fortify(IFP_nonb_HRcore)
 
-                            IFP <- osprey%>%
-                                     filter(ID == 'IFP')
-
                             IFP_nd22 <- osprey_nd%>%
                                      filter(ID == 'IFP' & time >= '2022-07-23 06:00:00' & time <= '2022-08-15 00:00:00')
 
@@ -276,28 +273,29 @@
                                      filter(ID == 'IFP' & time >= '2023-04-24 00:00:00' & time <= '2023-04-30 04:00:00')
 
                             IFP_nd23b <- osprey_nd%>%
-                                     filter(ID == "IFP" & time > '2023-05-16 00:00:00' & time < '2023-06-08 20:00:00')
+                                     filter(ID == "IFP" & time >= '2023-05-16 00:00:00' & time <= '2023-06-08 20:00:00')
 
                   # Plot the non-breeding homerange
                            IFP_HR_plot <- 
-                           ggplot(IFP_eu_utm) +
-                           geom_spatvector()+
-                           geom_polygon(IFP_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-                           geom_polygon(IFP_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
-                           geom_path(data = IFP, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IFP_nd22, aes(x = x, y = y, colour = "Natal dispersal 2022"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IFP_nd23a, aes(x = x, y = y, colour = "Natal dispersal 2023 first travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = IFP_nd23b, aes(x = x, y = y, colour = "Natal dispersal 2023 second travel"), linewidth = 0.5, lineend = "round") +
-                           labs(x = " ", y = " ", title = "IFP non-breeding homerange and natal dispersal tracks") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
-                                                                          "Natal dispersal 2022" = "red",
-                                                                          "Natal dispersal 2023 first travel" = "blue",
-                                                                          "Natal dispersal 2023 second travel" = "brown"))
-         
+                                     ggplot(IFP_eu_utm) +
+                                     geom_spatvector()+
+                                     #geom_polygon(IFP_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                                     #geom_polygon(IFP_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+                                     geom_path(data = IFP_nonb, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                                     geom_path(data = IFP_nd22, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+                                     geom_path(data = IFP_nd23a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+                                     geom_path(data = IFP_nd23b, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+                                     labs(x = " ", y = " ", title = "IFP non-breeding HR and ND movements tracks") +
+                                     theme_minimal()+
+                                     scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
+                                                                                    "Natal dispersal 1st travel" = "blue",
+                                                                                    "Natal dispersal 2nd travel" = "orange",
+                                                                                    "Natal dispersal 3rd travel" = "brown")) +
+                                      scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "orange",
+                                                                                        "Non-Breeding HR core area" = "red"))         
                            IFP_HR_plot
 
-                   # ggsave("IFP_HR_ND_plot.jpg", plot = IFP_HR_plot)
+                   # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/IFP_HR_ND_plot.jpg", plot = IFP_HR_plot)
 
           
           # Non-breeding ltraj object
@@ -313,6 +311,7 @@
                                                   typeII=TRUE)
 
 # "Antares"
+# Traccaito difficile da analizzare, da rivedere
 
                     # First define the non-breeding period
                             Antares_nonb15 <- osprey_nonb%>%
@@ -348,19 +347,19 @@
                             Antares_nonb_kde <- kernelUD(Antares_nonb_sp[,1], h = "href") # h = "LSCV"
 
                  # get Antares non-breeding HR
-                            Antares_nonb15_HR <- getverticeshr(Antares_nonb15_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            Antares_nonb15_HR <- getverticeshr(Antares_nonb15_kde, percent = 95)
                             Antares_nonb15_HR
 
                             Antares_nonb15_HRcore <- getverticeshr(Antares_nonb15_kde, percent = 50) # 50% is the value to obtain the core area of the HR
                             Antares_nonb15_HRcore
 
-                            Antares_nonb16_HR <- getverticeshr(Antares_nonb16_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            Antares_nonb16_HR <- getverticeshr(Antares_nonb16_kde, percent = 95) 
                             Antares_nonb16_HR
 
                             Antares_nonb16_HRcore <- getverticeshr(Antares_nonb16_kde, percent = 50) # 50% is the value to obtain the core area of the HR
                             Antares_nonb16_HRcore
 
-                            Antares_nonb_HR <- getverticeshr(Antares_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            Antares_nonb_HR <- getverticeshr(Antares_nonb_kde, percent = 95) 
                             Antares_nonb_HR
 
                             Antares_nonb_HRcore <- getverticeshr(Antares_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -392,21 +391,25 @@
                            Antares_HR_plot <- 
                            ggplot(Antares_eu_utm) +
                            geom_spatvector()+
-                           geom_polygon(Antares_nonb16_HR, mapping = aes(x=long, y=lat), fill = "light blue") +
-                           geom_polygon(Antares_nonb16_HRcore, mapping = aes(x=long, y=lat), fill = "dark blue") +
-                           geom_polygon(Antares_nonb15_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-                           geom_polygon(Antares_nonb15_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
-                           geom_path(data = Antares, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = Antares_nd15_1, aes(x = x, y = y, colour = "Natal dispersal 2015 first travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = Antares_nd15_2, aes(x = x, y = y, colour = "Natal dispersal 2015 second travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = Antares_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
-                           labs(x = " ", y = " ", title = "Antares non-breeding homerange and natal dispersal tracks") +
+                           #geom_polygon(Antares_nonb16_HR, mapping = aes(x=long, y=lat), fill = "light blue") +
+                           #geom_polygon(Antares_nonb16_HRcore, mapping = aes(x=long, y=lat), fill = "dark blue") +
+                           #geom_polygon(Antares_nonb15_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                           #geom_polygon(Antares_nonb15_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+                           geom_polygon(Antares_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                           geom_polygon(Antares_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+                           geom_path(data = Antares, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = Antares_nd15_1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = Antares_nd15_2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = Antares_nd16, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+                           labs(x = " ", y = " ", title = "Antares non-breeding HR and ND movements tracks") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
-                                                                          "Natal dispersal 2015 first travel" = "blue",
-                                                                          "Natal dispersal 2015 second travel" = "brown",
-                                                                          "Natal dispersal 2016" = "yellow"))
-         
+                                     scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
+                                                                                    "Natal dispersal 1st travel" = "blue",
+                                                                                    "Natal dispersal 2nd travel" = "orange",
+                                                                                    "Natal dispersal 3rd travel" = "brown")) +
+                                      scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "orange",
+                                                                                        "Non-Breeding HR core area" = "red"))  
+
                            Antares_HR_plot
 
                    # ggsave("Antares_HR_ND_plot.jpg", plot = Antares_HR_plot)
@@ -438,10 +441,10 @@
                             CAM_nonb_sp <- SpatialPointsDataFrame(CAM_nonb[,c("x", "y")], CAM_nonb)   
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
-                            CAM_nonb_kde <- kernelUD(CAM_nonb_sp[,1], h = "href", grid = 200) # h = "LSCV"
+                            CAM_nonb_kde <- kernelUD(CAM_nonb_sp[,1], h = "href", grid = 750) # h = "LSCV"
 
                   # get CAM non-breeding HR
-                            CAM_nonb_HR <- getverticeshr(CAM_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            CAM_nonb_HR <- getverticeshr(CAM_nonb_kde, percent = 95)
                             CAM_nonb_HR
 
                             CAM_nonb_HRcore <- getverticeshr(CAM_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -451,11 +454,8 @@
                            CAM_nonb_HR <- fortify(CAM_nonb_HR)
                            CAM_nonb_HRcore <- fortify(CAM_nonb_HRcore)
 
-                            CAM <- osprey%>%
-                                     filter(ID == 'CAM')
-
                             CAM_nd1 <- osprey_nd%>%
-                                     filter(ID == "CAM" & time >= "2016-04-14 06:00:00" & time <= "2016-04-19 20:00:00")
+                                     filter(ID == 'CAM' & time >= "2016-04-14 06:00:00" & time <= "2016-04-19 20:00:00")
 
                             CAM_nd2 <- osprey_nd%>%
                                      filter(ID == "CAM" & time >= "2016-05-03 08:00:00" & time <= "2016-05-06 18:00:00")
@@ -468,13 +468,13 @@
 
                   # Plot the non-breeding homerange
                            CAM_HR_plot <- 
-                           ggplot(CAM_eu_utm) +
+                           ggplot() + # CAM_eu_utm
                            geom_spatvector()+
-                           geom_path(data = CAM, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CAM_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CAM_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CAM_nd3, aes(x = x, y = y, colour = "Natal dispersal third travel"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CAM_nd4, aes(x = x, y = y, colour = "Natal dispersal fourth travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CAM_nonb, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = CAM_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = CAM_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = CAM_nd3, aes(x = x, y = y, colour = "Natal dispersal third travel"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = CAM_nd4, aes(x = x, y = y, colour = "Natal dispersal fourth travel"), linewidth = 0.5, lineend = "round") +
                            geom_polygon(CAM_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
                            geom_polygon(CAM_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
                            labs(x = " ", y = " ", title = "CAM non-breeding homerange and natal dispersal tracks") +
