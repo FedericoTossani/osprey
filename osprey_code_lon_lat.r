@@ -172,7 +172,7 @@ all_lat_time
             filter(id == "A7")
 
         a7_lat_time <-
-        ggplot(a7, aes(doy, y)) +
+        ggplot(a7, aes(date, y)) +
         geom_point(size = 0.5) +
         #geom_hline(yintercept = mean(a7$lat), color = "red", linetype = "dashed", size = 1) +
         geom_path()
@@ -180,7 +180,7 @@ all_lat_time
           a7_lat_time <- a7_lat_time + xlim(1,365)
 
         a7_lon_time <-
-        ggplot(a7, aes(doy, x)) +
+        ggplot(a7, aes(date, x)) +
         geom_point(size = 0.5) +
         #geom_hline(yintercept = mean(a7$lon), color = "red", linetype = "dashed", size = 1) +
         geom_path()+
