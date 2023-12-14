@@ -458,7 +458,7 @@ ID == 'ICZ' & time >= '2020-04-11 10:00:00' & time <= '2020-04-24 00:00:00' |
 
 
                             osp <- osprey%>%
-                                filter(ID == 'IFP' & time > '2023-04-24 00:00:00')
+                                filter(ID == 'IFP' & time >= '2023-04-24 00:00:00' & time <= '2023-04-30 04:00:00')
                     
                             osp_lat_time <-
                             ggplot(osp, aes(time, lat)) +
