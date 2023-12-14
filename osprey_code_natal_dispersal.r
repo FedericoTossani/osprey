@@ -268,7 +268,7 @@ ld()
                            filter(ID == 'CAM')
          
                   cam_track <- 
-                  ggplot(cam_eu) +
+                  ggplot(CAM_eu) +
                     geom_spatvector()+
                     geom_path(data = cam_nd, aes(x = lon, y = lat), 
                               linewidth = 0.5, lineend = "round", col = 'red') +
