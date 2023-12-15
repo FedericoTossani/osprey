@@ -103,7 +103,6 @@
          
 
 # "E7"
-          # ANIMAL USED TO TEST A NEW APPROACH
 
                     # First define the non-breeding period
                             E7_nonb <- osprey_nonb%>%
@@ -412,7 +411,7 @@
 
                            Antares_HR_plot
 
-                   # ggsave("Antares_HR_ND_plot.jpg", plot = Antares_HR_plot)
+                   # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/Antares_HR_ND_plot.jpg", plot = Antares_HR_plot)
 
           
           # Non-breeding ltraj object
@@ -468,26 +467,28 @@
 
                   # Plot the non-breeding homerange
                            CAM_HR_plot <- 
-                           ggplot() + # CAM_eu_utm
-                           geom_spatvector()+
-                           geom_path(data = CAM_nonb, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
-                           #geom_path(data = CAM_nd1, aes(x = x, y = y, colour = "Natal dispersal first travel"), linewidth = 0.5, lineend = "round") +
-                           #geom_path(data = CAM_nd2, aes(x = x, y = y, colour = "Natal dispersal second travel"), linewidth = 0.5, lineend = "round") +
-                           #geom_path(data = CAM_nd3, aes(x = x, y = y, colour = "Natal dispersal third travel"), linewidth = 0.5, lineend = "round") +
-                           #geom_path(data = CAM_nd4, aes(x = x, y = y, colour = "Natal dispersal fourth travel"), linewidth = 0.5, lineend = "round") +
-                           geom_polygon(CAM_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-                           geom_polygon(CAM_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
-                           labs(x = " ", y = " ", title = "CAM non-breeding homerange and natal dispersal tracks") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
-                                                                          "Natal dispersal first travel" = "blue",
-                                                                          "Natal dispersal second travel" = "orange",
-                                                                          "Natal dispersal third travel" = "brown",
-                                                                          "Natal dispersal fourth travel" = "magenta"))
+                                     ggplot(CAM_eu_utm) +
+                                     geom_spatvector()+
+                                     geom_polygon(CAM_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                                     geom_polygon(CAM_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+                                     geom_path(data = CAM_nonb, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                                     geom_path(data = CAM_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+                                     geom_path(data = CAM_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+                                     geom_path(data = CAM_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+                                     geom_path(data = CAM_nd4, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+                                     labs(x = " ", y = " ", title = "CAM non-breeding HR and ND movements tracks") +
+                                     theme_minimal()+
+                                     scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
+                                                                                    "Natal dispersal 1st travel" = "blue",
+                                                                                    "Natal dispersal 2nd travel" = "orange",
+                                                                                    "Natal dispersal 3rd travel" = "brown",
+                                                                                    "Natal dispersal 4th travel" = "magenta")) +
+                                      scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "orange",
+                                                                                        "Non-Breeding HR core area" = "red")) 
          
                            CAM_HR_plot
 
-                   # ggsave("CAM_HR_ND_plot.jpg", plot = CAM_HR_plot)
+                   # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/CAM_HR_ND_plot.jpg", plot = CAM_HR_plot)
 
 # "CBK"     
 
@@ -516,28 +517,39 @@
                            CBK_nonb_HR <- fortify(CBK_nonb_HR)
                            CBK_nonb_HRcore <- fortify(CBK_nonb_HRcore)
 
-                            CBK <- osprey%>%
-                                     filter(ID == 'CBK')
+                            CBK_nd1 <- osprey_nd%>%
+                                     filter(ID == 'CBK' & time >= '2013-08-15 00:00:00' & time <= '2013-08-21 12:00:00')
 
-                            CBK_nd <- osprey_nd%>%
-                                     filter(ID == 'CBK')
+                            CBK_nd2 <- osprey_nd%>%
+                                     filter(ID == 'CBK' & time >= '2014-03-20 04:30:00' & time <= '2014-03-22 10:30:00')
+
+                            CBK_nd3 <- osprey_nd%>%
+                                     filter(ID == 'CBK' & time >= '2014-04-08 06:30:00' & time <= '2014-04-12 11:00:00')
 
                   # Plot the non-breeding homerange
                            CBK_HR_plot <- 
-                           ggplot(CBK_eu_utm) +
-                           geom_spatvector()+
-                           geom_polygon(CBK_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-                           geom_polygon(CBK_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
-                           geom_path(data = CBK, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CBK_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-                           labs(x = " ", y = " ", title = "CBK non-breeding homerange and natal dispersal tracks") +
-                           theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
-                                                                          "Natal dispersal" = "blue"))
+                                     ggplot(CBK_eu_utm) +
+                                     geom_spatvector()+
+                                     geom_polygon(CBK_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                                     geom_polygon(CBK_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+                                     geom_path(data = CBK_nonb, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                                     geom_path(data = CBK_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+                                     geom_path(data = CBK_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+                                     geom_path(data = CBK_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+                                     labs(x = " ", y = " ", title = "CBK non-breeding HR and ND movements tracks") +
+                                     theme_minimal()+
+                                     scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
+                                                                                    "Natal dispersal 1st travel" = "blue",
+                                                                                    "Natal dispersal 2nd travel" = "orange",
+                                                                                    "Natal dispersal 3rd travel" = "brown",
+                                                                                    "Natal dispersal 4th travel" = "magenta")) +
+                                      scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "orange",
+                                                                                        "Non-Breeding HR core area" = "red")) 
+         
          
                            CBK_HR_plot
 
-                   # ggsave("CBK_HR_ND_plot.jpg", plot = CBK_HR_plot)
+                   # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/CBK_HR_ND_plot.jpg", plot = CBK_HR_plot)
 
 # "CIV"
 
@@ -574,19 +586,19 @@
                             CIV_nonb16_kde <- kernelUD(CIV_nonb16_sp[,1], h = "href", grid = 100) # h = "LSCV"
 
                  # get CIV non-breeding HR
-                            CIV_nonb_HR <- getverticeshr(CIV_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            CIV_nonb_HR <- getverticeshr(CIV_nonb_kde, percent = 95) 
                             CIV_nonb_HR
 
                             CIV_nonb_HRcore <- getverticeshr(CIV_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
                             CIV_nonb_HRcore
 
-                            CIV_nonb15_HR <- getverticeshr(CIV_nonb15_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            CIV_nonb15_HR <- getverticeshr(CIV_nonb15_kde, percent = 95) 
                             CIV_nonb15_HR
 
                             CIV_nonb15_HRcore <- getverticeshr(CIV_nonb15_kde, percent = 50) # 50% is the value to obtain the core area of the HR
                             CIV_nonb15_HRcore
 
-                            CIV_nonb16_HR <- getverticeshr(CIV_nonb16_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+                            CIV_nonb16_HR <- getverticeshr(CIV_nonb16_kde, percent = 95)
                             CIV_nonb16_HR
 
                             CIV_nonb16_HRcore <- getverticeshr(CIV_nonb16_kde, percent = 50) # 50% is the value to obtain the core area of the HR
@@ -642,7 +654,7 @@
          
                            CIV_HR_plot
 
-                   # ggsave("CIV_HR_ND_plot.jpg", plot = CIV_HR_plot)
+                   # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/CIV_HR_ND_plot.jpg", plot = CIV_HR_plot)
 
 # "IAB" -> da rivedere HR troppo grande
 
@@ -739,7 +751,7 @@
          
                            IAB_HR_plot
 
-                   # ggsave("IAB_HR_ND_plot.jpg", plot = IAB_HR_plot)
+                   # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/IAB_HR_ND_plot.jpg", plot = IAB_HR_plot)
 
 # "IAD" -> HR da rivedere, track rientro in Italia da aggiungere
 
@@ -847,7 +859,7 @@
          
                            IAD_HR_plot
  
-                   # ggsave("IAD_HR_ND_plot.jpg", plot = IAD_HR_plot)
+                   # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/IAD_HR_ND_plot.jpg", plot = IAD_HR_plot)
 
 # "IBH"
 
@@ -897,7 +909,7 @@
          
                            IBH_HR_plot
 
-                   # ggsave("IBH_HR_ND_plot.jpg", plot = IBH_HR_plot)
+                   # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/IBH_HR_ND_plot.jpg", plot = IBH_HR_plot)
 
 # "IBI"
 
@@ -948,7 +960,7 @@
          
                            IBI_HR_plot
 
-                   # ggsave("IBI_HR_ND_plot.jpg", plot = IBI_HR_plot)
+                   # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/IBI_HR_ND_plot.jpg", plot = IBI_HR_plot)
 
 # "IBK"
 
@@ -998,7 +1010,7 @@
          
                            IBK_HR_plot
 
-                   # ggsave("IBK_HR_ND_plot.jpg", plot = IBK_HR_plot)
+                   # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/IBK_HR_ND_plot.jpg", plot = IBK_HR_plot)
 
 # "IBS" -> HR da sistemare, path a zig zag
 
@@ -1064,7 +1076,7 @@
          
                            IBS_HR_plot
 
-                   # ggsave("IBS_HR_ND_plot.jpg", plot = IBS_HR_plot)
+                   # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/IBS_HR_ND_plot.jpg", plot = IBS_HR_plot)
 
 # "ICZ"
 
