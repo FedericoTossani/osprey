@@ -25,7 +25,7 @@
 
 # "CBK"     
                   # First let's crop
-                           CBK_ext <- ext(c(7.0000, 12.5000, 37.5000, 44.00000))
+                           CBK_ext <- ext(c(7.0000, 11.0000, 38.5000, 43.50000))
                            CBK_eu <- crop(countries, CBK_ext)
                            CBK_eu_utm <- terra::project(CBK_eu, proj_crs)
 
