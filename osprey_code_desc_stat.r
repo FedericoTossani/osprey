@@ -145,9 +145,10 @@ r2n_plot
 # Descriptive statistics #
 ##########################
 
-# Usa questo pezzo di codice per esportare tabelle in Latex
+# export this table to tex
 
-è
+         tab_ID %>%
+             kable(format = 'latex', booktabs = TRUE, digits = c(0,0,1,0,1,0,0,0)) 
 
 Desc(osprey)
 
@@ -168,10 +169,7 @@ tab_ID <- tab_ID%>%
          mutate(perc = perc*100,
                 cumperc = cumperc*100)
 
-# export this table to tex
 
-         tab_ID %>%
-             kable(format = 'latex', booktabs = TRUE, digits = c(0,0,1,0,1,0,0,0)) 
 
 ########################
 ## Mean fixes per day ##
