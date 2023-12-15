@@ -637,7 +637,7 @@
                            CIV_HR_plot <- 
                            ggplot(CIV_eu_utm) +
                            geom_spatvector()+
-                           geom_path(data = CIV, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CIV_nonb, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CIV_nd14, aes(x = x, y = y, colour = "Natal dispersal 2014"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CIV_nd15, aes(x = x, y = y, colour = "Natal dispersal 2015"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = CIV_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
