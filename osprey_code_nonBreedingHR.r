@@ -21,7 +21,7 @@
 #     Non-breeding HR     #
 ###########################
 
-# "A7"
+# "A7" OK
 
                     # First define the non-breeding period
                             A7_nonb <- osprey_nonb%>%
@@ -102,7 +102,7 @@
                    # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/A7_HR_ND_plot.jpg", plot = A7_HR_plot)
          
 
-# "E7"
+# "E7" OK
 
                     # First define the non-breeding period
                             E7_nonb <- osprey_nonb%>%
@@ -169,7 +169,7 @@
                                                   id = E7_nonb_lt$ID,
                                                   typeII=TRUE)
 
-# "H7"
+# "H7" OK
 
                     # First define the non-breeding period
                             H7_nonb <- osprey_nonb%>%
@@ -237,7 +237,7 @@
                                                   id = H7_nonb_lt$ID,
                                                   typeII=TRUE)
 
-# "IFP"
+# "IFP" OK
 # too small dataset to calculate HR
 
                     # First define the non-breeding period
@@ -426,7 +426,7 @@
                                                   id = Antares_nonb_lt$ID,
                                                   typeII=TRUE)
 
-# CAM
+# CAM OK
 
                     # First define the non-breeding period
                             CAM_nonb <- osprey_nonb%>%
@@ -490,7 +490,7 @@
 
                    # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/CAM_HR_ND_plot.jpg", plot = CAM_HR_plot)
 
-# "CBK"     
+# "CBK" OK
 
                     # First define the non-breeding period
                             CBK_nonb <- osprey_nonb%>%
@@ -561,6 +561,14 @@
           
                             CIV_nonb$ID <- factor(CIV_nonb$ID)
 
+
+                            CIV_nonb14 <- osprey_nonb%>%
+                                              dplyr::filter(ID == 'CIV', year == "2014")%>%
+                                              dplyr::select(ID, x, y)%>%
+                                              filter_at(vars(x, y), all_vars(!is.na(.)))
+          
+                            CIV_nonb14$ID <- factor(CIV_nonb14$ID)
+
                             CIV_nonb15 <- osprey_nonb%>%
                                               dplyr::filter(ID == 'CIV', year == "2015")%>%
                                               dplyr::select(ID, x, y)%>%
@@ -577,11 +585,13 @@
           
                    # Let's create a spatialPoint object
                             CIV_nonb_sp <- SpatialPointsDataFrame(CIV_nonb[,c("x", "y")], CIV_nonb)
+                            CIV_nonb14_sp <- SpatialPointsDataFrame(CIV_nonb14[,c("x", "y")], CIV_nonb14)
                             CIV_nonb15_sp <- SpatialPointsDataFrame(CIV_nonb15[,c("x", "y")], CIV_nonb15)
                             CIV_nonb16_sp <- SpatialPointsDataFrame(CIV_nonb16[,c("x", "y")], CIV_nonb16) 
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
                             CIV_nonb_kde <- kernelUD(CIV_nonb_sp[,1], h = "href") # h = "LSCV"
+                            CIV_nonb14_kde <- kernelUD(CIV_nonb14_sp[,1], h = "href", grid = 100) # h = "LSCV"
                             CIV_nonb15_kde <- kernelUD(CIV_nonb15_sp[,1], h = "href", grid = 100) # h = "LSCV"
                             CIV_nonb16_kde <- kernelUD(CIV_nonb16_sp[,1], h = "href", grid = 100) # h = "LSCV"
 
@@ -591,6 +601,12 @@
 
                             CIV_nonb_HRcore <- getverticeshr(CIV_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
                             CIV_nonb_HRcore
+
+                            CIV_nonb14_HR <- getverticeshr(CIV_nonb14_kde, percent = 95) 
+                            CIV_nonb14_HR
+
+                            CIV_nonb14_HRcore <- getverticeshr(CIV_nonb14_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+                            CIV_nonb14_HRcore
 
                             CIV_nonb15_HR <- getverticeshr(CIV_nonb15_kde, percent = 95) 
                             CIV_nonb15_HR
@@ -607,6 +623,9 @@
                   # fortify() function is needed to plot the non-breeding homerange with ggplot
                            CIV_nonb_HR <- fortify(CIV_nonb_HR)
                            CIV_nonb_HRcore <- fortify(CIV_nonb_HRcore)
+
+                           CIV_nonb14_HR <- fortify(CIV_nonb14_HR)
+                           CIV_nonb14_HRcore <- fortify(CIV_nonb14_HRcore)
 
                            CIV_nonb15_HR <- fortify(CIV_nonb15_HR)
                            CIV_nonb15_HRcore <- fortify(CIV_nonb15_HRcore)
@@ -632,25 +651,32 @@
                                      filter( ID == 'CIV' & time >= '2016-03-28 18:00:00' & time <= '2016-04-01 06:00:00' |
                          ID == 'CIV' & time >= '2016-04-15 06:00:00' & time <= '2016-04-18 22:00:00' |
                          ID == 'CIV' & time >= '2016-10-28 06:00:00' & time <= '2016-10-30 06:00:00')
-                                            
-                  # Plot the non-breeding homerange
+
+
+
+                  # Plot the non-breeding homerange    CIV_eu_utm
                            CIV_HR_plot <- 
                            ggplot(CIV_eu_utm) +
                            geom_spatvector()+
-                           geom_path(data = CIV_nonb, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CIV_nd14, aes(x = x, y = y, colour = "Natal dispersal 2014"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CIV_nd15, aes(x = x, y = y, colour = "Natal dispersal 2015"), linewidth = 0.5, lineend = "round") +
-                           geom_path(data = CIV_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = CIV_nonb, aes(x = x, y = y, colour = "Non_dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = CIV_nd14, aes(x = x, y = y, colour = "Natal dispersal 2014"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = CIV_nd15, aes(x = x, y = y, colour = "Natal dispersal 2015"), linewidth = 0.5, lineend = "round") +
+                           #geom_path(data = CIV_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
                            #geom_polygon(CIV_nonb15_HR, mapping = aes(x=long, y=lat), fill = "pink") +
                            #geom_polygon(CIV_nonb15_HRcore, mapping = aes(x=long, y=lat), fill = "purple") +
                            #geom_polygon(CIV_nonb16_HR, mapping = aes(x=long, y=lat), fill = "light blue") +
                            #geom_polygon(CIV_nonb16_HRcore, mapping = aes(x=long, y=lat), fill = "dark blue") +
+                           geom_polygon(CIV_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                           geom_polygon(CIV_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
                            labs(x = " ", y = " ", title = "CIV non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
-                           scale_color_manual(name = "Tracks", values = c("Before dispersal track" = "green",
-                                                                          "Natal dispersal 2014" = "yellow",
-                                                                          "Natal dispersal 2015" = "blue",
-                                                                          "Natal dispersal 2016" = "brown"))
+                                     scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
+                                                                                    "Natal dispersal 1st travel" = "blue",
+                                                                                    "Natal dispersal 2nd travel" = "orange",
+                                                                                    "Natal dispersal 3rd travel" = "brown",
+                                                                                    "Natal dispersal 4th travel" = "magenta")) +
+                                      scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "orange",
+                                                                                        "Non-Breeding HR core area" = "red")) 
          
                            CIV_HR_plot
 
