@@ -591,7 +591,7 @@
           
                    # Here I calculate the non-breeding homerange with a Kernel Density Estimation
                             CIV_nonb_kde <- kernelUD(CIV_nonb_sp[,1], h = "href") # h = "LSCV"
-                            CIV_nonb14_kde <- kernelUD(CIV_nonb14_sp[,1], h = "href", grid = 100) # h = "LSCV"
+                            CIV_nonb14_kde <- kernelUD(CIV_nonb14_sp[,1], h = "href", grid = 400) # h = "LSCV"
                             CIV_nonb15_kde <- kernelUD(CIV_nonb15_sp[,1], h = "href", grid = 100) # h = "LSCV"
                             CIV_nonb16_kde <- kernelUD(CIV_nonb16_sp[,1], h = "href", grid = 100) # h = "LSCV"
 
@@ -658,16 +658,18 @@
                            CIV_HR_plot <- 
                            ggplot(CIV_eu_utm) +
                            geom_spatvector()+
-                           #geom_path(data = CIV_nonb, aes(x = x, y = y, colour = "Non_dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = CIV_nonb14, aes(x = x, y = y, colour = "Non_dispersal movements"), linewidth = 0.5, lineend = "round") +
                            #geom_path(data = CIV_nd14, aes(x = x, y = y, colour = "Natal dispersal 2014"), linewidth = 0.5, lineend = "round") +
                            #geom_path(data = CIV_nd15, aes(x = x, y = y, colour = "Natal dispersal 2015"), linewidth = 0.5, lineend = "round") +
                            #geom_path(data = CIV_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
+                           #geom_polygon(CIV_nonb14_HR, mapping = aes(x=long, y=lat), fill = "green") +
+                           #geom_polygon(CIV_nonb14_HRcore, mapping = aes(x=long, y=lat), fill = "forest green") +
                            #geom_polygon(CIV_nonb15_HR, mapping = aes(x=long, y=lat), fill = "pink") +
                            #geom_polygon(CIV_nonb15_HRcore, mapping = aes(x=long, y=lat), fill = "purple") +
                            #geom_polygon(CIV_nonb16_HR, mapping = aes(x=long, y=lat), fill = "light blue") +
                            #geom_polygon(CIV_nonb16_HRcore, mapping = aes(x=long, y=lat), fill = "dark blue") +
-                           geom_polygon(CIV_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-                           geom_polygon(CIV_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+                           #geom_polygon(CIV_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                           #geom_polygon(CIV_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
                            labs(x = " ", y = " ", title = "CIV non-breeding homerange and natal dispersal tracks") +
                            theme_minimal()+
                                      scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
