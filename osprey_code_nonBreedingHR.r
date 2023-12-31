@@ -793,7 +793,7 @@
 
                    # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/IAB_HR_ND_plot.jpg", plot = IAB_HR_plot)
 
-# "IAD" -> HR da rivedere, track rientro in Italia da aggiungere
+# "IAD" OK
 
                     # First define the non-breeding period
                             IAD_nonbHR1 <- osprey_nonb%>%
@@ -976,6 +976,10 @@
                                               filter_at(vars(x, y), all_vars(!is.na(.)))
           
                             IBH_nonb$ID <- factor(IBH_nonb$ID)
+
+                            IBH_nonb1 <- osprey_nonb%>%
+                                     filter(ID == 'IBH' & time >= '2020-08-15 15:00:00' & time <= '2022-04-09 06:00:00')
+
           
                    # Let's create a spatialPoint object
                             IBH_nonb1_sp <- SpatialPointsDataFrame(IBH_nonb1[,c("x", "y")], IBH_nonb1)   
@@ -1018,14 +1022,35 @@
                               IBH_nonb_HRcore22 <- IBH_nonb1_HRcore%>%
                                                             filter(id == "IBH_2021")
 
-                            IBH_nonb1 <- osprey_nonb%>%
-                                     filter(ID == 'IBH' & time >= '2020-08-15 15:00:00' & time <= '2022-04-09 06:00:00')
+                              IBH_nonb2 <- osprey_nonb%>%
+                                     filter(ID == 'IBH' & time >= '2022-04-11 19:00:00' & time <= '2022-04-19 12:00:00')
 
+                              IBH_nonb3 <- osprey_nonb%>%
+                                     filter(ID == 'IBH' & time >= '2022-04-24 15:00:00'  & time <= '2022-04-29 09:00:00')
+
+                              IBH_nonb4 <- osprey_nonb%>%
+                                     filter(ID == 'IBH' & time >= '2022-05-01 18:00:00' & time <= '2022-05-04 09:00:00')
+
+                              IBH_nonb2 <- osprey_nonb%>%
+                                     filter(ID == 'IBH' & time >= '2022-04-11 19:00:00' & time <= '2022-04-19 12:00:00')
+                           
                             IBH_nd1 <- osprey_nd%>%
                                      filter(ID == 'IBH' & time >= '2020-08-07 07:00:00' & time <= '2020-08-15 15:00:00')
 
                             IBH_nd2 <- osprey_nd%>%
-                                     filter(ID == 'IBH' & time >= '2022-04-09 06:00:00')
+                                     filter(ID == 'IBH' & time >= '2022-04-09 06:00:00' & time <= '2022-04-11 19:00:00')
+
+                            IBH_nd3 <- osprey_nd%>%
+                                     filter(ID == 'IBH' & time >= '2022-04-19 12:00:00' & time <= '2022-04-24 15:00:00')
+
+                            IBH_nd4 <- osprey_nd%>%
+                                     filter(ID == 'IBH' & time >= '2022-04-29 09:00:00' & time <= '2022-05-01 18:00:00')
+
+                            IBH_nd5 <- osprey_nd%>%
+                                     filter(ID == 'IBH' & time >= '2022-05-04 09:00:00' & time <= '2022-05-04 16:00:00')
+
+                            IBH_nd6 <- osprey_nd%>%
+                                     filter( ID == 'IBH' & time >= '2022-05-10 09:00:00'  & time <= '2022-05-13 17:00:00')
 
                   # Plot the non-breeding homerange  IBH_eu_utm
                            IBH_HR_plot <- 
@@ -1041,8 +1066,18 @@
                            geom_polygon(IBH_nonb_HRcore22, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
                            geom_polygon(IBH_nonb1_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
                            geom_path(data = IBH_nonb1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBH_nonb2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBH_nonb3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBH_nonb4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBH_nonb5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBH_nonb6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBH_nonb7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IBH_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
                            geom_path(data = IBH_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBH_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBH_nd4, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBH_nd5, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
+                           geom_path(data = IBH_nd6, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
                            labs(x = " ", y = " ", title = "IBH non-breeding HR and ND movements tracks") +
                            theme_minimal()+
                                      scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
