@@ -452,29 +452,44 @@ ibs_lat_time <- ibs_lat_time + xlim(1,365)
 
   # use this graph to check for departure dates  
 
-ID == 'ICZ' & time >= '2019-08-03 08:00:00' & time <= '2019-08-04 15:00:00' |
-ID == 'ICZ' & time >= '2019-09-09 08:00:00' & time <= '2019-09-14 14:30:00' |
-ID == 'ICZ' & time >= '2020-04-11 10:00:00' & time <= '2020-04-24 00:00:00' |
+nd
+ID == 'IBS' & time >= '2020-07-27 00:00:00' & time <= '2020-07-28 19:00:00' |
+ID == 'IBS' & time >= '2020-08-01 09:00:00' & time <= '2020-08-02 18:00:00' |
+ID == 'IBS' & time >= "2020-08-07 08:00:00" & time <= "2020-08-18 19:00:00" |
+ID == 'IBS' & time >= "2021-01-14 06:00:00" & time <= "2021-01-15 16:00:00" |
+ID == 'IBS' & time >= "2021-02-15 09:00:00" & time <= "2021-02-15 17:00:00" |
+ID == 'IBS' & time >= "2021-04-26 11:00:00" & time <= "2021-05-01 16:00:00" |
+ID == 'IBS' & time >= '2022-03-22 00:00:00' & time <= '2022-06-04 15:00:00' |
+ID == "IBS" & time >= "2023-02-08 16:00:00" & time <= "2023-03-16 17:00:0" |
+
+nonb
+ID == 'IBS' & time >= '2020-07-28 19:00:00' & time <= '2020-08-01 09:00:00' |
+ID == 'IBS' & time >= '2020-08-02 18:00:00' & time <= '2020-08-07 08:00:00' |
+ID == 'IBS' & time >= '2020-08-18 19:00:00' & time <= '2021-01-14 06:00:00' |
+ID == 'IBS' & time >= '2021-01-15 16:00:00' & time <= '2021-02-15 09:00:00' |
+ID == 'IBS' & time >= '2021-02-15 17:00:00' & time <= '2021-04-26 11:00:00' |
+ID == 'IBS' & time >= '2022-03-22 00:00:00' & time <= '2021-05-01 16:00:00' |
+ID == 'IBS' & time >= '2022-06-04 15:00:00' & time <= '2023-02-08 16:00:00' |
+ID == 'IBS' & time >= '2023-03-16 17:00:0'|
 
 
- 
-  & time <= '2022-05-13 17:00:00'
-
-                            osp <- osprey%>%
-                                filter(ID == 'IBH' & time >= '2022-05-13 17:00:00')
+          
+                    osp <- osprey%>%
+                    filter(ID == "IBS" & time >= "2023-02-08 16:00:00" & time <= "2023-03-16 17:00:0")%>%
+                    arrange(time)
                     
-                            osp_lat_time <-
-                            ggplot(osp, aes(time, lat)) +
-                            geom_point(size = 0.5) +
-                            geom_path()
+                    osp_lat_time <-
+                    ggplot(osp, aes(time, lat)) +
+                    geom_point(size = 0.5) +
+                    geom_path()
                     
-                            osp_lon_time <-
-                            ggplot(osp, aes(time, lon)) +
-                            geom_point(size = 0.5) +
-                            geom_path()
+                    osp_lon_time <-
+                    ggplot(osp, aes(time, lon)) +
+                    geom_point(size = 0.5) +
+                    geom_path()
                     
-                            osp_lon_lat <- ggarrange(osp_lon_time, osp_lat_time, ncol = 1, nrow = 2)
-                             
-                            osp_lon_lat
-
-
+                    osp_lon_lat <- ggarrange(osp_lon_time, osp_lat_time, ncol = 1, nrow = 2)
+                    
+                    osp_lon_lat
+                    
+          
