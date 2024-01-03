@@ -3,19 +3,19 @@
 #       1.SetWD and packages       #
 # ================================ #
 
-          source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_WD_packages.r")
+source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_WD_packages.r")
 
 # =========================================== #
 #          2.Data import & selection          #
 # =========================================== #
 
-          source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_data_import_selection.r")
+source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_data_import_selection.r")
 
 # ===================================== #
 #          3.Basemaps & extent          #
 # ===================================== #
 
-          source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_basemap_extent.r")
+source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_basemap_extent.r")
 
 ###########################
 #     Non-breeding HR     #
@@ -1100,7 +1100,12 @@ IAD_nonb10 <- osprey_nonb%>%
 
 # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/IBH_HR_ND_plot.jpg", plot = IBH_HR_plot)
 
-# "IBI"
+
+
+
+#########
+# "IBI" #          QUASI OK FINISCILO PER PRIMO
+#########
 
 # First define the non-breeding period
         IBI_nonb <- osprey_nonb%>%
@@ -1128,21 +1133,40 @@ IAD_nonb10 <- osprey_nonb%>%
        IBI_nonb_HRcore <- fortify(IBI_nonb_HRcore)
 
 
-        IBI <- osprey%>%
-                 filter(ID == 'IBI')
+          IBI_nonb_HR1 <- IBI_nonb_HR%>%
+                    filter(id == 'IBI' & group == 'IBI.1')
 
-        IBI_nd <- osprey_nd%>%
-                 filter(ID == 'IBI')
+          IBI_nonb_HR2 <- IBI_nonb_HR%>%
+                    filter(id == 'IBI' & group == 'IBI.2')
+
+          IBI_nonb_HR3 <- IBI_nonb_HR%>%
+                    filter(id == 'IBI' & group == 'IBI.3')
+
+        IBI_nonb1 <- osprey_nonb%>%
+                 filter(ID == "IBI" & time >= "2017-07-27 20:00:00" & time <= "2017-08-19 08:00:00")
+
+        IBI_nonb1 <- osprey_nonb%>%
+                 filter(ID == "IBI" & time >= "2017-08-20 15:00:00")
+
+        IBI_nd1 <- osprey_nd%>%
+                 filter(ID == 'IBI' & time >= "2017-07-21 05:00:00" & time <= "2017-07-27 20:00:00")
+
+        IBI_nd2 <- osprey_nd%>%
+                 filter(ID == "IBI" & time >= "2017-08-19 08:00:00" & time <= "2017-08-20 15:00:00")
 
 # Plot the non-breeding homerange
        IBI_HR_plot <- 
        ggplot(IBI_eu_utm) +
        geom_spatvector()+
-       geom_polygon(IBI_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-       geom_polygon(IBI_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
-       geom_path(data = IBI, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = IBI_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-       labs(x = " ", y = " ", title = "IBI non-breeding homerange and natal dispersal tracks") +
+       geom_polygon(IBI_nonb_HR1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_polygon(IBI_nonb_HR2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_polygon(IBI_nonb_HR3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_polygon(IBI_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+       geom_path(data = IBI_nonb1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBI_nonb1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBI_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBI_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+       labs(x = " ", y = " ", title = "IBI non-breeding HR and ND tracks") +
        theme_minimal()+
                  scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
                                                                 "Natal dispersal 1st travel" = "blue",
@@ -1232,12 +1256,14 @@ IAD_nonb10 <- osprey_nonb%>%
 
 
 #########
-# "IBS" #          -> HR da sistemare, path a zig zag
+# "IBS" # OK
 #########
 
 # First define the non-breeding period
         IBS_nonb <- osprey_nonb%>%
-                          dplyr::filter(ID == 'IBS')%>%
+                          dplyr::filter(ID == 'IBS' & time >= '2020-08-18 19:00:00' & time <= '2021-01-14 06:00:00' |
+                                       ID == 'IBS' & time >= '2021-05-01 16:00:00' & time <= '2022-03-22 00:00:00' |
+                                        ID == 'IBS' & time >= '2022-06-04 15:00:00' & time <= '2023-02-08 16:00:00')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
@@ -1266,12 +1292,6 @@ IAD_nonb10 <- osprey_nonb%>%
         IBS_nonb_HR_2 <- IBS_nonb_HR%>%
                     filter(group == "IBS.2")
 
-        IBS_nonb_HR_3 <- IBS_nonb_HR%>%
-                    filter(group == "IBS.3")
-
-        IBS_nonb_HR_4 <- IBS_nonb_HR%>%
-                    filter(group == "IBS.4")
-
         IBS_nonb1 <- osprey_nonb%>%
                  filter(ID == 'IBS' & time >= '2020-07-28 19:00:00' & time <= '2020-08-01 09:00:00')%>%
                  arrange(time)
@@ -1293,7 +1313,7 @@ IAD_nonb10 <- osprey_nonb%>%
                  arrange(time)
 
         IBS_nonb6 <- osprey_nonb%>%
-                 filter(ID == 'IBS' & time >= '2022-03-22 00:00:00' & time <= '2021-05-01 16:00:00')%>%
+                 filter( ID == 'IBS' & time >= '2021-05-01 16:00:00' & time <= '2022-03-22 00:00:00')%>%
                  arrange(time)
 
         IBS_nonb7 <- osprey_nonb%>%
@@ -1301,6 +1321,18 @@ IAD_nonb10 <- osprey_nonb%>%
                  arrange(time)
 
         IBS_nonb8 <- osprey_nonb%>%
+                 filter(ID == 'IBS' & time >= '2023-02-15 00:00:00' & time <= '2023-02-19 04:00:00')%>%
+                 arrange(time)
+
+        IBS_nonb9 <- osprey_nonb%>%
+                 filter(ID == 'IBS' & time >= '2023-02-23 20:00:00' & time <= '2023-03-01 16:00:00')%>%
+                 arrange(time)
+
+        IBS_nonb10 <- osprey_nonb%>%
+                 filter(ID == 'IBS' & time >= '2023-03-08 24:00:00' & time <= '2023-03-13 04:00:00')%>%
+                 arrange(time)
+
+        IBS_nonb11 <- osprey_nonb%>%
                  filter(ID == 'IBS' & time >= '2023-03-16 17:00:0')%>%
                  arrange(time)
 
@@ -1309,42 +1341,48 @@ IAD_nonb10 <- osprey_nonb%>%
                  arrange(time)
 
         IBS_nd2 <- osprey_nd%>%
-                 filter(ID == 'IBS' & time >= '2020-08-01 09:00:00' & time <= '2020-08-02 18:00:00')%>%
-                 arrange(time)
-
-        IBS_nd3 <- osprey_nd%>%
                  filter(ID == 'IBS' & time >= "2020-08-07 08:00:00" & time <= "2020-08-18 19:00:00")%>%
                  arrange(time)
 
-        IBS_nd4 <- osprey_nd%>%
+        IBS_nd3 <- osprey_nd%>%
                  filter(ID == 'IBS' & time >= "2021-01-14 06:00:00" & time <= "2021-01-15 16:00:00")%>%
                  arrange(time)
 
-        IBS_nd5 <- osprey_nd%>%
+        IBS_nd4 <- osprey_nd%>%
                  filter(ID == 'IBS' & time >= "2021-02-15 09:00:00" & time <= "2021-02-16 17:00:00")%>%
                  arrange(time)
 
-        IBS_nd6 <- osprey_nd%>%
+        IBS_nd5 <- osprey_nd%>%
                  filter(ID == 'IBS' & time >= "2021-04-26 11:00:00" & time <= "2021-05-01 16:00:00")%>%
                  arrange(time)
 
-        IBS_nd7 <- osprey_nd%>%
+        IBS_nd6 <- osprey_nd%>%
                  filter(ID == 'IBS' & time >= '2022-03-22 00:00:00' & time <= '2022-06-04 15:00:00')%>%
                  arrange(time)
 
-        IBS_nd8 <- osprey_nd%>%
-                 filter(ID == "IBS" & time >= "2023-02-08 16:00:00" & time <= "2023-03-16 17:00:00")%>%
+        IBS_nd7 <- osprey_nd%>%
+                 filter(ID == 'IBS' & time >= '2023-02-08 16:00:00' & time <= '2023-02-15 00:00:00')%>%
                  arrange(time)
 
-# Plot the non-breeding homerange
+        IBS_nd8 <- osprey_nd%>%
+                 filter( ID == "IBS" & time >= "2023-02-19 04:00:00" & time <= "2023-02-23 20:00:00")%>%
+                 arrange(time)
+
+        IBS_nd9 <- osprey_nd%>%
+                 filter(ID == "IBS" & time >= "2023-03-01 16:00:00" & time <= "2023-03-08 24:00:00")%>%
+                 arrange(time)
+
+        IBS_nd10 <- osprey_nd%>%
+                 filter(ID == "IBS" & time >= "2023-03-13 04:00:00" & time <= "2023-03-16 17:00:00")%>%
+                 arrange(time)
+
+# Plot the non-breeding homerange          
        IBS_HR_plot <- 
        ggplot(IBS_eu_utm) +
        geom_spatvector()+
-       #geom_polygon(IBS_nonb_HR_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-       #geom_polygon(IBS_nonb_HR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-       #geom_polygon(IBS_nonb_HR_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-       #geom_polygon(IBS_nonb_HR_4, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-       #geom_polygon(IBS_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+       geom_polygon(IBS_nonb_HR_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_polygon(IBS_nonb_HR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_polygon(IBS_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
        geom_path(data = IBS_nonb1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBS_nonb2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBS_nonb3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
@@ -1353,6 +1391,8 @@ IAD_nonb10 <- osprey_nonb%>%
        geom_path(data = IBS_nonb6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBS_nonb7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBS_nonb8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBS_nonb9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBS_nonb10, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBS_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBS_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBS_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
@@ -1360,7 +1400,9 @@ IAD_nonb10 <- osprey_nonb%>%
        geom_path(data = IBS_nd5, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBS_nd6, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBS_nd7, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = IBS_nd8, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBS_nd8, aes(x = x, y = y, colour = "Natal dispersal 8th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBS_nd9, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBS_nd10, aes(x = x, y = y, colour = "Natal dispersal 10th travel"), linewidth = 0.5, lineend = "round") +
        labs(x = " ", y = " ", title = "IBS non-breeding HR and ND movements tracks") +
        theme_minimal()+
                  scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
