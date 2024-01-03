@@ -1162,7 +1162,12 @@ IAD_nonb10 <- osprey_nonb%>%
 
 # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/IBI_HR_ND_plot.jpg", plot = IBI_HR_plot)
 
-# "IBK"
+
+
+
+#########
+# "IBK" #
+#########
 
 # First define the non-breeding period
         IBK_nonb <- osprey_nonb%>%
@@ -1223,7 +1228,12 @@ IAD_nonb10 <- osprey_nonb%>%
 
 # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/IBK_HR_ND_plot.jpg", plot = IBK_HR_plot)
 
-# "IBS" -> HR da sistemare, path a zig zag
+
+
+
+#########
+# "IBS" #          -> HR da sistemare, path a zig zag
+#########
 
 # First define the non-breeding period
         IBS_nonb <- osprey_nonb%>%
@@ -1279,18 +1289,26 @@ IAD_nonb10 <- osprey_nonb%>%
                  arrange(time)
 
         IBS_nd1 <- osprey_nd%>%
-                 filter(ID == 'IBS' & time >= "2020-08-07 08:00:00" & time <= "2020-08-18 19:00:00")%>%
+                 filter(ID == 'IBS' & time >= '2020-07-27 00:00:00' & time <= '2020-07-28 19:00:00')%>%
                  arrange(time)
 
         IBS_nd2 <- osprey_nd%>%
-                 filter(ID == "IBS" & time >= "2021-02-15 09:00:00" & time <= "2021-05-01 16:00:00")%>%
+                 filter(ID == 'IBS' & time >= '2020-08-01 09:00:00' & time <= '2020-08-02 18:00:00')%>%
                  arrange(time)
 
         IBS_nd3 <- osprey_nd%>%
-                 filter(ID == 'IBS' & time >= '2022-03-22 00:00:00' & time <= '2022-06-04 15:00:00')%>%
+                 filter(ID == 'IBS' & time >= "2020-08-07 08:00:00" & time <= "2020-08-18 19:00:00")%>%
                  arrange(time)
 
         IBS_nd4 <- osprey_nd%>%
+                 filter(ID == "IBS" & time >= "2021-02-15 09:00:00" & time <= "2021-05-01 16:00:00")%>%
+                 arrange(time)
+
+        IBS_nd5 <- osprey_nd%>%
+                 filter(ID == 'IBS' & time >= '2022-03-22 00:00:00' & time <= '2022-06-04 15:00:00')%>%
+                 arrange(time)
+
+        IBS_nd6 <- osprey_nd%>%
                  filter(ID == "IBS" & time >= "2023-02-08 16:00:00" & time <= "2023-02-28 00:00:00")%>%
                  arrange(time)
 
@@ -1311,6 +1329,8 @@ IAD_nonb10 <- osprey_nonb%>%
        geom_path(data = IBS_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBS_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBS_nd4, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBS_nd5, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBS_nd6, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
        labs(x = " ", y = " ", title = "IBS non-breeding HR and ND movements tracks") +
        theme_minimal()+
                  scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
@@ -1330,7 +1350,12 @@ IAD_nonb10 <- osprey_nonb%>%
 
 # ggsave("C:/Tesi/R/osprey/images/20231214_TrackPlot/IBS_HR_ND_plot.jpg", plot = IBS_HR_plot)
 
-# "ICZ"
+
+
+
+#########
+# "ICZ" #
+#########
 
 # First define the non-breeding period
         ICZ_nonb <- osprey_nonb%>%
