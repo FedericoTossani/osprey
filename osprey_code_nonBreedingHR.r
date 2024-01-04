@@ -1104,7 +1104,7 @@ IAD_nonb10 <- osprey_nonb%>%
 
 
 #########
-# "IBI" #          QUASI OK FINISCILO PER PRIMO
+# "IBI" # OK
 #########
 
 # First define the non-breeding period
@@ -1145,7 +1145,7 @@ IAD_nonb10 <- osprey_nonb%>%
         IBI_nonb1 <- osprey_nonb%>%
                  filter(ID == "IBI" & time >= "2017-07-27 20:00:00" & time <= "2017-08-19 08:00:00")
 
-        IBI_nonb1 <- osprey_nonb%>%
+        IBI_nonb2 <- osprey_nonb%>%
                  filter(ID == "IBI" & time >= "2017-08-20 15:00:00")
 
         IBI_nd1 <- osprey_nd%>%
@@ -1163,7 +1163,7 @@ IAD_nonb10 <- osprey_nonb%>%
        geom_polygon(IBI_nonb_HR3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
        geom_polygon(IBI_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
        geom_path(data = IBI_nonb1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = IBI_nonb1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBI_nonb2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBI_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
        geom_path(data = IBI_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
        labs(x = " ", y = " ", title = "IBI non-breeding HR and ND tracks") +
@@ -1190,7 +1190,7 @@ IAD_nonb10 <- osprey_nonb%>%
 
 
 #########
-# "IBK" #
+# "IBK" # OK
 #########
 
 # First define the non-breeding period
@@ -1218,21 +1218,33 @@ IAD_nonb10 <- osprey_nonb%>%
        IBK_nonb_HR <- fortify(IBK_nonb_HR)
        IBK_nonb_HRcore <- fortify(IBK_nonb_HRcore)
 
-        IBK <- osprey%>%
-                 filter(ID == 'IBK')
+        IBK_nonb1 <- osprey_nonb%>%
+                 filter(ID == 'IBK' & time <= '2022-04-15 00:00:00')
 
-        IBK_nd <- osprey_nd%>%
-                 filter(ID == 'IBK')
+        IBK_nonb2 <- osprey_nonb%>%
+                 filter(ID == 'IBK' & time >= '2022-04-17 20:00:00' & time <= '2021-06-27 09:00:00')
+
+        IBK_nonb3 <- osprey_nonb%>%
+                 filter(ID == 'IBK' & time >= '2021-07-02 12:00:00')
+
+        IBK_nd1 <- osprey_nd%>%
+                 filter(ID == 'IBK' & time >= '2022-04-15 00:00:00' & time <= '2022-04-17 20:00:00')
+
+        IBK_nd2 <- osprey_nd%>%
+                 filter(ID == 'IBK' & time >= '2021-06-27 09:00:00' & time <= '2021-07-02 12:00:00')
 
 # Plot the non-breeding homerange
        IBK_HR_plot <- 
        ggplot(IBK_eu_utm) +
        geom_spatvector()+
-       geom_polygon(IBK_nonb_HR, mapping = aes(x=long, y=lat), fill = "orange") +
-       geom_polygon(IBK_nonb_HRcore, mapping = aes(x=long, y=lat), fill = "red") +
-       geom_path(data = IBK, aes(x = x, y = y, colour = "Before dispersal track"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = IBK_nd, aes(x = x, y = y, colour = "Natal dispersal"), linewidth = 0.5, lineend = "round") +
-       labs(x = " ", y = " ", title = "IBK non-breeding homerange and natal dispersal tracks") +
+       geom_polygon(IBK_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_polygon(IBK_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+       geom_path(data = IBK_nonb1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBK_nonb2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBK_nonb3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBK_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = IBK_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+       labs(x = " ", y = " ", title = "IBK non-breeding HR and ND movements tracks") +
        theme_minimal()+
                  scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
                                                                 "Natal dispersal 1st travel" = "blue",
