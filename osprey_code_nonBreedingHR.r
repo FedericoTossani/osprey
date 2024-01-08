@@ -21,7 +21,9 @@ source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_cod
 #     Non-breeding HR     #
 ###########################
 
-# "A7" OK
+########
+# "A7" # OK
+########
 
 # First define the non-breeding period
         A7_nonb <- osprey_nonb%>%
@@ -56,27 +58,30 @@ A7_nonb2 <- osprey_nonb%>%
        filter(ID == 'A7' & time >= '2017-03-01 20:00:00' & time <= '2017-03-17 00:00:00')
 
 A7_nonb3 <- osprey_nonb%>%
-       filter(ID == 'A7' & time >= '2017-04-15 06:00:00' & time <= '2017-04-28 00:00:00')
+       filter(ID == 'A7' & time >= '2017-04-15 06:00:00' & time <= '2017-04-16 24:00:00')
 
 A7_nonb4 <- osprey_nonb%>%
-       filter(ID == 'A7' & time >= '2017-05-11 06:00:00' & time <= '2017-05-14 00:00:00')
+       filter(ID == 'A7' & time >= '2017-04-21 08:00:00' & time <= '2017-04-28 00:00:00')
 
 A7_nonb5 <- osprey_nonb%>%
+       filter(ID == 'A7' & time >= '2017-05-11 06:00:00' & time <= '2017-05-14 00:00:00')
+
+A7_nonb65 <- osprey_nonb%>%
        filter(ID == 'A7' & time >= '2017-05-21 18:00:00' & time <= '2017-05-23 06:00:00')
 
-A7_nonb6 <- osprey_nonb%>%
+A7_nonb7 <- osprey_nonb%>%
        filter(ID == 'A7' & time >= '2017-05-23 18:00:00' & time <= '2017-05-26 00:00:00')
 
-A7_nonb7 <- osprey_nonb%>%
+A7_nonb8 <- osprey_nonb%>%
        filter(ID == 'A7' & time >= '2017-05-28 24:00:00' & time <= '2017-06-06 00:00:00')
 
-A7_nonb8 <- osprey_nonb%>%
+A7_nonb9 <- osprey_nonb%>%
        filter(ID == 'A7' & time >= '2017-06-06 16:00:00' & time <= '2017-06-10 20:00:00')
 
-A7_nonb9 <- osprey_nonb%>%
+A7_nonb10 <- osprey_nonb%>%
        filter(ID == 'A7' & time >= '2017-06-12 20:00:00' & time <= '2017-07-12 18:00:00')
 
-A7_nonb10 <- osprey_nonb%>%
+A7_nonb11 <- osprey_nonb%>%
        filter(ID == 'A7' & time >= '2017-07-28 06:00:00')
 
 
@@ -88,7 +93,8 @@ A7_nd2 <- osprey_nd%>%
        filter(ID == 'A7' & time >= '2017-02-20 00:00:00' & time <= '2017-03-01 20:00:00')
 
 A7_nd3 <- osprey_nd%>%
-       filter(ID == 'A7' & time >= '2017-03-17 00:00:00' & time <= '2017-04-15 06:00:00')
+       filter(ID == 'A7' & time >= '2017-03-17 00:00:00' & time <= '2017-04-15 06:00:00' |
+             ID == 'A7' & time >= '2017-04-16 24:00:00' & time <= '2017-04-21 08:00:00')
 
 A7_nd4 <- osprey_nd%>%
        filter(ID == 'A7' & time >= '2017-04-28 00:00:00' & time <= '2017-05-11 06:00:00')
@@ -113,7 +119,7 @@ A7_nd10 <- osprey_nd%>%
 
 # Plot the NonBreeding HR
        A7_HR_plot <- 
-       ggplot() + #A7_eu_utm
+       ggplot(A7_eu_utm) + 
        geom_spatvector()+
        geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
        geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
@@ -127,6 +133,7 @@ A7_nd10 <- osprey_nd%>%
        geom_path(data = A7_nonb8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
        geom_path(data = A7_nonb9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
        geom_path(data = A7_nonb10, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = A7_nonb11, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
        geom_path(data = A7_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
        geom_path(data = A7_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
        geom_path(data = A7_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
@@ -139,13 +146,20 @@ A7_nd10 <- osprey_nd%>%
        geom_path(data = A7_nd10, aes(x = x, y = y, colour = "Natal dispersal 10th travel"), linewidth = 0.5, lineend = "round") +
        labs(x = " ", y = " ", title = "A7 non-breeding HR and ND movements tracks") +
        theme_minimal()+
-       scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                      "Natal dispersal 1st travel" = "blue",
-                                                      "Natal dispersal 2nd travel" = "orange",
-                                                      "Natal dispersal 3rd travel" = "brown",
-                                                      "Natal dispersal 4th travel" = "magenta")) +
-        scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
-                                                          "Non-Breeding HR core area" = "red"))
+ scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
+                                                "Natal dispersal 1st travel" = "blue",
+                                                "Natal dispersal 2nd travel" = "orange",
+                                                "Natal dispersal 3rd travel" = "brown",
+                                                "Natal dispersal 4th travel" = "magenta",
+                                                "Natal dispersal 5th travel" = "pink",
+                                                "Natal dispersal 6th travel" = "light blue",
+                                                "Natal dispersal 7th travel" = "black",
+                                                "Natal dispersal 8th travel" = "grey",
+                                                "Natal dispersal 9th travel" = "purple",
+                                                "Natal dispersal 10th travel" = "red")) +
+  scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
+                                                    "Non-Breeding HR core area" = "red")) 
+
 
        A7_HR_plot
 
@@ -728,19 +742,19 @@ H7_nd2 <- osprey_nd%>%
        geom_path(data = CIV_nd10, aes(x = x, y = y, colour = "Natal dispersal 10th travel"), linewidth = 0.5, lineend = "round") +
        labs(x = " ", y = " ", title = "CIV non-breeding HR and ND movements tracks") +
        theme_minimal()+
-                 scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                                "Natal dispersal 1st travel" = "blue",
-                                                                "Natal dispersal 2nd travel" = "orange",
-                                                                "Natal dispersal 3rd travel" = "brown",
-                                                                "Natal dispersal 4th travel" = "magenta",
-                                                                "Natal dispersal 5th travel" = "pink",
-                                                                "Natal dispersal 6th travel" = "light blue",
-                                                                "Natal dispersal 7th travel" = "black",
-                                                                "Natal dispersal 8th travel" = "grey",
-                                                                "Natal dispersal 9th travel" = "purple",
-                                                                "Natal dispersal 10th travel" = "red")) +
-                  scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
-                                                                    "Non-Breeding HR core area" = "red")) 
+ scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
+                                                "Natal dispersal 1st travel" = "blue",
+                                                "Natal dispersal 2nd travel" = "orange",
+                                                "Natal dispersal 3rd travel" = "brown",
+                                                "Natal dispersal 4th travel" = "magenta",
+                                                "Natal dispersal 5th travel" = "pink",
+                                                "Natal dispersal 6th travel" = "light blue",
+                                                "Natal dispersal 7th travel" = "black",
+                                                "Natal dispersal 8th travel" = "grey",
+                                                "Natal dispersal 9th travel" = "purple",
+                                                "Natal dispersal 10th travel" = "red")) +
+  scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
+                                                    "Non-Breeding HR core area" = "red")) 
 
        CIV_HR_plot
 
