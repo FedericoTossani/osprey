@@ -131,7 +131,7 @@ nd_df <- nd_lt%>%
                     id == 'IAB' & date >= '2019-05-15 21:00:00' & date <= '2019-05-20 13:00:00' ~ "IAB_nd4",
                     id == 'IAB' & date >= '2019-05-29 15:00:00' & date <= '2019-06-02 16:00:00' |
                     id == 'IAB' & date >= '2019-06-08 09:00:00' & date <= '2019-06-10 17:00:00' ~ "IAB_nd5",
-                    id == 'IAB' & date >= '2019-09-07 11:00:00' & date <= '2019-09-11 15:00:00' ~ "IAB_nd16",
+                    id == 'IAB' & date >= '2019-09-07 11:00:00' & date <= '2019-09-11 15:00:00' ~ "IAB_nd6",
                     id == 'IAB' & date >= '2019-10-29 08:00:00' & date <= '2019-10-30 09:00:00' ~ "IAB_nd7",
                     id == 'IAB' & date >= '2020-03-16 00:00:00' ~ "IAB_nd8",
                     id == 'CAM' & date >= "2016-04-14 06:00:00" & date <= "2016-04-19 20:00:00" ~ "CAM_nd1",
@@ -207,52 +207,64 @@ ggplot(dailyDirections, aes(x = "", y = "meanDir")) +
 #########################
 #  Natal dispersal stat #
 #########################
-         
-         # First let's create a ltraj object with UTM coordinates 
-         
-                  osprey_ndlt <- as.ltraj(osprey_nd[, c("x", "y")],
-                                        date = osprey_nd$time, 
-                                        id = osprey_nd$ID,
-                                        typeII=TRUE)
-         
-         # let's create a function that split bursts with multiple years         
-                 
-                  foo <- function(dt){ 
-                           return(dt>(100*3600*24))
-                                   }
-                  
-                  osprey_ndlt2 <- cutltraj(osprey_ndlt,"foo(dt)",nextr=TRUE)
-         
-                  a7lt <- ld(osprey_ndlt2[[1]])
-         
-                  plotltr(a7lt)
-         
-                  plotltr(osprey_ndlt2, "dist")
-         
-                  osprey_ndlt_df <- ld(osprey_ndlt2)
 
-                  osprey_ndlt_df <- osprey_ndlt_df%>%
-                                    mutate(day = as.Date(date),
-                                           distKM = dist/1000)
-         
+# export tables to Latex, pay attention to digits arguments          , digits = c(0, 3, 3, 3)
 
-# SUMMARY dfs
+nd_duration %>%
+  kable(format = 'latex', booktabs = TRUE) 
 
-         summary_distance <- nd_df%>%
-                                    group_by(burst, day)%>%
-                                    summarize(minDistxDay = min(distKM),
-                                              meanDistxDay = mean(distKM),
-                                              maxDistxDay = max(distKM))
 
-         summary_id_distance <- summary_distance%>%
-                                    group_by(burst)%>%
-                                    summarize(minDist = min(minDistxDay, na.rm=T),
-                                              meanDist = mean(meanDistxDay, na.rm=T),
-                                              maxDist = max(maxDistxDay, na.rm=T))
+
+# 1. prima tabella: inizio fine e durata (n day) + aggiungere i paesi visitati
+
+# Durations #
+
+nd_duration <- nd_df %>%
+          group_by(id, burst) %>% 
+          summarize(start = min(date), end = max(date)) %>%
+          mutate(duration = round(difftime(end, start, units = "days")))
+
+ countries_vis<- nd_df%>%
+          dplyr::filter(burst == "IFP_nd3")
+
+ ggplot(osprey_eu_utm) + 
+       geom_spatvector()+
+       geom_path(data = countries_vis, aes(x = x, y = y, colour = "red"), linewidth = 1, lineend = "round")
+
+
+
+# 2. seconda tabella: Long distance event numero di eventi +
+#                    durata media e massima in giorni x lde +
+#                    distanza media e massima per ogni individ +
+#                    velocità media e massima +
+#                    aggiungi paesi visitati
+# 3. terza tabella: descrizione aree di sosta (multi day) id +
+#                    numero aree di sosta +
+#                    numero medio di giorni di sosta per area +
+#                    percentuale giorni di sosta in un’area protetta
+
+GRAFICI 
+# 1. primo plot: mappe gi`a fatte con evidenziati i lde intervellati dalle aree di sosta
+
+# 2. secondo plot: grafico unico con tutti gli individui 
+
+
+# Distances #
+
+summary_distance <- nd_df%>%
+      group_by(burst, day)%>%
+      summarize(minDistxDay = min(distKM),
+                meanDistxDay = mean(distKM),
+                maxDistxDay = max(distKM))
+
+summary_id_distance <- summary_distance%>%
+      group_by(burst)%>%
+      summarize(minDist = min(minDistxDay, na.rm=T),
+                meanDist = mean(meanDistxDay, na.rm=T),
+                maxDist = max(maxDistxDay, na.rm=T))
 
 summary_id_distance <- summary_id_distance%>%
           arrange(burst)
-
 
 dist_plot <- ggplot(osprey_ndlt_df, aes(x = osprey_ndlt_df$distKM)) +
   geom_histogram(binwidth = 0.1) +
@@ -261,20 +273,6 @@ dist_plot <- ggplot(osprey_ndlt_df, aes(x = osprey_ndlt_df$distKM)) +
   ggtitle("Distribution of Distance")
 
 
-
-         # export this table to tex
-         
-                  summary_id_distance %>%
-                      kable(format = 'latex', booktabs = TRUE, digits = c(0, 3, 3, 3)) 
-
-
-nd_duration <- nd_df %>%
-          group_by(id, burst) %>% 
-          summarize(start = min(date), end = max(date)) %>%
-          mutate(duration = round(difftime(end, start, units = "days")))
-
-id_duration <- nd_duration
-          dplyr::filter(id = "A7")
 
 summary_speed <- osprey_ndlt_df%>%
   group_by(burst)%>%
