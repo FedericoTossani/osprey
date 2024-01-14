@@ -217,6 +217,12 @@ nd_duration_id %>%
 
 # Durations #
 
+nd_duration <- nd_df %>%
+          group_by(id, burst) %>% 
+          summarize(start = min(day), end = max(day)) %>%
+          mutate(duration = round(difftime(end, start, units = "days")))
+
+
 nd_duration_id <- nd_df %>%
           group_by(id) %>% 
           summarize(start = min(day), end = max(day)) %>%
@@ -236,6 +242,25 @@ nd_duration_id <- nd_df %>%
 #                    distanza media e massima per ogni individ +
 #                    velocità media e massima +
 #                    aggiungi paesi visitati
+
+lde_stat <- nd_df%>%
+          group_by(id)%>%
+          summarize(lde_event = count(unique(burst)),
+                   mean_dist = mean(distKM),
+                   max_dist = max(distKM)
+                  )
+
+
+          mutate(start = min(day),
+                 end = max(day))%>%
+          mutate(duration = round(difftime(end, start, units = "days")))%>%
+
+mean_dur = mean(duration),
+                   max_dur = max(duration),
+mean_vel = , 
+                   max_vel = 
+
+
 # 3. terza tabella: descrizione aree di sosta (multi day) id +
 #                    numero aree di sosta +
 #                    numero medio di giorni di sosta per area +
