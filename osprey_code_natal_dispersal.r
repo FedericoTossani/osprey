@@ -210,22 +210,20 @@ ggplot(dailyDirections, aes(x = "", y = "meanDir")) +
 
 # export tables to Latex, pay attention to digits arguments          , digits = c(0, 3, 3, 3)
 
-nd_duration %>%
+nd_duration_id %>%
   kable(format = 'latex', booktabs = TRUE) 
-
-
 
 # 1. prima tabella: inizio fine e durata (n day) + aggiungere i paesi visitati
 
 # Durations #
 
-nd_duration <- nd_df %>%
-          group_by(id, burst) %>% 
-          summarize(start = min(date), end = max(date)) %>%
+nd_duration_id <- nd_df %>%
+          group_by(id) %>% 
+          summarize(start = min(day), end = max(day)) %>%
           mutate(duration = round(difftime(end, start, units = "days")))
 
  countries_vis<- nd_df%>%
-          dplyr::filter(burst == "IFP_nd3")
+          dplyr::filter(burst == "IBS_nd5")
 
  ggplot(osprey_eu_utm) + 
        geom_spatvector()+
