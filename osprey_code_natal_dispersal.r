@@ -208,10 +208,10 @@ ggplot(dailyDirections, aes(x = "", y = "meanDir")) +
 #  Natal dispersal stat #
 #########################
 
-# export tables to Latex, pay attention to digits arguments          
+# export tables to Latex, pay attention to digits arguments        , digits = c(0, 3, 3, 3)  
 
 lde_stat %>%
-  kable(format = 'latex', booktabs = TRUE, digits = c(0, 3, 3, 3)) 
+  kable(format = 'latex', booktabs = TRUE) 
 
 # 1. prima tabella: inizio fine e durata (n day) + aggiungere i paesi visitati
 
