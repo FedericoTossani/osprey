@@ -217,13 +217,17 @@ lde_df %>%
 
 # Durations #
 
+
+# median_dur = sprintf("%.2f", median(as.numeric(duration))), # add this line in the second summerize() funciton to have the median value
+
+
 nd_duration <- nd_df %>%
           group_by(id, burst) %>% 
           summarize(start = min(day), end = max(day)) %>%
           mutate(duration = round(difftime(end, start, units = "days")))%>%
-          summarize(mean_duration = sprintf("%.2f", mean(as.numeric(difftime(end, start, units = "days")))),
-                    max_duration = sprintf("%.2f", max(as.numeric(difftime(end, start, units = "days")))),
-                    sd_duration = sprintf("%.2f", sd(as.numeric(difftime(end, start, units = "hours"))))
+          summarize(mean_dur = sprintf("%.2f", mean(as.numeric(duration))),
+                    max_dur = sprintf("%.2f", max(as.numeric(duration))),
+                    sd_dur = sprintf("%.2f", sd(as.numeric(duration)))
                    )
 
 
@@ -246,6 +250,8 @@ nd_duration_id <- nd_df %>%
 #                    distanza media e massima per ogni individ +
 #                    velocità media e massima +
 #                    aggiungi paesi visitati
+
+# median_dist = sprintf("%.2f", median(distKM, na.rm = TRUE)), # add this line in the second summerize() funciton to have the median value
 
 lde_stat <- nd_df %>%
           group_by(id) %>%
