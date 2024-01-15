@@ -210,7 +210,7 @@ ggplot(dailyDirections, aes(x = "", y = "meanDir")) +
 
 # export tables to Latex, pay attention to digits arguments          , digits = c(0, 3, 3, 3)
 
-nd_duration_id %>%
+lde_df %>%
   kable(format = 'latex', booktabs = TRUE) 
 
 # 1. prima tabella: inizio fine e durata (n day) + aggiungere i paesi visitati
@@ -220,7 +220,11 @@ nd_duration_id %>%
 nd_duration <- nd_df %>%
           group_by(id, burst) %>% 
           summarize(start = min(day), end = max(day)) %>%
-          mutate(duration = round(difftime(end, start, units = "days")))
+          mutate(duration = round(difftime(end, start, units = "days")))%>%
+          summarize(mean_duration = sprintf("%.2f", mean(as.numeric(difftime(end, start, units = "days")))),
+                    max_duration = sprintf("%.2f", max(as.numeric(difftime(end, start, units = "days")))),
+                    sd_duration = sprintf("%.2f", sd(as.numeric(difftime(end, start, units = "hours"))))
+                   )
 
 
 nd_duration_id <- nd_df %>%
@@ -243,20 +247,19 @@ nd_duration_id <- nd_df %>%
 #                    velocità media e massima +
 #                    aggiungi paesi visitati
 
-lde_stat <- nd_df%>%
-          group_by(id)%>%
-          summarize(lde_event = count(unique(burst)),
-                   mean_dist = mean(distKM),
-                   max_dist = max(distKM)
-                  )
+lde_stat <- nd_df %>%
+          group_by(id) %>%
+          summarise(lde_event = n_distinct(burst),
+                    mean_dist = sprintf("%.2f", mean(distKM, na.rm = TRUE)),
+                    max_dist = sprintf("%.2f", max(distKM, na.rm = TRUE)),
+                    sd_dist = sprintf("%.2f", sd(distKM, na.rm = TRUE))
+                   )
 
 
-          mutate(start = min(day),
-                 end = max(day))%>%
-          mutate(duration = round(difftime(end, start, units = "days")))%>%
+lde_df <- left_join(lde_stat, nd_duration, by = "id")
 
-mean_dur = mean(duration),
-                   max_dur = max(duration),
+lde_df
+
 mean_vel = , 
                    max_vel = 
 
