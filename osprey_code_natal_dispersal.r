@@ -208,27 +208,24 @@ ggplot(dailyDirections, aes(x = "", y = "meanDir")) +
 #  Natal dispersal stat #
 #########################
 
-# export tables to Latex, pay attention to digits arguments          , digits = c(0, 3, 3, 3)
+# export tables to Latex, pay attention to digits arguments          
 
-lde_df %>%
-  kable(format = 'latex', booktabs = TRUE) 
+lde_stat %>%
+  kable(format = 'latex', booktabs = TRUE, digits = c(0, 3, 3, 3)) 
 
 # 1. prima tabella: inizio fine e durata (n day) + aggiungere i paesi visitati
 
 # Durations #
-
-
 # median_dur = sprintf("%.2f", median(as.numeric(duration))), # add this line in the second summerize() funciton to have the median value
-
 
 nd_duration <- nd_df %>%
           group_by(id, burst) %>% 
           summarize(start = min(day), end = max(day)) %>%
-          mutate(duration = round(difftime(end, start, units = "days")))%>%
-          summarize(mean_dur = sprintf("%.2f", mean(as.numeric(duration))),
-                    max_dur = sprintf("%.2f", max(as.numeric(duration))),
-                    sd_dur = sprintf("%.2f", sd(as.numeric(duration)))
-                   )
+          mutate(duration = difftime(end, start, units = "days"))%>%
+          summarize(mean_dur = mean(duration),
+                    max_dur = max(duration),
+                    sd_dur = sd(duration))
+                   
 
 
 nd_duration_id <- nd_df %>%
@@ -253,27 +250,42 @@ nd_duration_id <- nd_df %>%
 
 # median_dist = sprintf("%.2f", median(distKM, na.rm = TRUE)), # add this line in the second summerize() funciton to have the median value
 
-lde_stat <- nd_df %>%
-          group_by(id) %>%
-          summarise(lde_event = n_distinct(burst),
-                    mean_dist = sprintf("%.2f", mean(distKM, na.rm = TRUE)),
-                    max_dist = sprintf("%.2f", max(distKM, na.rm = TRUE)),
-                    sd_dist = sprintf("%.2f", sd(distKM, na.rm = TRUE))
-                   )
+# Daily distances
 
+daily_dist_df <- nd_df %>%
+  group_by(id, burst, day) %>%
+  summarise(daily_dist = sum(distKM, na.rm = TRUE))
 
-lde_df <- left_join(lde_stat, nd_duration, by = "id")
+daily_dist_stat <- daily_dist_df%>%
+          group_by (id)%>%
+          summarize(mean_dist = mean(daily_dist, na.rm = TRUE),
+                    max_dist = max(daily_dist, na.rm = TRUE),
+                    sd_dist = sd(daily_dist, na.rm = TRUE))
 
-lde_df
+lde_ev <- nd_df%>%
+          group_by(id)%>%
+          summarize(lde_event = n_distinct(burst))
 
-mean_vel = , 
-                   max_vel = 
+lde_stat <- left_join(lde_ev, daily_dist_stat, by = "id")
+
+lde_stat <- left_join(lde_stat, nd_duration, by = "id")
+
+lde_stat
+
+speed_df <-  nd_df %>%
+          group_by(burst) %>%
+          mutate(speed = distKM / (dt / 3600)) %>%
+          summarise(mean_speed = mean(speed, na.rm = TRUE),
+                    max_speed = max(speed, na.rm = TRUE)
+          )
 
 
 # 3. terza tabella: descrizione aree di sosta (multi day) id +
 #                    numero aree di sosta +
 #                    numero medio di giorni di sosta per area +
 #                    percentuale giorni di sosta in un’area protetta
+
+
 
 GRAFICI 
 # 1. primo plot: mappe gi`a fatte con evidenziati i lde intervellati dalle aree di sosta
