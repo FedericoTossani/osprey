@@ -155,20 +155,22 @@ Desc(osprey)
 d.ID <- Desc(osprey$ID, maxrows=15)
 tab_ID <- d.ID[[1]]$freq
 
-         dates <- osprey%>%
-                  group_by(ID)%>%
-                  summarize(start = min(time), end = max(time))%>% 
-                  dplyr::select(ID, start, end)%>%
-                  unique()
+dates <- osprey%>%
+          mutate(day = as.Date(time))%>%
+          group_by(ID)%>%
+          summarize(start = min(day), end = max(day))%>% 
+          dplyr::select(ID, start, end)%>%
+          unique()
 
 tab_ID <- tab_ID%>%
-                  left_join(dates, by = c("level" = "ID"))%>%
-                  mutate(duration = round(difftime(end, start)))
+          left_join(dates, by = c("level" = "ID"))%>%
+          mutate(duration = difftime(end, start))
 
 tab_ID <- tab_ID%>%
-         mutate(perc = perc*100,
-                cumperc = cumperc*100)
+          mutate(perc = perc*100,
+          cumperc = cumperc*100)
 
+tab_ID
 
 
 ########################
@@ -249,10 +251,10 @@ tab_ID <- tab_ID%>%
 
 # for how long this ospreys are monitored?
          difftime(max(osprey$time), min(osprey$time), units = "days")
-         #Time difference of 3645.625 days
+         #Time difference of 3673.875 days
 
          (difftime(max(osprey$time), min(osprey$time), units = "days") %>% as.numeric)/365.25
-         #  9.98 years
+         #  10.05852 years
 
 # create a table that shows the number of fix per seasons grouped by individual
          osprey_summary1 <- osprey %>%
@@ -309,7 +311,7 @@ lon_lat_summary <- osprey %>%
 
          bystart <- with(n_summary, reorder(ID, start))
 
-         ggplot(n_summary, aes(y = ID, xmin = start, xmax = end, colour = )) + 
+         ggplot(n_summary, aes(y = ID, xmin = Start, xmax = End, colour = )) + 
          geom_linerange(linewidth = 1)+
          geom_jitter(data = n_summary[n_summary$signal_interruption_cause == "Death", ], aes(x = start, y = ID), position = position_nudge(y = 0.3), shape = "†", size=4, color="black")+
          geom_text(aes(x = start, y = ID, label = ID), nudge_y = -0.25) +
@@ -321,5 +323,5 @@ lon_lat_summary <- osprey %>%
                axis.title.x = element_text(color="#000000", size=13, face="bold"),
                axis.title.y = element_text(color="#000000", size=13, face="bold"))
 
-         ggsave( "mon_duration.jpg", plot = last_plot())
+         ggsave( "C:/Tesi/images/mon_duration.jpg", plot = last_plot())
 
