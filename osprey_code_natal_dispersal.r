@@ -51,7 +51,6 @@ nd_with_na
 nd_df <- nd_lt%>%
           ld()%>%
           mutate(doy = yday(date),
-          ymd = as.Date(date),
           year = year(date),
           burst = dplyr::case_when(
                     id == 'H7' & date >= '2013-08-04 09:30:00' & date <= '2013-08-09 15:30:00' ~ "H7_nd1",
@@ -286,6 +285,31 @@ speed_df <-  nd_df %>%
 #                    percentuale giorni di sosta in un’area protetta
 
 
+osprey_nonb_no_duplicates <- osprey_nonb[!duplicated(osprey_nonb[c("ID", "time")]) & !duplicated(osprey_nonb[c("ID", "time")], fromLast = TRUE), ]
+
+
+st <- osprey_nonb_no_duplicates%>%
+          select(-c("date", "death_date", "season"))
+
+stationary_lt <- as.ltraj(st[, c("x", "y")],
+                              date = st$time,
+                              id = st$ID,
+                              typeII = T)
+
+
+stationary_df <- stationary_lt%>%
+          ld()%>%
+          mutate(doy = yday(date),
+          ymd = as.Date(date),
+          year = year(date),
+          burst = dplyr::case_when( ),
+          day = as.Date(date),
+          distKM = dist/1000)%>%
+          tidyr::unite(id_y, c(id, year), sep="_", remove = F)%>%
+          select(-c("pkey"))
+
+
+
 
 GRAFICI 
 # 1. primo plot: mappe gi`a fatte con evidenziati i lde intervellati dalle aree di sosta
@@ -347,33 +371,3 @@ osp_ndlt_df <- osprey_ndlt_df%>%
                   mutate(deg_turnAngle = rel.angle * (180/pi))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  # Create an empty list to store the summary data frames:
-         
-                           osp_summaries <- list()
-         
-                  # Use the split() function to split the larger data frame based on the unique IDs:
-         
-                           id_groups <- split(osp_ndlt_df, osp_ndlt_df$id)
-         
-                  # Iterate over each ID group using a for loop:
-                           for (id in names(id_groups)) {
-                             id_group <- id_groups[[id]]                   # Access the current ID group
-                             summary_stats <- lapply(id_group, summary)    # Calculate summary statistics (e.g., mean, median) for each variable in the ID group
-                             summary_df <- as.data.frame(summary_stats)    # Convert the summary statistics into a data frame
-                             summary_dfs[[id]] <- summary_df               # Append the summary data frame to the list
-                           }
-         
