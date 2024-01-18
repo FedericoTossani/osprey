@@ -470,25 +470,25 @@ ID == 'CBK' & time >= '2014-03-22 10:30:00' & time <= '2014-04-08 06:30:00' |
 ID == 'CBK' & time >= '2014-04-12 11:00:00' |
 
 
-
-
-osp <- osprey%>%
-filter(ID == 'CIV' & time >= "2015-03-21 04:00:00" & time <= "2015-03-21 24:00:00")
-
-osp_lat_time <-
-ggplot(osp, aes(time, lat)) +
-geom_point(size = 0.5) +
-geom_path()
-
-osp_lon_time <-
-ggplot(osp, aes(time, lon)) +
-geom_point(size = 0.5) +
-geom_path()
-
-osp_lon_lat <- ggarrange(osp_lon_time, osp_lat_time, ncol = 1, nrow = 2)
-
-osp_lon_lat
-
-
-
-
+          
+          
+          osp <- osprey%>%
+          filter( ID == 'E7' & time >= '2016-05-04 10:00:00' & time <= '2016-05-07 17:00:00')
+          
+          osp_lat_time <-
+          ggplot(osp, aes(time, lat)) +
+          geom_point(size = 0.5) +
+          geom_path()
+          
+          osp_lon_time <-
+          ggplot(osp, aes(time, lon)) +
+          geom_point(size = 0.5) +
+          geom_path()
+          
+          osp_lon_lat <- ggarrange(osp_lon_time, osp_lat_time, ncol = 1, nrow = 2)
+          
+          osp_lon_lat
+          
+          
+          
+          
