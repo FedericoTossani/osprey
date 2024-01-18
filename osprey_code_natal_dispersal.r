@@ -452,18 +452,25 @@ stationary_df <- stationary_lt%>%
                      max_dur = max(duration),
                      sd_dur = sd(duration))
 summarise()` has grouped output by 'ID'. You can override using the `.groups` argument.
- 
- stopover <- stopover_df%>%
-           group_by(ID)%>%
-           summarize(tot_stopover = n_distinct(burst))
- 
- stopover_stat <- left_join(stopover, stopover_duration, by = "ID")
- 
- stopover_stat
+
+stopover <- stopover_df%>%
+          group_by(ID)%>%
+          summarize(tot_stopover = n_distinct(burst))
+
+stopover_stat <- left_join(stopover, stopover_duration, by = "ID")
+
+stopover_stat
+
+protected_areas <- vect("C:/Tesi/R/osprey/data/natura2000_osprey_32632.shp")
+
+stopover_df_sp <- SpatialPointsDataFrame(stopover_df[,c("x", "y")], stopover_df)   
 
 
-pORCO dIO L'HO SCRITTO MALE
+stopover_utm <- terra::project(stopover_df, proj_crs)
+protected_areas_utm <- terra::project(protected_areas, proj_crs)
 
+extracted_values <- extract(protected_areas, stopover_df_sp)
+selected_observations <- stopover_df_sp[extracted_values, ]
 
 
 GRAFICI 
