@@ -165,13 +165,28 @@ print(head(duplicate_dates, 40))
 
 # daily track (= successive telemetry locations in each day)
 
-          dailyDirections <- nd_df%>%
-                    mutate(deg_turnAngle = rel.angle * (180/pi))%>%
-                    group_by(id, ymd)%>%
-                    summarize(meanDir = mean(deg_turnAngle),
-                              medianDir = median(deg_turnAngle))
 
-          dirBreaks <- c(22.5, 67.5,112.5, 157.5, 202.5, 247.5, 292.5, 337.5)
+
+main_direction <- nd_df %>%
+  group_by(burst) %>%
+  summarize(main_angle = atan2(mean(sin(abs.angle)), mean(cos(abs.angle))))
+
+# Print the result
+print(main_direction)
+
+dailyDirections <- nd_df%>%
+          mutate(deg_turnAngle = rel.angle * (180/pi))%>%
+          group_by(id, day)%>%
+          summarize(meanDir = mean(deg_turnAngle),
+                    medianDir = median(deg_turnAngle))
+
+dailyDirections_id <- dailyDirections%>%
+          group_by(id)%>%
+          summarize(meanDir_id = mean(meanDir),
+                    medianDir_id = median(medianDir))
+
+
+dirBreaks <- c(22.5, 67.5,112.5, 157.5, 202.5, 247.5, 292.5, 337.5)
 
 
 ggplot(dailyDirections) +
