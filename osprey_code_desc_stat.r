@@ -24,70 +24,40 @@
 #            Descriptive statistics            #
 # ============================================ #
 
-
-
-# NSD #
-
-nsds <- do.call(rbind, osprey_lt)
-
-
-osp_nsd <- osp_lt_df %>%
-  group_by(id) %>%
-  summarize(nsd = sum(R2n),
-            msd = mean(R2n))%>%
-  arrange(desc(nsd))
-osp_nsd
-
-nsd_plot <- ggplot(osp_nsd, aes(x = reorder(id, -nsd), y = nsd)) +
-  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
-  labs(title = "Net Squared Displacement (NSD) for Each Individual",
-       x = "Individual ID",
-       y = "NSD Value") +
-  theme_minimal()
-nsd_plot
-
-#ggsave("path/to/save/your/plot.jpg", nsd_plot, width = 8, height = 6)
-
-r2n_plot <- ggplot(osp_lt_df, aes(x = date, y = R2n)) +
-  geom_line() +
-  labs(title = "Squared Distance",
-       x = "Date",
-       y = "R2n Value") +
-  facet_wrap(~id)+
-  theme_minimal()
-r2n_plot
-
-
 ###########################
 # Visualize the movements #
 ###########################
 
-         # let's check if there is na in position's columns
-         table(is.na(osprey$lon))
-         table(is.na(osprey$lat))
+# let's check if there is na in position's columns
+table(is.na(osprey$lon))
+table(is.na(osprey$lat))
 
-         countries <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
+countries <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
 
-         #
-         osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
-         osprey_eu <- crop(countries, osprey_ext)
+#
+osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
+osprey_eu <- crop(countries, osprey_ext)
 
+osprey <- osprey%>%
+          arrange(time)
 
-         osprey_track <- 
-         ggplot(osprey_eu) +
-         geom_spatvector() + 
-          geom_path(data = osprey, aes(x = lon, y = lat, color = ID), 
-                     linewidth = 0.5, lineend = "round") +
-         labs(x = " ", y = " ", title = "Inividual tracks") +
-         #facet_wrap(~ ID) +
-         theme(legend.position="none") +
-         theme_minimal()
+osprey_track <- 
+ggplot(osprey_eu_utm) +
+geom_spatvector() + 
+geom_path(data = osprey, aes(x = x, y = y, color = ID), 
+           linewidth = 0.5, lineend = "round") +
+labs(x = " ", y = " ", title = "") +
+#facet_wrap(~ ID) +
+theme(legend.position="none") +
+theme_minimal()
 
-         osprey_track
+osprey_track
 
-         # This should create a more beautiful map BUT need to be fix!
-         # cbbox <- make_bbox(lon = osprey$lon, lat = osprey$lat, f = .1) #from ggmap
-         # sq_map <- get_map(location = cbbox, maptype = "terrain", source = "stamen")
+ggsave( "C:/Tesi/images/osprey_track.jpg", plot = osprey_track)
+
+# This should create a more beautiful map BUT need to be fix!
+# cbbox <- make_bbox(lon = osprey$lon, lat = osprey$lat, f = .1) #from ggmap
+# sq_map <- get_map(location = cbbox, maptype = "terrain", source = "stamen")
 
 
 ##########################
