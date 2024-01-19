@@ -450,8 +450,9 @@ stationary_df <- stationary_lt%>%
            summarize(min_dur = min(duration),
                      mean_dur = mean(duration),
                      max_dur = max(duration),
+                     tot_dur = sum(duration),
                      sd_dur = sd(duration))
-summarise()` has grouped output by 'ID'. You can override using the `.groups` argument.
+
 
 stopover <- stopover_df%>%
           group_by(ID)%>%
