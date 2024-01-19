@@ -284,32 +284,7 @@ speed_df <-  nd_df %>%
 #                    numero medio di giorni di sosta per area +
 #                    percentuale giorni di sosta in un’area protetta
 
-
 osprey_nonb_no_duplicates <- osprey_nonb[!duplicated(osprey_nonb[c("ID", "time")]) & !duplicated(osprey_nonb[c("ID", "time")], fromLast = TRUE), ]
-
-
-st <- osprey_nonb_no_duplicates%>%
-          select(-c("date", "death_date", "season"))
-
-stationary_lt <- as.ltraj(st[, c("x", "y")],
-                              date = st$time,
-                              id = st$ID,
-                              typeII = T)
-
-
-stationary_df <- stationary_lt%>%
-          ld()%>%
-          mutate(doy = yday(date),
-          ymd = as.Date(date),
-          year = year(date),
-          burst = dplyr::case_when( ),
-          day = as.Date(date),
-          distKM = dist/1000)%>%
-          tidyr::unite(id_y, c(id, year), sep="_", remove = F)%>%
-          select(-c("pkey"))
-
-
- osprey_nonb_no_duplicates <- osprey_nonb[!duplicated(osprey_nonb[c("ID", "time")]) & !duplicated(osprey_nonb[c("ID", "time")], fromLast = TRUE), ]
  
  
  st <- osprey_nonb_no_duplicates%>%
@@ -462,16 +437,26 @@ stopover_stat <- left_join(stopover, stopover_duration, by = "ID")
 
 stopover_stat
 
-protected_areas <- vect("C:/Tesi/R/osprey/data/natura2000_osprey_32632.shp")
+stopoverPA_df <- read.csv("C:/Tesi/R/osprey/data/stopover_PA_32632.csv")
 
-stopover_df_sp <- SpatialPointsDataFrame(stopover_df[,c("x", "y")], stopover_df)   
+ stopoverPA_duration <- stopoverPA_df %>%
+           group_by(id, burst) %>% 
+           summarize(start = min(date), end = max(date)) %>%
+           mutate(duration = difftime(end, start, units = "day"))%>%
+           summarize(min_dur = min(duration),
+                     mean_dur = mean(duration),
+                     max_dur = max(duration),
+                     tot_dur = sum(duration),
+                     sd_dur = sd(duration))
 
 
-stopover_utm <- terra::project(stopover_df, proj_crs)
-protected_areas_utm <- terra::project(protected_areas, proj_crs)
+stopoverPA <- stopoverPA_df%>%
+          group_by(id)%>%
+          summarize(tot_stopover = n_distinct(burst))
 
-extracted_values <- extract(protected_areas, stopover_df_sp)
-selected_observations <- stopover_df_sp[extracted_values, ]
+stopoverPA_stat <- left_join(stopoverPA, stopoverPA_duration, by = "id")
+
+stopoverPA_stat
 
 
 GRAFICI 
