@@ -207,10 +207,10 @@ ggplot(dailyDirections, aes(x = "", y = "meanDir")) +
 #  Natal dispersal stat #
 #########################
 
-# export tables to Latex, pay attention to digits arguments        , digits = c(0, 3, 3, 3)  
+# export tables to Latex, pay attention to digits arguments          
 
-lde_stat %>%
-  kable(format = 'latex', booktabs = TRUE) 
+stopover_stat_tot %>%
+  kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2)) 
 
 # 1. prima tabella: inizio fine e durata (n day) + aggiungere i paesi visitati
 
@@ -439,25 +439,34 @@ stopover_stat
 
 stopoverPA_df <- read.csv("C:/Tesi/R/osprey/data/stopover_PA_32632.csv")
 
- stopoverPA_duration <- stopoverPA_df %>%
-           group_by(id, burst) %>% 
+ stopoverPA_duration <- stopoverPA_df%>%
+          rename(ID = "id")%>%
+           group_by(ID, burst) %>% 
            summarize(start = min(date), end = max(date)) %>%
            mutate(duration = difftime(end, start, units = "day"))%>%
            summarize(min_dur = min(duration),
                      mean_dur = mean(duration),
                      max_dur = max(duration),
-                     tot_dur = sum(duration),
-                     sd_dur = sd(duration))
+                     tot_durPA = sum(duration),
+                     sd_dur = sd(duration))%>%
+          select("ID", "tot_durPA")
 
 
 stopoverPA <- stopoverPA_df%>%
-          group_by(id)%>%
+          rename(ID = "id")%>%
+          group_by(ID)%>%
           summarize(tot_stopover = n_distinct(burst))
 
-stopoverPA_stat <- left_join(stopoverPA, stopoverPA_duration, by = "id")
+stopoverPA_stat <- left_join(stopoverPA, stopoverPA_duration, by = "ID")
 
 stopoverPA_stat
 
+stopover_stat_tot <- left_join(stopover_stat, stopoverPA_duration, by = "ID")
+
+stopover_stat_tot <- stopover_stat_tot%>%
+          mutate()%>%
+          mutate(perc_PA = (as.numeric(tot_durPA)/as.numeric(tot_dur))*100)%>%
+          select(-"tot_durPA")
 
 GRAFICI 
 # 1. primo plot: mappe gi`a fatte con evidenziati i lde intervellati dalle aree di sosta
