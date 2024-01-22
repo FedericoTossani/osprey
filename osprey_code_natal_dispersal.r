@@ -151,6 +151,22 @@ nd_df <- nd_lt%>%
           tidyr::unite(id_y, c(id, year), sep="_", remove = F)%>%
           select(-c("pkey"))
 
+nd_df$rel.angle.degrees <- nd_df$rel.angle* (180 / pi)
+
+nd_lt2 <- nd_df%>%
+          dl()
+
+foo <- function(rel.angle.degrees) {
+return(rel.angle.degrees>90)
+}
+
+nd_ltc <- cutltraj(nd_lt2, "foo(rel.angle.degrees)", nextr = TRUE)
+nd_ltc
+
+nd_df2 <- nd_ltc%>%
+          ld()
+
+write.csv(nd_df2, "nd_df2.csv")
 
 nd$time <- as.POSIXct(strptime(as.character(nd$time),"%Y-%m-%d %H:%M"))
 
