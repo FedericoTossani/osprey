@@ -53,6 +53,25 @@ nd_df <- nd_lt%>%
           mutate(doy = yday(date),
           year = year(date),
           burst = dplyr::case_when(
+                    id == 'A7' & date >= '2015-08-14 08:00:00' & date <= '2015-08-18 09:00:00' ~ "A7_nd1",
+                    id == 'A7' & date >= '2017-02-20 06:00:00' & date <= '2017-03-01 12:00:00' ~ "A7_nd2",
+                    id == 'A7' & date >= '2017-03-17 06:00:00' & date <= '2017-04-14 18:00:00' |
+                    id == 'A7' & date >= '2017-04-17 06:00:00' & date <= '2017-04-20 18:00:00' ~ "A7_nd3",
+                    id == 'A7' & date >= '2017-04-28 06:00:00' & date <= '2017-05-10 12:00:00' |
+                    id == 'A7' & date >= '2017-05-14 08:00:00' & date <= '2017-05-21 12:00:00' |
+                    id == 'A7' & date >= '2017-05-23 06:00:00' & date <= '2017-05-23 14:00:00' |
+                    id == 'A7' & date >= '2017-05-26 08:00:00' & date <= '2017-05-28 18:00:00' ~ "A7_nd4",
+                    id == 'A7' & date >= '2017-06-06 08:00:00' & date <= '2017-06-06 12:00:00' |
+                    id == 'A7' & date >= '2017-06-11 06:00:00' & date <= '2017-06-12 12:00:00' ~ "A7_nd5",
+                    id == 'A7' & date >= '2017-07-27 06:00:00' & date <= '2017-07-27 18:00:00' ~ "A7_nd6",
+                    id == 'Antares' & date >= "2015-08-15 11:00:00" & date <= "2015-08-18 16:30:00" ~ "Antares_nd1",
+                    id == "Antares" & date >= "2015-09-08 09:30:00" & date <= "2015-09-08 16:30:00" |
+                    id == "Antares" & date >= "2015-09-13 08:00:00" & date <= "2015-09-13 12:00:00" ~ "Antares_nd2",
+                    id == "Antares" & date >= "2016-04-04 00:00:00" & date <= "2016-04-10 17:00:00" ~ "Antares_nd3",
+                    id == "Antares" & date >= "2016-04-19 11:00:00" & date <= "2016-04-22 13:00:00" ~ "Antares_nd4",
+                    id == "Antares" & date >= "2016-05-05 00:00:00" & date <= "2016-05-06 06:00:00" ~ "Antares_nd5",
+                    id == "Antares" & date >= "2016-05-14 13:00:00" & date <= "2016-05-17 19:00:00" ~ "Antares_nd6",
+                    id == "Antares" & date >= "2016-06-10 07:00:00" & date <= "2016-06-12 19:00:00" ~ "Antares_nd7",
                     id == 'H7' & date >= '2013-08-04 09:30:00' & date <= '2013-08-09 15:30:00' ~ "H7_nd1",
                     id == 'H7' & date >= '2015-04-02 05:00:00' & date <= '2015-04-11 13:00:00' ~ "H7_nd2",
                     id == 'H7' & date >= '2015-04-20 13:00:00' & date <= '2015-04-30 16:00:00' |
@@ -74,17 +93,6 @@ nd_df <- nd_lt%>%
                     id == 'E7' & date >= '2016-05-04 10:00:00' & date <= '2016-05-07 17:00:00' |
                     id == 'E7' & date >= '2016-05-12 11:00:00' & date <= '2016-05-16 20:30:00' |
                     id == 'E7' & date >= '2016-05-20 12:00:00' & date <= '2016-05-27 18:30:00' ~ "E7_nd3",
-                    id == 'A7' & date >= '2015-08-14 09:00:00' & date <= '2015-08-18 12:00:00' ~ "A7_nd1",
-                    id == 'A7' & date >= '2017-02-20 00:00:00' & date <= '2017-03-01 20:00:00' ~ "A7_nd2",
-                    id == 'A7' & date >= '2017-03-17 00:00:00' & date <= '2017-04-15 06:00:00' |
-                    id == 'A7' & date >= '2017-04-16 24:00:00' & date <= '2017-04-21 08:00:00' ~ "A7_nd3",
-                    id == 'A7' & date >= '2017-04-28 00:00:00' & date <= '2017-05-11 06:00:00' |
-                    id == 'A7' & date >= '2017-05-14 00:00:00' & date <= '2017-05-21 18:00:00' |
-                    id == 'A7' & date >= '2017-05-23 06:00:00' & date <= '2017-05-23 18:00:00' |
-                    id == 'A7' & date >= '2017-05-26 00:00:00' & date <= '2017-05-28 24:00:00' ~ "A7_nd4",
-                    id == 'A7' & date >= '2017-06-06 00:00:00' & date <= '2017-06-06 16:00:00' |
-                    id == 'A7' & date >= '2017-06-10 20:00:00' & date <= '2017-06-12 20:00:00' |
-                    id == 'A7' & date >= '2017-07-12 18:00:00' & date <= '2017-07-28 06:00:00' ~ "A7_nd5",
                     id == 'IAD' & date >= '2016-08-20 09:00:00' & date <= '2016-08-25 11:00:00' ~ "IAD_nd1",
                     id == 'IAD' & date >= '2018-02-04 18:00:00' & date <= '2018-02-07 19:00:00' ~ "IAD_nd2",
                     id == 'IAD' & date >= '2018-03-28 08:00:00' & date <= '2018-06-12 14:00:00' ~ "IAD_nd3",
@@ -137,13 +145,6 @@ nd_df <- nd_lt%>%
                     id == "CAM" & date >= "2016-05-03 08:00:00" & date <= "2016-05-06 18:00:00" ~ "CAM_nd2",
                     id == "CAM" & date >= "2016-05-20 05:00:00" & date <= "2016-05-24 18:00:00" ~ "CAM_nd3",
                     id == "CAM" & date >= "2016-07-02 23:00:00" & date <= "2016-07-06 20:00:00" ~ "CAM_nd4",
-                    id == 'Antares' & date >= "2015-08-15 11:00:00" & date <= "2015-08-18 19:00:00" ~ "Antares_nd1",
-                    id == "Antares" & date >= "2015-09-08 10:30:00" & date <= "2015-09-13 20:00:00" ~ "Antares_nd2",
-                    id == "Antares" & date >= "2016-04-04 00:00:00" & date <= "2016-04-10 17:00:00" ~ "Antares_nd3",
-                    id == "Antares" & date >= "2016-04-19 11:00:00" & date <= "2016-04-22 13:00:00" ~ "Antares_nd4",
-                    id == "Antares" & date >= "2016-05-05 00:00:00" & date <= "2016-05-06 06:00:00" ~ "Antares_nd5",
-                    id == "Antares" & date >= "2016-05-14 13:00:00" & date <= "2016-05-17 19:00:00" ~ "Antares_nd6",
-                    id == "Antares" & date >= "2016-06-10 07:00:00" & date <= "2016-06-12 19:00:00" ~ "Antares_nd7",
                     id == 'IBI' & date >= "2017-07-21 05:00:00" & date <= "2017-07-27 20:00:00" ~ "IBI_nd1",
                     id == "IBI" & date >= "2017-08-19 08:00:00" & date <= "2017-08-20 15:00:00" ~ "IBI_nd2"),
           day = as.Date(date),
@@ -155,6 +156,21 @@ nd_df$rel.angle.degrees <- nd_df$rel.angle* (180 / pi)
 
 nd_lt2 <- nd_df%>%
           dl()
+
+
+# Create a new factor variable based on the condition
+nd_lt2$split_factor <- ifelse(nd_lt2$rel.angle.degrees > 90 | nd_lt2$rel.angle.degrees < -90, "split", "no_split")
+
+table(nd_lt2$split_factor)
+
+# Split the ltraj object based on the new factor
+split_ltraj <- split(nd_lt2, f = nd_lt2$split_factor)
+
+# If you want each split to be a separate ltraj object, you can use list2df
+split_ltraj_list <- list2df(split_ltraj)
+
+
+
 
 foo <- function(rel.angle.degrees) {
 return(rel.angle.degrees>90)
