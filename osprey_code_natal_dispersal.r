@@ -369,7 +369,7 @@ osprey_nonb_no_duplicates <- osprey_nonb[!duplicated(osprey_nonb[c("ID", "time")
                      ID == 'IBS' & time >= '2023-02-15 00:00:00' & time <= '2023-02-19 04:00:00' ~ "IBS_stop4",
                      ID == 'IBS' & time >= '2023-02-23 20:00:00' & time <= '2023-03-01 16:00:00' ~ "IBS_stop5",
                      ID == 'IBS' & time >= '2023-03-08 24:00:00' & time <= '2023-03-13 04:00:00' ~ "IBS_stop6",
-                     ID == 'IBS' & time <= '2023-03-16 17:00:00' ~ "IBS_end",
+                     ID == 'IBS' & time >= '2023-03-16 17:00:00' ~ "IBS_end",
                      ID == 'IBH' & time >= '2020-08-15 15:00:00' & time <= '2022-04-09 06:00:00' ~ "IBH_wintering1",
                      ID == 'IBH' & time >= '2022-04-11 19:00:00' & time <= '2022-04-19 12:00:00' ~ "IBH_stop1",
                      ID == 'IBH' & time >= '2022-04-24 15:00:00' & time <= '2022-04-29 09:00:00' ~ "IBH_stop2",
