@@ -47,6 +47,7 @@
                             month = month(time),
                             year = year(time))%>%
                      tidyr::unite(m_day, c(month, day), sep="/", remove = F)%>%
+                     tidyr::unite(id_time, c(id, time), sep="_", remove = F)%>%
                      dplyr::left_join(osprey_death, by = c("id" = "id"))%>%
                      mutate( season = dplyr::case_when(
                                 month %in% 10:12 ~ "Fall",
@@ -106,7 +107,7 @@ nd_df <- osprey%>%
                   select(-c('day', 'month', 'year', 'm_day', 'ext_temp', 'signal_interruption_cause', 'death_comment'))%>%
                   unique()
 
-nd_df <- nd_df%>%
+nd_df <- osprey%>%
                     filter( ID == 'A7' & time >= '2015-08-14 08:00:00' & time <= '2015-08-18 09:00:00' |
                      ID == 'A7' & time >= '2017-02-20 06:00:00' & time <= '2017-03-01 12:00:00' |
                      ID == 'A7' & time >= '2017-03-17 06:00:00' & time <= '2017-04-14 18:00:00'  |
@@ -527,5 +528,4 @@ ndtraj_df <- cut_nd_lt%>%
 # Create a df with informationof stationary moments
 # To do this we are using the anti_join funtion which extract from the original dataset the observation non included in the Natal Dispersal df
 
-st_df <- osprey%>%
-          anti_join(nd_df, by = c("time" = "date"))
+st_df <- anti_join(osprey, nd_df, by = c("id_time" = "id_time"))
