@@ -299,10 +299,10 @@ ggplot(dailyDirections, aes(x = "", y = "meanDir")) +
 #  Natal dispersal stat #
 #########################
 
-# export tables to Latex, pay attention to digits arguments          
+# export tables to Latex, pay attention to digits arguments       , 2, 2, 2, 2   
 
-stopover_stat_tot %>%
-  kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2)) 
+nd_duration_id %>%
+  kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
 
 # 1. prima tabella: inizio fine e durata (n day) + aggiungere i paesi visitati
 
@@ -310,7 +310,7 @@ stopover_stat_tot %>%
 # median_dur = sprintf("%.2f", median(as.numeric(duration))), # add this line in the second summerize() funciton to have the median value
 
 nd_duration <- nd_df %>%
-          group_by(id, burst) %>% 
+          group_by(id, NDT) %>% 
           summarize(start = min(day), end = max(day)) %>%
           mutate(duration = difftime(end, start, units = "days"))%>%
           summarize(mean_dur = mean(duration),
@@ -344,7 +344,7 @@ nd_duration_id <- nd_df %>%
 # Daily distances
 
 daily_dist_df <- nd_df %>%
-  group_by(id, burst, day) %>%
+  group_by(id, NDT, day) %>%
   summarise(daily_dist = sum(distKM, na.rm = TRUE))
 
 daily_dist_stat <- daily_dist_df%>%
@@ -353,15 +353,15 @@ daily_dist_stat <- daily_dist_df%>%
                     max_dist = max(daily_dist, na.rm = TRUE),
                     sd_dist = sd(daily_dist, na.rm = TRUE))
 
-lde_ev <- nd_df%>%
+ndt_ev <- nd_df%>%
           group_by(id)%>%
-          summarize(lde_event = n_distinct(burst))
+          summarize(ndt_event = n_distinct(NDT))
 
-lde_stat <- left_join(lde_ev, daily_dist_stat, by = "id")
+ndt_stat <- left_join(ndt_ev, daily_dist_stat, by = "id")
 
-lde_stat <- left_join(lde_stat, nd_duration, by = "id")
+ndt_stat <- left_join(ndt_stat, nd_duration, by = "id")
 
-lde_stat
+ndt_stat
 
 speed_df <-  nd_df %>%
           group_by(burst) %>%
@@ -376,17 +376,31 @@ speed_df <-  nd_df %>%
 #                    numero medio di giorni di sosta per area +
 #                    percentuale giorni di sosta in un’area protetta
 
-osprey_nonb_no_duplicates <- osprey_nonb[!duplicated(osprey_nonb[c("ID", "time")]) & !duplicated(osprey_nonb[c("ID", "time")], fromLast = TRUE), ]
- 
- 
- st <- osprey_nonb_no_duplicates%>%
+st_df <- osprey%>%
+          anti_join(nd_df, by = c("time" = "date"))
+
+st_df_no_duplicates <- st_df[!duplicated(st_df[c("ID", "time")]) & !duplicated(st_df[c("ID", "time")], fromLast = TRUE), ]
+
+
+ st <- st_df_no_duplicates%>%
            select(-c("date", "death_date", "season"))
  
  stationary_lt <- as.ltraj(st[, c("x", "y")],
                                date = st$time,
                                id = st$ID,
                                typeII = T)
- 
+
+
+foo <- function(dt) {
+return(dt> (60*60*24))
+}
+
+# Cut the ltraj object based on the time gap criterion
+cut_stationary_lt <- cutltraj(stationary_lt, "foo(dt)", nextr = TRUE)
+
+cut_stationary_lt
+
+
  
  stationary_df <- stationary_lt%>%
            ld()%>%
