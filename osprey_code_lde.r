@@ -1,8 +1,8 @@
-osprey_nd <- osprey%>%
+nd_df <- osprey%>%
                   select(-c('day', 'month', 'year', 'm_day', 'ext_temp', 'signal_interruption_cause', 'death_comment'))%>%
                   unique()
 
-osprey_nd <- osprey_nd%>%
+nd_df <- nd_df%>%
                     filter( ID == 'A7' & time >= '2015-08-14 08:00:00' & time <= '2015-08-18 09:00:00' |
                      ID == 'A7' & time >= '2017-02-20 06:00:00' & time <= '2017-03-01 12:00:00' |
                      ID == 'A7' & time >= '2017-03-17 06:00:00' & time <= '2017-04-14 18:00:00'  |
