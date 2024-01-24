@@ -24,7 +24,7 @@
 
 nd_df_no_duplicates <- nd_df[!duplicated(nd_df[c("ID", "time")]) & !duplicated(nd_df[c("ID", "time")], fromLast = TRUE), ]
 
-nd <- nd_df%>%
+nd <- nd_df_no_duplicates%>%
           select(-c("date", "death_date", "season"))
 
 table(is.na(nd$lon))
@@ -41,7 +41,6 @@ nd_with_na
                               date = nd$time,
                               id = nd$ID,
                               typeII = T)
-
 
 foo <- function(dt) {
 return(dt> (60*60*24))
@@ -284,35 +283,21 @@ ndtraj_df <- cut_nd_lt%>%
 #  Natal dispersal stat #
 #########################
 
-# export tables to Latex, pay attention to digits arguments       , 2, 2, 2, 2   
+# export tables to Latex, pay attention to digits arguments
 
 nd_duration_id %>%
-  kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
+          kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
 
+
+#############
+# Durations #
+#############
+
+# Request
 # 1. prima tabella: inizio fine e durata (n day) + aggiungere i paesi visitati
 
-# Durations #
-# median_dur = sprintf("%.2f", median(as.numeric(duration))), # add this line in the second summerize() funciton to have the median value
 
-nd_duration <- ndtraj_df %>%
-          group_by(id, NDT) %>% 
-          summarize(start = min(date), end = max(date)) %>%
-          mutate(duration = difftime(end, start, units = "days"))%>%
-          summarize(mean_dur = mean(duration),
-                    max_dur = max(duration),
-                    sd_dur = sd(duration))
-
-nd_duration <- ndtraj_df %>%
-          group_by(NDT) %>% 
-          mutate(start = min(date), end = max(date))%>%
-          mutate(duration = difftime(end, start, units = "days"))%>%
-          select("start", "end", "duration")%>%
-          unique()
-
-nd_duration
-
-
-
+# Table reporting first and last day of Natal Dispersal period and whole durations of every animal
 
 nd_duration_id <- ndtraj_df %>%
           group_by(id) %>% 
@@ -321,14 +306,41 @@ nd_duration_id <- ndtraj_df %>%
 
 nd_duration_id
 
- countries_vis<- ndtraj_df%>%
-          dplyr::filter(burst == "IBS_nd5")
 
- ggplot(osprey_eu_utm) + 
-       geom_spatvector()+
-       geom_path(data = countries_vis, aes(x = x, y = y, colour = "red"), linewidth = 1, lineend = "round")
+# Table reporting mean, max duration and standard deviation of Natal Dispersal Travel duration of every animal
+
+nd_duration <- ndtraj_df %>%
+          group_by(id, NDT) %>% 
+          summarize(start = min(date), end = max(date)) %>%
+          mutate(duration = difftime(end, start, units = "days"))%>%
+          summarize(mean_dur = mean(duration),
+                    max_dur = max(duration),
+                    sd_dur = sd(duration))
+nd_duration
 
 
+# Table reporting NDT start/finish date and duration of every animal
+
+ndt_duration <- ndtraj_df %>%
+          group_by(NDT) %>% 
+          mutate(start = min(date), end = max(date))%>%
+          mutate(duration = difftime(end, start, units = "days"))%>%
+          select("start", "end", "duration")%>%
+          unique()
+ndt_duration
+
+
+# Code to check which countries are traversed during Natal Dispersal Travel
+
+countries_vis<- ndtraj_df%>%
+          dplyr::filter(NDT == "IBS_nd5")
+
+ggplot(osprey_eu_utm) + 
+          geom_spatvector()+
+          geom_path(data = countries_vis, aes(x = x, y = y, colour = "red"), linewidth = 1, lineend = "round")
+
+
+# Request
 
 # 2. seconda tabella: Long distance event numero di eventi +
 #                    durata media e massima in giorni x lde +
@@ -338,17 +350,31 @@ nd_duration_id
 
 # median_dist = sprintf("%.2f", median(distKM, na.rm = TRUE)), # add this line in the second summerize() funciton to have the median value
 
-# Daily distances
+
+###################
+# Daily distances #
+###################
+
+
+# DF reporting daily distances travelled by each animals
 
 daily_dist_df <- ndtraj_df %>%
-  group_by(id, NDT, day) %>%
-  summarise(daily_dist = sum(distKM, na.rm = TRUE))
+          group_by(id, track_id, day) %>%
+          summarise(daily_dist = sum(distKM, na.rm = TRUE))
+daily_dist_df
+
+
+#  DF reporting mean\max and standard direction of daily distances travelled by each animals
 
 daily_dist_stat <- daily_dist_df%>%
           group_by (id)%>%
           summarize(mean_dist = mean(daily_dist, na.rm = TRUE),
                     max_dist = max(daily_dist, na.rm = TRUE),
                     sd_dist = sd(daily_dist, na.rm = TRUE))
+daily_dist_stat
+
+
+# Total number of Natal Dispersal Travel made by each animal
 
 ndt_ev <- ndtraj_df%>%
           group_by(id)%>%
