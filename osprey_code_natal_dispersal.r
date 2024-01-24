@@ -26,10 +26,10 @@
 
           # Let's define our dataset of natal dispersal
 
-osprey_nd_no_duplicates <- osprey_nd[!duplicated(osprey_nd[c("ID", "time")]) & !duplicated(osprey_nd[c("ID", "time")], fromLast = TRUE), ]
+nd_df_no_duplicates <- nd_df[!duplicated(nd_df[c("ID", "time")]) & !duplicated(nd_df[c("ID", "time")], fromLast = TRUE), ]
 
 
-                  nd <- osprey_nd%>%
+                  nd <- nd_df%>%
                               select(-c("date", "death_date", "season"))
 
           table(is.na(nd$lon))
@@ -48,7 +48,7 @@ nd_with_na
                               typeII = T)
 
 # create a data frame
-nd_df <- nd_lt%>%
+ndtraj_df <- nd_lt%>%
           ld()%>%
           mutate(doy = yday(date),
           year = year(date),
@@ -197,9 +197,9 @@ nd_df <- nd_lt%>%
           tidyr::unite(id_y, c(id, year), sep="_", remove = F)%>%
           select(-c("pkey"))
 
-nd_df$rel.angle.degrees <- nd_df$rel.angle* (180 / pi)
+ndtraj_df$rel.angle.degrees <- ndtraj_df$rel.angle* (180 / pi)
 
-nd_lt2 <- nd_df%>%
+nd_lt2 <- ndtraj_df%>%
           dl()
 
 
@@ -224,15 +224,15 @@ return(rel.angle.degrees>90)
 nd_ltc <- cutltraj(nd_lt2, "foo(rel.angle.degrees)", nextr = TRUE)
 nd_ltc
 
-nd_df2 <- nd_ltc%>%
+ndtraj_df2 <- nd_ltc%>%
           ld()
 
-write.csv(nd_df2, "nd_df2.csv")
+write.csv(ndtraj_df2, "ndtraj_df2.csv")
 
 nd$time <- as.POSIXct(strptime(as.character(nd$time),"%Y-%m-%d %H:%M"))
 
 # Find duplicate dates
-duplicate_dates <- osprey_nd[duplicated(osprey_nd$time) | duplicated(osprey_nd$time, fromLast = TRUE), ]
+duplicate_dates <- nd_df[duplicated(nd_df$time) | duplicated(nd_df$time, fromLast = TRUE), ]
 
 duplicate_dates <- duplicate_dates%>%
           arrange(time)
@@ -244,14 +244,14 @@ print(head(duplicate_dates, 40))
 
 
 
-main_direction <- nd_df %>%
+main_direction <- ndtraj_df %>%
   group_by(burst) %>%
   summarize(main_angle = atan2(mean(sin(abs.angle)), mean(cos(abs.angle))))
 
 # Print the result
 print(main_direction)
 
-dailyDirections <- nd_df%>%
+dailyDirections <- ndtraj_df%>%
           mutate(deg_turnAngle = rel.angle * (180/pi))%>%
           group_by(id, day)%>%
           summarize(meanDir = mean(deg_turnAngle),
@@ -309,7 +309,7 @@ nd_duration_id %>%
 # Durations #
 # median_dur = sprintf("%.2f", median(as.numeric(duration))), # add this line in the second summerize() funciton to have the median value
 
-nd_duration <- nd_df %>%
+nd_duration <- ndtraj_df %>%
           group_by(id, NDT) %>% 
           summarize(start = min(day), end = max(day)) %>%
           mutate(duration = difftime(end, start, units = "days"))%>%
@@ -319,12 +319,12 @@ nd_duration <- nd_df %>%
                    
 
 
-nd_duration_id <- nd_df %>%
+nd_duration_id <- ndtraj_df %>%
           group_by(id) %>% 
           summarize(start = min(day), end = max(day)) %>%
           mutate(duration = round(difftime(end, start, units = "days")))
 
- countries_vis<- nd_df%>%
+ countries_vis<- ndtraj_df%>%
           dplyr::filter(burst == "IBS_nd5")
 
  ggplot(osprey_eu_utm) + 
@@ -343,7 +343,7 @@ nd_duration_id <- nd_df %>%
 
 # Daily distances
 
-daily_dist_df <- nd_df %>%
+daily_dist_df <- ndtraj_df %>%
   group_by(id, NDT, day) %>%
   summarise(daily_dist = sum(distKM, na.rm = TRUE))
 
@@ -353,7 +353,7 @@ daily_dist_stat <- daily_dist_df%>%
                     max_dist = max(daily_dist, na.rm = TRUE),
                     sd_dist = sd(daily_dist, na.rm = TRUE))
 
-ndt_ev <- nd_df%>%
+ndt_ev <- ndtraj_df%>%
           group_by(id)%>%
           summarize(ndt_event = n_distinct(NDT))
 
@@ -363,7 +363,7 @@ ndt_stat <- left_join(ndt_stat, nd_duration, by = "id")
 
 ndt_stat
 
-speed_df <-  nd_df %>%
+speed_df <-  ndtraj_df %>%
           group_by(burst) %>%
           mutate(speed = distKM / (dt / 3600)) %>%
           summarise(mean_speed = mean(speed, na.rm = TRUE),
@@ -377,7 +377,7 @@ speed_df <-  nd_df %>%
 #                    percentuale giorni di sosta in un’area protetta
 
 st_df <- osprey%>%
-          anti_join(nd_df, by = c("time" = "date"))
+          anti_join(ndtraj_df, by = c("time" = "date"))
 
 st_df_no_duplicates <- st_df[!duplicated(st_df[c("ID", "time")]) & !duplicated(st_df[c("ID", "time")], fromLast = TRUE), ]
 
@@ -582,7 +582,7 @@ GRAFICI
 
 # Distances #
 
-summary_distance <- nd_df%>%
+summary_distance <- ndtraj_df%>%
       group_by(burst, day)%>%
       summarize(minDistxDay = min(distKM),
                 meanDistxDay = mean(distKM),
@@ -597,7 +597,7 @@ summary_id_distance <- summary_distance%>%
 summary_id_distance <- summary_id_distance%>%
           arrange(burst)
 
-dist_plot <- ggplot(osprey_ndlt_df, aes(x = osprey_ndlt_df$distKM)) +
+dist_plot <- ggplot(nd_dflt_df, aes(x = nd_dflt_df$distKM)) +
   geom_histogram(binwidth = 0.1) +
   xlab("Distance (Km)") +
   ylab("Count") +
@@ -605,24 +605,24 @@ dist_plot <- ggplot(osprey_ndlt_df, aes(x = osprey_ndlt_df$distKM)) +
 
 
 
-summary_speed <- osprey_ndlt_df%>%
+summary_speed <- nd_dflt_df%>%
   group_by(burst)%>%
   mutate(Speed = (dist/1000)/(dt/3600)) %>% 
   summarize(minSpeed = min(Speed, na.rm=T),
             meanSpeed = mean(Speed, na.rm=T),
             maxSpeed = max(Speed, na.rm=T)) 
 
-osp_ndlt_df<- osprey_ndlt_df%>%
+osp_ndlt_df<- nd_dflt_df%>%
   mutate(Speed = (dist/1000)/(dt/3600),
          deg_turnAngle = rel.angle * (180/pi))
 
                   
-                  speed_plot <- ggplot(osprey_ndlt_df, aes(x = Speed)) +
+                  speed_plot <- ggplot(nd_dflt_df, aes(x = Speed)) +
                     geom_histogram(binwidth = 1) +
                     labs(x = "Speed", y = "Frequency") +
                     theme_bw()
 
-summary_dt <- osprey_ndlt_df%>%
+summary_dt <- nd_dflt_df%>%
   group_by(burst)%>%
   mutate(dt = dt/3600) %>% 
   summarize(minDt = min(dt, na.rm=T),
@@ -630,7 +630,7 @@ summary_dt <- osprey_ndlt_df%>%
             maxDt = max(dt, na.rm=T)) 
 
 
-osp_ndlt_df <- osprey_ndlt_df%>%
+osp_ndlt_df <- nd_dflt_df%>%
                   mutate(deg_turnAngle = rel.angle * (180/pi))
 
 
