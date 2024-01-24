@@ -394,6 +394,15 @@ speed_df <-  ndtraj_df %>%
           )
 
 
+summary_dt <- amtnd_lt%>%
+  group_by(id)%>%
+  summarize(minDt = min(dt, na.rm=T),
+            meanDt = mean(dt, na.rm=T),
+            maxDt = max(dt, na.rm=T)) 
+summary_dt
+
+
+
 # 3. terza tabella: descrizione aree di sosta (multi day) id +
 #                    numero aree di sosta +
 #                    numero medio di giorni di sosta per area +
@@ -643,12 +652,7 @@ osp_ndlt_df<- nd_dflt_df%>%
                     labs(x = "Speed", y = "Frequency") +
                     theme_bw()
 
-summary_dt <- nd_dflt_df%>%
-  group_by(burst)%>%
-  mutate(dt = dt/3600) %>% 
-  summarize(minDt = min(dt, na.rm=T),
-            meanDt = mean(dt, na.rm=T),
-            maxDt = max(dt, na.rm=T)) 
+
 
 
 ###############################################
