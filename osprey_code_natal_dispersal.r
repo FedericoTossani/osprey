@@ -20,14 +20,9 @@
           source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_code_basemap_extent.r")
 
 
-# ========================================== #
-#          Let's try a new approach          #
-# ========================================== #
-
-          # Let's define our dataset of natal dispersal
+# Let's create our dataset of natal dispersal
 
 nd_df_no_duplicates <- nd_df[!duplicated(nd_df[c("ID", "time")]) & !duplicated(nd_df[c("ID", "time")], fromLast = TRUE), ]
-
 
 nd <- nd_df%>%
           select(-c("date", "death_date", "season"))
