@@ -47,8 +47,17 @@ nd_with_na
                               id = nd$ID,
                               typeII = T)
 
+
+foo <- function(dt) {
+return(dt> (60*60*24))
+}
+
+# Cut the ltraj object based on the time gap criterion
+cut_nd_lt <- cutltraj(nd_lt, "foo(dt)", nextr = TRUE)
+
+
 # create a data frame
-ndtraj_df <- nd_lt%>%
+ndtraj_df <- cut_nd_lt%>%
           ld()%>%
           mutate(doy = yday(date),
           year = year(date),
@@ -195,169 +204,86 @@ ndtraj_df <- nd_lt%>%
           day = as.Date(date),
           distKM = dist/1000,
           NDT = dplyr::case_when(
-                     ID == 'A7' & date >= '2015-08-14 08:00:00' & date <= '2015-08-18 09:00:00' ~ 'A7_nd1',
-                     ID == 'A7' & date >= '2017-02-20 06:00:00' & date <= '2017-03-01 12:00:00' ~ 'A7_nd2',
-                     ID == 'A7' & date >= '2017-03-17 06:00:00' & date <= '2017-04-20 18:00:00' ~ 'A7_nd3',
-                     ID == 'A7' & date >= '2017-04-28 06:00:00' & date <= '2017-05-28 18:00:00' ~ 'A7_nd4',
-                     ID == 'A7' & date >= '2017-06-06 08:00:00' & date <= '2017-06-12 12:00:00' ~ 'A7_nd5',
-                     ID == 'A7' & date >= '2017-07-27 06:00:00' & date <= '2017-07-27 18:00:00' ~ 'A7_nd6',
-                     ID == 'Antares' & date >= '2015-08-15 11:00:00' & date <= '2015-08-18 16:30:00' ~ 'Antares_nd1',
-                     ID == 'Antares' & date >= '2015-09-08 09:30:00' & date <= '2015-09-13 12:00:00' ~ 'Antares_nd2',
-                     ID == 'Antares' & date >= '2016-04-04 00:00:00' & date <= '2016-04-10 14:00:00' ~ 'Antares_nd3',
-                     ID == 'Antares' & date >= '2016-04-19 10:00:00' & date <= '2016-04-22 10:00:00' ~ 'Antares_nd4',
-                     ID == 'Antares' & date >= '2016-05-05 06:00:00' & date <= '2016-05-06 06:00:00' ~ 'Antares_nd5',
-                     ID == 'Antares' & date >= '2016-05-14 12:00:00' & date <= '2016-05-17 15:00:00' ~ 'Antares_nd6',
-                     ID == 'Antares' & date >= '2016-06-10 07:00:00' & date <= '2016-06-12 15:00:00' ~ 'Antares_nd7',
-                     ID == 'CAM' & date >= '2016-04-14 07:00:00' & date <= '2016-04-19 17:00:00' ~ 'CAM_nd1',
-                     ID == 'CAM' & date >= '2016-05-03 07:00:00' & date <= '2016-05-06 15:00:00' ~ 'CAM_nd2',
-                     ID == 'CAM' & date >= '2016-05-20 04:00:00' & date <= '2016-05-24 14:00:00' ~ 'CAM_nd3',
-                     ID == 'CAM' & date >= '2016-07-02 23:00:00' & date <= '2016-07-06 18:00:00' ~ 'CAM_nd4',
-                     ID == 'CBK' & date >= '2013-08-15 06:00:00' & date <= '2013-08-21 08:00:00' ~ 'CBK_nd1',
-                     ID == 'CBK' & date >= '2014-03-20 08:00:00' & date <= '2014-03-21 10:00:00' ~ 'CBK_nd2',
-                     ID == 'CBK' & date >= '2014-04-08 07:30:00' & date <= '2014-04-12 08:00:00' ~ 'CBK_nd3',
-                     ID == 'CIV' & date >= '2014-08-16 09:00:00' & date <= '2014-08-21 18:00:00' ~ 'CIV_nd1',
-                     ID == 'CIV' & date >= '2014-09-11 11:00:00' & date <= '2014-09-13 13:00:00' ~ 'CIV_nd2',
-                     ID == 'CIV' & date >= '2014-10-21 08:00:00' & date <= '2014-10-21 18:00:00' ~ 'CIV_nd3',
-                     ID == 'CIV' & date >= '2015-03-21 02:00:00' & date <= '2015-03-21 20:00:00' ~ 'CIV_nd4',
-                     ID == 'CIV' & date >= '2015-06-04 06:00:00' & date <= '2015-06-22 14:00:00' ~ 'CIV_nd5',
-                     ID == 'CIV' & date >= '2015-08-13 06:00:00' & date <= '2015-08-13 20:00:00' ~ 'CIV_nd6',
-                     ID == 'CIV' & date >= '2015-11-22 00:01:00' & date <= '2015-11-25 16:01:00' ~ 'CIV_nd7',
-                     ID == 'CIV' & date >= '2016-03-29 06:00:00' & date <= '2016-03-31 18:00:00' ~ 'CIV_nd8',
-                     ID == 'CIV' & date >= '2016-04-15 06:00:00' & date <= '2016-04-18 20:00:00' ~ 'CIV_nd9',
-                     ID == 'CIV' & date >= '2016-10-28 08:00:00' & date <= '2016-10-29 18:00:00' ~ 'CIV_nd10',
-                     ID == 'E7' & date >= '2014-08-21 08:00:00' & date <= '2014-08-27 11:00:00' ~ 'E7_nd1',
-                     ID == 'E7' & date >= '2016-03-10 06:00:00' & date <= '2016-04-25 15:00:00' ~ 'E7_nd2',
-                     ID == 'E7' & date >= '2016-05-04 08:30:00' & date <= '2016-05-27 16:30:00' ~ 'E7_nd3',
-                     ID == 'H7' & date >= '2013-08-04 08:00:00' & date <= '2013-08-09 12:30:00' ~ 'H7_nd1',
-                     ID == 'H7' & date >= '2015-04-02 08:00:00' & date <= '2015-04-11 10:00:00' ~ 'H7_nd2',
-                     ID == 'H7' & date >= '2015-04-20 11:00:00' & date <= '2015-05-03 09:00:00' ~ 'H7_nd3',
-                     ID == 'IAB' & date >= '2018-08-07 11:00:00' & date <= '2018-08-12 16:00:00' ~ 'IAB_nd1',
-                     ID == 'IAB' & date >= '2019-03-26 11:00:00' & date <= '2019-03-28 11:00:00' ~ 'IAB_nd2',
-                     ID == 'IAB' & date >= '2019-04-19 08:00:00' & date <= '2019-04-23 15:00:00' ~ 'IAB_nd3',
-                     ID == 'IAB' & date >= '2019-05-05 07:00:00' & date <= '2019-05-20 10:00:00' ~ 'IAB_nd4',
-                     ID == 'IAB' & date >= '2019-05-29 14:00:00' & date <= '2019-06-10 13:00:00' ~ 'IAB_nd5',
-                     ID == 'IAB' & date >= '2019-09-07 10:00:00' & date <= '2019-09-11 11:00:00' ~ 'IAB_nd6',
-                     ID == 'IAB' & date >= '2019-10-29 08:00:00' & date <= '2019-10-30 07:00:00' ~ 'IAB_nd7',
-                     ID == 'IAB' & date >= '2020-03-16 08:00:00' & date <= '2020-03-19 16:00:00' ~ 'IAB_nd8',
-                     ID == 'IAD' & date >= '2016-08-20 08:00:00' & date <= '2016-08-22 14:30:00' ~ 'IAD_nd1',
-                     ID == 'IAD' & date >= '2018-02-05 06:00:00' & date <= '2018-02-07 16:00:00' ~ 'IAD_nd2',
-                     ID == 'IAD' & date >= '2018-03-28 10:00:00' & date <= '2018-05-17 12:00:00' ~ 'IAD_nd3',
-                     ID == 'IAD' & date >= '2018-05-29 08:00:00' & date <= '2018-06-12 12:00:00' ~ 'IAD_nd4',
-                     ID == 'IAD' & date >= '2018-12-15 09:00:00' & date <= '2018-12-20 13:00:00' ~ 'IAD_nd5',
-                     ID == 'IAD' & date >= '2019-03-04 10:00:00' & date <= '2019-04-21 17:00:00' ~ 'IAD_nd6',
-                     ID == 'IAD' & date >= '2019-04-29 08:00:00' & date <= '2019-05-01 14:00:00' ~ 'IAD_nd7',
-                     ID == 'IAD' & date >= '2019-07-08 09:00:00' & date <= '2019-07-15 14:00:00' ~ 'IAD_nd8',
-                     ID == 'IBH' & date >= '2020-08-07 06:17:15' & date <= '2020-08-15 11:25:28' ~ 'IBH_nd1',
-                     ID == 'IBH' & date >= '2022-04-09 06:47:05' & date <= '2022-04-11 15:37:18' ~ 'IBH_nd2',
-                     ID == 'IBH' & date >= '2022-04-20 06:31:21' & date <= '2022-04-23 06:24:43' ~ 'IBH_nd3',
-                     ID == 'IBH' & date >= '2022-04-29 09:18:06' & date <= '2022-05-01 14:15:15' ~ 'IBH_nd4',
-                     ID == 'IBH' & date >= '2022-05-04 09:00:00' & date <= '2022-05-04 12:12:25' ~ 'IBH_nd5',
-                     ID == 'IBH' & date >= '2022-05-10 09:00:00' & date <= '2022-05-13 08:58:13' ~ 'IBH_nd6',
-                     ID == 'IBI' & date >= '2017-07-21 07:00:00' & date <= '2017-07-27 17:00:00' ~ 'IBI_nd1',
-                     ID == 'IBI' & date >= '2017-08-19 07:00:00' & date <= '2017-08-20 12:00:00' ~ 'IBI_nd2',
-                     ID == 'IBK' & date >= '2020-08-21 08:31:15' & date <= '2020-08-22 18:04:45' ~ 'IBK_nd1',
-                     ID == 'IBK' & date >= '2021-06-27 08:43:09' & date <= '2021-06-30 12:45:35' ~ 'IBK_nd2',
-                     ID == 'IBK' & date >= '2022-04-16 08:39:12' & date <= '2022-04-17 12:50:05' ~ 'IBK_nd3',
-                     ID == 'IBS' & date >= '2020-07-27 06:00:00' & date <= '2020-07-28 15:00:00' ~ 'IBS_nd1',
-                     ID == 'IBS' & date >= '2020-08-07 08:00:00' & date <= '2020-08-18 15:00:00' ~ 'IBS_nd2',
-                     ID == 'IBS' & date >= '2021-01-14 08:00:00' & date <= '2021-01-15 12:00:00' ~ 'IBS_nd3',
-                     ID == 'IBS' & date >= '2021-02-15 09:00:00' & date <= '2021-02-15 15:00:00' ~ 'IBS_nd4',
-                     ID == 'IBS' & date >= '2021-04-26 10:00:33' & date <= '2021-05-01 11:00:08' ~ 'IBS_nd5',
-                     ID == 'IBS' & date >= '2022-03-22 06:00:34' & date <= '2022-05-17 12:00:18' ~ 'IBS_nd6',
-                     ID == 'IBS' & date >= '2022-05-28 06:00:15' & date <= '2022-06-04 12:00:18' ~ 'IBS_nd7',
-                     ID == 'IBS' & date >= '2023-02-10 13:03:31' & date <= '2023-02-23 15:00:34' ~ 'IBS_nd8',
-                     ID == 'IBS' & date >= '2023-03-02 06:00:37' & date <= '2023-03-16 12:00:04' ~ 'IBS_nd9',
-                     ID == 'ICZ' & date >= '2019-09-09 08:15:55' & date <= '2019-09-14 11:50:14' ~ 'ICZ_nd1',
-                     ID == 'ICZ' & date >= '2020-04-11 11:13:23' & date <= '2020-04-23 14:53:33' ~ 'ICZ_nd2',
-                     ID == 'ICZ' & date >= '2020-05-02 13:09:29' & date <= '2020-05-05 14:06:04' ~ 'ICZ_nd3',
-                     ID == 'IFP' & date >= '2022-07-23 09:00:31' & date <= '2022-07-28 15:00:22' ~ 'IFP_nd1',
-                     ID == 'IFP' & date >= '2023-04-24 06:00:31' & date <= '2023-04-29 12:00:37' ~ 'IFP_nd2',
-                     ID == 'IFP' & date >= '2023-05-16 00:00:00' & date <= '2023-06-08 15:01:02' ~ 'IFP_nd3'))%>%)%>%
+                     id == 'A7' & date >= '2015-08-14 08:00:00' & date <= '2015-08-18 09:00:00' ~ 'A7_nd1',
+                     id == 'A7' & date >= '2017-02-20 06:00:00' & date <= '2017-03-01 12:00:00' ~ 'A7_nd2',
+                     id == 'A7' & date >= '2017-03-17 06:00:00' & date <= '2017-04-20 18:00:00' ~ 'A7_nd3',
+                     id == 'A7' & date >= '2017-04-28 06:00:00' & date <= '2017-05-28 18:00:00' ~ 'A7_nd4',
+                     id == 'A7' & date >= '2017-06-06 08:00:00' & date <= '2017-06-12 12:00:00' ~ 'A7_nd5',
+                     id == 'A7' & date >= '2017-07-27 06:00:00' & date <= '2017-07-27 18:00:00' ~ 'A7_nd6',
+                     id == 'Antares' & date >= '2015-08-15 11:00:00' & date <= '2015-08-18 16:30:00' ~ 'Antares_nd1',
+                     id == 'Antares' & date >= '2015-09-08 09:30:00' & date <= '2015-09-13 12:00:00' ~ 'Antares_nd2',
+                     id == 'Antares' & date >= '2016-04-04 00:00:00' & date <= '2016-04-10 14:00:00' ~ 'Antares_nd3',
+                     id == 'Antares' & date >= '2016-04-19 10:00:00' & date <= '2016-04-22 10:00:00' ~ 'Antares_nd4',
+                     id == 'Antares' & date >= '2016-05-05 06:00:00' & date <= '2016-05-06 06:00:00' ~ 'Antares_nd5',
+                     id == 'Antares' & date >= '2016-05-14 12:00:00' & date <= '2016-05-17 15:00:00' ~ 'Antares_nd6',
+                     id == 'Antares' & date >= '2016-06-10 07:00:00' & date <= '2016-06-12 15:00:00' ~ 'Antares_nd7',
+                     id == 'CAM' & date >= '2016-04-14 07:00:00' & date <= '2016-04-19 17:00:00' ~ 'CAM_nd1',
+                     id == 'CAM' & date >= '2016-05-03 07:00:00' & date <= '2016-05-06 15:00:00' ~ 'CAM_nd2',
+                     id == 'CAM' & date >= '2016-05-20 04:00:00' & date <= '2016-05-24 14:00:00' ~ 'CAM_nd3',
+                     id == 'CAM' & date >= '2016-07-02 23:00:00' & date <= '2016-07-06 18:00:00' ~ 'CAM_nd4',
+                     id == 'CBK' & date >= '2013-08-15 06:00:00' & date <= '2013-08-21 08:00:00' ~ 'CBK_nd1',
+                     id == 'CBK' & date >= '2014-03-20 08:00:00' & date <= '2014-03-21 10:00:00' ~ 'CBK_nd2',
+                     id == 'CBK' & date >= '2014-04-08 07:30:00' & date <= '2014-04-12 08:00:00' ~ 'CBK_nd3',
+                     id == 'CIV' & date >= '2014-08-16 09:00:00' & date <= '2014-08-21 18:00:00' ~ 'CIV_nd1',
+                     id == 'CIV' & date >= '2014-09-11 11:00:00' & date <= '2014-09-13 13:00:00' ~ 'CIV_nd2',
+                     id == 'CIV' & date >= '2014-10-21 08:00:00' & date <= '2014-10-21 18:00:00' ~ 'CIV_nd3',
+                     id == 'CIV' & date >= '2015-03-21 02:00:00' & date <= '2015-03-21 20:00:00' ~ 'CIV_nd4',
+                     id == 'CIV' & date >= '2015-06-04 06:00:00' & date <= '2015-06-22 14:00:00' ~ 'CIV_nd5',
+                     id == 'CIV' & date >= '2015-08-13 06:00:00' & date <= '2015-08-13 20:00:00' ~ 'CIV_nd6',
+                     id == 'CIV' & date >= '2015-11-22 00:01:00' & date <= '2015-11-25 16:01:00' ~ 'CIV_nd7',
+                     id == 'CIV' & date >= '2016-03-29 06:00:00' & date <= '2016-03-31 18:00:00' ~ 'CIV_nd8',
+                     id == 'CIV' & date >= '2016-04-15 06:00:00' & date <= '2016-04-18 20:00:00' ~ 'CIV_nd9',
+                     id == 'CIV' & date >= '2016-10-28 08:00:00' & date <= '2016-10-29 18:00:00' ~ 'CIV_nd10',
+                     id == 'E7' & date >= '2014-08-21 08:00:00' & date <= '2014-08-27 11:00:00' ~ 'E7_nd1',
+                     id == 'E7' & date >= '2016-03-10 06:00:00' & date <= '2016-04-25 15:00:00' ~ 'E7_nd2',
+                     id == 'E7' & date >= '2016-05-04 08:30:00' & date <= '2016-05-27 16:30:00' ~ 'E7_nd3',
+                     id == 'H7' & date >= '2013-08-04 08:00:00' & date <= '2013-08-09 12:30:00' ~ 'H7_nd1',
+                     id == 'H7' & date >= '2015-04-02 08:00:00' & date <= '2015-04-11 10:00:00' ~ 'H7_nd2',
+                     id == 'H7' & date >= '2015-04-20 11:00:00' & date <= '2015-05-03 09:00:00' ~ 'H7_nd3',
+                     id == 'IAB' & date >= '2018-08-07 11:00:00' & date <= '2018-08-12 16:00:00' ~ 'IAB_nd1',
+                     id == 'IAB' & date >= '2019-03-26 11:00:00' & date <= '2019-03-28 11:00:00' ~ 'IAB_nd2',
+                     id == 'IAB' & date >= '2019-04-19 08:00:00' & date <= '2019-04-23 15:00:00' ~ 'IAB_nd3',
+                     id == 'IAB' & date >= '2019-05-05 07:00:00' & date <= '2019-05-20 10:00:00' ~ 'IAB_nd4',
+                     id == 'IAB' & date >= '2019-05-29 14:00:00' & date <= '2019-06-10 13:00:00' ~ 'IAB_nd5',
+                     id == 'IAB' & date >= '2019-09-07 10:00:00' & date <= '2019-09-11 11:00:00' ~ 'IAB_nd6',
+                     id == 'IAB' & date >= '2019-10-29 08:00:00' & date <= '2019-10-30 07:00:00' ~ 'IAB_nd7',
+                     id == 'IAB' & date >= '2020-03-16 08:00:00' & date <= '2020-03-19 16:00:00' ~ 'IAB_nd8',
+                     id == 'IAD' & date >= '2016-08-20 08:00:00' & date <= '2016-08-22 14:30:00' ~ 'IAD_nd1',
+                     id == 'IAD' & date >= '2018-02-05 06:00:00' & date <= '2018-02-07 16:00:00' ~ 'IAD_nd2',
+                     id == 'IAD' & date >= '2018-03-28 10:00:00' & date <= '2018-05-17 12:00:00' ~ 'IAD_nd3',
+                     id == 'IAD' & date >= '2018-05-29 08:00:00' & date <= '2018-06-12 12:00:00' ~ 'IAD_nd4',
+                     id == 'IAD' & date >= '2018-12-15 09:00:00' & date <= '2018-12-20 13:00:00' ~ 'IAD_nd5',
+                     id == 'IAD' & date >= '2019-03-04 10:00:00' & date <= '2019-04-21 17:00:00' ~ 'IAD_nd6',
+                     id == 'IAD' & date >= '2019-04-29 08:00:00' & date <= '2019-05-01 14:00:00' ~ 'IAD_nd7',
+                     id == 'IAD' & date >= '2019-07-08 09:00:00' & date <= '2019-07-15 14:00:00' ~ 'IAD_nd8',
+                     id == 'IBH' & date >= '2020-08-07 06:17:15' & date <= '2020-08-15 11:25:28' ~ 'IBH_nd1',
+                     id == 'IBH' & date >= '2022-04-09 06:47:05' & date <= '2022-04-11 15:37:18' ~ 'IBH_nd2',
+                     id == 'IBH' & date >= '2022-04-20 06:31:21' & date <= '2022-04-23 06:24:43' ~ 'IBH_nd3',
+                     id == 'IBH' & date >= '2022-04-29 09:18:06' & date <= '2022-05-01 14:15:15' ~ 'IBH_nd4',
+                     id == 'IBH' & date >= '2022-05-04 09:00:00' & date <= '2022-05-04 12:12:25' ~ 'IBH_nd5',
+                     id == 'IBH' & date >= '2022-05-10 09:00:00' & date <= '2022-05-13 08:58:13' ~ 'IBH_nd6',
+                     id == 'IBI' & date >= '2017-07-21 07:00:00' & date <= '2017-07-27 17:00:00' ~ 'IBI_nd1',
+                     id == 'IBI' & date >= '2017-08-19 07:00:00' & date <= '2017-08-20 12:00:00' ~ 'IBI_nd2',
+                     id == 'IBK' & date >= '2020-08-21 08:31:15' & date <= '2020-08-22 18:04:45' ~ 'IBK_nd1',
+                     id == 'IBK' & date >= '2021-06-27 08:43:09' & date <= '2021-06-30 12:45:35' ~ 'IBK_nd2',
+                     id == 'IBK' & date >= '2022-04-16 08:39:12' & date <= '2022-04-17 12:50:05' ~ 'IBK_nd3',
+                     id == 'IBS' & date >= '2020-07-27 06:00:00' & date <= '2020-07-28 15:00:00' ~ 'IBS_nd1',
+                     id == 'IBS' & date >= '2020-08-07 08:00:00' & date <= '2020-08-18 15:00:00' ~ 'IBS_nd2',
+                     id == 'IBS' & date >= '2021-01-14 08:00:00' & date <= '2021-01-15 12:00:00' ~ 'IBS_nd3',
+                     id == 'IBS' & date >= '2021-02-15 09:00:00' & date <= '2021-02-15 15:00:00' ~ 'IBS_nd4',
+                     id == 'IBS' & date >= '2021-04-26 10:00:33' & date <= '2021-05-01 11:00:08' ~ 'IBS_nd5',
+                     id == 'IBS' & date >= '2022-03-22 06:00:34' & date <= '2022-05-17 12:00:18' ~ 'IBS_nd6',
+                     id == 'IBS' & date >= '2022-05-28 06:00:15' & date <= '2022-06-04 12:00:18' ~ 'IBS_nd7',
+                     id == 'IBS' & date >= '2023-02-10 13:03:31' & date <= '2023-02-23 15:00:34' ~ 'IBS_nd8',
+                     id == 'IBS' & date >= '2023-03-02 06:00:37' & date <= '2023-03-16 12:00:04' ~ 'IBS_nd9',
+                     id == 'ICZ' & date >= '2019-09-09 08:15:55' & date <= '2019-09-14 11:50:14' ~ 'ICZ_nd1',
+                     id == 'ICZ' & date >= '2020-04-11 11:13:23' & date <= '2020-04-23 14:53:33' ~ 'ICZ_nd2',
+                     id == 'ICZ' & date >= '2020-05-02 13:09:29' & date <= '2020-05-05 14:06:04' ~ 'ICZ_nd3',
+                     id == 'IFP' & date >= '2022-07-23 09:00:31' & date <= '2022-07-28 15:00:22' ~ 'IFP_nd1',
+                     id == 'IFP' & date >= '2023-04-24 06:00:31' & date <= '2023-04-29 12:00:37' ~ 'IFP_nd2',
+                     id == 'IFP' & date >= '2023-05-16 00:00:00' & date <= '2023-06-08 15:01:02' ~ 'IFP_nd3'))%>%
           tidyr::unite(id_y, c(id, year), sep="_", remove = F)%>%
           select(-c("pkey"))
-
-ndtraj_df$rel.angle.degrees <- ndtraj_df$rel.angle* (180 / pi)
-
-nd_lt2 <- ndtraj_df%>%
-          dl()
-
-foo <- function(rel.angle.degrees) {
-return(rel.angle.degrees>90)
-}
-
-nd_ltc <- cutltraj(nd_lt2, "foo(rel.angle.degrees)", nextr = TRUE)
-nd_ltc
-
-ndtraj_df2 <- nd_ltc%>%
-          ld()
-
-write.csv(ndtraj_df2, "ndtraj_df2.csv")
-
-nd$time <- as.POSIXct(strptime(as.character(nd$time),"%Y-%m-%d %H:%M"))
-
-# Find duplicate dates
-duplicate_dates <- nd_df[duplicated(nd_df$time) | duplicated(nd_df$time, fromLast = TRUE), ]
-
-duplicate_dates <- duplicate_dates%>%
-          arrange(time)
-
-# Print the duplicate dates
-print(head(duplicate_dates, 40))
-
-# daily track (= successive telemetry locations in each day)
-
-
-
-main_direction <- ndtraj_df %>%
-  group_by(burst) %>%
-  summarize(main_angle = atan2(mean(sin(abs.angle)), mean(cos(abs.angle))))
-
-# Print the result
-print(main_direction)
-
-dailyDirections <- ndtraj_df%>%
-          mutate(deg_turnAngle = rel.angle * (180/pi))%>%
-          group_by(id, day)%>%
-          summarize(meanDir = mean(deg_turnAngle),
-                    medianDir = median(deg_turnAngle))
-
-dailyDirections_id <- dailyDirections%>%
-          group_by(id)%>%
-          summarize(meanDir_id = mean(meanDir),
-                    medianDir_id = median(medianDir))
-
-
-dirBreaks <- c(22.5, 67.5,112.5, 157.5, 202.5, 247.5, 292.5, 337.5)
-
-
-ggplot(dailyDirections) +
-  geom_bar(aes(category)) +
-  xlab("Angle of Flight") +
-  ylab("Count of birds") +
-  theme_light() 
-
-ggplot(dailyDirections, aes(x = "", y = "meanDir")) + 
-  geom_bar(width = 1, stat = "identity") + 
-  coord_polar("y", start = 0) +
-  theme(axis.line = element_blank(),
-        axis.text = element_blank(),
-        axis.title = element_blank(),
-        panel.grid = element_blank(),
-        panel.border = element_blank(),
-        plot.title = element_text(hjust = 0.5)) +  # Change the legend label
-  ggtitle("Pie Chart Example")
-
-
-
-# long-distance event (= continuous, usually multiday, unidirectional movements of ??≥300 km?? from the initial location)
-
-# Options:
-# - change >90degree and continued moving in the new direction: daily track before was the last track of the LD event. However, if the point of the turn occurred more than halfway through the day was still included and was the last
-# - change of >90degree, but within 8 days, resume the original direction, then tracks after the directional change were still included in the long-distance event.
-# - change of >90degree, but due to a stopover of ≤7 days, after which the resumed travel in the original direction, then stopover tracks still included in the LD event
-# - gap in the telemetry data, or a stopover, lasting >7 days, then the daily track before the gap or stopover was the last track of the long-distance event.
-
-
 
 #########################
 #  Natal dispersal stat #
@@ -380,8 +306,6 @@ nd_duration <- ndtraj_df %>%
           summarize(mean_dur = mean(duration),
                     max_dur = max(duration),
                     sd_dur = sd(duration))
-
-
 
 nd_duration <- ndtraj_df %>%
           group_by(NDT) %>% 
@@ -704,6 +628,99 @@ summary_dt <- nd_dflt_df%>%
   summarize(minDt = min(dt, na.rm=T),
             meanDt = mean(dt, na.rm=T),
             maxDt = max(dt, na.rm=T)) 
+
+
+###############################################
+
+##########   OLD CODE   #######################
+
+###############################################
+
+
+
+
+ndtraj_df$rel.angle.degrees <- ndtraj_df$rel.angle* (180 / pi)
+
+nd_lt2 <- ndtraj_df%>%
+          dl()
+
+foo <- function(rel.angle.degrees) {
+return(rel.angle.degrees>90)
+}
+
+nd_ltc <- cutltraj(nd_lt2, "foo(rel.angle.degrees)", nextr = TRUE)
+nd_ltc
+
+ndtraj_df2 <- nd_ltc%>%
+          ld()
+
+write.csv(ndtraj_df2, "ndtraj_df2.csv")
+
+nd$time <- as.POSIXct(strptime(as.character(nd$time),"%Y-%m-%d %H:%M"))
+
+# Find duplicate dates
+duplicate_dates <- nd_df[duplicated(nd_df$time) | duplicated(nd_df$time, fromLast = TRUE), ]
+
+duplicate_dates <- duplicate_dates%>%
+          arrange(time)
+
+# Print the duplicate dates
+print(head(duplicate_dates, 40))
+
+# daily track (= successive telemetry locations in each day)
+
+
+
+main_direction <- ndtraj_df %>%
+  group_by(burst) %>%
+  summarize(main_angle = atan2(mean(sin(abs.angle)), mean(cos(abs.angle))))
+
+# Print the result
+print(main_direction)
+
+dailyDirections <- ndtraj_df%>%
+          mutate(deg_turnAngle = rel.angle * (180/pi))%>%
+          group_by(id, day)%>%
+          summarize(meanDir = mean(deg_turnAngle),
+                    medianDir = median(deg_turnAngle))
+
+dailyDirections_id <- dailyDirections%>%
+          group_by(id)%>%
+          summarize(meanDir_id = mean(meanDir),
+                    medianDir_id = median(medianDir))
+
+
+dirBreaks <- c(22.5, 67.5,112.5, 157.5, 202.5, 247.5, 292.5, 337.5)
+
+
+ggplot(dailyDirections) +
+  geom_bar(aes(category)) +
+  xlab("Angle of Flight") +
+  ylab("Count of birds") +
+  theme_light() 
+
+ggplot(dailyDirections, aes(x = "", y = "meanDir")) + 
+  geom_bar(width = 1, stat = "identity") + 
+  coord_polar("y", start = 0) +
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+        panel.border = element_blank(),
+        plot.title = element_text(hjust = 0.5)) +  # Change the legend label
+  ggtitle("Pie Chart Example")
+
+
+
+# long-distance event (= continuous, usually multiday, unidirectional movements of ??≥300 km?? from the initial location)
+
+# Options:
+# - change >90degree and continued moving in the new direction: daily track before was the last track of the LD event. However, if the point of the turn occurred more than halfway through the day was still included and was the last
+# - change of >90degree, but within 8 days, resume the original direction, then tracks after the directional change were still included in the long-distance event.
+# - change of >90degree, but due to a stopover of ≤7 days, after which the resumed travel in the original direction, then stopover tracks still included in the LD event
+# - gap in the telemetry data, or a stopover, lasting >7 days, then the daily track before the gap or stopover was the last track of the long-distance event.
+
+
 
 
 osp_ndlt_df <- nd_dflt_df%>%
