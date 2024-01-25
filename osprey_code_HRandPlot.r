@@ -26,7 +26,7 @@ source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_cod
 ########
 
 # First define the non-breeding period
-        A7_nonb <- osprey_nonb%>%
+        A7_nonb <- st_df%>%
                           dplyr::filter(ID == "A7")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -51,62 +51,62 @@ source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_cod
        A7_nonb_HR <- fortify(A7_nonb_HR)
        A7_nonb_HRcore <- fortify(A7_nonb_HRcore)
 
-A7_nonb1 <- osprey_nonb%>%
+A7_nonb1 <- st_df%>%
        filter(ID == 'A7' & time >= '2015-08-18 12:00:00' & time <= '2017-02-20 00:00:00')
 
-A7_nonb2 <- osprey_nonb%>%
+A7_nonb2 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-03-01 20:00:00' & time <= '2017-03-17 00:00:00')
 
-A7_nonb3 <- osprey_nonb%>%
+A7_nonb3 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-04-15 06:00:00' & time <= '2017-04-16 24:00:00')
 
-A7_nonb4 <- osprey_nonb%>%
+A7_nonb4 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-04-21 08:00:00' & time <= '2017-04-28 00:00:00')
 
-A7_nonb5 <- osprey_nonb%>%
+A7_nonb5 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-05-11 06:00:00' & time <= '2017-05-14 00:00:00')
 
-A7_nonb6 <- osprey_nonb%>%
+A7_nonb6 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-05-21 18:00:00' & time <= '2017-05-23 06:00:00')
 
-A7_nonb7 <- osprey_nonb%>%
+A7_nonb7 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-05-23 18:00:00' & time <= '2017-05-26 00:00:00')
 
-A7_nonb8 <- osprey_nonb%>%
+A7_nonb8 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-05-28 24:00:00' & time <= '2017-06-06 00:00:00')
 
-A7_nonb9 <- osprey_nonb%>%
+A7_nonb9 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-06-06 16:00:00' & time <= '2017-06-10 20:00:00')
 
-A7_nonb10 <- osprey_nonb%>%
+A7_nonb10 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-06-12 20:00:00' & time <= '2017-07-12 18:00:00')
 
-A7_nonb11 <- osprey_nonb%>%
+A7_nonb11 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-07-28 06:00:00')
 
 
 
-A7_nd1 <- osprey_nd%>%
+A7_nd1 <- nd_df%>%
        filter(ID == 'A7' & time >= '2015-08-14 09:00:00' & time <= '2015-08-18 12:00:00')
 
-A7_nd2 <- osprey_nd%>%
+A7_nd2 <- nd_df%>%
        filter(ID == 'A7' & time >= '2017-02-20 00:00:00' & time <= '2017-03-01 20:00:00')
 
-A7_nd3 <- osprey_nd%>%
+A7_nd3 <- nd_df%>%
        filter(ID == 'A7' & time >= '2017-03-17 00:00:00' & time <= '2017-04-15 06:00:00' |
              ID == 'A7' & time >= '2017-04-16 24:00:00' & time <= '2017-04-21 08:00:00')
 
-A7_nd4 <- osprey_nd%>%
+A7_nd4 <- nd_df%>%
        filter(ID == 'A7' & time >= '2017-04-28 00:00:00' & time <= '2017-05-11 06:00:00' |
              ID == 'A7' & time >= '2017-05-14 00:00:00' & time <= '2017-05-21 18:00:00' |
              ID == 'A7' & time >= '2017-05-23 06:00:00' & time <= '2017-05-23 18:00:00' |
              ID == 'A7' & time >= '2017-05-26 00:00:00' & time <= '2017-05-28 24:00:00')
 
-A7_nd5 <- osprey_nd%>%
+A7_nd5 <- nd_df%>%
        filter(ID == 'A7' & time >= '2017-06-06 00:00:00' & time <= '2017-06-06 16:00:00' |
              ID == 'A7' & time >= '2017-06-10 20:00:00' & time <= '2017-06-12 20:00:00')
 
-A7_nd6 <- osprey_nd%>%
+A7_nd6 <- nd_df%>%
        filter(ID == 'A7' & time >= '2017-07-12 18:00:00' & time <= '2017-07-28 06:00:00')
 
 # Plot the NonBreeding HR
@@ -159,7 +159,7 @@ A7_nd6 <- osprey_nd%>%
 ########
 
 # First define the non-breeding period
-        E7_nonb <- osprey_nonb%>%
+        E7_nonb <- st_df%>%
                           dplyr::filter(ID == 'E7' & time >= '2014-08-27 13:00:00' & time <= '2016-03-10 05:00:00')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -192,37 +192,37 @@ E7_nonb_HR_2 <- E7_nonb_HR%>%
 E7_nonb_HR_3 <- E7_nonb_HR%>%
         filter(group == "E7.3")
 
-        E7_nonb1 <- osprey_nonb%>%
+        E7_nonb1 <- st_df%>%
                  filter(ID == 'E7' & time >= '2014-08-27 13:00:00' & time <= '2016-03-10 05:00:00')
 
-        E7_nonb2 <- osprey_nonb%>%
+        E7_nonb2 <- st_df%>%
                  filter(ID == 'E7' & time >= '2016-03-24 14:00:00' & time <= '2016-03-30 09:00:00')
 
-        E7_nonb3 <- osprey_nonb%>%
+        E7_nonb3 <- st_df%>%
                  filter(ID == 'E7' & time >= '2016-04-22 20:00:00' & time <= '2016-04-24 10:30:00')
 
-        E7_nonb4 <- osprey_nonb%>%
+        E7_nonb4 <- st_df%>%
                  filter(ID == 'E7' & time >= '2016-04-25 17:30:00' & time <= '2016-05-04 10:00:00')
 
-        E7_nonb5 <- osprey_nonb%>%
+        E7_nonb5 <- st_df%>%
                  filter(ID == 'E7' & time >= '2016-05-07 17:00:00' & time <= '2016-05-12 11:00:00')
 
-        E7_nonb6 <- osprey_nonb%>%
+        E7_nonb6 <- st_df%>%
                  filter(ID == 'E7' & time >= '2016-05-16 20:30:00' & time <= '2016-05-20 12:00:00')
 
-        E7_nonb7 <- osprey_nonb%>%
+        E7_nonb7 <- st_df%>%
                  filter(ID == 'E7' & time >= '2016-05-27 18:30:00')
 
 
-        E7_nd1 <- osprey_nd%>%
+        E7_nd1 <- nd_df%>%
                  filter(ID == 'E7' & time >= '2014-08-21 09:00:00' & time <= '2014-08-27 13:00:00')
 
-        E7_nd2 <- osprey_nd%>%
+        E7_nd2 <- nd_df%>%
                  filter(ID == 'E7' & time >= '2016-03-10 05:00:00' & time <= '2016-03-24 14:00:00' |
                        ID == 'E7' & time >= '2016-03-30 09:00:00' & time <= '2016-04-22 20:00:00' |
                        ID == 'E7' & time >= '2016-04-24 10:30:00' & time <= '2016-04-25 17:30:00')
 
-        E7_nd3 <- osprey_nd%>%
+        E7_nd3 <- nd_df%>%
                  filter(ID == 'E7' & time >= '2016-05-04 10:00:00' & time <= '2016-05-07 17:00:00' |
                        ID == 'E7' & time >= '2016-05-12 11:00:00' & time <= '2016-05-16 20:30:00' |
                        ID == 'E7' & time >= '2016-05-20 12:00:00' & time <= '2016-05-27 18:30:00')
@@ -269,7 +269,7 @@ E7_nonb_HR_3 <- E7_nonb_HR%>%
 
    # Let's create a ltraj object with UTM coordinates
           
-        E7_nonb_lt <- osprey_nonb%>%
+        E7_nonb_lt <- st_df%>%
                           dplyr::filter(ID == 'E7')
 
         E7_nonb_lt <- as.ltraj(E7_nonb_lt[, c("x", "y")],
@@ -282,7 +282,7 @@ E7_nonb_HR_3 <- E7_nonb_HR%>%
 ########
 
 # First define the non-breeding period
-        H7_nonb <- osprey_nonb%>%
+        H7_nonb <- st_df%>%
                           dplyr::filter(ID == 'H7' & time >= '2013-08-09 15:30:00' & time <= '2015-04-02 05:00:00')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -307,25 +307,25 @@ E7_nonb_HR_3 <- E7_nonb_HR%>%
        H7_nonb_HR <- fortify(H7_nonb_HR)
        H7_nonb_HRcore <- fortify(H7_nonb_HRcore)
 
-H7_nonb1 <- osprey_nonb%>%
+H7_nonb1 <- st_df%>%
                  filter(ID == 'H7' & time >= '2013-08-09 15:30:00' & time <= '2015-04-02 05:00:00')
 
-H7_nonb2 <- osprey_nonb%>%
+H7_nonb2 <- st_df%>%
                  filter(ID == 'H7' & time >= '2015-04-11 13:00:00' & time <= '2015-04-20 13:00:00')
 
-H7_nonb3 <- osprey_nonb%>%
+H7_nonb3 <- st_df%>%
                  filter(ID == 'H7' & time >= '2015-04-30 16:00:00' & time <= '2015-05-03 05:00:00')
 
-H7_nonb4 <- osprey_nonb%>%
+H7_nonb4 <- st_df%>%
                  filter(ID == 'H7' & time >= '2015-05-03 11:00:00')
 
-H7_nd1 <- osprey_nd%>%
+H7_nd1 <- nd_df%>%
                  filter(ID == 'H7' & time >= '2013-08-04 09:30:00' & time <= '2013-08-09 15:30:00')
 
-H7_nd2 <- osprey_nd%>%
+H7_nd2 <- nd_df%>%
                  filter(ID == 'H7' & time >= '2015-04-02 05:00:00' & time <= '2015-04-11 13:00:00')
 
-H7_nd3 <- osprey_nd%>%
+H7_nd3 <- nd_df%>%
                  filter(ID == 'H7' & time >= '2015-04-20 13:00:00' & time <= '2015-04-30 16:00:00'|
                        ID == 'H7' & time >= '2015-05-03 05:00:00' & time <= '2015-05-03 11:00:00')
 
@@ -380,7 +380,7 @@ H7_nd3 <- osprey_nd%>%
 # too small dataset to calculate HR
 
 # First define the non-breeding period
-        IFP_nonb <- osprey_nonb%>%
+        IFP_nonb <- st_df%>%
                           dplyr::filter(ID == 'IFP')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -404,13 +404,13 @@ H7_nd3 <- osprey_nd%>%
        IFP_nonb_HR <- fortify(IFP_nonb_HR)
        IFP_nonb_HRcore <- fortify(IFP_nonb_HRcore)
 
-        IFP_nd22 <- osprey_nd%>%
+        IFP_nd22 <- nd_df%>%
                  filter(ID == 'IFP' & time >= '2022-07-23 06:00:00' & time <= '2022-08-15 00:00:00')
 
-        IFP_nd23a <- osprey_nd%>%
+        IFP_nd23a <- nd_df%>%
                  filter(ID == 'IFP' & time >= '2023-04-24 00:00:00' & time <= '2023-04-30 04:00:00')
 
-        IFP_nd23b <- osprey_nd%>%
+        IFP_nd23b <- nd_df%>%
                  filter(ID == "IFP" & time >= '2023-05-16 00:00:00' & time <= '2023-06-08 20:00:00')
 
 # Plot the non-breeding homerange
@@ -463,7 +463,7 @@ H7_nd3 <- osprey_nd%>%
 # Traccaito difficile da analizzare, da rivedere
 
 # First define the non-breeding period
-        Antares_nonb15 <- osprey_nonb%>%
+        Antares_nonb15 <- st_df%>%
                           dplyr::filter(ID == 'Antares', year == "2015")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -471,14 +471,14 @@ H7_nd3 <- osprey_nd%>%
         Antares_nonb15$ID <- factor(Antares_nonb15$ID)
 
 
-        Antares_nonb16 <- osprey_nonb%>%
+        Antares_nonb16 <- st_df%>%
                           dplyr::filter(ID == 'Antares', year == "2016")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         Antares_nonb16$ID <- factor(Antares_nonb16$ID)
 
-        Antares_nonb <- osprey_nonb%>%
+        Antares_nonb <- st_df%>%
                           dplyr::filter(ID == 'Antares')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -536,47 +536,47 @@ Antares_nonb_HR_3 <- Antares_nonb_HR%>%
 Antares_nonb_HR_4 <- Antares_nonb_HR%>%
         filter(piece == 4)
 
-        Antares_nonb1 <- osprey_nonb%>%
+        Antares_nonb1 <- st_df%>%
                  filter(ID == "Antares" & time >= "2015-08-18 19:00:00" & time <= "2015-09-08 10:30:00")
 
-        Antares_nonb2 <- osprey_nonb%>%
+        Antares_nonb2 <- st_df%>%
                  filter(ID == "Antares" & time >= "2015-09-13 20:00:00" & time <= "2016-04-04 00:00:00")
 
-        Antares_nonb3 <- osprey_nonb%>%
+        Antares_nonb3 <- st_df%>%
                  filter(ID == "Antares" & time >= "2016-04-10 17:00:00" & time <= "2016-04-19 11:00:00")
 
-        Antares_nonb4 <- osprey_nonb%>%
+        Antares_nonb4 <- st_df%>%
                  filter(ID == "Antares" & time >= "2016-04-22 13:00:00" & time <= "2016-05-05 00:00:00")
 
-        Antares_nonb5 <- osprey_nonb%>%
+        Antares_nonb5 <- st_df%>%
                  filter(ID == "Antares" & time >= "2016-05-06 06:00:00" & time <= "2016-05-14 13:00:00")
 
-        Antares_nonb6 <- osprey_nonb%>%
+        Antares_nonb6 <- st_df%>%
                  filter(ID == "Antares" & time >= "2016-05-17 19:00:00" & time <= "2016-06-10 07:00:00")
 
-        Antares_nonb7 <- osprey_nonb%>%
+        Antares_nonb7 <- st_df%>%
                  filter(ID == "Antares" & time >= "2016-06-12 19:00:00")
 
 
-        Antares_nd1 <- osprey_nd%>%
+        Antares_nd1 <- nd_df%>%
                  filter(ID == 'Antares' & time >= "2015-08-15 11:00:00" & time <= "2015-08-18 19:00:00")
 
-        Antares_nd2 <- osprey_nd%>%
+        Antares_nd2 <- nd_df%>%
                  filter(ID == "Antares" & time >= "2015-09-08 10:30:00" & time <= "2015-09-13 20:00:00")
 
-        Antares_nd3 <- osprey_nd%>%
+        Antares_nd3 <- nd_df%>%
                  filter(ID == "Antares" & time >= "2016-04-04 00:00:00" & time <= "2016-04-10 17:00:00")
 
-        Antares_nd4 <- osprey_nd%>%
+        Antares_nd4 <- nd_df%>%
                  filter(ID == "Antares" & time >= "2016-04-19 11:00:00" & time <= "2016-04-22 13:00:00")
 
-        Antares_nd5 <- osprey_nd%>%
+        Antares_nd5 <- nd_df%>%
                  filter(ID == "Antares" & time >= "2016-05-05 00:00:00" & time <= "2016-05-06 06:00:00")
 
-        Antares_nd6 <- osprey_nd%>%
+        Antares_nd6 <- nd_df%>%
                  filter(ID == "Antares" & time >= "2016-05-14 13:00:00" & time <= "2016-05-17 19:00:00")
 
-        Antares_nd7 <- osprey_nd%>%
+        Antares_nd7 <- nd_df%>%
                  filter(ID == "Antares" & time >= "2016-06-10 07:00:00" & time <= "2016-06-12 19:00:00")
 
 
@@ -632,7 +632,7 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
 
    # Let's create a ltraj object with UTM coordinates
           
-        Antares_nonb_lt <- osprey_nonb%>%
+        Antares_nonb_lt <- st_df%>%
                           dplyr::filter(ID == 'Antares')
 
         Antares_nonb_lt <- as.ltraj(Antares_nonb_lt[, c("x", "y")],
@@ -647,7 +647,7 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
 #######
 
 # First define the non-breeding period
-        CAM_nonb <- osprey_nonb%>%
+        CAM_nonb <- st_df%>%
                           dplyr::filter(ID == 'CAM')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -671,16 +671,16 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
        CAM_nonb_HR <- fortify(CAM_nonb_HR)
        CAM_nonb_HRcore <- fortify(CAM_nonb_HRcore)
 
-        CAM_nd1 <- osprey_nd%>%
+        CAM_nd1 <- nd_df%>%
                  filter(ID == 'CAM' & time >= "2016-04-14 06:00:00" & time <= "2016-04-19 20:00:00")
 
-        CAM_nd2 <- osprey_nd%>%
+        CAM_nd2 <- nd_df%>%
                  filter(ID == "CAM" & time >= "2016-05-03 08:00:00" & time <= "2016-05-06 18:00:00")
 
-        CAM_nd3 <- osprey_nd%>%
+        CAM_nd3 <- nd_df%>%
                  filter(ID == "CAM" & time >= "2016-05-20 05:00:00" & time <= "2016-05-24 18:00:00")
 
-        CAM_nd4 <- osprey_nd%>%
+        CAM_nd4 <- nd_df%>%
                  filter(ID == "CAM" & time >= "2016-07-02 23:00:00" & time <= "2016-07-06 20:00:00")
 
 # Plot the non-breeding homerange
@@ -720,7 +720,7 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
 #########
 
 # First define the non-breeding period
-        CBK_nonb <- osprey_nonb%>%
+        CBK_nonb <- st_df%>%
                           dplyr::filter(ID == 'CBK')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -744,13 +744,13 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
        CBK_nonb_HR <- fortify(CBK_nonb_HR)
        CBK_nonb_HRcore <- fortify(CBK_nonb_HRcore)
 
-        CBK_nd1 <- osprey_nd%>%
+        CBK_nd1 <- nd_df%>%
                  filter(ID == 'CBK' & time >= '2013-08-15 00:00:00' & time <= '2013-08-21 12:00:00')
 
-        CBK_nd2 <- osprey_nd%>%
+        CBK_nd2 <- nd_df%>%
                  filter(ID == 'CBK' & time >= '2014-03-20 04:30:00' & time <= '2014-03-22 10:30:00')
 
-        CBK_nd3 <- osprey_nd%>%
+        CBK_nd3 <- nd_df%>%
                  filter(ID == 'CBK' & time >= '2014-04-08 06:30:00' & time <= '2014-04-12 11:00:00')
 
 # Plot the non-breeding homerange
@@ -789,14 +789,14 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
 #########
 
 # First define the non-breeding period
-        CIV_nonb <- osprey_nonb%>%
+        CIV_nonb <- st_df%>%
                           dplyr::filter(ID == 'CIV')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         CIV_nonb$ID <- factor(CIV_nonb$ID)
 
-        CIV_nonb1516 <- osprey_nonb%>%
+        CIV_nonb1516 <- st_df%>%
                           dplyr::filter(ID == 'CIV' & time >= "2014-10-22 12:00:00" & time <= '2015-06-04 03:00:00' |
                                         ID == 'CIV' & time >= '2015-11-26 24:00:00' & time <= '2016-03-29 00:01:00')%>%
                           dplyr::select(ID, x, y)%>%
@@ -804,7 +804,7 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
 
         CIV_nonb1516$ID <- factor(CIV_nonb1516$ID)
 
-        CIV_nonb16 <- osprey_nonb%>%
+        CIV_nonb16 <- st_df%>%
                           dplyr::filter(ID == 'CIV', year == "2016")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -841,54 +841,54 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
        CIV_nonb1516_HR <- fortify(CIV_nonb1516_HR)
        CIV_nonb1516_HRcore <- fortify(CIV_nonb1516_HRcore)
 
-        CIV_nonb <- osprey_nonb%>%
+        CIV_nonb <- st_df%>%
                  filter( ID == 'CIV' & time >= "2014-10-22 12:00:00" & time <= '2015-06-04 03:00:00' |
      ID == 'CIV' & time >= '2015-11-26 24:00:00' & time <= '2016-03-29 00:01:00')
 
-        CIV_nd14 <- osprey_nd%>%
+        CIV_nd14 <- nd_df%>%
                  filter( ID == 'CIV' & time >= "2014-08-16 10:00:00" & time <= "2014-08-22 06:00:00" |
      ID == 'CIV' & time >= "2014-09-11 08:00:00" & time <= "2014-09-13 17:00:00" |
      ID == 'CIV' & time >= "2014-10-21 08:00:00" & time <= "2014-10-21 21:00:00")
 
-        CIV_nd15 <- osprey_nd%>%
+        CIV_nd15 <- nd_df%>%
                  filter(ID == 'CIV' & time >= "2015-03-21 02:00:00" & time <= "2015-03-21 24:00:00" |
      ID == 'CIV' & time >= "2015-06-04 04:00:00" & time <= "2015-06-22 18:00:00" |
      ID == 'CIV' & time >= "2015-08-13 06:00:00" & time <= "2015-08-14 00:00:00" |
      ID == 'CIV' & time >= "2015-11-21 16:00:00" & time <= "2015-11-27 00:00:00")
 
-        CIV_nd16 <- osprey_nd%>%
+        CIV_nd16 <- nd_df%>%
                  filter( ID == 'CIV' & time >= '2016-03-28 18:00:00' & time <= '2016-04-01 06:00:00' |
      ID == 'CIV' & time >= '2016-04-15 06:00:00' & time <= '2016-04-18 22:00:00' |
      ID == 'CIV' & time >= '2016-10-28 06:00:00' & time <= '2016-10-30 06:00:00')
 
-          CIV_nd1 <- osprey_nd%>%
+          CIV_nd1 <- nd_df%>%
                  filter(ID == 'CIV' & time >= "2014-08-16 10:00:00" & time <= "2014-08-22 06:00:00")
 
-          CIV_nd2 <- osprey_nd%>%
+          CIV_nd2 <- nd_df%>%
                  filter(ID == 'CIV' & time >= "2014-09-11 08:00:00" & time <= "2014-09-13 17:00:00")
 
-          CIV_nd3 <- osprey_nd%>%
+          CIV_nd3 <- nd_df%>%
                  filter(ID == 'CIV' & time >= "2014-10-21 08:00:00" & time <= "2014-10-21 21:00:00")
 
-          CIV_nd4 <- osprey_nd%>%
+          CIV_nd4 <- nd_df%>%
                  filter(ID == 'CIV' & time >= "2015-03-21 02:00:00" & time <= "2015-03-21 24:00:00")
 
-          CIV_nd5 <- osprey_nd%>%
+          CIV_nd5 <- nd_df%>%
                  filter(ID == 'CIV' & time >= "2015-06-04 04:00:00" & time <= "2015-06-22 18:00:00")
 
-          CIV_nd6 <- osprey_nd%>%
+          CIV_nd6 <- nd_df%>%
                  filter(ID == 'CIV' & time >= "2015-08-13 06:00:00" & time <= "2015-08-14 00:00:00")
 
-          CIV_nd7 <- osprey_nd%>%
+          CIV_nd7 <- nd_df%>%
                  filter(ID == 'CIV' & time >= "2015-11-21 16:00:00" & time <= "2015-11-27 00:00:00")
 
-          CIV_nd8 <- osprey_nd%>%
+          CIV_nd8 <- nd_df%>%
                  filter( ID == 'CIV' & time >= '2016-03-28 18:00:00' & time <= '2016-04-01 06:00:00')
 
-          CIV_nd9 <- osprey_nd%>%
+          CIV_nd9 <- nd_df%>%
                  filter(ID == 'CIV' & time >= '2016-04-15 06:00:00' & time <= '2016-04-18 22:00:00')
 
-          CIV_nd10 <- osprey_nd%>%
+          CIV_nd10 <- nd_df%>%
                  filter(ID == 'CIV' & time >= '2016-10-28 06:00:00' & time <= '2016-10-30 06:00:00')
 
 # Plot the non-breeding homerange    
@@ -937,14 +937,14 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
 #########
 
 # First define the non-breeding period
-        IAB_nonb1 <- osprey_nonb%>%
+        IAB_nonb1 <- st_df%>%
                           dplyr::filter(ID == 'IAB' & time >= '2018-08-12 20:00:00' & time <= '2019-03-26 11:00:00')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         IAB_nonb1$ID <- factor(IAB_nonb1$ID)
 
-        IAB_nonb9 <- osprey_nonb%>%
+        IAB_nonb9 <- st_df%>%
                           dplyr::filter(ID == 'IAB' & time >= '2019-10-30 09:00:00' & time <= '2020-03-16 00:00:00')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -979,57 +979,57 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
        IAB_nonb9_HR <- fortify(IAB_nonb9_HR)
        IAB_nonb9_HRcore <- fortify(IAB_nonb9_HRcore)
 
-        IAB_nonb1 <- osprey_nonb%>%
+        IAB_nonb1 <- st_df%>%
                  filter(ID == 'IAB' & time >= '2018-08-12 20:00:00' & time <= '2019-03-26 11:00:00')
 
-        IAB_nonb2 <- osprey_nonb%>%
+        IAB_nonb2 <- st_df%>%
                  filter(ID == 'IAB' & time >= '2019-03-28 14:00:00' & time <= '2019-04-19 00:00:00')
 
-        IAB_nonb3 <- osprey_nonb%>%
+        IAB_nonb3 <- st_df%>%
                  filter(ID == 'IAB' & time >= '2019-04-23 24:00:00' & time <= '2019-05-05 06:00:00')
 
-        IAB_nonb4 <- osprey_nonb%>%
+        IAB_nonb4 <- st_df%>%
                  filter(ID == 'IAB' & time >= '2019-05-12 14:00:00' & time <= '2019-05-15 21:00:00')
 
-        IAB_nonb5 <- osprey_nonb%>%
+        IAB_nonb5 <- st_df%>%
                  filter(ID == 'IAB' & time >= '2019-05-20 13:00:00' & time <= '2019-05-29 15:00:00')
 
-        IAB_nonb6 <- osprey_nonb%>%
+        IAB_nonb6 <- st_df%>%
                  filter(ID == 'IAB' & time >= '2019-06-02 16:00:00' & time <= '2019-06-08 09:00:00')
 
-        IAB_nonb7 <- osprey_nonb%>%
+        IAB_nonb7 <- st_df%>%
                  filter(ID == 'IAB' & time >= '2019-06-10 17:00:00' & time <= '2019-09-07 11:00:00')
 
-        IAB_nonb8 <- osprey_nonb%>%
+        IAB_nonb8 <- st_df%>%
                  filter(ID == 'IAB' & time >= '2019-09-11 15:00:00' & time <= '2019-10-29 08:00:00')
 
-        IAB_nonb9 <- osprey_nonb%>%
+        IAB_nonb9 <- st_df%>%
                  filter(ID == 'IAB' & time >= '2019-10-30 09:00:00' & time <= '2020-03-16 00:00:00')
 
-        IAB_nd1 <- osprey_nd%>%
+        IAB_nd1 <- nd_df%>%
                  filter(ID == 'IAB' & time >= '2018-08-07 11:00:00' & time <= '2018-08-12 20:00:00')
 
-        IAB_nd2 <- osprey_nd%>%
+        IAB_nd2 <- nd_df%>%
                  filter(ID == 'IAB' & time >= '2019-03-26 11:00:00' & time <= '2019-03-28 14:00:00')
 
-        IAB_nd3 <- osprey_nd%>%
+        IAB_nd3 <- nd_df%>%
                  filter( ID == 'IAB' & time >= '2019-04-19 00:00:00' & time <= '2019-04-23 24:00:00')
 
-        IAB_nd4 <- osprey_nd%>%
+        IAB_nd4 <- nd_df%>%
                  filter(ID == 'IAB' & time >= '2019-05-05 06:00:00' & time <= '2019-05-12 14:00:00' |
                        ID == 'IAB' & time >= '2019-05-15 21:00:00' & time <= '2019-05-20 13:00:00')
 
-        IAB_nd5 <- osprey_nd%>%
+        IAB_nd5 <- nd_df%>%
                  filter(ID == 'IAB' & time >= '2019-05-29 15:00:00' & time <= '2019-06-02 16:00:00' |
                        ID == 'IAB' & time >= '2019-06-08 09:00:00' & time <= '2019-06-10 17:00:00')
 
-        IAB_nd6 <- osprey_nd%>%
+        IAB_nd6 <- nd_df%>%
                  filter(ID == 'IAB' & time >= '2019-09-07 11:00:00' & time <= '2019-09-11 15:00:00')
 
-        IAB_nd7 <- osprey_nd%>%
+        IAB_nd7 <- nd_df%>%
                  filter(ID == 'IAB' & time >= '2019-10-29 08:00:00' & time <= '2019-10-30 09:00:00')
 
-        IAB_nd8 <- osprey_nd%>%
+        IAB_nd8 <- nd_df%>%
                  filter(ID == 'IAB' & time >= '2020-03-16 00:00:00')
 
 
@@ -1082,14 +1082,14 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
 #########
 
 # First define the non-breeding period
-        IAD_nonbHR1 <- osprey_nonb%>%
+        IAD_nonbHR1 <- st_df%>%
                           dplyr::filter( ID == 'IAD' & time >= '2016-08-25 11:00:00' & time <= '2018-02-04 18:00:00')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         IAD_nonbHR1$ID <- factor(IAD_nonbHR1$ID)
 
-        IAD_nonbHR4 <- osprey_nonb%>%
+        IAD_nonbHR4 <- st_df%>%
                           dplyr::filter(ID == 'IAD' & time >= '2018-12-20 15:00:00' & time <= '2019-03-04 10:00:00')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -1138,15 +1138,15 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
         IAD <- osprey%>%
                  filter(ID == 'IAD')
 
-        IAD_nd16 <- osprey_nd%>%
+        IAD_nd16 <- nd_df%>%
                  filter(ID == 'IAD' & time >= '2016-08-20 09:00:00' & time <= '2016-08-25 11:00:00')
 
-        IAD_nd18 <- osprey_nd%>%
+        IAD_nd18 <- nd_df%>%
                  filter(ID == 'IAD' & time >= '2018-02-04 18:00:00' & time <= '2018-02-07 19:00:00' | 
                         ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00' |
                         ID == 'IAD' & time >= '2018-12-15 00:00:00' & time <= '2018-12-20 15:00:00')
 
-        IAD_nd19 <- osprey_nd%>%
+        IAD_nd19 <- nd_df%>%
                  filter(ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-04-01 17:00:00' |
                          ID == 'IAD' & time >= '2019-04-05 10:00:00' & time <= '2019-04-09 17:00:00' |
                          ID == 'IAD' & time >= '2019-04-14 20:00:00' & time <= '2019-04-19 13:00:00' |
@@ -1154,48 +1154,48 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
                          ID == 'IAD' & time >= '2019-04-29 09:00:00' & time <= '2019-05-01 21:00:00' |
                          ID == 'IAD' & time >= '2019-07-08 09:00:00' & time <= '2019-07-15 18:00:00')
 
-IAD_nd19t <- osprey_nd%>%
+IAD_nd19t <- nd_df%>%
                  filter(ID == 'IAD' & time >= '2019-04-14 20:00:00' & time <= '2019-04-19 13:00:00')
 
-IAD_nd1 <- osprey_nd%>%
+IAD_nd1 <- nd_df%>%
                  filter(ID == 'IAD' & time >= '2016-08-20 09:00:00' & time <= '2016-08-25 11:00:00')
-IAD_nd2 <- osprey_nd%>%
+IAD_nd2 <- nd_df%>%
                  filter(ID == 'IAD' & time >= '2018-02-04 18:00:00' & time <= '2018-02-07 19:00:00')
-IAD_nd3 <- osprey_nd%>%
+IAD_nd3 <- nd_df%>%
                  filter(ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00')
-IAD_nd4 <- osprey_nd%>%
+IAD_nd4 <- nd_df%>%
                  filter(ID == 'IAD' & time >= '2018-12-15 00:00:00' & time <= '2018-12-20 15:00:00')
-IAD_nd5 <- osprey_nd%>%
+IAD_nd5 <- nd_df%>%
                  filter(ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-04-01 17:00:00' |
                        ID == 'IAD' & time >= '2019-04-05 10:00:00' & time <= '2019-04-09 17:00:00' |
                        ID == 'IAD' & time >= '2019-04-14 20:00:00' & time <= '2019-04-19 13:00:00' |
                        ID == 'IAD' & time >= '2019-04-21 06:00:00' & time <= '2019-04-21 20:00:00' )
-IAD_nd6 <- osprey_nd%>%
+IAD_nd6 <- nd_df%>%
                  filter(ID == 'IAD' & time >= '2019-04-29 09:00:00' & time <= '2019-05-01 21:00:00')
-IAD_nd7 <- osprey_nd%>%
+IAD_nd7 <- nd_df%>%
                  filter(ID == 'IAD' & time >= '2019-07-08 09:00:00' & time <= '2019-07-15 18:00:00')
 
 
 
-IAD_nonb1 <- osprey_nonb%>%
+IAD_nonb1 <- st_df%>%
                  filter(ID == 'IAD' & time >= '2016-08-25 11:00:00' & time <= '2018-02-04 18:00:00')
-IAD_nonb2 <- osprey_nonb%>%
+IAD_nonb2 <- st_df%>%
                  filter(ID == 'IAD' & time >= '2018-02-07 19:00:00' & time <= '2018-03-28 08:00:00')
-IAD_nonb3 <- osprey_nonb%>%
+IAD_nonb3 <- st_df%>%
                  filter(ID == 'IAD' & time >= '2018-06-12 14:00:00' & time <= '2018-12-15 00:00:00')
-IAD_nonb4 <- osprey_nonb%>%
+IAD_nonb4 <- st_df%>%
                  filter(ID == 'IAD' & time >= '2018-12-20 15:00:00' & time <= '2019-03-04 10:00:00')
-IAD_nonb5 <- osprey_nonb%>%
+IAD_nonb5 <- st_df%>%
                  filter(ID == 'IAD' & time >= '2019-04-01 17:00:00' & time <= '2019-04-05 10:00:00')
-IAD_nonb6 <- osprey_nonb%>%
+IAD_nonb6 <- st_df%>%
                  filter(ID == 'IAD' & time >= '2019-04-09 17:00:00' & time <= '2019-04-14 20:00:00')
-IAD_nonb7 <- osprey_nonb%>%
+IAD_nonb7 <- st_df%>%
                  filter(ID == 'IAD' & time >= '2019-04-19 13:00:00' & time <= '2019-04-21 06:00:00')
-IAD_nonb8 <- osprey_nonb%>%
+IAD_nonb8 <- st_df%>%
                  filter(ID == 'IAD' & time >= '2019-04-21 20:00:00' & time <= '2019-04-29 09:00:00')
-IAD_nonb9 <- osprey_nonb%>%
+IAD_nonb9 <- st_df%>%
                  filter(ID == 'IAD' & time >= '2019-05-01 21:00:00' & time <= '2019-07-08 09:00:00')
-IAD_nonb10 <- osprey_nonb%>%
+IAD_nonb10 <- st_df%>%
                  filter(ID == 'IAD' & time >= '2019-07-15 18:00:00')
 
 # Plot the non-breeding homerange  
@@ -1253,14 +1253,14 @@ IAD_nonb10 <- osprey_nonb%>%
 #########
 
 # First define the non-breeding period
-        IBH_nonb <- osprey_nonb%>%
+        IBH_nonb <- st_df%>%
                           dplyr::filter(ID == 'IBH')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         IBH_nonb$ID <- factor(IBH_nonb$ID)
 
-        IBH_nonb1 <- osprey_nonb%>%
+        IBH_nonb1 <- st_df%>%
                  filter(ID == 'IBH' & time >= '2020-08-15 15:00:00' & time <= '2022-04-09 06:00:00')
 
 
@@ -1305,37 +1305,37 @@ IAD_nonb10 <- osprey_nonb%>%
           IBH_nonb_HRcore22 <- IBH_nonb1_HRcore%>%
                                         filter(id == "IBH_2021")
 
-          IBH_nonb2 <- osprey_nonb%>%
+          IBH_nonb2 <- st_df%>%
                  filter(ID == 'IBH' & time >= '2022-04-11 19:00:00' & time <= '2022-04-19 12:00:00')
 
-          IBH_nonb3 <- osprey_nonb%>%
+          IBH_nonb3 <- st_df%>%
                  filter(ID == 'IBH' & time >= '2022-04-24 15:00:00'  & time <= '2022-04-29 09:00:00')
 
-          IBH_nonb4 <- osprey_nonb%>%
+          IBH_nonb4 <- st_df%>%
                  filter(ID == 'IBH' & time >= '2022-05-01 18:00:00' & time <= '2022-05-04 09:00:00')
 
-          IBH_nonb5 <- osprey_nonb%>%
+          IBH_nonb5 <- st_df%>%
                  filter(ID == 'IBH' & time >= '2022-05-04 16:00:00'  & time <= '2022-05-10 09:00:00')
 
-          IBH_nonb6 <- osprey_nonb%>%
+          IBH_nonb6 <- st_df%>%
                  filter(ID == 'IBH' & time >= '2022-05-13 17:00:00')
        
-        IBH_nd1 <- osprey_nd%>%
+        IBH_nd1 <- nd_df%>%
                  filter(ID == 'IBH' & time >= '2020-08-07 07:00:00' & time <= '2020-08-15 15:00:00')
 
-        IBH_nd2 <- osprey_nd%>%
+        IBH_nd2 <- nd_df%>%
                  filter(ID == 'IBH' & time >= '2022-04-09 06:00:00' & time <= '2022-04-11 19:00:00')
 
-        IBH_nd3 <- osprey_nd%>%
+        IBH_nd3 <- nd_df%>%
                  filter(ID == 'IBH' & time >= '2022-04-19 12:00:00' & time <= '2022-04-24 15:00:00')
 
-        IBH_nd4 <- osprey_nd%>%
+        IBH_nd4 <- nd_df%>%
                  filter(ID == 'IBH' & time >= '2022-04-29 09:00:00' & time <= '2022-05-01 18:00:00')
 
-        IBH_nd5 <- osprey_nd%>%
+        IBH_nd5 <- nd_df%>%
                  filter(ID == 'IBH' & time >= '2022-05-04 09:00:00' & time <= '2022-05-04 16:00:00')
 
-        IBH_nd6 <- osprey_nd%>%
+        IBH_nd6 <- nd_df%>%
                  filter( ID == 'IBH' & time >= '2022-05-10 09:00:00'  & time <= '2022-05-13 17:00:00')
 
 # Plot the non-breeding homerange  
@@ -1389,7 +1389,7 @@ IAD_nonb10 <- osprey_nonb%>%
 #########
 
 # First define the non-breeding period
-        IBI_nonb <- osprey_nonb%>%
+        IBI_nonb <- st_df%>%
                           dplyr::filter(ID == 'IBI')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -1423,16 +1423,16 @@ IAD_nonb10 <- osprey_nonb%>%
           IBI_nonb_HR3 <- IBI_nonb_HR%>%
                     filter(id == 'IBI' & group == 'IBI.3')
 
-        IBI_nonb1 <- osprey_nonb%>%
+        IBI_nonb1 <- st_df%>%
                  filter(ID == "IBI" & time >= "2017-07-27 20:00:00" & time <= "2017-08-19 08:00:00")
 
-        IBI_nonb2 <- osprey_nonb%>%
+        IBI_nonb2 <- st_df%>%
                  filter(ID == "IBI" & time >= "2017-08-20 15:00:00")
 
-        IBI_nd1 <- osprey_nd%>%
+        IBI_nd1 <- nd_df%>%
                  filter(ID == 'IBI' & time >= "2017-07-21 05:00:00" & time <= "2017-07-27 20:00:00")
 
-        IBI_nd2 <- osprey_nd%>%
+        IBI_nd2 <- nd_df%>%
                  filter(ID == "IBI" & time >= "2017-08-19 08:00:00" & time <= "2017-08-20 15:00:00")
 
 # Plot the non-breeding homerange
@@ -1475,7 +1475,7 @@ IAD_nonb10 <- osprey_nonb%>%
 #########
 
 # First define the non-breeding period
-        IBK_nonb <- osprey_nonb%>%
+        IBK_nonb <- st_df%>%
                           dplyr::filter(ID == 'IBK')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -1499,25 +1499,25 @@ IAD_nonb10 <- osprey_nonb%>%
        IBK_nonb_HR <- fortify(IBK_nonb_HR)
        IBK_nonb_HRcore <- fortify(IBK_nonb_HRcore)
 
-        IBK_nonb1 <- osprey_nonb%>%
+        IBK_nonb1 <- st_df%>%
                  filter(ID == 'IBK' & time <= '2020-08-20 09:00:00')
 
-        IBK_nonb2 <- osprey_nonb%>%
+        IBK_nonb2 <- st_df%>%
                  filter(ID == 'IBK' & time >= '2020-08-23 11:00:00' & time <= '2021-06-27 09:00:00')
 
-        IBK_nonb3 <- osprey_nonb%>%
+        IBK_nonb3 <- st_df%>%
                  filter(ID == 'IBK' & time >= '2021-07-02 12:00:00' & time <= '2022-04-15 00:00:00')
 
-        IBK_nonb4 <- osprey_nonb%>%
+        IBK_nonb4 <- st_df%>%
                  filter(ID == 'IBK' & time >= '2022-04-17 20:00:00')
 
-        IBK_nd1 <- osprey_nd%>%
+        IBK_nd1 <- nd_df%>%
                  filter(ID == 'IBK' & time >= '2020-08-20 09:00:00' & time <= '2020-08-23 11:00:00')
 
-        IBK_nd2 <- osprey_nd%>%
+        IBK_nd2 <- nd_df%>%
                  filter(ID == 'IBK' & time >= '2021-06-27 09:00:00' & time <= '2021-07-02 12:00:00')
 
-        IBK_nd3 <- osprey_nd%>%
+        IBK_nd3 <- nd_df%>%
                  filter(ID == 'IBK' & time >= '2022-04-15 00:00:00' & time <= '2022-04-17 20:00:00')
 
 # Plot the non-breeding homerange
@@ -1559,7 +1559,7 @@ IAD_nonb10 <- osprey_nonb%>%
 #########
 
 # First define the non-breeding period
-        IBS_nonb <- osprey_nonb%>%
+        IBS_nonb <- st_df%>%
                           dplyr::filter(ID == 'IBS' & time >= '2020-08-18 19:00:00' & time <= '2021-01-14 06:00:00' |
                                        ID == 'IBS' & time >= '2021-05-01 16:00:00' & time <= '2022-03-22 00:00:00' |
                                         ID == 'IBS' & time >= '2022-06-04 15:00:00' & time <= '2023-02-08 16:00:00')%>%
@@ -1591,80 +1591,80 @@ IAD_nonb10 <- osprey_nonb%>%
         IBS_nonb_HR_2 <- IBS_nonb_HR%>%
                     filter(group == "IBS.2")
 
-        IBS_nonb1 <- osprey_nonb%>%
+        IBS_nonb1 <- st_df%>%
                  filter(ID == 'IBS' & time >= '2020-07-28 19:00:00' & time <= '2020-08-01 09:00:00')%>%
                  arrange(time)
 
-        IBS_nonb2 <- osprey_nonb%>%
+        IBS_nonb2 <- st_df%>%
                  filter(ID == 'IBS' & time >= '2020-08-02 18:00:00' & time <= '2020-08-07 08:00:00')%>%
                  arrange(time)
 
-        IBS_nonb3 <- osprey_nonb%>%
+        IBS_nonb3 <- st_df%>%
                  filter(ID == 'IBS' & time >= '2020-08-18 19:00:00' & time <= '2021-01-14 06:00:00')%>%
                  arrange(time)
 
-        IBS_nonb4 <- osprey_nonb%>%
+        IBS_nonb4 <- st_df%>%
                  filter(ID == 'IBS' & time >= '2021-01-15 16:00:00' & time <= '2021-02-15 09:00:00')%>%
                  arrange(time)
 
-        IBS_nonb5 <- osprey_nonb%>%
+        IBS_nonb5 <- st_df%>%
                  filter(ID == 'IBS' & time >= '2021-02-15 17:00:00' & time <= '2021-04-26 11:00:00')%>%
                  arrange(time)
 
-        IBS_nonb6 <- osprey_nonb%>%
+        IBS_nonb6 <- st_df%>%
                  filter( ID == 'IBS' & time >= '2021-05-01 16:00:00' & time <= '2022-03-22 00:00:00')%>%
                  arrange(time)
 
-        IBS_nonb7 <- osprey_nonb%>%
+        IBS_nonb7 <- st_df%>%
                  filter(ID == 'IBS' & time >= '2022-06-04 15:00:00' & time <= '2023-02-08 16:00:00')%>%
                  arrange(time)
 
-        IBS_nonb8 <- osprey_nonb%>%
+        IBS_nonb8 <- st_df%>%
                  filter(ID == 'IBS' & time >= '2023-02-15 00:00:00' & time <= '2023-02-19 04:00:00')%>%
                  arrange(time)
 
-        IBS_nonb9 <- osprey_nonb%>%
+        IBS_nonb9 <- st_df%>%
                  filter(ID == 'IBS' & time >= '2023-02-23 20:00:00' & time <= '2023-03-01 16:00:00')%>%
                  arrange(time)
 
-        IBS_nonb10 <- osprey_nonb%>%
+        IBS_nonb10 <- st_df%>%
                  filter(ID == 'IBS' & time >= '2023-03-08 24:00:00' & time <= '2023-03-13 04:00:00')%>%
                  arrange(time)
 
-        IBS_nonb11 <- osprey_nonb%>%
+        IBS_nonb11 <- st_df%>%
                  filter(ID == 'IBS' & time >= '2023-03-16 17:00:0')%>%
                  arrange(time)
 
-        IBS_nd1 <- osprey_nd%>%
+        IBS_nd1 <- nd_df%>%
                  filter(ID == 'IBS' & time >= '2020-07-27 00:00:00' & time <= '2020-07-28 19:00:00')%>%
                  arrange(time)
 
-        IBS_nd2 <- osprey_nd%>%
+        IBS_nd2 <- nd_df%>%
                  filter(ID == 'IBS' & time >= "2020-08-07 08:00:00" & time <= "2020-08-18 19:00:00")%>%
                  arrange(time)
 
-        IBS_nd3 <- osprey_nd%>%
+        IBS_nd3 <- nd_df%>%
                  filter(ID == 'IBS' & time >= "2021-01-14 06:00:00" & time <= "2021-01-15 16:00:00")%>%
                  arrange(time)
 
-        IBS_nd4 <- osprey_nd%>%
+        IBS_nd4 <- nd_df%>%
                  filter(ID == 'IBS' & time >= "2021-02-15 09:00:00" & time <= "2021-02-16 17:00:00")%>%
                  arrange(time)
 
-        IBS_nd5 <- osprey_nd%>%
+        IBS_nd5 <- nd_df%>%
                  filter(ID == 'IBS' & time >= "2021-04-26 11:00:00" & time <= "2021-05-01 16:00:00")%>%
                  arrange(time)
 
-        IBS_nd6 <- osprey_nd%>%
+        IBS_nd6 <- nd_df%>%
                  filter(ID == 'IBS' & time >= '2022-03-22 00:00:00' & time <= '2022-06-04 15:00:00')%>%
                  arrange(time)
 
-        IBS_nd7 <- osprey_nd%>%
+        IBS_nd7 <- nd_df%>%
                  filter(ID == 'IBS' & time >= '2023-02-08 16:00:00' & time <= '2023-02-15 00:00:00' |
                        ID == "IBS" & time >= "2023-02-19 04:00:00" & time <= "2023-02-23 20:00:00")%>%
                  arrange(time)
 
-        IBS_nd8 <- osprey_nd%>%
+        IBS_nd8 <- nd_df%>%
                  filter(ID == "IBS" & time >= "2023-03-01 16:00:00" & time <= "2023-03-08 24:00:00" |
                        ID == "IBS" & time >= "2023-03-13 04:00:00" & time <= "2023-03-16 17:00:00")%>%
                  arrange(time)
@@ -1720,7 +1720,7 @@ IAD_nonb10 <- osprey_nonb%>%
 #########
 
 # First define the non-breeding period
-        ICZ_nonb <- osprey_nonb%>%
+        ICZ_nonb <- st_df%>%
                           dplyr::filter(ID == 'ICZ')%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
@@ -1743,25 +1743,25 @@ IAD_nonb10 <- osprey_nonb%>%
 # fortify() function is needed to plot the non-breeding homerange with ggplot
        ICZ_nonb_HR <- fortify(ICZ_nonb_HR)
 
-        ICZ_nonb1 <- osprey_nonb%>%
+        ICZ_nonb1 <- st_df%>%
                  filter(ID == 'ICZ' & time <= '2019-09-09 08:00:00')
 
-        ICZ_nonb2 <- osprey_nonb%>%
+        ICZ_nonb2 <- st_df%>%
                  filter(ID == 'ICZ' & time >= '2019-09-14 14:30:00' & time <= '2020-04-11 10:00:00')
 
-        ICZ_nonb3 <- osprey_nonb%>%
+        ICZ_nonb3 <- st_df%>%
                  filter(ID == 'ICZ' & time >= '2020-04-24 00:00:00' & time <= '2020-05-02 14:30:00')
 
-        ICZ_nonb4 <- osprey_nonb%>%
+        ICZ_nonb4 <- st_df%>%
                  filter(ID == 'ICZ' & time >= '2020-05-05 17:00:00')
 
-        ICZ_nd1 <- osprey_nd%>%
+        ICZ_nd1 <- nd_df%>%
                 filter(ID == 'ICZ' & time >= '2019-09-09 08:00:00' & time <= '2019-09-14 14:30:00')
 
-        ICZ_nd2 <- osprey_nd%>%
+        ICZ_nd2 <- nd_df%>%
                 filter(ID == 'ICZ' & time >= '2020-04-11 10:00:00' & time <= '2020-04-24 00:00:00')
 
-        ICZ_nd3 <- osprey_nd%>%
+        ICZ_nd3 <- nd_df%>%
                 filter(ID == 'ICZ' & time >= '2020-05-02 14:30:00' & time <= '2020-05-05 17:00:00')
 
 
