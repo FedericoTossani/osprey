@@ -289,6 +289,12 @@ nd_duration_id %>%
           kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
 
 
+
+ndsub_df <- nd_df %>%
+          group_by(group1h = cut(time, "60 min"))
+
+
+
 #############
 # Durations #
 #############
