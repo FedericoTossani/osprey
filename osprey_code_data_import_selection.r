@@ -522,14 +522,14 @@ ndtraj_df <- cut_nd_lt%>%
 
 # Here there is the DataFrame with observations regularized to 1 hour intervall between fixs
 
-nd1h_df <- nd_df %>%
+nd1h <- nd_df %>%
           group_by(group1h = cut(time, "60 min"))%>% 
           distinct(ID, group1h, .keep_all = TRUE)
 
 # convert it into an ltraj object
-nd1h_lt <- as.ltraj(nd1h_df[, c("x", "y")],
-                    date = nd1h_df$time,
-                    id = nd1h_df$ID,
+nd1h_lt <- as.ltraj(nd1h[, c("x", "y")],
+                    date = nd1h$time,
+                    id = nd1h$ID,
                     typeII = T)
 
 foo <- function(dt) {
@@ -539,7 +539,8 @@ return(dt> (60*60*24))
 # Cut the ltraj object based on the time gap criterion
 nd1h_lt <- cutltraj(nd1h_lt, "foo(dt)", nextr = TRUE)
 
-
+nd1htraj_df <- nd1h_lt%>%
+          ld()
 
 
 #########################
