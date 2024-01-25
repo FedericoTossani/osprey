@@ -551,3 +551,53 @@ nd1htraj_df <- nd1h_lt%>%
 # To do this we are using the anti_join funtion which extract from the original dataset the observation non included in the Natal Dispersal df
 
 st_df <- anti_join(osprey, nd_df, by = c("id_time" = "id_time"))
+
+
+#############################################
+# st_df processing for statistical analysis #
+#############################################
+
+# remove any duplicates
+
+st_df_no_duplicates <- st_df[!duplicated(st_df[c("ID", "time")]) & !duplicated(st_df[c("ID", "time")], fromLast = TRUE), ]
+
+
+# remove variable not needed
+
+st <- st_df_no_duplicates%>%
+          select(-c("date", "death_date", "season"))
+
+
+# check if there is any NA values
+
+table(is.na(st$lon))
+table(is.na(st$lat))
+table(is.na(st$x))
+table(is.na(st$y))
+
+st_with_na <- st[is.na(st$x) & is.na(st$y), ]
+st_with_na
+
+
+# Convert it into an ltraj object
+st_lt <- as.ltraj(st[, c("x", "y")],
+                    date = st$time,
+                    id = st$ID,
+                    typeII = T)
+
+
+# Create a function to cut every tracks where there is a minimum of 24h gap in dt
+foo <- function(dt) {
+return(dt> (60*60*24))
+}
+
+# Cut the ltraj object based on the time gap
+st_lt <- cutltraj(st_lt, "foo(dt)", nextr = TRUE)
+
+# transform it into a trajectories data frame
+
+sttraj_df <- st_lt%>%
+          ld()
+
+
+
