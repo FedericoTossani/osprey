@@ -26,31 +26,8 @@
 
 # export tables to Latex, pay attention to digits arguments
 
-nd_duration_id %>%
-          kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
-
-
-
-ndsub_df <- nd_df %>%
-          group_by(group1h = cut(time, "60 min"))
-
-nd1h_df <- ndsub_df %>% 
-  distinct(ID, group1h, .keep_all = TRUE)
-
-# convert it into an ltraj object
-nd1h_lt <- as.ltraj(nd1h_df[, c("x", "y")],
-                    date = nd1h_df$time,
-                    id = nd1h_df$ID,
-                    typeII = T)
-
-foo <- function(dt) {
-return(dt> (60*60*24))
-}
-
-# Cut the ltraj object based on the time gap criterion
-cut_nd1h_lt <- cutltraj(nd1h_lt, "foo(dt)", nextr = TRUE)
-
-plot(cut_nd1h_lt)
+#nd_duration_id %>%
+#          kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
 
 
 #############
@@ -158,13 +135,14 @@ speed_df <-  ndtraj_df %>%
           )
 
 
-summary_dt <- amtnd_lt%>%
-  group_by(id)%>%
+summary_dt <- nd1htraj_df%>%
+  group_by(burst)%>%
   summarize(minDt = min(dt, na.rm=T),
             meanDt = mean(dt, na.rm=T),
             maxDt = max(dt, na.rm=T)) 
 summary_dt
 
+          
 
 
 # 3. terza tabella: descrizione aree di sosta (multi day) id +
