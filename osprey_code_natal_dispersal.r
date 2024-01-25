@@ -26,8 +26,8 @@
 
 # export tables to Latex, pay attention to digits arguments
 
-#nd_duration_id %>%
-#          kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
+ndt_stat%>%
+          kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
 
 
 #############
@@ -38,15 +38,30 @@
 # 1. prima tabella: inizio fine e durata (n day) + aggiungere i paesi visitati
 
 
+# Code to check which countries are traversed during Natal Dispersal Travel
+
+countries_vis<- ndtraj_df%>%
+          dplyr::filter(NDT == "IBS_nd5")
+
+ggplot(osprey_eu_utm) + 
+          geom_spatvector()+
+          geom_path(data = countries_vis, aes(x = x, y = y, colour = "red"), linewidth = 1, lineend = "round")
+
+countries_id <- data.frame(id = c('A7', 'Antares', 'CAM', 'CBK', 'CIV', 'E7', 'H7', 'IAB', 'IAD', 'IBH', 'IBI', 'IBK', 'IBS', 'ICZ', 'IFP'),
+                           countries = c('BIH, HRV, HUN, ITA, SVN', 'FRA, ITA', 'FRA, ITA', 'FRA, ITA', 'DZA, FRA, ITA, TUN', 'AUT, BIH, CHE, DEU, ESP, FRA, HUN, HRV, ITA', 'ESP, FRA, ITA', 'ITA', 'AUT, BEL, BIH, CHE, DEU, ESP, FRA, HUN, HRV, ITA', 'ITA', 'FRA, ITA', 'FRA, ITA', 'ALB, BOH, CHE, ESP, FRA, HVN, ITA, MNE, SVN', 'ITA', 'FRA, ITA'))
+
+
 # Table reporting first and last day of Natal Dispersal period and whole durations of every animal
 
 nd_duration_id <- ndtraj_df %>%
-          group_by(id) %>% 
+          group_by(id, NDT) %>% 
           summarize(start = min(day), end = max(day)) %>%
-          mutate(duration = round(difftime(end, start, units = "days")))
+          mutate(duration = round(difftime(end, start, units = "days")))%>%
+          group_by(id)%>%
+          summarize(start = min(start), end = max(end), duration = sum(duration))%>%
+          left_join(countries_id, by = "id")
 
 nd_duration_id
-
 
 # Table reporting mean, max duration and standard deviation of Natal Dispersal Travel duration of every animal
 
@@ -69,16 +84,6 @@ ndt_duration <- ndtraj_df %>%
           select("start", "end", "duration")%>%
           unique()
 ndt_duration
-
-
-# Code to check which countries are traversed during Natal Dispersal Travel
-
-countries_vis<- ndtraj_df%>%
-          dplyr::filter(NDT == "IBS_nd5")
-
-ggplot(osprey_eu_utm) + 
-          geom_spatvector()+
-          geom_path(data = countries_vis, aes(x = x, y = y, colour = "red"), linewidth = 1, lineend = "round")
 
 
 # Request
@@ -110,6 +115,7 @@ daily_dist_df
 daily_dist_stat <- daily_dist_df%>%
           group_by (id)%>%
           summarize(mean_dist = mean(daily_dist, na.rm = TRUE),
+                    med_dist = median(daily_dist, na.rm = TRUE),
                     max_dist = max(daily_dist, na.rm = TRUE),
                     sd_dist = sd(daily_dist, na.rm = TRUE))
 daily_dist_stat
