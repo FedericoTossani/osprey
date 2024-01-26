@@ -12,8 +12,7 @@
          list_csv <- list.files(pattern = "20")
          csv_allfile <- lapply(list_csv, read.csv)
 
-         col_selected <- c("timestamp", "location.long", "location.lat", "external.temperature", 
-                           "individual.local.identifier")
+         col_selected <- c("timestamp", "location.long", "location.lat", "individual.local.identifier")
 
          csv_file_sel_col <- lapply(csv_allfile, "[", , col_selected)
          osprey_raw <- dplyr::bind_rows(csv_file_sel_col)
@@ -33,12 +32,10 @@
 # dataset to use for further analysis
 
          osprey <- osprey_raw %>%
-                     dplyr::select("timestamp", "location.long", "location.lat", "external.temperature", 
-                                   "individual.local.identifier")%>%
-                     rename("lon"="location.long",
-                            "lat"="location.lat",
-                            "ext_temp"="external.temperature",
-                            "id"="individual.local.identifier")%>%
+                     dplyr::select("timestamp", "location.long", "location.lat", "individual.local.identifier")%>%
+                     rename("lon" = "location.long",
+                            "lat" = "location.lat",
+                            "id" = "individual.local.identifier")%>%
                      mutate(id = as.factor(id),
                             time = as.POSIXct(timestamp, tz = "UTC"),
                             signal_interruption_cause = ifelse (id %in% osprey_dead, "Death", "GPS lifecycle"),
@@ -74,7 +71,7 @@
          osprey <- osprey%>%
          select(-c("timestamp", "id"))%>%
          relocate("ID", "time", "date", "day", "month", "year", "m_day",
-                              "death_date", "season", "ext_temp", "lon", "lat", "signal_interruption_cause", "death_comment")%>%
+                              "death_date", "season", "lon", "lat", "signal_interruption_cause", "death_comment")%>%
          unique()
 
 # Convert lon and lat columns to a spatial object with WGS84 coordinate system
@@ -104,8 +101,8 @@ osprey_lt <- as.ltraj(osprey_no_duplicates[, c("x", "y")],
 osp_lt_df <- ld(osprey_lt)
 
 nd_df <- osprey%>%
-                  select(-c("day", "month", "year", "m_day", "ext_temp", "signal_interruption_cause", "death_comment"))%>%
-                  unique()
+          select(-c("day", "month", "year", "m_day", "signal_interruption_cause", "death_comment"))%>%
+          unique()
 
 nd_df <- nd_df%>%
                     filter( ID == 'A7' & time >= '2015-08-14 08:00:00' & time <= '2015-08-18 09:00:00' |
