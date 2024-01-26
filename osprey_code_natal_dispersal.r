@@ -157,7 +157,7 @@ summary_dt
 #                    percentuale giorni di sosta in un’area protetta
 
 summary_st <- sttraj_df%>%
-          group_by(id, burst)%>%
+          group_by(stop_id)%>%
           summarize(start = min(date),
                     end = max(date))
 print(summary_st, n = 217)
