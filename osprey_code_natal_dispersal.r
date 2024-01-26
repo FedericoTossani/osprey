@@ -156,140 +156,28 @@ summary_dt
 #                    numero medio di giorni di sosta per area +
 #                    percentuale giorni di sosta in un’area protetta
 
-
-st_df_no_duplicates <- st_df[!duplicated(st_df[c("ID", "time")]) & !duplicated(st_df[c("ID", "time")], fromLast = TRUE), ]
-
-
- st <- st_df_no_duplicates%>%
-           select(-c("date", "death_date", "season"))
- 
- stationary_lt <- as.ltraj(st[, c("x", "y")],
-                               date = st$time,
-                               id = st$ID,
-                               typeII = T)
+summary_st <- sttraj_df%>%
+          group_by(id, burst)%>%
+          summarize(start = min(date),
+                    end = max(date))
+print(summary_st, n = 217)
 
 
-foo <- function(dt) {
-return(dt> (60*60*24))
-}
+summary_nd <- ndtraj_df%>%
+          group_by(id, burst)%>%
+          summarize(start = min(date),
+                    end = max(date))
 
-# Cut the ltraj object based on the time gap criterion
-cut_stationary_lt <- cutltraj(stationary_lt, "foo(dt)", nextr = TRUE)
+summary_nd <- summary_nd%>%
+          group_by(id)%>%
+          mutate(duration = difftime(end, start, units = "hours"))%>%
+          summarize(min_dur = min(duration))
 
-cut_stationary_lt
+print(summary_nd, n = 135)
 
 
- 
- stationary_df <- stationary_lt%>%
-           ld()%>%
-           mutate(doy = yday(date),
-                  ymd = as.Date(date),
-                  year = year(date),
-                  time = date,
-                  ID = id,
-                  burst = dplyr::case_when(ID == 'H7' & time >= '2013-08-09 15:30:00' & time <= '2015-04-02 05:00:00' ~ "H7_wintering",
-                     ID == 'H7' & time >= '2015-04-11 13:00:00' & time <= '2015-04-20 13:00:00' ~ "H7_stop1",
-                     ID == 'H7' & time >= '2015-04-30 16:00:00' & time <= '2015-05-03 05:00:00' ~ "H7_stop2",
-                     ID == 'H7' & time >= '2015-05-03 11:00:0' ~ "H7_end",
-                     ID == 'CIV' & time >= "2014-08-22 06:00:00" & time <= "2014-09-11 08:00:00" ~ "CIV_stop1",
-                     ID == 'CIV' & time >= "2014-09-13 17:00:00" & time <= "2014-10-21 08:00:00" ~ "CIV_stop2",
-                     ID == 'CIV' & time >= "2014-10-21 21:00:00" & time <= "2015-03-21 04:00:00" ~ "CIV_wintering1",
-                     ID == 'CIV' & time >= "2015-03-21 24:00:00" & time <= "2015-06-04 04:00:00" ~ "CIV_stop3",
-                     ID == 'CIV' & time >= "2015-06-22 18:00:00" & time <= "2015-08-13 06:00:00" ~ "CIV_stop4",
-                     ID == 'CIV' & time >= "2015-08-14 00:00:00" & time <= "2015-11-21 16:00:00" ~ "CIV_stop5",
-                     ID == 'CIV' & time >= "2015-11-27 00:00:00" & time <= "2016-03-28 18:00:00" ~ "CIV_wintering2",
-                     ID == 'CIV' & time >= '2016-04-01 06:00:00' & time <= '2016-04-15 06:00:00' ~ "CIV_stop6",
-                     ID == 'CIV' & time >= '2016-04-18 22:00:00' & time <= '2016-10-28 06:00:00' ~ "CIV_stop7",
-                     ID == 'CIV' & time >= '2016-10-30 06:00:00' ~ "CIV_end",
-                     ID == 'E7' & time >= '2014-08-27 13:00:00' & time <= '2016-03-10 05:00:00' ~ "E7_wintering",
-                     ID == 'E7' & time >= '2016-03-24 14:00:00' & time <= '2016-03-30 09:00:00' ~ "E7_stop1",
-                     ID == 'E7' & time >= '2016-04-22 20:00:00' & time <= '2016-04-24 10:30:00' ~ "E7_stop2",
-                     ID == 'E7' & time >= '2016-04-25 17:30:00' & time <= '2016-05-04 10:00:00' ~ "E7_stop3",
-                     ID == 'E7' & time >= '2016-05-07 17:00:00' & time <= '2016-05-12 11:00:00' ~ "E7_stop4",
-                     ID == 'E7' & time >= '2016-05-16 20:30:00' & time <= '2016-05-20 12:00:00' ~ "E7_stop5",
-                     ID == 'E7' & time >= '2016-05-27 18:30:00' ~ "E7_end",
-                     ID == 'A7' & time >= '2015-08-18 12:00:00' & time <= '2017-02-20 00:00:00' ~ "A7_wintering",
-                     ID == 'A7' & time >= '2017-03-01 20:00:00' & time <= '2017-03-17 00:00:00' ~ "A7_stop1",
-                     ID == 'A7' & time >= '2017-04-15 06:00:00' & time <= '2017-04-16 24:00:00' ~ "A7_stop2",
-                     ID == 'A7' & time >= '2017-04-21 08:00:00' & time <= '2017-04-28 00:00:00' ~ "A7_stop3",
-                     ID == 'A7' & time >= '2017-05-11 06:00:00' & time <= '2017-05-14 00:00:00' ~ "A7_stop4",
-                     ID == 'A7' & time >= '2017-05-21 18:00:00' & time <= '2017-05-23 06:00:00' ~ "A7_stop5",
-                     ID == 'A7' & time >= '2017-05-23 18:00:00' & time <= '2017-05-26 00:00:00' ~ "A7_stop6",
-                     ID == 'A7' & time >= '2017-05-28 24:00:00' & time <= '2017-06-06 00:00:00' ~ "A7_stop7",
-                     ID == 'A7' & time >= '2017-06-06 16:00:00' & time <= '2017-06-10 20:00:00' ~ "A7_stop8",
-                     ID == 'A7' & time >= '2017-06-12 20:00:00' & time <= '2017-07-12 18:00:00' ~ "A7_stop9",
-                     ID == 'A7' & time >= '2017-07-28 06:00:00'~ "A7_end",
-                     ID == 'IAD' & time >= '2016-08-25 11:00:00' & time <= '2018-02-04 18:00:00' ~ "IAD_wintering1",
-                     ID == 'IAD' & time >= '2018-02-07 19:00:00' & time <= '2018-03-28 08:00:00' ~ "IAD_stop1",
-                     ID == 'IAD' & time >= '2018-06-12 14:00:00' & time <= '2018-12-15 00:00:00' ~ "IAD_wintering2a",
-                     ID == 'IAD' & time >= '2018-12-20 15:00:00' & time <= '2019-03-04 10:00:00' ~ "IAD_wintering2b",
-                     ID == 'IAD' & time >= '2019-04-01 17:00:00' & time <= '2019-04-05 10:00:00' ~ "IAD_stop2",
-                     ID == 'IAD' & time >= '2019-04-09 17:00:00' & time <= '2019-04-14 20:00:00' ~ "IAD_stop3",
-                     ID == 'IAD' & time >= '2019-04-19 13:00:00' & time <= '2019-04-21 06:00:00' ~ "IAD_stop4",
-                     ID == 'IAD' & time >= '2019-04-21 20:00:00' & time <= '2019-04-29 09:00:00' ~ "IAD_stop5",
-                     ID == 'IAD' & time >= '2019-05-01 21:00:00' & time <= '2019-07-08 09:00:00' ~ "IAD_stop6",
-                     ID == 'IAD' & time >= '2019-07-15 18:00:00' ~ "IAD_end",
-                     ID == 'IBS' & time >= '2020-07-28 19:00:00' & time <= '2020-08-07 08:00:00' ~ "IBS_stop1",
-                     ID == 'IBS' & time >= '2020-08-18 19:00:00' & time <= '2021-01-14 06:00:00' ~ "IBS_wintering1",
-                     ID == 'IBS' & time >= '2021-01-15 16:00:00' & time <= '2021-02-15 09:00:00' ~ "IBS_stop2",
-                     ID == 'IBS' & time >= '2021-02-15 17:00:00' & time <= '2021-04-26 11:00:00' ~ "IBS_stop3",
-                     ID == 'IBS' & time >= '2021-05-01 16:00:00' & time <= '2022-03-22 00:00:00' ~ "IBS_wintering2",
-                     ID == 'IBS' & time >= '2022-06-04 15:00:00' & time <= '2023-02-08 16:00:00' ~ "IBS_wintering3",
-                     ID == 'IBS' & time >= '2023-02-15 00:00:00' & time <= '2023-02-19 04:00:00' ~ "IBS_stop4",
-                     ID == 'IBS' & time >= '2023-02-23 20:00:00' & time <= '2023-03-01 16:00:00' ~ "IBS_stop5",
-                     ID == 'IBS' & time >= '2023-03-08 24:00:00' & time <= '2023-03-13 04:00:00' ~ "IBS_stop6",
-                     ID == 'IBS' & time >= '2023-03-16 17:00:00' ~ "IBS_end",
-                     ID == 'IBH' & time >= '2020-08-15 15:00:00' & time <= '2022-04-09 06:00:00' ~ "IBH_wintering1",
-                     ID == 'IBH' & time >= '2022-04-11 19:00:00' & time <= '2022-04-19 12:00:00' ~ "IBH_stop1",
-                     ID == 'IBH' & time >= '2022-04-24 15:00:00' & time <= '2022-04-29 09:00:00' ~ "IBH_stop2",
-                     ID == 'IBH' & time >= '2022-05-01 18:00:00' & time <= '2022-05-04 09:00:00' ~ "IBH_stop3",
-                     ID == 'IBH' & time >= '2022-05-04 16:00:00' & time <= '2022-05-10 09:00:00' ~ "IBH_stop4",
-                     ID == 'IBH' & time >= '2022-05-13 17:00:00' ~ "IBH_end",
-                     ID == 'IBK' & time <= '2020-08-20 09:00:00' ~ "IBK_nest",
-                     ID == 'IBK' & time >= '2020-08-23 11:00:00' & time <= '2021-06-27 09:00:00' ~ "IBK_wintering1",
-                     ID == 'IBK' & time >= '2021-07-02 12:00:00' & time <= '2022-04-15 00:00:00' ~ "IBK_wintering2",
-                     ID == 'IBK' & time >= '2022-04-17 20:00:00' ~ "IBK_end",
-                     ID == 'IFP' & time >= '2022-08-15 00:00:00' & time <= '2023-04-24 00:00:00' ~ "IFP_wintering",
-                     ID == 'IFP' & time >= '2023-04-30 04:00:00' & time <= '2023-05-16 00:00:00' ~ "IFP_stop1",
-                     ID == "IFP" & time >= '2023-05-17 22:00:00' & time <= "2023-05-23 00:00:00" ~ "IFP_stop2",
-                     ID == "IFP" & time >= '2023-05-25 00:00:00' & time <= "2023-06-07 00:00:00" ~ "IFP_stop3",
-                     ID == "IFP" & time >= '2023-06-09 24:00:00' & time <= "2023-06-11 03:00:00" ~ "IFP_stop4",
-                     ID == "IFP" & time >= "2023-06-11 18:00:00" ~ "IFP_end",
-                     ID == 'ICZ' & time <= '2019-09-09 08:00:00' ~ "ICZ_nest",
-                     ID == 'ICZ' & time >= '2019-09-14 14:30:00' & time <= '2020-04-11 10:00:00' ~ "ICZ_wintering1",
-                     ID == 'ICZ' & time >= '2020-04-24 00:00:00' & time <= '2020-05-02 14:30:00' ~ "ICZ_stop1",
-                     ID == 'ICZ' & time >= '2020-05-05 17:00:00' ~ "ICZ_end",
-                     ID == 'CBK' & time >= '2013-08-21 12:00:00' & time <= '2014-03-20 04:30:00' ~ "CBK_wintering1",
-                     ID == 'CBK' & time >= '2014-03-22 10:30:00' & time <= '2014-04-08 06:30:00' ~ "CBK_stop1",
-                     ID == 'CBK' & time >= '2014-04-12 11:00:00' ~ "CBK_end",
-                     ID == 'IAB' & time >= '2018-08-12 20:00:00' & time <= '2019-03-26 11:00:00' ~ "IAB_wintering1",
-                     ID == 'IAB' & time >= '2019-03-28 14:00:00' & time <= '2019-04-19 00:00:00' ~ "IAB_stop1",
-                     ID == 'IAB' & time >= '2019-04-23 24:00:00' & time <= '2019-05-05 06:00:00' ~ "IAB_stop2",
-                     ID == 'IAB' & time >= '2019-05-12 14:00:00' & time <= '2019-05-15 21:00:00' ~ "IAB_stop3",
-                     ID == 'IAB' & time >= '2019-05-20 13:00:00' & time <= '2019-05-29 15:00:00' ~ "IAB_stop4",
-                     ID == 'IAB' & time >= '2019-06-02 16:00:00' & time <= '2019-06-08 09:00:00' ~ "IAB_stop5",
-                     ID == 'IAB' & time >= '2019-06-10 17:00:00' & time <= '2019-09-07 11:00:00' ~ "IAB_stop6",
-                     ID == 'IAB' & time >= '2019-09-11 15:00:00' & time <= '2019-10-29 08:00:00' ~ "IAB_stop7",
-                     ID == 'IAB' & time >= '2019-10-30 09:00:00' & time <= '2020-03-16 00:00:00' ~ "IAB_wintering2",
-                     ID == "CAM" & time <= "2016-04-14 06:00:00" ~ "CAM_nest",
-                     ID == "CAM" & time >= "2016-04-19 20:00:00" & time <= "2016-05-03 08:00:00" ~ "CAM_stop1",
-                     ID == "CAM" & time >= "2016-05-06 18:00:00" & time <= "2016-05-20 05:00:00" ~ "CAM_stop2",
-                    ID == "CAM" & time >= "2016-05-24 18:00:00" & time <= "2016-07-02 23:00:00" ~ "CAM_stop3",
-                     ID == "CAM" & time >= "2016-07-06 20:00:00" ~ "CAM_end",
-                     ID == "IBI" & time >= "2017-07-27 20:00:00" & time <= "2017-08-19 08:00:00" ~ "IBI_stop1",
-                    ID == "IBI" & time >= "2017-08-20 15:00:00" ~ "IBI_end",
-                     ID == "Antares" & time >= "2015-08-18 19:00:00" & time <= "2015-09-08 10:30:00" ~ "Antares_stop1",
-                     ID == "Antares" & time >= "2015-09-13 20:00:00" & time <= "2016-04-04 00:00:00" ~ "Antares_wintering",
-                     ID == "Antares" & time >= "2016-04-10 17:00:00" & time <= "2016-04-19 11:00:00" ~ "Antares_stop2",
-                     ID == "Antares" & time >= "2016-04-22 13:00:00" & time <= "2016-05-05 00:00:00" ~ "Antares_stop3",
-                     ID == "Antares" & time >= "2016-05-06 06:00:00" & time <= "2016-05-14 13:00:00" ~ "Antares_stop4",
-                     ID == "Antares" & time >= "2016-05-17 19:00:00" & time <= "2016-06-10 07:00:00" ~ "Antares_stop5",
-                     ID == "Antares" & time >= "2016-06-12 19:00:00" ~ "Antares_end"),
-           day = as.Date(date),
-           distKM = dist/1000)%>%
-           tidyr::unite(id_y, c(ID, year), sep="_", remove = F)%>%
-           select(-c("pkey"))
- 
+          dplyr::case_when()
+
  
  dist_control <- stationary_df%>%
            select("date", "burst", "distKM")%>%
