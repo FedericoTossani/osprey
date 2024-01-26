@@ -51,87 +51,80 @@ source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_cod
        A7_nonb_HR <- fortify(A7_nonb_HR)
        A7_nonb_HRcore <- fortify(A7_nonb_HRcore)
 
-A7_nonb1 <- st_df%>%
+A7_stop1 <- st_df%>%
        filter(ID == 'A7' & time >= '2015-08-18 12:00:00' & time <= '2017-02-20 00:00:00')
 
-A7_nonb2 <- st_df%>%
+A7_stop2 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-03-01 20:00:00' & time <= '2017-03-17 00:00:00')
 
-A7_nonb3 <- st_df%>%
+A7_stop3 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-04-15 06:00:00' & time <= '2017-04-16 24:00:00')
 
-A7_nonb4 <- st_df%>%
+A7_stop4 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-04-21 08:00:00' & time <= '2017-04-28 00:00:00')
 
-A7_nonb5 <- st_df%>%
+A7_stop5 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-05-11 06:00:00' & time <= '2017-05-14 00:00:00')
 
-A7_nonb6 <- st_df%>%
+A7_stop6 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-05-21 18:00:00' & time <= '2017-05-23 06:00:00')
 
-A7_nonb7 <- st_df%>%
+A7_stop7 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-05-23 18:00:00' & time <= '2017-05-26 00:00:00')
 
-A7_nonb8 <- st_df%>%
+A7_stop8 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-05-28 24:00:00' & time <= '2017-06-06 00:00:00')
 
-A7_nonb9 <- st_df%>%
+A7_stop9 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-06-06 16:00:00' & time <= '2017-06-10 20:00:00')
 
-A7_nonb10 <- st_df%>%
+A7_stop10 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-06-12 20:00:00' & time <= '2017-07-12 18:00:00')
 
-A7_nonb11 <- st_df%>%
+A7_stop11 <- st_df%>%
        filter(ID == 'A7' & time >= '2017-07-28 06:00:00')
 
 
 
-A7_nd1 <- nd_df%>%
-       filter(ID == 'A7' & time >= '2015-08-14 09:00:00' & time <= '2015-08-18 12:00:00')
+A7_nd1 <- ndtraj_df%>%
+       filter(id == 'A7' & NDT == 'A7_nd1')
 
-A7_nd2 <- nd_df%>%
-       filter(ID == 'A7' & time >= '2017-02-20 00:00:00' & time <= '2017-03-01 20:00:00')
+A7_nd2 <- ndtraj_df%>%
+       filter(id == 'A7' & NDT == 'A7_nd2')
 
-A7_nd3 <- nd_df%>%
-       filter(ID == 'A7' & time >= '2017-03-17 00:00:00' & time <= '2017-04-15 06:00:00' |
-             ID == 'A7' & time >= '2017-04-16 24:00:00' & time <= '2017-04-21 08:00:00')
+A7_nd3 <- ndtraj_df%>%
+       filter(id == 'A7' & NDT == 'A7_nd3')
 
-A7_nd4 <- nd_df%>%
-       filter(ID == 'A7' & time >= '2017-04-28 00:00:00' & time <= '2017-05-11 06:00:00' |
-             ID == 'A7' & time >= '2017-05-14 00:00:00' & time <= '2017-05-21 18:00:00' |
-             ID == 'A7' & time >= '2017-05-23 06:00:00' & time <= '2017-05-23 18:00:00' |
-             ID == 'A7' & time >= '2017-05-26 00:00:00' & time <= '2017-05-28 24:00:00')
+A7_nd4 <- ndtraj_df%>%
+       filter(id == 'A7' & NDT == 'A7_nd4')
 
-A7_nd5 <- nd_df%>%
-       filter(ID == 'A7' & time >= '2017-06-06 00:00:00' & time <= '2017-06-06 16:00:00' |
-             ID == 'A7' & time >= '2017-06-10 20:00:00' & time <= '2017-06-12 20:00:00')
+A7_nd5 <- ndtraj_df%>%
+       filter(id == 'A7' & NDT == 'A7_nd5')
 
-A7_nd6 <- nd_df%>%
-       filter(ID == 'A7' & time >= '2017-07-12 18:00:00' & time <= '2017-07-28 06:00:00')
 
-# Plot the NonBreeding HR
+# Plot the nonbreeding HR
        A7_HR_plot <- 
        ggplot(A7_eu_utm) + 
        geom_spatvector()+
-       geom_polygon(A7_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-       geom_polygon(A7_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-       geom_path(data = A7_nonb1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nonb2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nonb3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nonb4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nonb5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nonb6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nonb7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nonb8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nonb9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nonb10, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nonb11, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #   geom_polygon(A7_stop_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       # geom_polygon(A7_stop_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+    #   geom_path(data = A7_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+     #  geom_path(data = A7_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #   geom_path(data = A7_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+     #  geom_path(data = A7_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+     #  geom_path(data = A7_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+     #  geom_path(data = A7_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+     #  geom_path(data = A7_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       #geom_path(data = A7_stop8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+      # geom_path(data = A7_stop9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       #geom_path(data = A7_stop10, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       #geom_path(data = A7_stop11, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
        geom_path(data = A7_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nd4, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nd5, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = A7_nd6, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
+     #  geom_path(data = A7_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+     #  geom_path(data = A7_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+     #  geom_path(data = A7_nd4, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+     #  geom_path(data = A7_nd5, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
+     #  geom_path(data = A7_nd6, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
        labs(x = " ", y = " ", title = "A7 non-breeding HR and ND movements tracks") +
        theme_minimal()+
  scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
