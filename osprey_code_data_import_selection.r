@@ -104,7 +104,7 @@ osprey_lt <- as.ltraj(osprey_no_duplicates[, c("x", "y")],
 osp_lt_df <- ld(osprey_lt)
 
 nd_df <- osprey%>%
-                  select(-c('day', 'month', 'year', 'm_day', 'ext_temp', 'signal_interruption_cause', 'death_comment'))%>%
+                  select(-c("day", "month", "year', "m_day', "ext_temp', "signal_interruption_cause", "death_comment"))%>%
                   unique()
 
 nd_df <- nd_df%>%
