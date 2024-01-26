@@ -164,16 +164,17 @@ print(summary_st, n = 217)
 
 
 summary_nd <- ndtraj_df%>%
-          group_by(id, burst)%>%
+          group_by(track_id)%>%
           summarize(start = min(date),
                     end = max(date))
+print(summary_nd, n = 150)
 
 summary_nd <- summary_nd%>%
           group_by(id)%>%
           mutate(duration = difftime(end, start, units = "hours"))%>%
           summarize(min_dur = min(duration))
 
-print(summary_nd, n = 135)
+print(summary_nd, n = 150)
 
 
           dplyr::case_when()
