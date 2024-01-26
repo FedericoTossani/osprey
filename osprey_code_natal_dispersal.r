@@ -163,10 +163,10 @@ summary_st <- sttraj_df%>%
 print(summary_st, n = 217)
 
 
-summary_nd <- ndtraj_df%>%
+summary_nd <- nd_df%>%
           group_by(track_id)%>%
-          summarize(start = min(date),
-                    end = max(date))
+          summarize(start = min(time),
+                    end = max(time))
 print(summary_nd, n = 150)
 
 summary_nd <- summary_nd%>%
