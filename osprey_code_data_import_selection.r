@@ -290,7 +290,7 @@ cut_nd_lt <- cutltraj(nd_lt, "foo(dt)", nextr = TRUE)
 
 
 # create a data frame with trajectory informations
-ndtraj_df <- cut_nd_lt%>%
+ndtraj_df <- nd_lt%>%
           ld()%>%
           mutate(doy = yday(date),
           year = year(date),
