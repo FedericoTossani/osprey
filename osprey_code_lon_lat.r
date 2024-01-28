@@ -455,40 +455,46 @@ ibs_lat_time <- ibs_lat_time + xlim(1,365)
 ID == "IBS" & time >= "2023-02-08 16:00:00" & time <= "2023-03-16 17:00:00" |
 
 
-nd
-
-ID == 'CBK' & time >= '' & time <= '' |
-ID == 'CBK' & time >= '' & time <= '' |
-ID == 'CBK' & time >= '' & time <= '' |
-
-
-
-nonb
-
-ID == 'CBK' & time >= '2013-08-21 12:00:00' & time <= '2014-03-20 04:30:00' |
-ID == 'CBK' & time >= '2014-03-22 10:30:00' & time <= '2014-04-08 06:30:00' |
-ID == 'CBK' & time >= '2014-04-12 11:00:00' |
+natal dispersal travel
+ID == "Antares" & time >= "2015-08-15 12:30:00" & time <= "2015-08-18 18:30:00" |
+ID == "Antares" & time >= "2015-09-08 11:00:00" & time <= "2015-09-08 19:00:00" |
+ID == "Antares" & time >= "2015-09-13 07:30:00" & time <= "2015-09-13 14:00:00" |
+ID == "Antares" & time >= "2016-04-04 13:30:00" & time <= "2016-04-05 18:30:00" |
+ID == "Antares" & time >= "2016-04-09 09:00:00" & time <= "2016-04-12 12:30:00" |
+ID == "Antares" & time >= "2016-04-14 08:00:00" & time <= "2016-04-16 13:30:00" |
+ID == "Antares" & time >= "2016-04-19 11:30:00" & time <= "2016-04-22 12:30:00" |
 
 
-          
-          
-          osp <- osprey%>%
-          filter( ID == 'E7' & time >= '2016-05-04 10:00:00' & time <= '2016-05-07 17:00:00')
-          
-          osp_lat_time <-
-          ggplot(osp, aes(time, lat)) +
-          geom_point(size = 0.5) +
-          geom_path()
-          
-          osp_lon_time <-
-          ggplot(osp, aes(time, lon)) +
-          geom_point(size = 0.5) +
-          geom_path()
-          
-          osp_lon_lat <- ggarrange(osp_lon_time, osp_lat_time, ncol = 1, nrow = 2)
-          
-          osp_lon_lat
-          
+stationary
+ID == "Antares" & time <= "2015-08-15 12:30:00" |
+ID == "Antares" & time >= "2015-08-18 18:30:00" & time <= "2015-09-08 11:00:00" |
+ID == "Antares" & time >= "2015-09-08 19:00:00" & time <= "2015-09-13 07:30:00" |
+ID == "Antares" & time >= "2015-09-13 14:00:00" & time <= "2016-04-04 13:30:00" |
+ID == "Antares" & time >= "2016-04-05 18:30:00" & time <= "2016-04-09 09:00:00" |
+ID == "Antares" & time >= "2016-04-12 12:30:00" & time <= "2016-04-14 08:00:00" |
+ID == "Antares" & time >= "2016-04-16 13:30:00" & time <= "2016-04-19 11:30:00" |
+ID == "Antares" & time >= "2016-04-22 12:30:00" & time <= "" |
+
+
+# FINIRE DATA DI ARRIVO
+
+osp <- osprey%>%
+filter(ID == "Antares" & time >= "2016-05-05 07:30:00" & time <= "2016-05-08 24:00:00")
+
+osp_lat_time <-
+ggplot(osp, aes(time, lat)) +
+geom_point(size = 0.5) +
+geom_path()
+
+osp_lon_time <-
+ggplot(osp, aes(time, lon)) +
+geom_point(size = 0.5) +
+geom_path()
+
+osp_lon_lat <- ggarrange(osp_lon_time, osp_lat_time, ncol = 1, nrow = 2)
+
+osp_lon_lat
+
           
           
           
