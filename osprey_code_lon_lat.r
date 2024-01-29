@@ -453,17 +453,23 @@ ibs_lat_time <- ibs_lat_time + xlim(1,365)
   # use this graph to check for departure dates  
 
 natal dispersal travel
+ID == "IFP" & time >= "2022-07-23 09:00:00" & time <= "2022-07-23 21:00:00" |
+
 
 
 
 stationary
+ID == "IFP" & time <= "2022-07-23 09:00:00" |
+ID == "IFP" & time >= "2022-07-23 21:00:00" & time <= "" |
 
 
 
-# RIPRENDI DA IBH
+
+
 
 osp <- osprey%>%
-filter()
+arrange(time)%>%
+filter(ID == "IFP" & time >= "2022-07-23 09:00:00" & time <= "2022-07-23 21:00:00")
 
 osp_lat_time <-
 ggplot(osp, aes(time, lat)) +
@@ -483,7 +489,7 @@ osp_lon_lat
 
 
 # plto to check the route
-ggplot(IAD_eu_utm) + 
+ggplot(ICZ_eu_utm) + 
           geom_spatvector()+
           geom_path(data = osp, aes(x = x, y = y, colour = "red"), linewidth = 1, lineend = "round")
 
