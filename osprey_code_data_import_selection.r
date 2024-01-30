@@ -448,6 +448,9 @@ nd_df <- nd_df%>%
                               ID == "IFP" & time >= "2023-05-16 04:00:00" & time <= "2023-05-24 23:00:00" ~ "IFP_nd3",
                               ID == "IFP" & time >= "2023-06-07 06:00:00" & time <= "2023-06-11 17:00:00"~ "IFP_nd4"))
 
+nd_df <- nd_df%>%
+          mutate(id = ID)
+
 
 #############################################
 # nd_df processing for statistical analysis #
