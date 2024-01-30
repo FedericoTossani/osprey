@@ -33,7 +33,7 @@ source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_cod
 
         A7_wintering1$id <- factor(A7_wintering1$ID)
 
-# Let's create a spatialPoint object
+# Let"s create a spatialPoint object
         A7_HR_sp <- SpatialPointsDataFrame(A7_wintering1[,c("x", "y")], A7_wintering1)   
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
@@ -52,46 +52,50 @@ source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_cod
 
 
 A7_stop1 <- st_df%>%
-       filter(id == 'A7' & stop_id == 'A7_stop1')
+       filter(id == "A7" & stop_id == "A7_stop1")
 A7_stop2 <- st_df%>%
-       filter(id == 'A7' & stop_id == 'A7_stop2')
+       filter(id == "A7" & stop_id == "A7_stop2")
 A7_stop3 <- st_df%>%
-       filter(id == 'A7' & stop_id == 'A7_stop3')
+       filter(id == "A7" & stop_id == "A7_stop3")
 A7_stop4 <- st_df%>%
-       filter(id == 'A7' & stop_id == 'A7_stop4')
+       filter(id == "A7" & stop_id == "A7_stop4")
 A7_stop5 <- st_df%>%
-       filter(id == 'A7' & stop_id == 'A7_stop5')
+       filter(id == "A7" & stop_id == "A7_stop5")
 A7_stop6 <- st_df%>%
-       filter(id == 'A7' & stop_id == 'A7_stop6')
+       filter(id == "A7" & stop_id == "A7_stop6")
 A7_stop7 <- st_df%>%
-       filter(id == 'A7' & stop_id == 'A7_stop7')
+       filter(id == "A7" & stop_id == "A7_stop7")
 A7_stop8 <- st_df%>%
-       filter(id == 'A7' & stop_id == 'A7_stop8')
+       filter(id == "A7" & stop_id == "A7_stop8")
+A7_stop9 <- st_df%>%
+       filter(id == "A7" & stop_id == "A7_stop9")
 A7_nest <- st_df%>%
-       filter(id == 'A7' & stop_id == 'A7_nest')
+       filter(id == "A7" & stop_id == "A7_nest")
 A7_end <- st_df%>%
-       filter(id == 'A7' & stop_id == 'A7_end')
+       filter(id == "A7" & stop_id == "A7_end")
 
 A7_nd1a <- nd_df%>%
-       filter(id == 'A7' & track_id == 'A7_nd1a')
+       filter(id == "A7" & track_id == "A7_nd1a")
 A7_nd2a <- nd_df%>%
-       filter(id == 'A7' & track_id == 'A7_nd2a')
+       filter(id == "A7" & track_id == "A7_nd2a")
 A7_nd3a <- nd_df%>%
-       filter(id == 'A7' & track_id == 'A7_nd3a')
+       filter(id == "A7" & track_id == "A7_nd3a")
 A7_nd3b <- nd_df%>%
-       filter(id == 'A7' & track_id == 'A7_nd3b')
+       filter(id == "A7" & track_id == "A7_nd3b")
 A7_nd4a <- nd_df%>%
-       filter(id == 'A7' & track_id == 'A7_nd4a')
+       filter(id == "A7" & track_id == "A7_nd4a")
 A7_nd4b <- nd_df%>%
-       filter(id == 'A7' & track_id == 'A7_nd4b')
+       filter(id == "A7" & track_id == "A7_nd4b")
 A7_nd4c <- nd_df%>%
-       filter(id == 'A7' & track_id == 'A7_nd4c')
+       filter(id == "A7" & track_id == "A7_nd4c")
 A7_nd4d <- nd_df%>%
-       filter(id == 'A7' & track_id == 'A7_nd4d')
+       filter(id == "A7" & track_id == "A7_nd4d")
+A7_nd4e <- nd_df%>%
+       filter(id == "A7" & track_id == "A7_nd4e")
 A7_nd5a <- nd_df%>%
-       filter(id == 'A7' & track_id == 'A7_nd5a')
+       filter(id == "A7" & track_id == "A7_nd5a")
 A7_nd6a <- nd_df%>%
-       filter(id == 'A7' & track_id == 'A7_nd6a')
+       filter(id == "A7" & track_id == "A7_nd6a")
 
 
 # Plot the nonbreeding HR
@@ -100,26 +104,28 @@ A7_HR_plot <-
         geom_spatvector()+
         geom_polygon(A7_HR_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
         geom_polygon(A7_HR_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-    #    geom_path(data = A7_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   geom_path(data = A7_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_stop8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_nd4b, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_nd4c, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_nd4d, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = A7_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd4b, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd4c, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd4d, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd4e, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
         labs(x = " ", y = " ", title = "A7 non-breeding HR and ND movements tracks") +
         theme_minimal()+
         scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
@@ -148,150 +154,123 @@ A7_HR_plot
 # Traccaito difficile da analizzare, da rivedere
 
 # First define the non-breeding period
-        Antares_wintering1 <- st_df%>%
-                          dplyr::filter(stop_id == "Antares_wintering1")%>%
-                          dplyr::select(ID, x, y)%>%
-                          filter_at(vars(x, y), all_vars(!is.na(.)))
+Antares_wintering1 <- st_df%>%
+                  dplyr::filter(stop_id == "Antares_wintering1")%>%
+                  dplyr::select(ID, x, y)%>%
+                  filter_at(vars(x, y), all_vars(!is.na(.)))
 
-        Antares_wintering1$id <- factor(Antares_wintering1$id)
+Antares_wintering1$ID <- factor(Antares_wintering1$ID)
 
-
-        Antares_nonb16 <- st_df%>%
-                          dplyr::filter(ID == 'Antares', year == "2016")%>%
-                          dplyr::select(ID, x, y)%>%
-                          filter_at(vars(x, y), all_vars(!is.na(.)))
-
-        Antares_nonb16$ID <- factor(Antares_nonb16$ID)
-
-        Antares_nonb <- st_df%>%
-                          dplyr::filter(ID == 'Antares')%>%
-                          dplyr::select(ID, x, y)%>%
-                          filter_at(vars(x, y), all_vars(!is.na(.)))
-
-        Antares_nonb$ID <- factor(Antares_nonb$ID)
-
-# Let's create a spatialPoint object
-        Antares_nonb15_sp <- SpatialPointsDataFrame(Antares_nonb15[,c("x", "y")], Antares_nonb15)  
-        Antares_nonb16_sp <- SpatialPointsDataFrame(Antares_nonb16[,c("x", "y")], Antares_nonb16)   
-        Antares_nonb_sp <- SpatialPointsDataFrame(Antares_nonb[,c("x", "y")], Antares_nonb)   
+# Let"s create a spatialPoint object
+        Antares_HR_sp <- SpatialPointsDataFrame(Antares_wintering1[,c("x", "y")], Antares_wintering1)
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
-        Antares_nonb15_kde <- kernelUD(Antares_nonb15_sp[,1], h = "href", grid = 90) # h = "LSCV"
-        Antares_nonb16_kde <- kernelUD(Antares_nonb16_sp[,1], h = "href") # h = "LSCV"
-        Antares_nonb_kde <- kernelUD(Antares_nonb_sp[,1], h = "href") # h = "LSCV"
+        Antares_HR_kde <- kernelUD(Antares_HR_sp[,1], h = "href", grid = 400) # h = "LSCV"
 
 # get Antares non-breeding HR
-        Antares_nonb15_HR <- getverticeshr(Antares_nonb15_kde, percent = 95)
-        Antares_nonb15_HR
+        Antares_HR <- getverticeshr(Antares_HR_kde, percent = 95)
+        Antares_HR
 
-        Antares_nonb15_HRcore <- getverticeshr(Antares_nonb15_kde, percent = 50) # 50% is the value to obtain the core area of the HR
-        Antares_nonb15_HRcore
-
-        Antares_nonb16_HR <- getverticeshr(Antares_nonb16_kde, percent = 95) 
-        Antares_nonb16_HR
-
-        Antares_nonb16_HRcore <- getverticeshr(Antares_nonb16_kde, percent = 50) # 50% is the value to obtain the core area of the HR
-        Antares_nonb16_HRcore
-
-        Antares_nonb_HR <- getverticeshr(Antares_nonb_kde, percent = 95) 
-        Antares_nonb_HR
-
-        Antares_nonb_HRcore <- getverticeshr(Antares_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
-        Antares_nonb_HRcore
+        Antares_HRcore <- getverticeshr(Antares_HR_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+        Antares_HRcore
 
 # fortify() function is needed to plot the non-breeding homerange with ggplot
-       Antares_nonb15_HR <- fortify(Antares_nonb15_HR)
-       Antares_nonb15_HRcore <- fortify(Antares_nonb15_HRcore)
+       Antares_HR <- fortify(Antares_HR)
+       Antares_HRcore <- fortify(Antares_HRcore)
 
-       Antares_nonb16_HR <- fortify(Antares_nonb16_HR)
-       Antares_nonb16_HRcore <- fortify(Antares_nonb16_HRcore)
+#Antares_nonb_HR_1 <- Antares_nonb_HR%>%
+#        filter(piece == 1)
 
-       Antares_nonb_HR <- fortify(Antares_nonb_HR)
-       Antares_nonb_HRcore <- fortify(Antares_nonb_HRcore)
+#Antares_nonb_HR_2 <- Antares_nonb_HR%>%
+#        filter(piece == 2)
 
-Antares_nonb_HR_1 <- Antares_nonb_HR%>%
-        filter(piece == 1)
+#Antares_nonb_HR_3 <- Antares_nonb_HR%>%
+#        filter(piece == 3)
 
-Antares_nonb_HR_2 <- Antares_nonb_HR%>%
-        filter(piece == 2)
-
-Antares_nonb_HR_3 <- Antares_nonb_HR%>%
-        filter(piece == 3)
-
-Antares_nonb_HR_4 <- Antares_nonb_HR%>%
-        filter(piece == 4)
-
-        Antares_nonb1 <- st_df%>%
-                 filter(ID == "Antares" & time >= "2015-08-18 19:00:00" & time <= "2015-09-08 10:30:00")
-
-        Antares_nonb2 <- st_df%>%
-                 filter(ID == "Antares" & time >= "2015-09-13 20:00:00" & time <= "2016-04-04 00:00:00")
-
-        Antares_nonb3 <- st_df%>%
-                 filter(ID == "Antares" & time >= "2016-04-10 17:00:00" & time <= "2016-04-19 11:00:00")
-
-        Antares_nonb4 <- st_df%>%
-                 filter(ID == "Antares" & time >= "2016-04-22 13:00:00" & time <= "2016-05-05 00:00:00")
-
-        Antares_nonb5 <- st_df%>%
-                 filter(ID == "Antares" & time >= "2016-05-06 06:00:00" & time <= "2016-05-14 13:00:00")
-
-        Antares_nonb6 <- st_df%>%
-                 filter(ID == "Antares" & time >= "2016-05-17 19:00:00" & time <= "2016-06-10 07:00:00")
-
-        Antares_nonb7 <- st_df%>%
-                 filter(ID == "Antares" & time >= "2016-06-12 19:00:00")
+#Antares_nonb_HR_4 <- Antares_nonb_HR%>%
+#        filter(piece == 4)
 
 
-        Antares_nd1 <- nd_df%>%
-                 filter(ID == 'Antares' & time >= "2015-08-15 11:00:00" & time <= "2015-08-18 19:00:00")
+Antares_nest <- st_df%>%
+       filter(id == "Antares" & stop_id == "Antares_nest")
+Antares_wintering1 <- st_df%>%
+       filter(id == "Antares" & stop_id == "Antares_wintering1")
+Antares_stop1 <- st_df%>%
+       filter(id == "Antares" & stop_id == "Antares_stop1")
+Antares_stop2 <- st_df%>%
+       filter(id == "Antares" & stop_id == "Antares_stop2")
+Antares_stop3 <- st_df%>%
+       filter(id == "Antares" & stop_id == "Antares_stop3")
+Antares_stop4 <- st_df%>%
+       filter(id == "Antares" & stop_id == "Antares_stop4")
+Antares_stop5 <- st_df%>%
+       filter(id == "Antares" & stop_id == "Antares_stop5")
+Antares_stop6 <- st_df%>%
+       filter(id == "Antares" & stop_id == "Antares_stop6")
+Antares_stop7 <- st_df%>%
+       filter(id == "Antares" & stop_id == "Antares_stop7")
+Antares_stop8 <- st_df%>%
+       filter(id == "Antares" & stop_id == "Antares_stop8")
+Antares_stop9 <- st_df%>%
+       filter(id == "Antares" & stop_id == "Antares_stop9")
+Antares_end <- st_df%>%
+       filter(id == "Antares" & stop_id == "Antares_end")
 
-        Antares_nd2 <- nd_df%>%
-                 filter(ID == "Antares" & time >= "2015-09-08 10:30:00" & time <= "2015-09-13 20:00:00")
-
-        Antares_nd3 <- nd_df%>%
-                 filter(ID == "Antares" & time >= "2016-04-04 00:00:00" & time <= "2016-04-10 17:00:00")
-
-        Antares_nd4 <- nd_df%>%
-                 filter(ID == "Antares" & time >= "2016-04-19 11:00:00" & time <= "2016-04-22 13:00:00")
-
-        Antares_nd5 <- nd_df%>%
-                 filter(ID == "Antares" & time >= "2016-05-05 00:00:00" & time <= "2016-05-06 06:00:00")
-
-        Antares_nd6 <- nd_df%>%
-                 filter(ID == "Antares" & time >= "2016-05-14 13:00:00" & time <= "2016-05-17 19:00:00")
-
-        Antares_nd7 <- nd_df%>%
-                 filter(ID == "Antares" & time >= "2016-06-10 07:00:00" & time <= "2016-06-12 19:00:00")
+Antares_nd1a <- nd_df%>%
+       filter(id == "Antares" & track_id == "Antares_nd1a")
+Antares_nd2a <- nd_df%>%
+       filter(id == "Antares" & track_id == "Antares_nd2a")
+Antares_nd2b <- nd_df%>%
+       filter(id == "Antares" & track_id == "Antares_nd2b")
+Antares_nd3a <- nd_df%>%
+       filter(id == "Antares" & track_id == "Antares_nd3a")
+Antares_nd3b <- nd_df%>%
+       filter(id == "Antares" & track_id == "Antares_nd3b")
+Antares_nd3c <- nd_df%>%
+       filter(id == "Antares" & track_id == "Antares_nd3c")
+Antares_nd3d <- nd_df%>%
+       filter(id == "Antares" & track_id == "Antares_nd3d")
+Antares_nd4a <- nd_df%>%
+       filter(id == "Antares" & track_id == "Antares_nd4a")
+Antares_nd4b <- nd_df%>%
+       filter(id == "Antares" & track_id == "Antares_nd4b")
+Antares_nd5a <- nd_df%>%
+       filter(id == "Antares" & track_id == "Antares_nd5a")
 
 
 # Plot the non-breeding homerange
-       Antares_HR_plot <- 
+Antares_HR_plot <- 
        ggplot(Antares_eu_utm) +
        geom_spatvector()+
-       #geom_polygon(Antares_nonb16_HR, mapping = aes(x=long, y=lat), fill = "light blue") +
-       #geom_polygon(Antares_nonb16_HRcore, mapping = aes(x=long, y=lat), fill = "dark blue") +
-       #geom_polygon(Antares_nonb15_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-       #geom_polygon(Antares_nonb15_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-       geom_polygon(Antares_nonb_HR_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-       geom_polygon(Antares_nonb_HR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-       geom_polygon(Antares_nonb_HR_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-       geom_polygon(Antares_nonb_HR_4, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-       geom_polygon(Antares_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-       geom_path(data = Antares_nonb1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nonb2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nonb3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nonb4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nonb5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nonb6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nonb7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd4, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd5, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd6, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd7, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
+       geom_polygon(Antares_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_polygon(Antares_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+    #   geom_polygon(Antares_nonb_HR_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+    #   geom_polygon(Antares_nonb_HR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+    #   geom_polygon(Antares_nonb_HR_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+    #   geom_polygon(Antares_nonb_HR_4, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+    #   geom_polygon(Antares_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+       geom_path(data = Antares_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd2b, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd3c, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd3d, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd4b, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
        labs(x = " ", y = " ", title = "Antares non-breeding HR and ND movements tracks") +
        theme_minimal()+
  scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
@@ -313,33 +292,20 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
 # ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/Antares_HR_ND_plot.jpg", plot = Antares_HR_plot)
 
 
-# Non-breeding ltraj object
-
-   # Let's create a ltraj object with UTM coordinates
-          
-        Antares_nonb_lt <- st_df%>%
-                          dplyr::filter(ID == 'Antares')
-
-        Antares_nonb_lt <- as.ltraj(Antares_nonb_lt[, c("x", "y")],
-                              date = Antares_nonb_lt$time, 
-                              id = Antares_nonb_lt$ID,
-                              typeII=TRUE)
-
-
 #######
 # CAM # OK
 #######
 
 # First define the non-breeding period
-        CAM_nonb <- st_df%>%
-                          dplyr::filter(ID == 'CAM')%>%
+        CAM_wintering1 <- st_df%>%
+                          dplyr::filter(stop_id == "CAM_wintering1")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
-        CAM_nonb$ID <- factor(CAM_nonb$ID)
+        CAM_wintering1$ID <- factor(CAM_wintering1$ID)
 
-# Let's create a spatialPoint object
-        CAM_nonb_sp <- SpatialPointsDataFrame(CAM_nonb[,c("x", "y")], CAM_nonb)   
+# Let"s create a spatialPoint object
+        CAM_nonb_sp <- SpatialPointsDataFrame(CAM_wintering1[,c("x", "y")], CAM_wintering1)   
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
         CAM_nonb_kde <- kernelUD(CAM_nonb_sp[,1], h = "href", grid = 400) # h = "LSCV"
@@ -355,29 +321,48 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
        CAM_nonb_HR <- fortify(CAM_nonb_HR)
        CAM_nonb_HRcore <- fortify(CAM_nonb_HRcore)
 
-        CAM_nd1 <- nd_df%>%
-                 filter(ID == 'CAM' & time >= "2016-04-14 06:00:00" & time <= "2016-04-19 20:00:00")
 
-        CAM_nd2 <- nd_df%>%
-                 filter(ID == "CAM" & time >= "2016-05-03 08:00:00" & time <= "2016-05-06 18:00:00")
+CAM_nest <- st_df%>%
+       filter(id == "CAM" & stop_id == "CAM_nest")
+CAM_stop1 <- st_df%>%
+       filter(id == "CAM" & stop_id == "CAM_stop1")
+CAM_stop2 <- st_df%>%
+       filter(id == "CAM" & stop_id == "CAM_stop2")
+CAM_stop3 <- st_df%>%
+       filter(id == "CAM" & stop_id == "CAM_stop3")
+CAM_stop4 <- st_df%>%
+       filter(id == "CAM" & stop_id == "CAM_stop4")
+CAM_end <- st_df%>%
+       filter(id == "CAM" & stop_id == "CAM_end")
 
-        CAM_nd3 <- nd_df%>%
-                 filter(ID == "CAM" & time >= "2016-05-20 05:00:00" & time <= "2016-05-24 18:00:00")
-
-        CAM_nd4 <- nd_df%>%
-                 filter(ID == "CAM" & time >= "2016-07-02 23:00:00" & time <= "2016-07-06 20:00:00")
+CAM_nd1a <- nd_df%>%
+       filter(id == "CAM" & track_id == "CAM_nd1a")
+CAM_nd1b <- nd_df%>%
+       filter(id == "CAM" & track_id == "CAM_nd1b")
+CAM_nd2a <- nd_df%>%
+       filter(id == "CAM" & track_id == "CAM_nd2a")
+CAM_nd3a <- nd_df%>%
+       filter(id == "CAM" & track_id == "CAM_nd3a")
+CAM_nd4a <- nd_df%>%
+       filter(id == "CAM" & track_id == "CAM_nd4a")
 
 # Plot the non-breeding homerange
        CAM_HR_plot <- 
                  ggplot(CAM_eu_utm) +
                  geom_spatvector()+
-                 geom_polygon(CAM_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-                 geom_polygon(CAM_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-                 geom_path(data = CAM_nonb, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_nd4, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+               #  geom_polygon(CAM_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+               #  geom_polygon(CAM_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+                 geom_path(data = CAM_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_nd1b, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
                  labs(x = " ", y = " ", title = "CAM non-breeding HR and ND movements tracks") +
                  theme_minimal()+
  scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
@@ -404,49 +389,59 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
 #########
 
 # First define the non-breeding period
-        CBK_nonb <- st_df%>%
-                          dplyr::filter(ID == 'CBK')%>%
+        CBK_wintering1 <- st_df%>%
+                          dplyr::filter(stop_id == "CBK_wintering1")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
-        CBK_nonb$ID <- factor(CBK_nonb$ID)
+        CBK_wintering1$ID <- factor(CBK_wintering1$ID)
 
-# Let's create a spatialPoint object
-        CBK_nonb_sp <- SpatialPointsDataFrame(CBK_nonb[,c("x", "y")], CBK_nonb)   
+# Let"s create a spatialPoint object
+        CBK_HR_sp <- SpatialPointsDataFrame(CBK_wintering1[,c("x", "y")], CBK_wintering1)   
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
-        CBK_nonb_kde <- kernelUD(CBK_nonb_sp[,1], h = "href", grid = 200) # h = "LSCV"
+        CBK_HR_kde <- kernelUD(CBK_HR_sp[,1], h = "href", grid = 200) # h = "LSCV"
 
 # get CBK non-breeding HR
-        CBK_nonb_HR <- getverticeshr(CBK_nonb_kde, percent = 95) # 50% is the value to obtain the core area of the HR
-        CBK_nonb_HR
+        CBK_HR <- getverticeshr(CBK_HR_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+        CBK_HR
 
-        CBK_nonb_HRcore <- getverticeshr(CBK_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
-        CBK_nonb_HRcore
+        CBK_HRcore <- getverticeshr(CBK_HR_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+        CBK_HRcore
 
 # fortify() function is needed to plot the non-breeding homerange with ggplot
-       CBK_nonb_HR <- fortify(CBK_nonb_HR)
-       CBK_nonb_HRcore <- fortify(CBK_nonb_HRcore)
+       CBK_HR <- fortify(CBK_HR)
+       CBK_HRcore <- fortify(CBK_HRcore)
 
-        CBK_nd1 <- nd_df%>%
-                 filter(ID == 'CBK' & time >= '2013-08-15 00:00:00' & time <= '2013-08-21 12:00:00')
+CBK_nest <- st_df%>%
+       filter(id == "CBK" & stop_id == "CBK_nest")
+CBK_stop1a <- st_df%>%
+       filter(id == "CBK" & stop_id == "CBK_stop1a")
+CBK_stop2a <- st_df%>%
+       filter(id == "CBK" & stop_id == "CBK_stop2a")
+CBK_end <- st_df%>%
+       filter(id == "CBK" & stop_id == "CBK_end")
 
-        CBK_nd2 <- nd_df%>%
-                 filter(ID == 'CBK' & time >= '2014-03-20 04:30:00' & time <= '2014-03-22 10:30:00')
-
-        CBK_nd3 <- nd_df%>%
-                 filter(ID == 'CBK' & time >= '2014-04-08 06:30:00' & time <= '2014-04-12 11:00:00')
+CBK_nd1a <- nd_df%>%
+       filter(id == "CBK" & track_id == "CBK_nd1a")
+CBK_nd2a <- nd_df%>%
+       filter(id == "CBK" & track_id == "CBK_nd2a")
+CBK_nd3a <- nd_df%>%
+       filter(id == "CBK" & track_id == "CBK_nd3a")
 
 # Plot the non-breeding homerange
        CBK_HR_plot <- 
                  ggplot(CBK_eu_utm) +
                  geom_spatvector()+
-                 geom_polygon(CBK_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-                 geom_polygon(CBK_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-                 geom_path(data = CBK_nonb, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CBK_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CBK_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CBK_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+                 geom_polygon(CBK_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                 geom_polygon(CBK_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+                 geom_path(data = CBK_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CBK_stop1a, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CBK_stop2a, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CBK_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CBK_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CBK_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CBK_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
                  labs(x = " ", y = " ", title = "CBK non-breeding HR and ND movements tracks") +
                  theme_minimal()+
  scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
@@ -468,34 +463,43 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
 # ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/CBK_HR_ND_plot.jpg", plot = CBK_HR_plot)
 
 
+
+        ### RIPRENDI DA QUI
+
+
+
+
+
+
+
 #########
 # "CIV" # OK
 #########
 
 # First define the non-breeding period
         CIV_nonb <- st_df%>%
-                          dplyr::filter(ID == 'CIV')%>%
+                          dplyr::filter(ID == "CIV")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         CIV_nonb$ID <- factor(CIV_nonb$ID)
 
         CIV_nonb1516 <- st_df%>%
-                          dplyr::filter(ID == 'CIV' & time >= "2014-10-22 12:00:00" & time <= '2015-06-04 03:00:00' |
-                                        ID == 'CIV' & time >= '2015-11-26 24:00:00' & time <= '2016-03-29 00:01:00')%>%
+                          dplyr::filter(ID == "CIV" & time >= "2014-10-22 12:00:00" & time <= "2015-06-04 03:00:00" |
+                                        ID == "CIV" & time >= "2015-11-26 24:00:00" & time <= "2016-03-29 00:01:00")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         CIV_nonb1516$ID <- factor(CIV_nonb1516$ID)
 
         CIV_nonb16 <- st_df%>%
-                          dplyr::filter(ID == 'CIV', year == "2016")%>%
+                          dplyr::filter(ID == "CIV", year == "2016")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         CIV_nonb16$ID <- factor(CIV_nonb16$ID)
 
-# Let's create a spatialPoint object
+# Let"s create a spatialPoint object
         CIV_nonb_sp <- SpatialPointsDataFrame(CIV_nonb[,c("x", "y")], CIV_nonb)
         CIV_nonb1516_sp <- SpatialPointsDataFrame(CIV_nonb1516[,c("x", "y")], CIV_nonb1516)
         CIV_nonb16_sp <- SpatialPointsDataFrame(CIV_nonb16[,c("x", "y")], CIV_nonb16) 
@@ -526,54 +530,54 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
        CIV_nonb1516_HRcore <- fortify(CIV_nonb1516_HRcore)
 
         CIV_nonb <- st_df%>%
-                 filter( ID == 'CIV' & time >= "2014-10-22 12:00:00" & time <= '2015-06-04 03:00:00' |
-     ID == 'CIV' & time >= '2015-11-26 24:00:00' & time <= '2016-03-29 00:01:00')
+                 filter( ID == "CIV" & time >= "2014-10-22 12:00:00" & time <= "2015-06-04 03:00:00" |
+     ID == "CIV" & time >= "2015-11-26 24:00:00" & time <= "2016-03-29 00:01:00")
 
         CIV_nd14 <- nd_df%>%
-                 filter( ID == 'CIV' & time >= "2014-08-16 10:00:00" & time <= "2014-08-22 06:00:00" |
-     ID == 'CIV' & time >= "2014-09-11 08:00:00" & time <= "2014-09-13 17:00:00" |
-     ID == 'CIV' & time >= "2014-10-21 08:00:00" & time <= "2014-10-21 21:00:00")
+                 filter( ID == "CIV" & time >= "2014-08-16 10:00:00" & time <= "2014-08-22 06:00:00" |
+     ID == "CIV" & time >= "2014-09-11 08:00:00" & time <= "2014-09-13 17:00:00" |
+     ID == "CIV" & time >= "2014-10-21 08:00:00" & time <= "2014-10-21 21:00:00")
 
         CIV_nd15 <- nd_df%>%
-                 filter(ID == 'CIV' & time >= "2015-03-21 02:00:00" & time <= "2015-03-21 24:00:00" |
-     ID == 'CIV' & time >= "2015-06-04 04:00:00" & time <= "2015-06-22 18:00:00" |
-     ID == 'CIV' & time >= "2015-08-13 06:00:00" & time <= "2015-08-14 00:00:00" |
-     ID == 'CIV' & time >= "2015-11-21 16:00:00" & time <= "2015-11-27 00:00:00")
+                 filter(ID == "CIV" & time >= "2015-03-21 02:00:00" & time <= "2015-03-21 24:00:00" |
+     ID == "CIV" & time >= "2015-06-04 04:00:00" & time <= "2015-06-22 18:00:00" |
+     ID == "CIV" & time >= "2015-08-13 06:00:00" & time <= "2015-08-14 00:00:00" |
+     ID == "CIV" & time >= "2015-11-21 16:00:00" & time <= "2015-11-27 00:00:00")
 
         CIV_nd16 <- nd_df%>%
-                 filter( ID == 'CIV' & time >= '2016-03-28 18:00:00' & time <= '2016-04-01 06:00:00' |
-     ID == 'CIV' & time >= '2016-04-15 06:00:00' & time <= '2016-04-18 22:00:00' |
-     ID == 'CIV' & time >= '2016-10-28 06:00:00' & time <= '2016-10-30 06:00:00')
+                 filter( ID == "CIV" & time >= "2016-03-28 18:00:00" & time <= "2016-04-01 06:00:00" |
+     ID == "CIV" & time >= "2016-04-15 06:00:00" & time <= "2016-04-18 22:00:00" |
+     ID == "CIV" & time >= "2016-10-28 06:00:00" & time <= "2016-10-30 06:00:00")
 
           CIV_nd1 <- nd_df%>%
-                 filter(ID == 'CIV' & time >= "2014-08-16 10:00:00" & time <= "2014-08-22 06:00:00")
+                 filter(ID == "CIV" & time >= "2014-08-16 10:00:00" & time <= "2014-08-22 06:00:00")
 
           CIV_nd2 <- nd_df%>%
-                 filter(ID == 'CIV' & time >= "2014-09-11 08:00:00" & time <= "2014-09-13 17:00:00")
+                 filter(ID == "CIV" & time >= "2014-09-11 08:00:00" & time <= "2014-09-13 17:00:00")
 
           CIV_nd3 <- nd_df%>%
-                 filter(ID == 'CIV' & time >= "2014-10-21 08:00:00" & time <= "2014-10-21 21:00:00")
+                 filter(ID == "CIV" & time >= "2014-10-21 08:00:00" & time <= "2014-10-21 21:00:00")
 
           CIV_nd4 <- nd_df%>%
-                 filter(ID == 'CIV' & time >= "2015-03-21 02:00:00" & time <= "2015-03-21 24:00:00")
+                 filter(ID == "CIV" & time >= "2015-03-21 02:00:00" & time <= "2015-03-21 24:00:00")
 
           CIV_nd5 <- nd_df%>%
-                 filter(ID == 'CIV' & time >= "2015-06-04 04:00:00" & time <= "2015-06-22 18:00:00")
+                 filter(ID == "CIV" & time >= "2015-06-04 04:00:00" & time <= "2015-06-22 18:00:00")
 
           CIV_nd6 <- nd_df%>%
-                 filter(ID == 'CIV' & time >= "2015-08-13 06:00:00" & time <= "2015-08-14 00:00:00")
+                 filter(ID == "CIV" & time >= "2015-08-13 06:00:00" & time <= "2015-08-14 00:00:00")
 
           CIV_nd7 <- nd_df%>%
-                 filter(ID == 'CIV' & time >= "2015-11-21 16:00:00" & time <= "2015-11-27 00:00:00")
+                 filter(ID == "CIV" & time >= "2015-11-21 16:00:00" & time <= "2015-11-27 00:00:00")
 
           CIV_nd8 <- nd_df%>%
-                 filter( ID == 'CIV' & time >= '2016-03-28 18:00:00' & time <= '2016-04-01 06:00:00')
+                 filter( ID == "CIV" & time >= "2016-03-28 18:00:00" & time <= "2016-04-01 06:00:00")
 
           CIV_nd9 <- nd_df%>%
-                 filter(ID == 'CIV' & time >= '2016-04-15 06:00:00' & time <= '2016-04-18 22:00:00')
+                 filter(ID == "CIV" & time >= "2016-04-15 06:00:00" & time <= "2016-04-18 22:00:00")
 
           CIV_nd10 <- nd_df%>%
-                 filter(ID == 'CIV' & time >= '2016-10-28 06:00:00' & time <= '2016-10-30 06:00:00')
+                 filter(ID == "CIV" & time >= "2016-10-28 06:00:00" & time <= "2016-10-30 06:00:00")
 
 # Plot the non-breeding homerange    
        CIV_HR_plot <- 
@@ -628,7 +632,7 @@ Antares_nonb_HR_4 <- Antares_nonb_HR%>%
 
         E7_wintering1$ID <- factor(E7_wintering1$ID)
 
-# Let's create a spatialPoint object
+# Let"s create a spatialPoint object
         E7_wHR_sp <- SpatialPointsDataFrame(E7_wintering1[,c("x", "y")], E7_wintering1)   
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
@@ -772,10 +776,10 @@ E7_wHR_3 <- E7_wHR_HR%>%
 
 # Non-breeding ltraj object
 
-   # Let's create a ltraj object with UTM coordinates
+   # Let"s create a ltraj object with UTM coordinates
           
         E7_nonb_lt <- st_df%>%
-                          dplyr::filter(ID == 'E7')
+                          dplyr::filter(ID == "E7")
 
         E7_nonb_lt <- as.ltraj(E7_nonb_lt[, c("x", "y")],
                               date = E7_nonb_lt$time, 
@@ -788,13 +792,13 @@ E7_wHR_3 <- E7_wHR_HR%>%
 
 # First define the non-breeding period
         H7_nonb <- st_df%>%
-                          dplyr::filter(ID == 'H7' & time >= '2013-08-09 15:30:00' & time <= '2015-04-02 05:00:00')%>%
+                          dplyr::filter(ID == "H7" & time >= "2013-08-09 15:30:00" & time <= "2015-04-02 05:00:00")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         H7_nonb$ID <- factor(H7_nonb$ID)
 
-# Let's create a spatialPoint object
+# Let"s create a spatialPoint object
         H7_nonb_sp <- SpatialPointsDataFrame(H7_nonb[,c("x", "y")], H7_nonb)
 
 
@@ -813,26 +817,26 @@ E7_wHR_3 <- E7_wHR_HR%>%
        H7_nonb_HRcore <- fortify(H7_nonb_HRcore)
 
 H7_nonb1 <- st_df%>%
-                 filter(ID == 'H7' & time >= '2013-08-09 15:30:00' & time <= '2015-04-02 05:00:00')
+                 filter(ID == "H7" & time >= "2013-08-09 15:30:00" & time <= "2015-04-02 05:00:00")
 
 H7_nonb2 <- st_df%>%
-                 filter(ID == 'H7' & time >= '2015-04-11 13:00:00' & time <= '2015-04-20 13:00:00')
+                 filter(ID == "H7" & time >= "2015-04-11 13:00:00" & time <= "2015-04-20 13:00:00")
 
 H7_nonb3 <- st_df%>%
-                 filter(ID == 'H7' & time >= '2015-04-30 16:00:00' & time <= '2015-05-03 05:00:00')
+                 filter(ID == "H7" & time >= "2015-04-30 16:00:00" & time <= "2015-05-03 05:00:00")
 
 H7_nonb4 <- st_df%>%
-                 filter(ID == 'H7' & time >= '2015-05-03 11:00:00')
+                 filter(ID == "H7" & time >= "2015-05-03 11:00:00")
 
 H7_nd1 <- nd_df%>%
-                 filter(ID == 'H7' & time >= '2013-08-04 09:30:00' & time <= '2013-08-09 15:30:00')
+                 filter(ID == "H7" & time >= "2013-08-04 09:30:00" & time <= "2013-08-09 15:30:00")
 
 H7_nd2 <- nd_df%>%
-                 filter(ID == 'H7' & time >= '2015-04-02 05:00:00' & time <= '2015-04-11 13:00:00')
+                 filter(ID == "H7" & time >= "2015-04-02 05:00:00" & time <= "2015-04-11 13:00:00")
 
 H7_nd3 <- nd_df%>%
-                 filter(ID == 'H7' & time >= '2015-04-20 13:00:00' & time <= '2015-04-30 16:00:00'|
-                       ID == 'H7' & time >= '2015-05-03 05:00:00' & time <= '2015-05-03 11:00:00')
+                 filter(ID == "H7" & time >= "2015-04-20 13:00:00" & time <= "2015-04-30 16:00:00"|
+                       ID == "H7" & time >= "2015-05-03 05:00:00" & time <= "2015-05-03 11:00:00")
 
 # Plot the non-breeding homerange  -> H7_eu_utm
        H7_HR_plot <- 
@@ -869,10 +873,10 @@ H7_nd3 <- nd_df%>%
 
 # Non-breeding ltraj object
 
-   # Let's create a ltraj object with UTM coordinates
+   # Let"s create a ltraj object with UTM coordinates
           
         H7_nonb_lt <- osprey%>%
-                          dplyr::filter(ID == 'H7' & time >= '2013-08-10 00:00:00' & time <= '2015-04-02 05:00:00')
+                          dplyr::filter(ID == "H7" & time >= "2013-08-10 00:00:00" & time <= "2015-04-02 05:00:00")
 
         H7_nonb_lt <- as.ltraj(H7_nonb_lt[, c("x", "y")],
                               date = H7_nonb_lt$time, 
@@ -885,20 +889,20 @@ H7_nd3 <- nd_df%>%
 
 # First define the non-breeding period
         IAB_nonb1 <- st_df%>%
-                          dplyr::filter(ID == 'IAB' & time >= '2018-08-12 20:00:00' & time <= '2019-03-26 11:00:00')%>%
+                          dplyr::filter(ID == "IAB" & time >= "2018-08-12 20:00:00" & time <= "2019-03-26 11:00:00")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         IAB_nonb1$ID <- factor(IAB_nonb1$ID)
 
         IAB_nonb9 <- st_df%>%
-                          dplyr::filter(ID == 'IAB' & time >= '2019-10-30 09:00:00' & time <= '2020-03-16 00:00:00')%>%
+                          dplyr::filter(ID == "IAB" & time >= "2019-10-30 09:00:00" & time <= "2020-03-16 00:00:00")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         IAB_nonb9$ID <- factor(IAB_nonb9$ID)
 
-# Let's create a spatialPoint object
+# Let"s create a spatialPoint object
         IAB_nonb1_sp <- SpatialPointsDataFrame(IAB_nonb1[,c("x", "y")], IAB_nonb1)
         IAB_nonb9_sp <- SpatialPointsDataFrame(IAB_nonb9[,c("x", "y")], IAB_nonb9)
 
@@ -927,57 +931,57 @@ H7_nd3 <- nd_df%>%
        IAB_nonb9_HRcore <- fortify(IAB_nonb9_HRcore)
 
         IAB_nonb1 <- st_df%>%
-                 filter(ID == 'IAB' & time >= '2018-08-12 20:00:00' & time <= '2019-03-26 11:00:00')
+                 filter(ID == "IAB" & time >= "2018-08-12 20:00:00" & time <= "2019-03-26 11:00:00")
 
         IAB_nonb2 <- st_df%>%
-                 filter(ID == 'IAB' & time >= '2019-03-28 14:00:00' & time <= '2019-04-19 00:00:00')
+                 filter(ID == "IAB" & time >= "2019-03-28 14:00:00" & time <= "2019-04-19 00:00:00")
 
         IAB_nonb3 <- st_df%>%
-                 filter(ID == 'IAB' & time >= '2019-04-23 24:00:00' & time <= '2019-05-05 06:00:00')
+                 filter(ID == "IAB" & time >= "2019-04-23 24:00:00" & time <= "2019-05-05 06:00:00")
 
         IAB_nonb4 <- st_df%>%
-                 filter(ID == 'IAB' & time >= '2019-05-12 14:00:00' & time <= '2019-05-15 21:00:00')
+                 filter(ID == "IAB" & time >= "2019-05-12 14:00:00" & time <= "2019-05-15 21:00:00")
 
         IAB_nonb5 <- st_df%>%
-                 filter(ID == 'IAB' & time >= '2019-05-20 13:00:00' & time <= '2019-05-29 15:00:00')
+                 filter(ID == "IAB" & time >= "2019-05-20 13:00:00" & time <= "2019-05-29 15:00:00")
 
         IAB_nonb6 <- st_df%>%
-                 filter(ID == 'IAB' & time >= '2019-06-02 16:00:00' & time <= '2019-06-08 09:00:00')
+                 filter(ID == "IAB" & time >= "2019-06-02 16:00:00" & time <= "2019-06-08 09:00:00")
 
         IAB_nonb7 <- st_df%>%
-                 filter(ID == 'IAB' & time >= '2019-06-10 17:00:00' & time <= '2019-09-07 11:00:00')
+                 filter(ID == "IAB" & time >= "2019-06-10 17:00:00" & time <= "2019-09-07 11:00:00")
 
         IAB_nonb8 <- st_df%>%
-                 filter(ID == 'IAB' & time >= '2019-09-11 15:00:00' & time <= '2019-10-29 08:00:00')
+                 filter(ID == "IAB" & time >= "2019-09-11 15:00:00" & time <= "2019-10-29 08:00:00")
 
         IAB_nonb9 <- st_df%>%
-                 filter(ID == 'IAB' & time >= '2019-10-30 09:00:00' & time <= '2020-03-16 00:00:00')
+                 filter(ID == "IAB" & time >= "2019-10-30 09:00:00" & time <= "2020-03-16 00:00:00")
 
         IAB_nd1 <- nd_df%>%
-                 filter(ID == 'IAB' & time >= '2018-08-07 11:00:00' & time <= '2018-08-12 20:00:00')
+                 filter(ID == "IAB" & time >= "2018-08-07 11:00:00" & time <= "2018-08-12 20:00:00")
 
         IAB_nd2 <- nd_df%>%
-                 filter(ID == 'IAB' & time >= '2019-03-26 11:00:00' & time <= '2019-03-28 14:00:00')
+                 filter(ID == "IAB" & time >= "2019-03-26 11:00:00" & time <= "2019-03-28 14:00:00")
 
         IAB_nd3 <- nd_df%>%
-                 filter( ID == 'IAB' & time >= '2019-04-19 00:00:00' & time <= '2019-04-23 24:00:00')
+                 filter( ID == "IAB" & time >= "2019-04-19 00:00:00" & time <= "2019-04-23 24:00:00")
 
         IAB_nd4 <- nd_df%>%
-                 filter(ID == 'IAB' & time >= '2019-05-05 06:00:00' & time <= '2019-05-12 14:00:00' |
-                       ID == 'IAB' & time >= '2019-05-15 21:00:00' & time <= '2019-05-20 13:00:00')
+                 filter(ID == "IAB" & time >= "2019-05-05 06:00:00" & time <= "2019-05-12 14:00:00" |
+                       ID == "IAB" & time >= "2019-05-15 21:00:00" & time <= "2019-05-20 13:00:00")
 
         IAB_nd5 <- nd_df%>%
-                 filter(ID == 'IAB' & time >= '2019-05-29 15:00:00' & time <= '2019-06-02 16:00:00' |
-                       ID == 'IAB' & time >= '2019-06-08 09:00:00' & time <= '2019-06-10 17:00:00')
+                 filter(ID == "IAB" & time >= "2019-05-29 15:00:00" & time <= "2019-06-02 16:00:00" |
+                       ID == "IAB" & time >= "2019-06-08 09:00:00" & time <= "2019-06-10 17:00:00")
 
         IAB_nd6 <- nd_df%>%
-                 filter(ID == 'IAB' & time >= '2019-09-07 11:00:00' & time <= '2019-09-11 15:00:00')
+                 filter(ID == "IAB" & time >= "2019-09-07 11:00:00" & time <= "2019-09-11 15:00:00")
 
         IAB_nd7 <- nd_df%>%
-                 filter(ID == 'IAB' & time >= '2019-10-29 08:00:00' & time <= '2019-10-30 09:00:00')
+                 filter(ID == "IAB" & time >= "2019-10-29 08:00:00" & time <= "2019-10-30 09:00:00")
 
         IAB_nd8 <- nd_df%>%
-                 filter(ID == 'IAB' & time >= '2020-03-16 00:00:00')
+                 filter(ID == "IAB" & time >= "2020-03-16 00:00:00")
 
 
 # Plot the non-breeding homerange
@@ -1030,20 +1034,20 @@ H7_nd3 <- nd_df%>%
 
 # First define the non-breeding period
         IAD_nonbHR1 <- st_df%>%
-                          dplyr::filter( ID == 'IAD' & time >= '2016-08-25 11:00:00' & time <= '2018-02-04 18:00:00')%>%
+                          dplyr::filter( ID == "IAD" & time >= "2016-08-25 11:00:00" & time <= "2018-02-04 18:00:00")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         IAD_nonbHR1$ID <- factor(IAD_nonbHR1$ID)
 
         IAD_nonbHR4 <- st_df%>%
-                          dplyr::filter(ID == 'IAD' & time >= '2018-12-20 15:00:00' & time <= '2019-03-04 10:00:00')%>%
+                          dplyr::filter(ID == "IAD" & time >= "2018-12-20 15:00:00" & time <= "2019-03-04 10:00:00")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         IAD_nonbHR4$ID <- factor(IAD_nonbHR4$ID)
 
-# Let's create a spatialPoint object
+# Let"s create a spatialPoint object
         IAD_nonb_sp <- SpatialPointsDataFrame(IAD_nonb[,c("x", "y")], IAD_nonb)   
         IAD_nonbHR1_sp <- SpatialPointsDataFrame(IAD_nonbHR1[,c("x", "y")], IAD_nonbHR1)   
         IAD_nonbHR4_sp <- SpatialPointsDataFrame(IAD_nonbHR4[,c("x", "y")], IAD_nonbHR4)
@@ -1083,67 +1087,67 @@ H7_nd3 <- nd_df%>%
         IAD_nonbHR4_HRcore <- fortify(IAD_nonbHR4_HRcore)
 
         IAD <- osprey%>%
-                 filter(ID == 'IAD')
+                 filter(ID == "IAD")
 
         IAD_nd16 <- nd_df%>%
-                 filter(ID == 'IAD' & time >= '2016-08-20 09:00:00' & time <= '2016-08-25 11:00:00')
+                 filter(ID == "IAD" & time >= "2016-08-20 09:00:00" & time <= "2016-08-25 11:00:00")
 
         IAD_nd18 <- nd_df%>%
-                 filter(ID == 'IAD' & time >= '2018-02-04 18:00:00' & time <= '2018-02-07 19:00:00' | 
-                        ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00' |
-                        ID == 'IAD' & time >= '2018-12-15 00:00:00' & time <= '2018-12-20 15:00:00')
+                 filter(ID == "IAD" & time >= "2018-02-04 18:00:00" & time <= "2018-02-07 19:00:00" | 
+                        ID == "IAD" & time >= "2018-03-28 08:00:00" & time <= "2018-06-12 14:00:00" |
+                        ID == "IAD" & time >= "2018-12-15 00:00:00" & time <= "2018-12-20 15:00:00")
 
         IAD_nd19 <- nd_df%>%
-                 filter(ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-04-01 17:00:00' |
-                         ID == 'IAD' & time >= '2019-04-05 10:00:00' & time <= '2019-04-09 17:00:00' |
-                         ID == 'IAD' & time >= '2019-04-14 20:00:00' & time <= '2019-04-19 13:00:00' |
-                         ID == 'IAD' & time >= '2019-04-21 06:00:00' & time <= '2019-04-21 20:00:00' |
-                         ID == 'IAD' & time >= '2019-04-29 09:00:00' & time <= '2019-05-01 21:00:00' |
-                         ID == 'IAD' & time >= '2019-07-08 09:00:00' & time <= '2019-07-15 18:00:00')
+                 filter(ID == "IAD" & time >= "2019-03-04 10:00:00" & time <= "2019-04-01 17:00:00" |
+                         ID == "IAD" & time >= "2019-04-05 10:00:00" & time <= "2019-04-09 17:00:00" |
+                         ID == "IAD" & time >= "2019-04-14 20:00:00" & time <= "2019-04-19 13:00:00" |
+                         ID == "IAD" & time >= "2019-04-21 06:00:00" & time <= "2019-04-21 20:00:00" |
+                         ID == "IAD" & time >= "2019-04-29 09:00:00" & time <= "2019-05-01 21:00:00" |
+                         ID == "IAD" & time >= "2019-07-08 09:00:00" & time <= "2019-07-15 18:00:00")
 
 IAD_nd19t <- nd_df%>%
-                 filter(ID == 'IAD' & time >= '2019-04-14 20:00:00' & time <= '2019-04-19 13:00:00')
+                 filter(ID == "IAD" & time >= "2019-04-14 20:00:00" & time <= "2019-04-19 13:00:00")
 
 IAD_nd1 <- nd_df%>%
-                 filter(ID == 'IAD' & time >= '2016-08-20 09:00:00' & time <= '2016-08-25 11:00:00')
+                 filter(ID == "IAD" & time >= "2016-08-20 09:00:00" & time <= "2016-08-25 11:00:00")
 IAD_nd2 <- nd_df%>%
-                 filter(ID == 'IAD' & time >= '2018-02-04 18:00:00' & time <= '2018-02-07 19:00:00')
+                 filter(ID == "IAD" & time >= "2018-02-04 18:00:00" & time <= "2018-02-07 19:00:00")
 IAD_nd3 <- nd_df%>%
-                 filter(ID == 'IAD' & time >= '2018-03-28 08:00:00' & time <= '2018-06-12 14:00:00')
+                 filter(ID == "IAD" & time >= "2018-03-28 08:00:00" & time <= "2018-06-12 14:00:00")
 IAD_nd4 <- nd_df%>%
-                 filter(ID == 'IAD' & time >= '2018-12-15 00:00:00' & time <= '2018-12-20 15:00:00')
+                 filter(ID == "IAD" & time >= "2018-12-15 00:00:00" & time <= "2018-12-20 15:00:00")
 IAD_nd5 <- nd_df%>%
-                 filter(ID == 'IAD' & time >= '2019-03-04 10:00:00' & time <= '2019-04-01 17:00:00' |
-                       ID == 'IAD' & time >= '2019-04-05 10:00:00' & time <= '2019-04-09 17:00:00' |
-                       ID == 'IAD' & time >= '2019-04-14 20:00:00' & time <= '2019-04-19 13:00:00' |
-                       ID == 'IAD' & time >= '2019-04-21 06:00:00' & time <= '2019-04-21 20:00:00' )
+                 filter(ID == "IAD" & time >= "2019-03-04 10:00:00" & time <= "2019-04-01 17:00:00" |
+                       ID == "IAD" & time >= "2019-04-05 10:00:00" & time <= "2019-04-09 17:00:00" |
+                       ID == "IAD" & time >= "2019-04-14 20:00:00" & time <= "2019-04-19 13:00:00" |
+                       ID == "IAD" & time >= "2019-04-21 06:00:00" & time <= "2019-04-21 20:00:00" )
 IAD_nd6 <- nd_df%>%
-                 filter(ID == 'IAD' & time >= '2019-04-29 09:00:00' & time <= '2019-05-01 21:00:00')
+                 filter(ID == "IAD" & time >= "2019-04-29 09:00:00" & time <= "2019-05-01 21:00:00")
 IAD_nd7 <- nd_df%>%
-                 filter(ID == 'IAD' & time >= '2019-07-08 09:00:00' & time <= '2019-07-15 18:00:00')
+                 filter(ID == "IAD" & time >= "2019-07-08 09:00:00" & time <= "2019-07-15 18:00:00")
 
 
 
 IAD_nonb1 <- st_df%>%
-                 filter(ID == 'IAD' & time >= '2016-08-25 11:00:00' & time <= '2018-02-04 18:00:00')
+                 filter(ID == "IAD" & time >= "2016-08-25 11:00:00" & time <= "2018-02-04 18:00:00")
 IAD_nonb2 <- st_df%>%
-                 filter(ID == 'IAD' & time >= '2018-02-07 19:00:00' & time <= '2018-03-28 08:00:00')
+                 filter(ID == "IAD" & time >= "2018-02-07 19:00:00" & time <= "2018-03-28 08:00:00")
 IAD_nonb3 <- st_df%>%
-                 filter(ID == 'IAD' & time >= '2018-06-12 14:00:00' & time <= '2018-12-15 00:00:00')
+                 filter(ID == "IAD" & time >= "2018-06-12 14:00:00" & time <= "2018-12-15 00:00:00")
 IAD_nonb4 <- st_df%>%
-                 filter(ID == 'IAD' & time >= '2018-12-20 15:00:00' & time <= '2019-03-04 10:00:00')
+                 filter(ID == "IAD" & time >= "2018-12-20 15:00:00" & time <= "2019-03-04 10:00:00")
 IAD_nonb5 <- st_df%>%
-                 filter(ID == 'IAD' & time >= '2019-04-01 17:00:00' & time <= '2019-04-05 10:00:00')
+                 filter(ID == "IAD" & time >= "2019-04-01 17:00:00" & time <= "2019-04-05 10:00:00")
 IAD_nonb6 <- st_df%>%
-                 filter(ID == 'IAD' & time >= '2019-04-09 17:00:00' & time <= '2019-04-14 20:00:00')
+                 filter(ID == "IAD" & time >= "2019-04-09 17:00:00" & time <= "2019-04-14 20:00:00")
 IAD_nonb7 <- st_df%>%
-                 filter(ID == 'IAD' & time >= '2019-04-19 13:00:00' & time <= '2019-04-21 06:00:00')
+                 filter(ID == "IAD" & time >= "2019-04-19 13:00:00" & time <= "2019-04-21 06:00:00")
 IAD_nonb8 <- st_df%>%
-                 filter(ID == 'IAD' & time >= '2019-04-21 20:00:00' & time <= '2019-04-29 09:00:00')
+                 filter(ID == "IAD" & time >= "2019-04-21 20:00:00" & time <= "2019-04-29 09:00:00")
 IAD_nonb9 <- st_df%>%
-                 filter(ID == 'IAD' & time >= '2019-05-01 21:00:00' & time <= '2019-07-08 09:00:00')
+                 filter(ID == "IAD" & time >= "2019-05-01 21:00:00" & time <= "2019-07-08 09:00:00")
 IAD_nonb10 <- st_df%>%
-                 filter(ID == 'IAD' & time >= '2019-07-15 18:00:00')
+                 filter(ID == "IAD" & time >= "2019-07-15 18:00:00")
 
 # Plot the non-breeding homerange  
        IAD_HR_plot <- 
@@ -1201,17 +1205,17 @@ IAD_nonb10 <- st_df%>%
 
 # First define the non-breeding period
         IBH_nonb <- st_df%>%
-                          dplyr::filter(ID == 'IBH')%>%
+                          dplyr::filter(ID == "IBH")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         IBH_nonb$ID <- factor(IBH_nonb$ID)
 
         IBH_nonb1 <- st_df%>%
-                 filter(ID == 'IBH' & time >= '2020-08-15 15:00:00' & time <= '2022-04-09 06:00:00')
+                 filter(ID == "IBH" & time >= "2020-08-15 15:00:00" & time <= "2022-04-09 06:00:00")
 
 
-# Let's create a spatialPoint object
+# Let"s create a spatialPoint object
         IBH_nonb1_sp <- SpatialPointsDataFrame(IBH_nonb1[,c("x", "y")], IBH_nonb1)   
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
@@ -1253,37 +1257,37 @@ IAD_nonb10 <- st_df%>%
                                         filter(id == "IBH_2021")
 
           IBH_nonb2 <- st_df%>%
-                 filter(ID == 'IBH' & time >= '2022-04-11 19:00:00' & time <= '2022-04-19 12:00:00')
+                 filter(ID == "IBH" & time >= "2022-04-11 19:00:00" & time <= "2022-04-19 12:00:00")
 
           IBH_nonb3 <- st_df%>%
-                 filter(ID == 'IBH' & time >= '2022-04-24 15:00:00'  & time <= '2022-04-29 09:00:00')
+                 filter(ID == "IBH" & time >= "2022-04-24 15:00:00"  & time <= "2022-04-29 09:00:00")
 
           IBH_nonb4 <- st_df%>%
-                 filter(ID == 'IBH' & time >= '2022-05-01 18:00:00' & time <= '2022-05-04 09:00:00')
+                 filter(ID == "IBH" & time >= "2022-05-01 18:00:00" & time <= "2022-05-04 09:00:00")
 
           IBH_nonb5 <- st_df%>%
-                 filter(ID == 'IBH' & time >= '2022-05-04 16:00:00'  & time <= '2022-05-10 09:00:00')
+                 filter(ID == "IBH" & time >= "2022-05-04 16:00:00"  & time <= "2022-05-10 09:00:00")
 
           IBH_nonb6 <- st_df%>%
-                 filter(ID == 'IBH' & time >= '2022-05-13 17:00:00')
+                 filter(ID == "IBH" & time >= "2022-05-13 17:00:00")
        
         IBH_nd1 <- nd_df%>%
-                 filter(ID == 'IBH' & time >= '2020-08-07 07:00:00' & time <= '2020-08-15 15:00:00')
+                 filter(ID == "IBH" & time >= "2020-08-07 07:00:00" & time <= "2020-08-15 15:00:00")
 
         IBH_nd2 <- nd_df%>%
-                 filter(ID == 'IBH' & time >= '2022-04-09 06:00:00' & time <= '2022-04-11 19:00:00')
+                 filter(ID == "IBH" & time >= "2022-04-09 06:00:00" & time <= "2022-04-11 19:00:00")
 
         IBH_nd3 <- nd_df%>%
-                 filter(ID == 'IBH' & time >= '2022-04-19 12:00:00' & time <= '2022-04-24 15:00:00')
+                 filter(ID == "IBH" & time >= "2022-04-19 12:00:00" & time <= "2022-04-24 15:00:00")
 
         IBH_nd4 <- nd_df%>%
-                 filter(ID == 'IBH' & time >= '2022-04-29 09:00:00' & time <= '2022-05-01 18:00:00')
+                 filter(ID == "IBH" & time >= "2022-04-29 09:00:00" & time <= "2022-05-01 18:00:00")
 
         IBH_nd5 <- nd_df%>%
-                 filter(ID == 'IBH' & time >= '2022-05-04 09:00:00' & time <= '2022-05-04 16:00:00')
+                 filter(ID == "IBH" & time >= "2022-05-04 09:00:00" & time <= "2022-05-04 16:00:00")
 
         IBH_nd6 <- nd_df%>%
-                 filter( ID == 'IBH' & time >= '2022-05-10 09:00:00'  & time <= '2022-05-13 17:00:00')
+                 filter( ID == "IBH" & time >= "2022-05-10 09:00:00"  & time <= "2022-05-13 17:00:00")
 
 # Plot the non-breeding homerange  
        IBH_HR_plot <- 
@@ -1337,13 +1341,13 @@ IAD_nonb10 <- st_df%>%
 
 # First define the non-breeding period
         IBI_nonb <- st_df%>%
-                          dplyr::filter(ID == 'IBI')%>%
+                          dplyr::filter(ID == "IBI")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         IBI_nonb$ID <- factor(IBI_nonb$ID)
 
-# Let's create a spatialPoint object
+# Let"s create a spatialPoint object
         IBI_nonb_sp <- SpatialPointsDataFrame(IBI_nonb[,c("x", "y")], IBI_nonb)   
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
@@ -1362,13 +1366,13 @@ IAD_nonb10 <- st_df%>%
 
 
           IBI_nonb_HR1 <- IBI_nonb_HR%>%
-                    filter(id == 'IBI' & group == 'IBI.1')
+                    filter(id == "IBI" & group == "IBI.1")
 
           IBI_nonb_HR2 <- IBI_nonb_HR%>%
-                    filter(id == 'IBI' & group == 'IBI.2')
+                    filter(id == "IBI" & group == "IBI.2")
 
           IBI_nonb_HR3 <- IBI_nonb_HR%>%
-                    filter(id == 'IBI' & group == 'IBI.3')
+                    filter(id == "IBI" & group == "IBI.3")
 
         IBI_nonb1 <- st_df%>%
                  filter(ID == "IBI" & time >= "2017-07-27 20:00:00" & time <= "2017-08-19 08:00:00")
@@ -1377,7 +1381,7 @@ IAD_nonb10 <- st_df%>%
                  filter(ID == "IBI" & time >= "2017-08-20 15:00:00")
 
         IBI_nd1 <- nd_df%>%
-                 filter(ID == 'IBI' & time >= "2017-07-21 05:00:00" & time <= "2017-07-27 20:00:00")
+                 filter(ID == "IBI" & time >= "2017-07-21 05:00:00" & time <= "2017-07-27 20:00:00")
 
         IBI_nd2 <- nd_df%>%
                  filter(ID == "IBI" & time >= "2017-08-19 08:00:00" & time <= "2017-08-20 15:00:00")
@@ -1423,13 +1427,13 @@ IAD_nonb10 <- st_df%>%
 
 # First define the non-breeding period
         IBK_nonb <- st_df%>%
-                          dplyr::filter(ID == 'IBK')%>%
+                          dplyr::filter(ID == "IBK")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         IBK_nonb$ID <- factor(IBK_nonb$ID)
 
-# Let's create a spatialPoint object
+# Let"s create a spatialPoint object
         IBK_nonb_sp <- SpatialPointsDataFrame(IBK_nonb[,c("x", "y")], IBK_nonb)   
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
@@ -1447,25 +1451,25 @@ IAD_nonb10 <- st_df%>%
        IBK_nonb_HRcore <- fortify(IBK_nonb_HRcore)
 
         IBK_nonb1 <- st_df%>%
-                 filter(ID == 'IBK' & time <= '2020-08-20 09:00:00')
+                 filter(ID == "IBK" & time <= "2020-08-20 09:00:00")
 
         IBK_nonb2 <- st_df%>%
-                 filter(ID == 'IBK' & time >= '2020-08-23 11:00:00' & time <= '2021-06-27 09:00:00')
+                 filter(ID == "IBK" & time >= "2020-08-23 11:00:00" & time <= "2021-06-27 09:00:00")
 
         IBK_nonb3 <- st_df%>%
-                 filter(ID == 'IBK' & time >= '2021-07-02 12:00:00' & time <= '2022-04-15 00:00:00')
+                 filter(ID == "IBK" & time >= "2021-07-02 12:00:00" & time <= "2022-04-15 00:00:00")
 
         IBK_nonb4 <- st_df%>%
-                 filter(ID == 'IBK' & time >= '2022-04-17 20:00:00')
+                 filter(ID == "IBK" & time >= "2022-04-17 20:00:00")
 
         IBK_nd1 <- nd_df%>%
-                 filter(ID == 'IBK' & time >= '2020-08-20 09:00:00' & time <= '2020-08-23 11:00:00')
+                 filter(ID == "IBK" & time >= "2020-08-20 09:00:00" & time <= "2020-08-23 11:00:00")
 
         IBK_nd2 <- nd_df%>%
-                 filter(ID == 'IBK' & time >= '2021-06-27 09:00:00' & time <= '2021-07-02 12:00:00')
+                 filter(ID == "IBK" & time >= "2021-06-27 09:00:00" & time <= "2021-07-02 12:00:00")
 
         IBK_nd3 <- nd_df%>%
-                 filter(ID == 'IBK' & time >= '2022-04-15 00:00:00' & time <= '2022-04-17 20:00:00')
+                 filter(ID == "IBK" & time >= "2022-04-15 00:00:00" & time <= "2022-04-17 20:00:00")
 
 # Plot the non-breeding homerange
        IBK_HR_plot <- 
@@ -1507,15 +1511,15 @@ IAD_nonb10 <- st_df%>%
 
 # First define the non-breeding period
         IBS_nonb <- st_df%>%
-                          dplyr::filter(ID == 'IBS' & time >= '2020-08-18 19:00:00' & time <= '2021-01-14 06:00:00' |
-                                       ID == 'IBS' & time >= '2021-05-01 16:00:00' & time <= '2022-03-22 00:00:00' |
-                                        ID == 'IBS' & time >= '2022-06-04 15:00:00' & time <= '2023-02-08 16:00:00')%>%
+                          dplyr::filter(ID == "IBS" & time >= "2020-08-18 19:00:00" & time <= "2021-01-14 06:00:00" |
+                                       ID == "IBS" & time >= "2021-05-01 16:00:00" & time <= "2022-03-22 00:00:00" |
+                                        ID == "IBS" & time >= "2022-06-04 15:00:00" & time <= "2023-02-08 16:00:00")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         IBS_nonb$ID <- factor(IBS_nonb$ID)
 
-# Let's create a spatialPoint object
+# Let"s create a spatialPoint object
         IBS_nonb_sp <- SpatialPointsDataFrame(IBS_nonb[,c("x", "y")], IBS_nonb)   
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
@@ -1539,75 +1543,75 @@ IAD_nonb10 <- st_df%>%
                     filter(group == "IBS.2")
 
         IBS_nonb1 <- st_df%>%
-                 filter(ID == 'IBS' & time >= '2020-07-28 19:00:00' & time <= '2020-08-01 09:00:00')%>%
+                 filter(ID == "IBS" & time >= "2020-07-28 19:00:00" & time <= "2020-08-01 09:00:00")%>%
                  arrange(time)
 
         IBS_nonb2 <- st_df%>%
-                 filter(ID == 'IBS' & time >= '2020-08-02 18:00:00' & time <= '2020-08-07 08:00:00')%>%
+                 filter(ID == "IBS" & time >= "2020-08-02 18:00:00" & time <= "2020-08-07 08:00:00")%>%
                  arrange(time)
 
         IBS_nonb3 <- st_df%>%
-                 filter(ID == 'IBS' & time >= '2020-08-18 19:00:00' & time <= '2021-01-14 06:00:00')%>%
+                 filter(ID == "IBS" & time >= "2020-08-18 19:00:00" & time <= "2021-01-14 06:00:00")%>%
                  arrange(time)
 
         IBS_nonb4 <- st_df%>%
-                 filter(ID == 'IBS' & time >= '2021-01-15 16:00:00' & time <= '2021-02-15 09:00:00')%>%
+                 filter(ID == "IBS" & time >= "2021-01-15 16:00:00" & time <= "2021-02-15 09:00:00")%>%
                  arrange(time)
 
         IBS_nonb5 <- st_df%>%
-                 filter(ID == 'IBS' & time >= '2021-02-15 17:00:00' & time <= '2021-04-26 11:00:00')%>%
+                 filter(ID == "IBS" & time >= "2021-02-15 17:00:00" & time <= "2021-04-26 11:00:00")%>%
                  arrange(time)
 
         IBS_nonb6 <- st_df%>%
-                 filter( ID == 'IBS' & time >= '2021-05-01 16:00:00' & time <= '2022-03-22 00:00:00')%>%
+                 filter( ID == "IBS" & time >= "2021-05-01 16:00:00" & time <= "2022-03-22 00:00:00")%>%
                  arrange(time)
 
         IBS_nonb7 <- st_df%>%
-                 filter(ID == 'IBS' & time >= '2022-06-04 15:00:00' & time <= '2023-02-08 16:00:00')%>%
+                 filter(ID == "IBS" & time >= "2022-06-04 15:00:00" & time <= "2023-02-08 16:00:00")%>%
                  arrange(time)
 
         IBS_nonb8 <- st_df%>%
-                 filter(ID == 'IBS' & time >= '2023-02-15 00:00:00' & time <= '2023-02-19 04:00:00')%>%
+                 filter(ID == "IBS" & time >= "2023-02-15 00:00:00" & time <= "2023-02-19 04:00:00")%>%
                  arrange(time)
 
         IBS_nonb9 <- st_df%>%
-                 filter(ID == 'IBS' & time >= '2023-02-23 20:00:00' & time <= '2023-03-01 16:00:00')%>%
+                 filter(ID == "IBS" & time >= "2023-02-23 20:00:00" & time <= "2023-03-01 16:00:00")%>%
                  arrange(time)
 
         IBS_nonb10 <- st_df%>%
-                 filter(ID == 'IBS' & time >= '2023-03-08 24:00:00' & time <= '2023-03-13 04:00:00')%>%
+                 filter(ID == "IBS" & time >= "2023-03-08 24:00:00" & time <= "2023-03-13 04:00:00")%>%
                  arrange(time)
 
         IBS_nonb11 <- st_df%>%
-                 filter(ID == 'IBS' & time >= '2023-03-16 17:00:0')%>%
+                 filter(ID == "IBS" & time >= "2023-03-16 17:00:0")%>%
                  arrange(time)
 
         IBS_nd1 <- nd_df%>%
-                 filter(ID == 'IBS' & time >= '2020-07-27 00:00:00' & time <= '2020-07-28 19:00:00')%>%
+                 filter(ID == "IBS" & time >= "2020-07-27 00:00:00" & time <= "2020-07-28 19:00:00")%>%
                  arrange(time)
 
         IBS_nd2 <- nd_df%>%
-                 filter(ID == 'IBS' & time >= "2020-08-07 08:00:00" & time <= "2020-08-18 19:00:00")%>%
+                 filter(ID == "IBS" & time >= "2020-08-07 08:00:00" & time <= "2020-08-18 19:00:00")%>%
                  arrange(time)
 
         IBS_nd3 <- nd_df%>%
-                 filter(ID == 'IBS' & time >= "2021-01-14 06:00:00" & time <= "2021-01-15 16:00:00")%>%
+                 filter(ID == "IBS" & time >= "2021-01-14 06:00:00" & time <= "2021-01-15 16:00:00")%>%
                  arrange(time)
 
         IBS_nd4 <- nd_df%>%
-                 filter(ID == 'IBS' & time >= "2021-02-15 09:00:00" & time <= "2021-02-16 17:00:00")%>%
+                 filter(ID == "IBS" & time >= "2021-02-15 09:00:00" & time <= "2021-02-16 17:00:00")%>%
                  arrange(time)
 
         IBS_nd5 <- nd_df%>%
-                 filter(ID == 'IBS' & time >= "2021-04-26 11:00:00" & time <= "2021-05-01 16:00:00")%>%
+                 filter(ID == "IBS" & time >= "2021-04-26 11:00:00" & time <= "2021-05-01 16:00:00")%>%
                  arrange(time)
 
         IBS_nd6 <- nd_df%>%
-                 filter(ID == 'IBS' & time >= '2022-03-22 00:00:00' & time <= '2022-06-04 15:00:00')%>%
+                 filter(ID == "IBS" & time >= "2022-03-22 00:00:00" & time <= "2022-06-04 15:00:00")%>%
                  arrange(time)
 
         IBS_nd7 <- nd_df%>%
-                 filter(ID == 'IBS' & time >= '2023-02-08 16:00:00' & time <= '2023-02-15 00:00:00' |
+                 filter(ID == "IBS" & time >= "2023-02-08 16:00:00" & time <= "2023-02-15 00:00:00" |
                        ID == "IBS" & time >= "2023-02-19 04:00:00" & time <= "2023-02-23 20:00:00")%>%
                  arrange(time)
 
@@ -1668,13 +1672,13 @@ IAD_nonb10 <- st_df%>%
 
 # First define the non-breeding period
         ICZ_nonb <- st_df%>%
-                          dplyr::filter(ID == 'ICZ')%>%
+                          dplyr::filter(ID == "ICZ")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         ICZ_nonb$ID <- factor(ICZ_nonb$ID)
 
-# Let's create a spatialPoint object
+# Let"s create a spatialPoint object
         ICZ_nonb_sp <- SpatialPointsDataFrame(ICZ_nonb[,c("x", "y")], ICZ_nonb)   
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
@@ -1691,25 +1695,25 @@ IAD_nonb10 <- st_df%>%
        ICZ_nonb_HR <- fortify(ICZ_nonb_HR)
 
         ICZ_nonb1 <- st_df%>%
-                 filter(ID == 'ICZ' & time <= '2019-09-09 08:00:00')
+                 filter(ID == "ICZ" & time <= "2019-09-09 08:00:00")
 
         ICZ_nonb2 <- st_df%>%
-                 filter(ID == 'ICZ' & time >= '2019-09-14 14:30:00' & time <= '2020-04-11 10:00:00')
+                 filter(ID == "ICZ" & time >= "2019-09-14 14:30:00" & time <= "2020-04-11 10:00:00")
 
         ICZ_nonb3 <- st_df%>%
-                 filter(ID == 'ICZ' & time >= '2020-04-24 00:00:00' & time <= '2020-05-02 14:30:00')
+                 filter(ID == "ICZ" & time >= "2020-04-24 00:00:00" & time <= "2020-05-02 14:30:00")
 
         ICZ_nonb4 <- st_df%>%
-                 filter(ID == 'ICZ' & time >= '2020-05-05 17:00:00')
+                 filter(ID == "ICZ" & time >= "2020-05-05 17:00:00")
 
         ICZ_nd1 <- nd_df%>%
-                filter(ID == 'ICZ' & time >= '2019-09-09 08:00:00' & time <= '2019-09-14 14:30:00')
+                filter(ID == "ICZ" & time >= "2019-09-09 08:00:00" & time <= "2019-09-14 14:30:00")
 
         ICZ_nd2 <- nd_df%>%
-                filter(ID == 'ICZ' & time >= '2020-04-11 10:00:00' & time <= '2020-04-24 00:00:00')
+                filter(ID == "ICZ" & time >= "2020-04-11 10:00:00" & time <= "2020-04-24 00:00:00")
 
         ICZ_nd3 <- nd_df%>%
-                filter(ID == 'ICZ' & time >= '2020-05-02 14:30:00' & time <= '2020-05-05 17:00:00')
+                filter(ID == "ICZ" & time >= "2020-05-02 14:30:00" & time <= "2020-05-05 17:00:00")
 
 
 # Plot the non-breeding homerange
@@ -1753,13 +1757,13 @@ ICZ_HR_plot
 
 # First define the non-breeding period
         IFP_nonb <- st_df%>%
-                          dplyr::filter(ID == 'IFP')%>%
+                          dplyr::filter(ID == "IFP")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
         IFP_nonb$ID <- factor(IFP_nonb$ID)
 
-# Let's create a spatialPoint object
+# Let"s create a spatialPoint object
         IFP_nonb_sp <- SpatialPointsDataFrame(IFP_nonb[,c("x", "y")], IFP_nonb)   
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
@@ -1777,13 +1781,13 @@ ICZ_HR_plot
        IFP_nonb_HRcore <- fortify(IFP_nonb_HRcore)
 
         IFP_nd22 <- nd_df%>%
-                 filter(ID == 'IFP' & time >= '2022-07-23 06:00:00' & time <= '2022-08-15 00:00:00')
+                 filter(ID == "IFP" & time >= "2022-07-23 06:00:00" & time <= "2022-08-15 00:00:00")
 
         IFP_nd23a <- nd_df%>%
-                 filter(ID == 'IFP' & time >= '2023-04-24 00:00:00' & time <= '2023-04-30 04:00:00')
+                 filter(ID == "IFP" & time >= "2023-04-24 00:00:00" & time <= "2023-04-30 04:00:00")
 
         IFP_nd23b <- nd_df%>%
-                 filter(ID == "IFP" & time >= '2023-05-16 00:00:00' & time <= '2023-06-08 20:00:00')
+                 filter(ID == "IFP" & time >= "2023-05-16 00:00:00" & time <= "2023-06-08 20:00:00")
 
 # Plot the non-breeding homerange
        IFP_HR_plot <- 
@@ -1818,10 +1822,10 @@ ICZ_HR_plot
 
 # Non-breeding ltraj object
 
-   # Let's create a ltraj object with UTM coordinates
+   # Let"s create a ltraj object with UTM coordinates
           
         IFP_nonb_lt <- osprey%>%
-                          dplyr::filter(ID == 'IFP' & time >= '2022-08-15 12:00:00' & time <= '2023-04-24 00:00:00')
+                          dplyr::filter(ID == "IFP" & time >= "2022-08-15 12:00:00" & time <= "2023-04-24 00:00:00")
 
         IFP_nonb_lt <- as.ltraj(IFP_nonb_lt[, c("x", "y")],
                               date = IFP_nonb_lt$time, 
