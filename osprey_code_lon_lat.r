@@ -453,14 +453,16 @@ ibs_lat_time <- ibs_lat_time + xlim(1,365)
   # use this graph to check for departure dates  
 
 natal dispersal travel
+ID == "A7" & time >= "2017-05-14 08:00:00" & time <= "2017-05-15 18:00:00" |
 
 stationary
-
+ID == "A7" & time >= "2017-05-10 24:00:00" & time <= "2017-05-14 08:00:00" |
+ID == "A7" & time >= "2017-05-15 18:00:00" & time <= "2017-05-17 06:00:00" |
 
 
 osp <- osprey%>%
 arrange(time)%>%
-filter()
+filter(ID == "CBK" & time >= "2014-04-08 10:30:00" & time <= "2014-04-12 10:00:00")
 
 osp_lat_time <-
 ggplot(osp, aes(time, lat)) +
