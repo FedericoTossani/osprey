@@ -1231,6 +1231,7 @@ sttraj_df <- st_lt%>%
                     day = as.Date(date),
                     distKM = dist/1000)%>%
           tidyr::unite(id_y, c(ID, year), sep="_", remove = F)%>%
-          select(-c("pkey"))
+          select(-c("pkey"))%>%
+          mutate(id = ID)
  
 
