@@ -141,7 +141,6 @@ A7_HR_plot <-
                                                 "Natal dispersal 10th travel" = "red")) +
         scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                     "Non-Breeding HR core area" = "red")) 
-        
 
 A7_HR_plot
 
@@ -462,143 +461,128 @@ CBK_nd3a <- nd_df%>%
 
 # ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/CBK_HR_ND_plot.jpg", plot = CBK_HR_plot)
 
-
-
-        ### RIPRENDI DA QUI
-
-
-
-
-
-
-
 #########
 # "CIV" # OK
 #########
 
 # First define the non-breeding period
-        CIV_nonb <- st_df%>%
-                          dplyr::filter(ID == "CIV")%>%
+        CIV_wintering1 <- st_df%>%
+                          dplyr::filter(stop_id == "CIV_wintering1")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
-        CIV_nonb$ID <- factor(CIV_nonb$ID)
+        CIV_wintering1$ID <- factor(CIV_wintering1$ID)
 
-        CIV_nonb1516 <- st_df%>%
-                          dplyr::filter(ID == "CIV" & time >= "2014-10-22 12:00:00" & time <= "2015-06-04 03:00:00" |
-                                        ID == "CIV" & time >= "2015-11-26 24:00:00" & time <= "2016-03-29 00:01:00")%>%
+        CIV_wintering2 <- st_df%>%
+                          dplyr::filter(stop_id == "CIV_wintering2")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
-        CIV_nonb1516$ID <- factor(CIV_nonb1516$ID)
-
-        CIV_nonb16 <- st_df%>%
-                          dplyr::filter(ID == "CIV", year == "2016")%>%
-                          dplyr::select(ID, x, y)%>%
-                          filter_at(vars(x, y), all_vars(!is.na(.)))
-
-        CIV_nonb16$ID <- factor(CIV_nonb16$ID)
+        CIV_wintering2$ID <- factor(CIV_wintering2$ID)
 
 # Let"s create a spatialPoint object
-        CIV_nonb_sp <- SpatialPointsDataFrame(CIV_nonb[,c("x", "y")], CIV_nonb)
-        CIV_nonb1516_sp <- SpatialPointsDataFrame(CIV_nonb1516[,c("x", "y")], CIV_nonb1516)
-        CIV_nonb16_sp <- SpatialPointsDataFrame(CIV_nonb16[,c("x", "y")], CIV_nonb16) 
+        CIV_HR1_sp <- SpatialPointsDataFrame(CIV_wintering1[,c("x", "y")], CIV_wintering1)
+        CIV_HR2_sp <- SpatialPointsDataFrame(CIV_wintering2[,c("x", "y")], CIV_wintering2)
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
-        CIV_nonb_kde <- kernelUD(CIV_nonb_sp[,1], h = "href") # h = "LSCV"
-        CIV_nonb1516_kde <- kernelUD(CIV_nonb1516_sp[,1], h = "href", grid = 500) # h = "LSCV"
-        CIV_nonb16_kde <- kernelUD(CIV_nonb16_sp[,1], h = "href", grid = 100) # h = "LSCV"
+        CIV_HR1_kde <- kernelUD(CIV_HR1_sp[,1], h = "href", grid = 400) # h = "LSCV"
+        CIV_HR2_kde <- kernelUD(CIV_HR1_sp[,1], h = "href", grid = 400) # h = "LSCV"
 
 # get CIV non-breeding HR
-        CIV_nonb_HR <- getverticeshr(CIV_nonb_kde, percent = 95) 
-        CIV_nonb_HR
+        CIV_HR1 <- getverticeshr(CIV_HR1_kde, percent = 95) 
+        CIV_HR1
 
-        CIV_nonb_HRcore <- getverticeshr(CIV_nonb_kde, percent = 50) # 50% is the value to obtain the core area of the HR
-        CIV_nonb_HRcore
+        CIV_HR1core <- getverticeshr(CIV_HR1_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+        CIV_HR1core
 
-        CIV_nonb1516_HR <- getverticeshr(CIV_nonb1516_kde, percent = 95) 
-        CIV_nonb1516_HR
+        CIV_HR2 <- getverticeshr(CIV_HR2_kde, percent = 95) 
+        CIV_HR2
 
-        CIV_nonb1516_HRcore <- getverticeshr(CIV_nonb1516_kde, percent = 50) # 50% is the value to obtain the core area of the HR
-        CIV_nonb1516_HRcore
+        CIV_HR2core <- getverticeshr(CIV_HR2_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+        CIV_HR2core
 
 # fortify() function is needed to plot the non-breeding homerange with ggplot
-       CIV_nonb_HR <- fortify(CIV_nonb_HR)
-       CIV_nonb_HRcore <- fortify(CIV_nonb_HRcore)
+       CIV_HR1 <- fortify(CIV_HR1)
+       CIV_HR1core <- fortify(CIV_HR1core)
 
-       CIV_nonb1516_HR <- fortify(CIV_nonb1516_HR)
-       CIV_nonb1516_HRcore <- fortify(CIV_nonb1516_HRcore)
+       CIV_HR2 <- fortify(CIV_HR2)
+       CIV_HR2core <- fortify(CIV_HR2core)
 
-        CIV_nonb <- st_df%>%
-                 filter( ID == "CIV" & time >= "2014-10-22 12:00:00" & time <= "2015-06-04 03:00:00" |
-     ID == "CIV" & time >= "2015-11-26 24:00:00" & time <= "2016-03-29 00:01:00")
 
-        CIV_nd14 <- nd_df%>%
-                 filter( ID == "CIV" & time >= "2014-08-16 10:00:00" & time <= "2014-08-22 06:00:00" |
-     ID == "CIV" & time >= "2014-09-11 08:00:00" & time <= "2014-09-13 17:00:00" |
-     ID == "CIV" & time >= "2014-10-21 08:00:00" & time <= "2014-10-21 21:00:00")
+CIV_nest <- st_df%>%
+       filter(id == "CIV" & stop_id == "CIV_nest")
+CIV_stop1 <- st_df%>%
+       filter(id == "CIV" & stop_id == "CIV_stop1")
+CIV_stop2 <- st_df%>%
+       filter(id == "CIV" & stop_id == "CIV_stop2")
+CIV_wintering1 <- st_df%>%
+       filter(id == "CIV" & stop_id == "CIV_wintering1")
+CIV_stop3 <- st_df%>%
+       filter(id == "CIV" & stop_id == "CIV_stop3")
+CIV_stop4 <- st_df%>%
+       filter(id == "CIV" & stop_id == "CIV_stop4")
+CIV_stop5 <- st_df%>%
+       filter(id == "CIV" & stop_id == "CIV_stop5")
+CIV_wintering2 <- st_df%>%
+       filter(id == "CIV" & stop_id == "CIV_wintering2")
+CIV_stop6 <- st_df%>%
+       filter(id == "CIV" & stop_id == "CIV_stop6")
+CIV_stop7 <- st_df%>%
+       filter(id == "CIV" & stop_id == "CIV_stop7")
+CIV_end <- st_df%>%
+       filter(id == "CIV" & stop_id == "CIV_end")
 
-        CIV_nd15 <- nd_df%>%
-                 filter(ID == "CIV" & time >= "2015-03-21 02:00:00" & time <= "2015-03-21 24:00:00" |
-     ID == "CIV" & time >= "2015-06-04 04:00:00" & time <= "2015-06-22 18:00:00" |
-     ID == "CIV" & time >= "2015-08-13 06:00:00" & time <= "2015-08-14 00:00:00" |
-     ID == "CIV" & time >= "2015-11-21 16:00:00" & time <= "2015-11-27 00:00:00")
+CIV_nd1a <- nd_df%>%
+       filter(id == "CIV" & track_id == "CIV_nd1a")
+CIV_nd2a <- nd_df%>%
+       filter(id == "CIV" & track_id == "CIV_nd2a")
+CIV_nd3a <- nd_df%>%
+       filter(id == "CIV" & track_id == "CIV_nd3a")
+CIV_nd4a <- nd_df%>%
+       filter(id == "CIV" & track_id == "CIV_nd4a")
+CIV_nd5a <- nd_df%>%
+       filter(id == "CIV" & track_id == "CIV_nd5a")
+CIV_nd6a <- nd_df%>%
+       filter(id == "CIV" & track_id == "CIV_nd6a")
+CIV_nd7a <- nd_df%>%
+       filter(id == "CIV" & track_id == "CIV_nd7a")
+CIV_nd8a <- nd_df%>%
+       filter(id == "CIV" & track_id == "CIV_nd8a")
+CIV_nd9a <- nd_df%>%
+       filter(id == "CIV" & track_id == "CIV_nd9a")
+CIV_nd10a <- nd_df%>%
+       filter(id == "CIV" & track_id == "CIV_nd10a")
 
-        CIV_nd16 <- nd_df%>%
-                 filter( ID == "CIV" & time >= "2016-03-28 18:00:00" & time <= "2016-04-01 06:00:00" |
-     ID == "CIV" & time >= "2016-04-15 06:00:00" & time <= "2016-04-18 22:00:00" |
-     ID == "CIV" & time >= "2016-10-28 06:00:00" & time <= "2016-10-30 06:00:00")
-
-          CIV_nd1 <- nd_df%>%
-                 filter(ID == "CIV" & time >= "2014-08-16 10:00:00" & time <= "2014-08-22 06:00:00")
-
-          CIV_nd2 <- nd_df%>%
-                 filter(ID == "CIV" & time >= "2014-09-11 08:00:00" & time <= "2014-09-13 17:00:00")
-
-          CIV_nd3 <- nd_df%>%
-                 filter(ID == "CIV" & time >= "2014-10-21 08:00:00" & time <= "2014-10-21 21:00:00")
-
-          CIV_nd4 <- nd_df%>%
-                 filter(ID == "CIV" & time >= "2015-03-21 02:00:00" & time <= "2015-03-21 24:00:00")
-
-          CIV_nd5 <- nd_df%>%
-                 filter(ID == "CIV" & time >= "2015-06-04 04:00:00" & time <= "2015-06-22 18:00:00")
-
-          CIV_nd6 <- nd_df%>%
-                 filter(ID == "CIV" & time >= "2015-08-13 06:00:00" & time <= "2015-08-14 00:00:00")
-
-          CIV_nd7 <- nd_df%>%
-                 filter(ID == "CIV" & time >= "2015-11-21 16:00:00" & time <= "2015-11-27 00:00:00")
-
-          CIV_nd8 <- nd_df%>%
-                 filter( ID == "CIV" & time >= "2016-03-28 18:00:00" & time <= "2016-04-01 06:00:00")
-
-          CIV_nd9 <- nd_df%>%
-                 filter(ID == "CIV" & time >= "2016-04-15 06:00:00" & time <= "2016-04-18 22:00:00")
-
-          CIV_nd10 <- nd_df%>%
-                 filter(ID == "CIV" & time >= "2016-10-28 06:00:00" & time <= "2016-10-30 06:00:00")
 
 # Plot the non-breeding homerange    
-       CIV_HR_plot <- 
+CIV_HR_plot <- 
        ggplot(CIV_eu_utm) +
        geom_spatvector()+
-       geom_polygon(CIV_nonb1516_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-       geom_polygon(CIV_nonb1516_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-       geom_path(data = CIV_nonb, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       #geom_path(data = CIV_nd14, aes(x = x, y = y, colour = "Natal dispersal 2014"), linewidth = 0.5, lineend = "round") +
-       #geom_path(data = CIV_nd15, aes(x = x, y = y, colour = "Natal dispersal 2015"), linewidth = 0.5, lineend = "round") +
-       #geom_path(data = CIV_nd16, aes(x = x, y = y, colour = "Natal dispersal 2016"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = CIV_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = CIV_nd2, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = CIV_nd3, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = CIV_nd4, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = CIV_nd5, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = CIV_nd6, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = CIV_nd7, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = CIV_nd8, aes(x = x, y = y, colour = "Natal dispersal 8th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = CIV_nd9, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = CIV_nd10, aes(x = x, y = y, colour = "Natal dispersal 10th travel"), linewidth = 0.5, lineend = "round") +
+       geom_polygon(CIV_HR1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_polygon(CIV_HR1core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+       geom_polygon(CIV_HR2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_polygon(CIV_HR2core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+       geom_path(data = CIV_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_wintering2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd7a, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd8a, aes(x = x, y = y, colour = "Natal dispersal 8th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd9a, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd10a, aes(x = x, y = y, colour = "Natal dispersal 10th travel"), linewidth = 0.5, lineend = "round") +
        labs(x = " ", y = " ", title = "CIV non-breeding HR and ND movements tracks") +
        theme_minimal()+
  scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
@@ -633,101 +617,89 @@ CBK_nd3a <- nd_df%>%
         E7_wintering1$ID <- factor(E7_wintering1$ID)
 
 # Let"s create a spatialPoint object
-        E7_wHR_sp <- SpatialPointsDataFrame(E7_wintering1[,c("x", "y")], E7_wintering1)   
+        E7_HR_sp <- SpatialPointsDataFrame(E7_wintering1[,c("x", "y")], E7_wintering1)   
 
 # Here I calculate the non-breeding homerange with a Kernel Density Estimation
-        E7_wHR_kde <- kernelUD(E7_wHR_sp[,1], h = "href", grid=400) # h = "LSCV"
+        E7_HR_kde <- kernelUD(E7_HR_sp[,1], h = "href", grid=400) # h = "LSCV"
 
 # get E7 non-breeding HR
-        E7_wHR_HR <- getverticeshr(E7_wHR_kde, percent = 95) # 50% is the value to obtain the core area of the HR
-        E7_wHR_HR
+        E7_HR <- getverticeshr(E7_HR_kde, percent = 95) # 50% is the value to obtain the core area of the HR
+        E7_HR
 
-        E7_wHR_HRcore <- getverticeshr(E7_wHR_kde, percent = 50) # 50% is the value to obtain the core area of the HR
-        E7_wHR_HRcore
+        E7_HRcore <- getverticeshr(E7_HR_kde, percent = 50) # 50% is the value to obtain the core area of the HR
+        E7_HRcore
 
 # fortify() function is needed to plot the non-breeding homerange with ggplot
-       E7_wHR_HR <- fortify(E7_wHR_HR)
-       E7_wHR_HRcore <- fortify(E7_wHR_HRcore)
+       E7_HR <- fortify(E7_HR)
+       E7_HRcore <- fortify(E7_HRcore)
 
-E7_wHR_1 <- E7_wHR_HR%>%
+E7_HR_1 <- E7_HR%>%
         filter(group == "E7.1")
 
-E7_wHR_2 <- E7_wHR_HR%>%
+E7_HR_2 <- E7_HR%>%
         filter(group == "E7.2")
 
-E7_wHR_3 <- E7_wHR_HR%>%
+E7_HR_3 <- E7_HR%>%
         filter(group == "E7.3")
 
-        E7_nest <- st_df%>%
-                 filter(stop_id == "E7_nest")
+E7_nest <- st_df%>%
+         filter(stop_id == "E7_nest")
+E7_stop1 <- st_df%>%
+         filter(stop_id == "E7_stop1")
+E7_stop2 <- st_df%>%
+         filter(stop_id == "E7_stop2")
+E7_stop3 <- st_df%>%
+         filter(stop_id == "E7_stop3")
+E7_stop4 <- st_df%>%
+         filter(stop_id == "E7_stop4")
+E7_stop5 <- st_df%>%
+         filter(stop_id == "E7_stop5")
+E7_stop6 <- st_df%>%
+         filter(stop_id == "E7_stop6")
+E7_stop7 <- st_df%>%
+         filter(stop_id == "E7_stop7")
+E7_stop8 <- st_df%>%
+         filter(stop_id == "E7_stop8")
+E7_stop9 <- st_df%>%
+         filter(stop_id == "E7_stop9")
+E7_stop10 <- st_df%>%
+         filter(stop_id == "E7_stop10")
+E7_end <- st_df%>%
+         filter(stop_id == "E7_end")
 
-        E7_stop1 <- st_df%>%
-                 filter(stop_id == "E7_stop1")
-
-        E7_stop2 <- st_df%>%
-                 filter(stop_id == "E7_stop2")
-
-        E7_stop3 <- st_df%>%
-                 filter(stop_id == "E7_stop3")
-
-        E7_stop4 <- st_df%>%
-                 filter(stop_id == "E7_stop4")
-
-        E7_stop5 <- st_df%>%
-                 filter(stop_id == "E7_stop5")
-
-        E7_stop6 <- st_df%>%
-                 filter(stop_id == "E7_stop6")
-
-        E7_stop7 <- st_df%>%
-                 filter(stop_id == "E7_stop7")
-
-        E7_stop8 <- st_df%>%
-                 filter(stop_id == "E7_stop8")
-
-        E7_stop9 <- st_df%>%
-                 filter(stop_id == "E7_stop9")
-
-        E7_stop10 <- st_df%>%
-                 filter(stop_id == "E7_stop10")
-
-        E7_end <- st_df%>%
-                 filter(stop_id == "E7_end")
-
-
-        E7_nd1 <- nd_df%>%
-                 filter(track_id == "E7_nd1")
-        E7_nd2a <- nd_df%>%
-                 filter(track_id == "E7_nd2a")
-        E7_nd2b <- nd_df%>%
-                 filter(track_id == "E7_nd2b")
-        E7_nd2c <- nd_df%>%
-                 filter(track_id == "E7_nd2c")
-        E7_nd2d <- nd_df%>%
-                 filter(track_id == "E7_nd2d")
-        E7_nd2e <- nd_df%>%
-                 filter(track_id == "E7_nd2e")
-        E7_nd2f <- nd_df%>%
-                 filter(track_id == "E7_nd2f")
-        E7_nd2g <- nd_df%>%
-                 filter(track_id == "E7_nd2g")
-        E7_nd3a <- nd_df%>%
-                 filter(track_id == "E7_nd3a")
-        E7_nd3b <- nd_df%>%
-                 filter(track_id == "E7_nd3b")
-        E7_nd3c <- nd_df%>%
-                 filter(track_id == "E7_nd3c")
-        E7_nd3d <- nd_df%>%
-                 filter(track_id == "E7_nd3d")
+E7_nd1a <- nd_df%>%
+         filter(track_id == "E7_nd1a")
+E7_nd2a <- nd_df%>%
+         filter(track_id == "E7_nd2a")
+E7_nd2b <- nd_df%>%
+         filter(track_id == "E7_nd2b")
+E7_nd2c <- nd_df%>%
+         filter(track_id == "E7_nd2c")
+E7_nd2d <- nd_df%>%
+         filter(track_id == "E7_nd2d")
+E7_nd2e <- nd_df%>%
+         filter(track_id == "E7_nd2e")
+E7_nd2f <- nd_df%>%
+         filter(track_id == "E7_nd2f")
+E7_nd2g <- nd_df%>%
+         filter(track_id == "E7_nd2g")
+E7_nd3a <- nd_df%>%
+         filter(track_id == "E7_nd3a")
+E7_nd3b <- nd_df%>%
+         filter(track_id == "E7_nd3b")
+E7_nd3c <- nd_df%>%
+         filter(track_id == "E7_nd3c")
+E7_nd3d <- nd_df%>%
+         filter(track_id == "E7_nd3d")
 
 # Plot the non-breeding homerange   
-                 E7_HR_plot <- 
+E7_HR_plot <- 
                  ggplot(E7_eu_utm) +
                  geom_spatvector()+
-                 geom_polygon(E7_wHR_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-                 geom_polygon(E7_wHR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-                 geom_polygon(E7_wHR_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-                 geom_polygon(E7_wHR_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+                 geom_polygon(E7_HR_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                 geom_polygon(E7_HR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                 geom_polygon(E7_HR_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                 geom_polygon(E7_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
                  geom_path(data = E7_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
                  geom_path(data = E7_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
                  geom_path(data = E7_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
@@ -741,7 +713,7 @@ E7_wHR_3 <- E7_wHR_HR%>%
                  geom_path(data = E7_stop9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
                  geom_path(data = E7_stop10, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
                  geom_path(data = E7_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd1, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
                  geom_path(data = E7_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
                  geom_path(data = E7_nd2b, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
                  geom_path(data = E7_nd2c, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
@@ -769,34 +741,31 @@ E7_wHR_3 <- E7_wHR_HR%>%
   scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                     "Non-Breeding HR core area" = "red")) 
 
-                 E7_HR_plot
+E7_HR_plot
 
 # ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/E7_HR_ND_plot.jpg", plot = E7_HR_plot)
 
 
-# Non-breeding ltraj object
 
-   # Let"s create a ltraj object with UTM coordinates
-          
-        E7_nonb_lt <- st_df%>%
-                          dplyr::filter(ID == "E7")
 
-        E7_nonb_lt <- as.ltraj(E7_nonb_lt[, c("x", "y")],
-                              date = E7_nonb_lt$time, 
-                              id = E7_nonb_lt$ID,
-                              typeII=TRUE)
+
+
+### RIPRENDI DA QUI
+
+
+
 
 ########
 # "H7" # OK
 ########
 
 # First define the non-breeding period
-        H7_nonb <- st_df%>%
-                          dplyr::filter(ID == "H7" & time >= "2013-08-09 15:30:00" & time <= "2015-04-02 05:00:00")%>%
+        H7_wintering1 <- st_df%>%
+                          dplyr::filter(stop_id == "H7_wintering1")%>%
                           dplyr::select(ID, x, y)%>%
                           filter_at(vars(x, y), all_vars(!is.na(.)))
 
-        H7_nonb$ID <- factor(H7_nonb$ID)
+        H7_wintering1$ID <- factor(H7_wintering1$ID)
 
 # Let"s create a spatialPoint object
         H7_nonb_sp <- SpatialPointsDataFrame(H7_nonb[,c("x", "y")], H7_nonb)
