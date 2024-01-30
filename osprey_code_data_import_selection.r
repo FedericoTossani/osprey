@@ -74,6 +74,7 @@
                               "death_date", "season", "lon", "lat", "signal_interruption_cause", "death_comment")%>%
          unique()
 
+
 # Convert lon and lat columns to a spatial object with WGS84 coordinate system
 osp_hr_v <- vect(osprey, geom = c("lon", "lat"), crs = "+proj=longlat +datum=WGS84")
 
