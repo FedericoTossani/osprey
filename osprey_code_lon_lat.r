@@ -461,7 +461,7 @@ stationary
 
 osp <- osprey%>%
 arrange(time)%>%
-filter(ID == "IBH" & time >= "2022-04-09 08:00:00" & time <= "2022-04-11 18:00:00")
+filter(ID == "IFP" & time >= "2022-07-23 21:00:00" & time <= "2022-07-24 14:30:00")
 
 osp_lat_time <-
 ggplot(osp, aes(time, lat)) +
