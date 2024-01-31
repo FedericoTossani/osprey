@@ -453,15 +453,26 @@ ibs_lat_time <- ibs_lat_time + xlim(1,365)
   # use this graph to check for departure dates  
 
 natal dispersal travel
-ID == "H7" & time >= "2015-04-20 12:00:00" & time <= "2015-04-30 15:30:00"
+ID == "IFP" & time >= "2022-07-23 09:00:00" & time <= "2022-07-24 14:30:00" ~ "IFP_nd1a",
+ID == "IFP" & time >= "2022-07-26 06:00:00" & time <= "2022-07-28 17:30:00" ~ "IFP_nd1b",
+ID == "IFP" & time >= "2023-04-24 07:00:00" & time <= "2023-04-29 18:00:00" ~ "IFP_nd2a",
+ID == "IFP" & time >= "2023-05-16 04:00:00" & time <= "2023-05-17 18:00:00" ~ "IFP_nd3a",
+ID == "IFP" & time >= "2023-05-23 04:00:00" & time <= "2023-05-24 23:00:00" ~ "IFP_nd3b",
+ID == "IFP" & time >= "2023-06-07 06:00:00" & time <= "2023-06-11 17:00:00"~ "IFP_nd4a"
 
 stationary
-
+ID == "IFP" & time <= "2022-07-23 09:00:00" ~ "IFP_nest",
+ID == "IFP" & time >= "2022-07-24 14:30:00" & time <= "2022-07-26 06:00:00" ~ "IFP_stop1",
+ID == "IFP" & time >= "2022-07-28 17:30:00" & time <= "2023-04-24 07:00:00" ~ "IFP_wintering1",
+ID == "IFP" & time >= "2023-04-29 18:00:00" & time <= "2023-05-16 04:00:00" ~ "IFP_stop2",
+ID == "IFP" & time >= "2023-05-17 18:00:00" & time <= "2023-05-23 04:00:00" ~ "IFP_stop3",
+ID == "IFP" & time >= "2023-05-24 23:00:00" & time <= "2023-06-07 06:00:00" ~ "IFP_stop4",
+ID == "IFP" & time >= "2023-06-11 17:00:00" ~ "IFP_end"
 
 
 osp <- osprey%>%
 arrange(time)%>%
-filter(ID == "IFP" & time >= "2022-07-23 21:00:00" & time <= "2022-07-24 14:30:00")
+filter(ID == "IFP" & time >= "2022-07-28 17:30:00" & time <= "2022-08-15 07:00:00")
 
 osp_lat_time <-
 ggplot(osp, aes(time, lat)) +
@@ -481,7 +492,7 @@ osp_lon_lat
 
 
 # plto to check the route
-ggplot(ICZ_eu_utm) + 
+ggplot(IFP_eu_utm) + 
           geom_spatvector()+
           geom_path(data = osp, aes(x = x, y = y, colour = "red"), linewidth = 1, lineend = "round")
 
