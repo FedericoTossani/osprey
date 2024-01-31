@@ -1042,8 +1042,7 @@ st_df <- osprey%>%
                     ID == "IFP" & time >= "2023-04-29 18:00:00" & time <= "2023-05-16 04:00:00" ~ "IFP_stop2",
                     ID == "IFP" & time >= "2023-05-17 18:00:00" & time <= "2023-05-23 04:00:00" ~ "IFP_stop3",
                     ID == "IFP" & time >= "2023-05-24 23:00:00" & time <= "2023-06-07 06:00:00" ~ "IFP_stop4",
-                    ID == "IFP" & time >= "2023-06-11 17:00:00" ~ "IFP_end"),
-                 id = ID)
+                    ID == "IFP" & time >= "2023-06-11 17:00:00" ~ "IFP_end"))
 
 #############################################
 # st_df processing for statistical analysis #
