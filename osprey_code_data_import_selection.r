@@ -453,9 +453,6 @@ nd_df <- nd_df%>%
                               ID == "IFP" & time >= "2023-05-16 04:00:00" & time <= "2023-05-24 23:00:00" ~ "IFP_nd3",
                               ID == "IFP" & time >= "2023-06-07 06:00:00" & time <= "2023-06-11 17:00:00"~ "IFP_nd4"))
 
-nd_df <- nd_df%>%
-          mutate(id = ID)
-
 
 #############################################
 # nd_df processing for statistical analysis #
@@ -487,6 +484,8 @@ nd_with_na
 nd_lt <- as.ltraj(nd[, c("x", "y")],
                     date = nd$time,
                     id = nd$ID,
+                    track_id = nd$track_id,
+                    NDT = nd$NDT,
                     typeII = T)
 
 
@@ -496,20 +495,21 @@ return(dt> (60*60*24))
 }
 
 # Cut the ltraj object based on the time gap
-cut_nd_lt <- cutltraj(nd_lt, "foo(dt)", nextr = TRUE)
+# cut_nd_lt <- cutltraj(nd_lt, "foo(dt)", nextr = TRUE)
 
 
 # create a data frame with trajectory informations
 ndtraj_df <- nd_lt%>%
           ld()%>%
-          mutate(doy = yday(date),
-          year = year(date),
-          day = as.Date(date),
+          rename("time" = "date",
+                 "ID" = "id")%>%
+          mutate(doy = yday(time),
+          year = year(time),
+          day = as.Date(time),
           distKM = dist/1000)%>%
           tidyr::unite(id_y, c(id, year), sep="_", remove = F)%>%
           select(-c("pkey"))%>%
-          mutate(ID = id,
-                    track_id = dplyr::case_when(
+          mutate(track_id = dplyr::case_when(
                               ID == "A7" & time >= "2015-08-14 09:00:00" & time <= "2015-08-17 20:00:00" ~ "A7_nd1a",
                               ID == "A7" & time >= "2017-02-20 06:00:00" & time <= "2017-03-01 14:00:00" ~ "A7_nd2a",
                               ID == "A7" & time >= "2017-03-17 06:00:00" & time <= "2017-04-15 07:00:00" ~ "A7_nd3a",
@@ -1091,6 +1091,8 @@ st_lt <- cutltraj(st_lt, "foo(dt)", nextr = TRUE)
 
 sttraj_df <- st_lt%>%
           ld()%>%
+          rename("time" = "date",
+                 "ID" = "id")%>%
           mutate(doy = yday(date),
                     ymd = as.Date(date),
                     year = year(date),
@@ -1246,7 +1248,5 @@ sttraj_df <- st_lt%>%
                     day = as.Date(date),
                     distKM = dist/1000)%>%
           tidyr::unite(id_y, c(ID, year), sep="_", remove = F)%>%
-          select(-c("pkey"))%>%
-          mutate(id = ID)
- 
+          select(-c("pkey"))
 
