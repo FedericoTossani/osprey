@@ -26,7 +26,7 @@
 
 # export tables to Latex, pay attention to digits arguments
 
-track_duration%>%
+ndt_stat%>%
           kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
 
 
@@ -50,27 +50,27 @@ ggplot(osprey_eu_utm) +
 
 
 
-countries_id <- data.frame(id = c('A7', 'Antares', 'CAM', 'CBK', 'CIV', 'E7', 'H7', 'IAB', 'IAD', 'IBH', 'IBI', 'IBK', 'IBS', 'ICZ', 'IFP'),
-                           countries = c('BIH, HRV, HUN, ITA, SVN', 'FRA, ITA', 'FRA, ITA', 'FRA, ITA', 'DZA, FRA, ITA, TUN', 'AUT, BIH, CHE, DEU, ESP, FRA, HUN, HRV, ITA', 'ESP, FRA, ITA', 'ITA', 'AUT, BEL, BIH, CHE, DEU, ESP, FRA, HUN, HRV, ITA', 'ITA', 'FRA, ITA', 'FRA, ITA', 'ALB, BOH, CHE, ESP, FRA, HVN, ITA, MNE, SVN', 'ITA', 'FRA, ITA'))
+countries_id <- data.frame(ID = c('A7', 'Antares', 'CAM', 'CBK', 'CIV', 'E7', 'H7', 'IAB', 'IAD', 'IBH', 'IBI', 'IBK', 'IBS', 'ICZ', 'IFP'),
+                           countries = c('BIH, HRV, HUN, ITA, SVN', 'FRA, ITA', 'FRA, ITA', 'FRA, ITA', 'DZA, FRA, ITA, TUN', 'AUT, BIH, CHE, DEU, ESP, FRA, HUN, HRV, ITA', 'ESP, FRA, ITA', 'ITA', 'AUT, BEL, BIH, CHE, DEU, ESP, FRA, HUN, HRV, ITA, MNE', 'ITA', 'FRA, ITA', 'FRA, ITA', 'ALB, BOH, CHE, ESP, FRA, HVN, ITA, MNE, SVN', 'ITA', 'FRA, ITA'))
 
 
 # Table reporting first and last day of Natal Dispersal period and whole durations of every animal
 
 nd_duration_id <- ndtraj_df %>%
-          group_by(id, NDT) %>% 
+          group_by(ID, NDT) %>% 
           summarize(start = min(day), end = max(day)) %>%
           mutate(duration = round(difftime(end, start, units = "days")))%>%
-          group_by(id)%>%
+          group_by(ID)%>%
           summarize(start = min(start), end = max(end), duration = sum(duration))%>%
-          left_join(countries_id, by = "id")
+          left_join(countries_id, by = "ID")
 
 nd_duration_id
 
 # Table reporting mean, max duration and standard deviation of Natal Dispersal Travel duration of every animal
 
 nd_duration <- ndtraj_df %>%
-          group_by(id, NDT) %>% 
-          summarize(start = min(date), end = max(date)) %>%
+          group_by(ID, NDT) %>% 
+          summarize(start = min(time), end = max(time)) %>%
           mutate(duration = difftime(end, start, units = "days"))%>%
           summarize(mean_dur = mean(duration),
                     max_dur = max(duration),
@@ -119,17 +119,18 @@ track_duration
 # DF reporting daily distances travelled by each animals
 
 daily_dist_df <- ndtraj_df %>%
-          group_by(id, track_id, day) %>%
+          group_by(ID, track_id, day) %>%
           summarise(daily_dist = sum(distKM, na.rm = TRUE))
 daily_dist_df
 
 
 #  DF reporting mean\max and standard direction of daily distances travelled by each animals
 
-daily_dist_stat <- daily_dist_df%>%
-          group_by (id)%>%
-          summarize(mean_dist = mean(daily_dist, na.rm = TRUE),
                     med_dist = median(daily_dist, na.rm = TRUE),
+
+daily_dist_stat <- daily_dist_df%>%
+          group_by (ID)%>%
+          summarize(mean_dist = mean(daily_dist, na.rm = TRUE),
                     max_dist = max(daily_dist, na.rm = TRUE),
                     sd_dist = sd(daily_dist, na.rm = TRUE))
 daily_dist_stat
@@ -138,12 +139,12 @@ daily_dist_stat
 # Total number of Natal Dispersal Travel made by each animal
 
 ndt_ev <- ndtraj_df%>%
-          group_by(id)%>%
+          group_by(ID)%>%
           summarize(ndt_event = n_distinct(NDT))
 
-ndt_stat <- left_join(ndt_ev, daily_dist_stat, by = "id")
+ndt_stat <- left_join(ndt_ev, daily_dist_stat, by = "ID")
 
-ndt_stat <- left_join(ndt_stat, nd_duration, by = "id")
+ndt_stat <- left_join(ndt_stat, nd_duration, by = "ID")
 
 ndt_stat
 
@@ -190,23 +191,23 @@ summary_nd <- summary_nd%>%
 
 print(summary_nd, n = 150)
 
-
-          dplyr::case_when()
-
  
- dist_control <- stationary_df%>%
+ dist_control <- st_df%>%
            select("date", "burst", "distKM")%>%
            arrange(desc(distKM))
  
  
  
- stopover_df <- stationary_df %>%
-   filter(!grepl("wintering", burst, ignore.case = TRUE))%>%
-   filter(!grepl("nest", burst, ignore.case = TRUE))%>%
-   filter(!grepl("end", burst, ignore.case = TRUE))
- 
+ stopover_df <- st_df %>%
+   filter(!grepl("wintering", stop_id, ignore.case = TRUE))%>%
+   filter(!grepl("nest", stop_id, ignore.case = TRUE))%>%
+   filter(!grepl("end", stop_id, ignore.case = TRUE))
+
+
+write.csv("C:/Tesi/R/osprey/data/stopover_df.csv")
+
  stopover_duration <- stopover_df %>%
-           group_by(ID, burst) %>% 
+           group_by(ID, stop_id) %>% 
            summarize(start = min(date), end = max(date)) %>%
            mutate(duration = difftime(end, start, units = "day"))%>%
            summarize(min_dur = min(duration),
@@ -218,7 +219,7 @@ print(summary_nd, n = 150)
 
 stopover <- stopover_df%>%
           group_by(ID)%>%
-          summarize(tot_stopover = n_distinct(burst))
+          summarize(tot_stopover = n_distinct(stop_id))
 
 stopover_stat <- left_join(stopover, stopover_duration, by = "ID")
 
@@ -226,9 +227,8 @@ stopover_stat
 
 stopoverPA_df <- read.csv("C:/Tesi/R/osprey/data/stopover_PA_32632.csv")
 
- stopoverPA_duration <- stopoverPA_df%>%
-          rename(ID = "id")%>%
-           group_by(ID, burst) %>% 
+stopoverPA_duration <- stopoverPA_df%>%
+           group_by(ID, stop_id) %>% 
            summarize(start = min(date), end = max(date)) %>%
            mutate(duration = difftime(end, start, units = "day"))%>%
            summarize(min_dur = min(duration),
@@ -240,9 +240,8 @@ stopoverPA_df <- read.csv("C:/Tesi/R/osprey/data/stopover_PA_32632.csv")
 
 
 stopoverPA <- stopoverPA_df%>%
-          rename(ID = "id")%>%
           group_by(ID)%>%
-          summarize(tot_stopover = n_distinct(burst))
+          summarize(tot_stopover = n_distinct(stop_id))
 
 stopoverPA_stat <- left_join(stopoverPA, stopoverPA_duration, by = "ID")
 
@@ -254,11 +253,39 @@ stopover_stat_tot <- stopover_stat_tot%>%
           mutate()%>%
           mutate(perc_PA = (as.numeric(tot_durPA)/as.numeric(tot_dur))*100)%>%
           select(-"tot_durPA")
+stopover_stat_tot
 
 GRAFICI 
 # 1. primo plot: mappe gi`a fatte con evidenziati i lde intervellati dalle aree di sosta
 
 # 2. secondo plot: grafico unico con tutti gli individui 
+
+
+
+ndtraj_df$rel.angle_rad <- ndtraj_df$rel.angle * (pi/180)
+
+A7 <- ndtraj_df%>%
+          filter(ID == "A7")
+
+ggplot(A7, aes(x = rel.angle_rad)) +
+  geom_bar(stat = "count") +
+  coord_polar(start = 0) +
+  labs(title = "Circular Plot of Main Direction by NDT", x = "Main Direction (Radians)", y = "Count") +
+  theme_minimal()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Distances #
