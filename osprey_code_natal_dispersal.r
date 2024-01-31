@@ -26,7 +26,7 @@
 
 # export tables to Latex, pay attention to digits arguments
 
-ndt_stat%>%
+track_duration%>%
           kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
 
 
@@ -41,11 +41,14 @@ ndt_stat%>%
 # Code to check which countries are traversed during Natal Dispersal Travel
 
 countries_vis<- ndtraj_df%>%
-          dplyr::filter(NDT == "IBS_nd5")
+          dplyr::filter(ID == "IAD")
 
 ggplot(osprey_eu_utm) + 
           geom_spatvector()+
           geom_path(data = countries_vis, aes(x = x, y = y, colour = "red"), linewidth = 1, lineend = "round")
+
+
+
 
 countries_id <- data.frame(id = c('A7', 'Antares', 'CAM', 'CBK', 'CIV', 'E7', 'H7', 'IAB', 'IAD', 'IBH', 'IBI', 'IBK', 'IBS', 'ICZ', 'IFP'),
                            countries = c('BIH, HRV, HUN, ITA, SVN', 'FRA, ITA', 'FRA, ITA', 'FRA, ITA', 'DZA, FRA, ITA, TUN', 'AUT, BIH, CHE, DEU, ESP, FRA, HUN, HRV, ITA', 'ESP, FRA, ITA', 'ITA', 'AUT, BEL, BIH, CHE, DEU, ESP, FRA, HUN, HRV, ITA', 'ITA', 'FRA, ITA', 'FRA, ITA', 'ALB, BOH, CHE, ESP, FRA, HVN, ITA, MNE, SVN', 'ITA', 'FRA, ITA'))
@@ -79,11 +82,22 @@ nd_duration
 
 ndt_duration <- ndtraj_df %>%
           group_by(NDT) %>% 
-          mutate(start = min(date), end = max(date))%>%
+          mutate(start = min(day), end = max(day))%>%
           mutate(duration = difftime(end, start, units = "days"))%>%
           select("start", "end", "duration")%>%
           unique()
 ndt_duration
+
+# Table reporting every single track (track_id) start/finish date, duration and countries visited by every animal
+
+track_duration <- ndtraj_df %>%
+          filter(ID == "IFP")%>%
+          group_by(track_id) %>% 
+          mutate(start = min(day), end = max(day))%>%
+          mutate(duration = difftime(end, start, units = "days"))%>%
+          select("start", "end", "duration")%>%
+          unique()
+track_duration
 
 
 # Request
