@@ -505,7 +505,7 @@ ndtraj_df <- nd_lt%>%
           year = year(time),
           day = as.Date(time),
           distKM = dist/1000)%>%
-          tidyr::unite(id_y, c(id, year), sep="_", remove = F)%>%
+          tidyr::unite(id_y, c(ID, year), sep="_", remove = F)%>%
           select(-c("pkey"))%>%
           mutate(track_id = dplyr::case_when(
                               ID == "A7" & time >= "2015-08-14 09:00:00" & time <= "2015-08-17 20:00:00" ~ "A7_nd1a",
