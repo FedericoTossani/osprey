@@ -484,8 +484,6 @@ nd_with_na
 nd_lt <- as.ltraj(nd[, c("x", "y")],
                     date = nd$time,
                     id = nd$ID,
-                    track_id = nd$track_id,
-                    NDT = nd$NDT,
                     typeII = T)
 
 
