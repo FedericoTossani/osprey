@@ -41,7 +41,7 @@ ndt_stat%>%
 # Code to check which countries are traversed during Natal Dispersal Travel
 
 countries_vis<- ndtraj_df%>%
-          dplyr::filter(ID == "IAD")
+          dplyr::filter(ID == "A7")
 
 ggplot(osprey_eu_utm) + 
           geom_spatvector()+
@@ -254,6 +254,157 @@ stopover_stat_tot <- stopover_stat_tot%>%
           mutate(perc_PA = (as.numeric(tot_durPA)/as.numeric(tot_dur))*100)%>%
           select(-"tot_durPA")
 stopover_stat_tot
+
+
+
+############################
+# 4. Main directions graph #
+############################
+
+
+#There are a few ways to do this. There is a "zero" argument for rose.diag in this package.
+
+y <- scan() # paste in the values from the question and hit return twice
+y <- circlar(y) # not necessary but prevents a warning
+rose.diag(y, units = 'degrees', zero = pi/2) # units doesn't change the underlying units
+
+#Alternatively you could have set properties of the circular object that you created.
+
+
+%>% 
+          mutate(abs.angle_deg = rel.angle * (180 / pi))
+
+
+id <- ndtraj%>%
+          filter(track_id == "A7_nd4e")
+
+ndtraj_df <- ndtraj_df%>% 
+          mutate(abs.angle_deg = abs.angle * (180 / pi))
+
+y <- id$abs.angle_deg
+y <- circular(y)
+rose.diag(y, bins =8, zero = pi/2, units = 'degrees')
+
+
+### TRAVEL DF DIRECTIONS
+
+ndtraj <- ndtraj_df %>% 
+          mutate(abs.angle_deg = abs.angle * (180 / pi))
+
+not_na_indices <- !is.na(ndtraj$abs.angle_deg)
+ndtraj$abs.angle_deg[not_na_indices] <- ndtraj$abs.angle_deg[not_na_indices] %% 360
+
+# Create a function to map angles to directions
+angle_to_direction <- function(angle_degrees) {
+  if (is.na(angle_degrees)) return("Unknown")  # Handle missing values
+  if (angle_degrees >= 337.5 || angle_degrees < 22.5) return("N")
+  if (angle_degrees >= 22.5 && angle_degrees < 67.5) return("NE")
+  if (angle_degrees >= 67.5 && angle_degrees < 112.5) return("E")
+  if (angle_degrees >= 112.5 && angle_degrees < 157.5) return("SE")
+  if (angle_degrees >= 157.5 && angle_degrees < 202.5) return("S")
+  if (angle_degrees >= 202.5 && angle_degrees < 247.5) return("SW")
+  if (angle_degrees >= 247.5 && angle_degrees < 292.5) return("W")
+  if (angle_degrees >= 292.5 && angle_degrees < 337.5) return("NW")
+}
+
+# Apply the function to create the direction variable
+ndtraj <- ndtraj %>% 
+          mutate(direction = sapply(abs.angle_deg, angle_to_direction))
+
+ndtraj$direction <- as.factor(ndtraj$direction)
+
+
+track_dir <- ndtraj%>%
+          group_by(ID, track_id)%>%
+          summarize(mean_angle = mean(abs.angle_deg))%>% 
+          mutate(direction = sapply(mean_angle, angle_to_direction))
+track_dir
+
+
+north_ndtraj <- ndtraj %>%
+  mutate(abs.angle_deg = if_else(abs.angle_deg >= 337.5, abs.angle_deg - 360, abs.angle_deg))
+
+north_ndtraj$abs.angle_deg <- !is.na(north_ndtraj$abs.angle_deg)
+
+### STATIONARY DF DIRECTIONS
+
+sttraj <- sttraj_df %>% 
+          mutate(abs.angle_deg = abs.angle * (180 / pi))
+
+not_na_indices <- !is.na(sttraj$abs.angle_deg)
+sttraj$abs.angle_deg[not_na_indices] <- sttraj$abs.angle_deg[not_na_indices] %% 360
+
+# Create a function to map angles to directions
+angle_to_direction <- function(angle_degrees) {
+  if (is.na(angle_degrees)) return("Unknown")  # Handle missing values
+  if (angle_degrees >= 337.5 || angle_degrees < 22.5) return("N")
+  if (angle_degrees >= 22.5 && angle_degrees < 67.5) return("NE")
+  if (angle_degrees >= 67.5 && angle_degrees < 112.5) return("E")
+  if (angle_degrees >= 112.5 && angle_degrees < 157.5) return("SE")
+  if (angle_degrees >= 157.5 && angle_degrees < 202.5) return("S")
+  if (angle_degrees >= 202.5 && angle_degrees < 247.5) return("SW")
+  if (angle_degrees >= 247.5 && angle_degrees < 292.5) return("W")
+  if (angle_degrees >= 292.5 && angle_degrees < 337.5) return("NW")
+}
+
+# Apply the function to create the direction variable
+sttraj <- sttraj %>% 
+          mutate(direction = sapply(abs.angle_deg, angle_to_direction))
+
+sttraj$direction <- as.factor(sttraj$direction)
+
+
+st_dir <- sttraj%>%
+          group_by(ID, track_id)%>%
+          summarize(mean_angle = mean(abs.angle_deg))%>% 
+          mutate(direction = sapply(mean_angle, angle_to_direction))
+st_dir
+
+north_sttraj <- sttraj %>%
+  mutate(abs.angle_deg = if_else(abs.angle_deg >= 337.5, abs.angle_deg - 360, abs.angle_deg))
+
+north_sttraj$abs.angle_deg <- !is.na(north_sttraj$abs.angle_deg)
+
+### ROSE DIAGRAM OF DIRECTIONS
+
+id_nd <- north_ndtraj%>%
+          filter(ID == "A7")
+
+breaks <- seq(-22.5, 337.4, by = 45)
+breaks
+
+midpoints <- c(0, 45, 90, 135, 180, 225, 270, 315)
+
+p_nd <- ggplot(id_nd, aes(x = abs.angle_deg)) +
+  geom_histogram(binwidth = 45, fill = "skyblue", color = "black") +
+  theme_minimal() +
+  coord_polar(theta = "x", start = -0.3926991, direction = 1)+
+  scale_x_continuous(breaks = midpoints, labels = c("N", "NE", "E", "SE", "S", "SW", "W", "NW"))
+
+p_nd
+
+
+
+id_st <- north_sttraj%>%
+          filter(ID == "A7")
+
+breaks <- seq(-22.5, 337.4, by = 45)
+breaks
+
+midpoints <- c(0, 45, 90, 135, 180, 225, 270, 315)
+
+p_st <- ggplot(id, aes(x = abs.angle_deg)) +
+  geom_histogram(binwidth = 45, fill = "skyblue", color = "black") +
+  theme_minimal() +
+  coord_polar(theta = "x", start = -0.3926991, direction = 1)+
+  scale_x_continuous(breaks = midpoints, labels = c("N", "NE", "E", "SE", "S", "SW", "W", "NW"))
+
+p_st
+
+p_st_nd <- grid.arrange(ncol = 2, p_nd, p_st)
+
+ggsave()
+
 
 GRAFICI 
 # 1. primo plot: mappe gi`a fatte con evidenziati i lde intervellati dalle aree di sosta
