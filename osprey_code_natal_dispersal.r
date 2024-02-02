@@ -41,7 +41,7 @@ ndt_stat%>%
 # Code to check which countries are traversed during Natal Dispersal Travel
 
 countries_vis<- ndtraj_df%>%
-          dplyr::filter(ID == "A7")
+          dplyr::filter(NDT == "A7_nd3")
 
 ggplot(osprey_eu_utm) + 
           geom_spatvector()+
