@@ -52,50 +52,50 @@ source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_cod
 
 
 A7_stop1 <- st_df%>%
-       filter(id == "A7" & stop_id == "A7_stop1")
+       filter(ID == "A7" & stop_id == "A7_stop1")
 A7_stop2 <- st_df%>%
-       filter(id == "A7" & stop_id == "A7_stop2")
+       filter(ID == "A7" & stop_id == "A7_stop2")
 A7_stop3 <- st_df%>%
-       filter(id == "A7" & stop_id == "A7_stop3")
+       filter(ID == "A7" & stop_id == "A7_stop3")
 A7_stop4 <- st_df%>%
-       filter(id == "A7" & stop_id == "A7_stop4")
+       filter(ID == "A7" & stop_id == "A7_stop4")
 A7_stop5 <- st_df%>%
-       filter(id == "A7" & stop_id == "A7_stop5")
+       filter(ID == "A7" & stop_id == "A7_stop5")
 A7_stop6 <- st_df%>%
-       filter(id == "A7" & stop_id == "A7_stop6")
+       filter(ID == "A7" & stop_id == "A7_stop6")
 A7_stop7 <- st_df%>%
-       filter(id == "A7" & stop_id == "A7_stop7")
+       filter(ID == "A7" & stop_id == "A7_stop7")
 A7_stop8 <- st_df%>%
-       filter(id == "A7" & stop_id == "A7_stop8")
+       filter(ID == "A7" & stop_id == "A7_stop8")
 A7_stop9 <- st_df%>%
-       filter(id == "A7" & stop_id == "A7_stop9")
+       filter(ID == "A7" & stop_id == "A7_stop9")
 A7_nest <- st_df%>%
-       filter(id == "A7" & stop_id == "A7_nest")
+       filter(ID == "A7" & stop_id == "A7_nest")
 A7_end <- st_df%>%
-       filter(id == "A7" & stop_id == "A7_end")
+       filter(ID == "A7" & stop_id == "A7_end")
 
 A7_nd1a <- nd_df%>%
-       filter(id == "A7" & track_id == "A7_nd1a")
+       filter(ID == "A7" & track_id == "A7_nd1a")
 A7_nd2a <- nd_df%>%
-       filter(id == "A7" & track_id == "A7_nd2a")
+       filter(ID == "A7" & track_id == "A7_nd2a")
 A7_nd3a <- nd_df%>%
-       filter(id == "A7" & track_id == "A7_nd3a")
+       filter(ID == "A7" & track_id == "A7_nd3a")
 A7_nd3b <- nd_df%>%
-       filter(id == "A7" & track_id == "A7_nd3b")
+       filter(ID == "A7" & track_id == "A7_nd3b")
 A7_nd4a <- nd_df%>%
-       filter(id == "A7" & track_id == "A7_nd4a")
+       filter(ID == "A7" & track_id == "A7_nd4a")
 A7_nd4b <- nd_df%>%
-       filter(id == "A7" & track_id == "A7_nd4b")
+       filter(ID == "A7" & track_id == "A7_nd4b")
 A7_nd4c <- nd_df%>%
-       filter(id == "A7" & track_id == "A7_nd4c")
+       filter(ID == "A7" & track_id == "A7_nd4c")
 A7_nd4d <- nd_df%>%
-       filter(id == "A7" & track_id == "A7_nd4d")
+       filter(ID == "A7" & track_id == "A7_nd4d")
 A7_nd4e <- nd_df%>%
-       filter(id == "A7" & track_id == "A7_nd4e")
+       filter(ID == "A7" & track_id == "A7_nd4e")
 A7_nd5a <- nd_df%>%
-       filter(id == "A7" & track_id == "A7_nd5a")
+       filter(ID == "A7" & track_id == "A7_nd5a")
 A7_nd6a <- nd_df%>%
-       filter(id == "A7" & track_id == "A7_nd6a")
+       filter(ID == "A7" & track_id == "A7_nd6a")
 
 
 # Plot the nonbreeding HR
