@@ -52,50 +52,50 @@ source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_cod
 
 
 A7_stop1 <- st_df%>%
-       filter(ID == "A7" & stop_id == "A7_stop1")
+       filter(stop_id == "A7_stop1")
 A7_stop2 <- st_df%>%
-       filter(ID == "A7" & stop_id == "A7_stop2")
+       filter(top_id == "A7_stop2")
 A7_stop3 <- st_df%>%
-       filter(ID == "A7" & stop_id == "A7_stop3")
+       filter(stop_id == "A7_stop3")
 A7_stop4 <- st_df%>%
-       filter(ID == "A7" & stop_id == "A7_stop4")
+       filter(stop_id == "A7_stop4")
 A7_stop5 <- st_df%>%
-       filter(ID == "A7" & stop_id == "A7_stop5")
+       filter(stop_id == "A7_stop5")
 A7_stop6 <- st_df%>%
-       filter(ID == "A7" & stop_id == "A7_stop6")
+       filter(stop_id == "A7_stop6")
 A7_stop7 <- st_df%>%
-       filter(ID == "A7" & stop_id == "A7_stop7")
+       filter(stop_id == "A7_stop7")
 A7_stop8 <- st_df%>%
-       filter(ID == "A7" & stop_id == "A7_stop8")
+       filter(stop_id == "A7_stop8")
 A7_stop9 <- st_df%>%
-       filter(ID == "A7" & stop_id == "A7_stop9")
+       filter(stop_id == "A7_stop9")
 A7_nest <- st_df%>%
-       filter(ID == "A7" & stop_id == "A7_nest")
+       filter(stop_id == "A7_nest")
 A7_end <- st_df%>%
-       filter(ID == "A7" & stop_id == "A7_end")
+       filter(stop_id == "A7_end")
 
 A7_nd1a <- nd_df%>%
-       filter(ID == "A7" & track_id == "A7_nd1a")
+       filter(track_id == "A7_nd1a")
 A7_nd2a <- nd_df%>%
-       filter(ID == "A7" & track_id == "A7_nd2a")
+       filter(track_id == "A7_nd2a")
 A7_nd3a <- nd_df%>%
-       filter(ID == "A7" & track_id == "A7_nd3a")
+       filter(track_id == "A7_nd3a")
 A7_nd3b <- nd_df%>%
-       filter(ID == "A7" & track_id == "A7_nd3b")
+       filter(track_id == "A7_nd3b")
 A7_nd4a <- nd_df%>%
-       filter(ID == "A7" & track_id == "A7_nd4a")
+       filter(track_id == "A7_nd4a")
 A7_nd4b <- nd_df%>%
-       filter(ID == "A7" & track_id == "A7_nd4b")
+       filter(track_id == "A7_nd4b")
 A7_nd4c <- nd_df%>%
-       filter(ID == "A7" & track_id == "A7_nd4c")
+       filter(track_id == "A7_nd4c")
 A7_nd4d <- nd_df%>%
-       filter(ID == "A7" & track_id == "A7_nd4d")
+       filter(track_id == "A7_nd4d")
 A7_nd4e <- nd_df%>%
-       filter(ID == "A7" & track_id == "A7_nd4e")
+       filter(track_id == "A7_nd4e")
 A7_nd5a <- nd_df%>%
-       filter(ID == "A7" & track_id == "A7_nd5a")
+       filter(track_id == "A7_nd5a")
 A7_nd6a <- nd_df%>%
-       filter(ID == "A7" & track_id == "A7_nd6a")
+       filter(track_id == "A7_nd6a")
 
 
 # Plot the nonbreeding HR
@@ -191,50 +191,50 @@ Antares_wintering1$ID <- factor(Antares_wintering1$ID)
 
 
 Antares_nest <- st_df%>%
-       filter(id == "Antares" & stop_id == "Antares_nest")
+       filter(stop_id == "Antares_nest")
 Antares_wintering1 <- st_df%>%
-       filter(id == "Antares" & stop_id == "Antares_wintering1")
+       filter(stop_id == "Antares_wintering1")
 Antares_stop1 <- st_df%>%
-       filter(id == "Antares" & stop_id == "Antares_stop1")
+       filter(stop_id == "Antares_stop1")
 Antares_stop2 <- st_df%>%
-       filter(id == "Antares" & stop_id == "Antares_stop2")
+       filter(stop_id == "Antares_stop2")
 Antares_stop3 <- st_df%>%
-       filter(id == "Antares" & stop_id == "Antares_stop3")
+       filter(stop_id == "Antares_stop3")
 Antares_stop4 <- st_df%>%
-       filter(id == "Antares" & stop_id == "Antares_stop4")
+       filter(stop_id == "Antares_stop4")
 Antares_stop5 <- st_df%>%
-       filter(id == "Antares" & stop_id == "Antares_stop5")
+       filter(stop_id == "Antares_stop5")
 Antares_stop6 <- st_df%>%
-       filter(id == "Antares" & stop_id == "Antares_stop6")
+       filter(stop_id == "Antares_stop6")
 Antares_stop7 <- st_df%>%
-       filter(id == "Antares" & stop_id == "Antares_stop7")
+       filter(stop_id == "Antares_stop7")
 Antares_stop8 <- st_df%>%
-       filter(id == "Antares" & stop_id == "Antares_stop8")
+       filter(stop_id == "Antares_stop8")
 Antares_stop9 <- st_df%>%
-       filter(id == "Antares" & stop_id == "Antares_stop9")
+       filter(stop_id == "Antares_stop9")
 Antares_end <- st_df%>%
-       filter(id == "Antares" & stop_id == "Antares_end")
+       filter(stop_id == "Antares_end")
 
 Antares_nd1a <- nd_df%>%
-       filter(id == "Antares" & track_id == "Antares_nd1a")
+       filter(track_id == "Antares_nd1a")
 Antares_nd2a <- nd_df%>%
-       filter(id == "Antares" & track_id == "Antares_nd2a")
+       filter(track_id == "Antares_nd2a")
 Antares_nd2b <- nd_df%>%
-       filter(id == "Antares" & track_id == "Antares_nd2b")
+       filter(track_id == "Antares_nd2b")
 Antares_nd3a <- nd_df%>%
-       filter(id == "Antares" & track_id == "Antares_nd3a")
+       filter(track_id == "Antares_nd3a")
 Antares_nd3b <- nd_df%>%
-       filter(id == "Antares" & track_id == "Antares_nd3b")
+       filter(track_id == "Antares_nd3b")
 Antares_nd3c <- nd_df%>%
-       filter(id == "Antares" & track_id == "Antares_nd3c")
+       filter(track_id == "Antares_nd3c")
 Antares_nd3d <- nd_df%>%
-       filter(id == "Antares" & track_id == "Antares_nd3d")
+       filter(track_id == "Antares_nd3d")
 Antares_nd4a <- nd_df%>%
-       filter(id == "Antares" & track_id == "Antares_nd4a")
+       filter(track_id == "Antares_nd4a")
 Antares_nd4b <- nd_df%>%
-       filter(id == "Antares" & track_id == "Antares_nd4b")
+       filter(track_id == "Antares_nd4b")
 Antares_nd5a <- nd_df%>%
-       filter(id == "Antares" & track_id == "Antares_nd5a")
+       filter(track_id == "Antares_nd5a")
 
 
 # Plot the non-breeding homerange
@@ -322,28 +322,28 @@ Antares_HR_plot <-
 
 
 CAM_nest <- st_df%>%
-       filter(id == "CAM" & stop_id == "CAM_nest")
+       filter(stop_id == "CAM_nest")
 CAM_stop1 <- st_df%>%
-       filter(id == "CAM" & stop_id == "CAM_stop1")
+       filter(stop_id == "CAM_stop1")
 CAM_stop2 <- st_df%>%
-       filter(id == "CAM" & stop_id == "CAM_stop2")
+       filter(stop_id == "CAM_stop2")
 CAM_stop3 <- st_df%>%
-       filter(id == "CAM" & stop_id == "CAM_stop3")
+       filter(stop_id == "CAM_stop3")
 CAM_stop4 <- st_df%>%
-       filter(id == "CAM" & stop_id == "CAM_stop4")
+       filter(stop_id == "CAM_stop4")
 CAM_end <- st_df%>%
-       filter(id == "CAM" & stop_id == "CAM_end")
+       filter(stop_id == "CAM_end")
 
 CAM_nd1a <- nd_df%>%
-       filter(id == "CAM" & track_id == "CAM_nd1a")
+       filter(track_id == "CAM_nd1a")
 CAM_nd1b <- nd_df%>%
-       filter(id == "CAM" & track_id == "CAM_nd1b")
+       filter(track_id == "CAM_nd1b")
 CAM_nd2a <- nd_df%>%
-       filter(id == "CAM" & track_id == "CAM_nd2a")
+       filter(track_id == "CAM_nd2a")
 CAM_nd3a <- nd_df%>%
-       filter(id == "CAM" & track_id == "CAM_nd3a")
+       filter(track_id == "CAM_nd3a")
 CAM_nd4a <- nd_df%>%
-       filter(id == "CAM" & track_id == "CAM_nd4a")
+       filter(track_id == "CAM_nd4a")
 
 # Plot the non-breeding homerange
        CAM_HR_plot <- 
@@ -413,20 +413,20 @@ CAM_nd4a <- nd_df%>%
        CBK_HRcore <- fortify(CBK_HRcore)
 
 CBK_nest <- st_df%>%
-       filter(id == "CBK" & stop_id == "CBK_nest")
+       filter(stop_id == "CBK_nest")
 CBK_stop1a <- st_df%>%
-       filter(id == "CBK" & stop_id == "CBK_stop1a")
+       filter(stop_id == "CBK_stop1a")
 CBK_stop2a <- st_df%>%
-       filter(id == "CBK" & stop_id == "CBK_stop2a")
+       filter(stop_id == "CBK_stop2a")
 CBK_end <- st_df%>%
-       filter(id == "CBK" & stop_id == "CBK_end")
+       filter(stop_id == "CBK_end")
 
 CBK_nd1a <- nd_df%>%
-       filter(id == "CBK" & track_id == "CBK_nd1a")
+       filter(track_id == "CBK_nd1a")
 CBK_nd2a <- nd_df%>%
-       filter(id == "CBK" & track_id == "CBK_nd2a")
+       filter(track_id == "CBK_nd2a")
 CBK_nd3a <- nd_df%>%
-       filter(id == "CBK" & track_id == "CBK_nd3a")
+       filter(track_id == "CBK_nd3a")
 
 # Plot the non-breeding homerange
        CBK_HR_plot <- 
@@ -510,48 +510,48 @@ CBK_nd3a <- nd_df%>%
 
 
 CIV_nest <- st_df%>%
-       filter(id == "CIV" & stop_id == "CIV_nest")
+       filter(stop_id == "CIV_nest")
 CIV_stop1 <- st_df%>%
-       filter(id == "CIV" & stop_id == "CIV_stop1")
+       filter(stop_id == "CIV_stop1")
 CIV_stop2 <- st_df%>%
-       filter(id == "CIV" & stop_id == "CIV_stop2")
+       filter(stop_id == "CIV_stop2")
 CIV_wintering1 <- st_df%>%
-       filter(id == "CIV" & stop_id == "CIV_wintering1")
+       filter(stop_id == "CIV_wintering1")
 CIV_stop3 <- st_df%>%
-       filter(id == "CIV" & stop_id == "CIV_stop3")
+       filter(stop_id == "CIV_stop3")
 CIV_stop4 <- st_df%>%
-       filter(id == "CIV" & stop_id == "CIV_stop4")
+       filter(stop_id == "CIV_stop4")
 CIV_stop5 <- st_df%>%
-       filter(id == "CIV" & stop_id == "CIV_stop5")
+       filter(stop_id == "CIV_stop5")
 CIV_wintering2 <- st_df%>%
-       filter(id == "CIV" & stop_id == "CIV_wintering2")
+       filter(stop_id == "CIV_wintering2")
 CIV_stop6 <- st_df%>%
-       filter(id == "CIV" & stop_id == "CIV_stop6")
+       filter(stop_id == "CIV_stop6")
 CIV_stop7 <- st_df%>%
-       filter(id == "CIV" & stop_id == "CIV_stop7")
+       filter(stop_id == "CIV_stop7")
 CIV_end <- st_df%>%
-       filter(id == "CIV" & stop_id == "CIV_end")
+       filter(stop_id == "CIV_end")
 
 CIV_nd1a <- nd_df%>%
-       filter(id == "CIV" & track_id == "CIV_nd1a")
+       filter(track_id == "CIV_nd1a")
 CIV_nd2a <- nd_df%>%
-       filter(id == "CIV" & track_id == "CIV_nd2a")
+       filter(track_id == "CIV_nd2a")
 CIV_nd3a <- nd_df%>%
-       filter(id == "CIV" & track_id == "CIV_nd3a")
+       filter(track_id == "CIV_nd3a")
 CIV_nd4a <- nd_df%>%
-       filter(id == "CIV" & track_id == "CIV_nd4a")
+       filter(track_id == "CIV_nd4a")
 CIV_nd5a <- nd_df%>%
-       filter(id == "CIV" & track_id == "CIV_nd5a")
+       filter(track_id == "CIV_nd5a")
 CIV_nd6a <- nd_df%>%
-       filter(id == "CIV" & track_id == "CIV_nd6a")
+       filter(track_id == "CIV_nd6a")
 CIV_nd7a <- nd_df%>%
-       filter(id == "CIV" & track_id == "CIV_nd7a")
+       filter(track_id == "CIV_nd7a")
 CIV_nd8a <- nd_df%>%
-       filter(id == "CIV" & track_id == "CIV_nd8a")
+       filter(track_id == "CIV_nd8a")
 CIV_nd9a <- nd_df%>%
-       filter(id == "CIV" & track_id == "CIV_nd9a")
+       filter(track_id == "CIV_nd9a")
 CIV_nd10a <- nd_df%>%
-       filter(id == "CIV" & track_id == "CIV_nd10a")
+       filter(track_id == "CIV_nd10a")
 
 
 # Plot the non-breeding homerange    
@@ -1135,47 +1135,47 @@ IAD_HR_plot <-
         geom_polygon(IAD_HR1core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
         geom_polygon(IAD_HR2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
         geom_polygon(IAD_HR2core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-        geom_path(data = IAD_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
         geom_path(data = IAD_stop8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
         geom_path(data = IAD_wintering2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop10, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop11, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop12, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop13, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop14, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop15, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop16, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_stop17, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd3c, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd3d, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd5b, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd7a, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd7b, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd7c, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd7d, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd7e, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd7f, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd7g, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd8a, aes(x = x, y = y, colour = "Natal dispersal 8th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd9a, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IAD_nd9b, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop10, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop11, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop12, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop13, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop14, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop15, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop16, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop17, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd3c, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd3d, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd5b, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7a, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7b, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7c, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7d, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7e, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7f, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7g, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd8a, aes(x = x, y = y, colour = "Natal dispersal 8th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd9a, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd9b, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
         labs(x = " ", y = " ", title = "IAD non-breeding HR and ND movements tracks") +
         theme_minimal()+
          scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
