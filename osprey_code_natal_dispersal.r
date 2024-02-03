@@ -26,7 +26,7 @@
 
 # export tables to Latex, pay attention to digits arguments
 
-ndt_stat%>%
+wintering_stat%>%
           kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
 
 
@@ -40,8 +40,8 @@ ndt_stat%>%
 
 # Code to check which countries are traversed during Natal Dispersal Travel
 
-countries_vis<- ndtraj_df%>%
-          dplyr::filter(NDT == "A7_nd3")
+countries_vis<- sttraj_df%>%
+          dplyr::filter(stop_id == "H7_wintering1")
 
 ggplot(osprey_eu_utm) + 
           geom_spatvector()+
@@ -255,36 +255,50 @@ stopover_stat_tot <- stopover_stat_tot%>%
           select(-"tot_durPA")
 stopover_stat_tot
 
+### WINTERING
+
+wintering_df <- sttraj_df %>%
+   filter(!grepl("stop", stop_id, ignore.case = TRUE))%>%
+   filter(!grepl("nest", stop_id, ignore.case = TRUE))%>%
+   filter(!grepl("end", stop_id, ignore.case = TRUE))
+
+# DF reporting daily distances travelled by each animals
+
+winter_daily_dist_df <- wintering_df %>%
+          group_by(stop_id, day) %>%
+          summarise(daily_dist = sum(distKM, na.rm = TRUE))
+winter_daily_dist_df
+
+
+#  DF reporting mean\max and standard direction of daily distances travelled by each animals
+
+
+winter_daily_dist_stat <- winter_daily_dist_df%>%
+          group_by (stop_id)%>%
+          summarize(mean_dist = mean(daily_dist, na.rm = TRUE),
+                    max_dist = max(daily_dist, na.rm = TRUE),
+                    sd_dist = sd(daily_dist, na.rm = TRUE))
+winter_daily_dist_stat
+
+winter_duration <- wintering_df %>%
+          group_by(stop_id)%>%
+          summarize(start = min(time),
+                    end = max(time),
+                    duartion = difftime(end, start, units = "weeks"),
+                    )
+winter_duration
+
+
+wintering_stat <- left_join(winter_daily_dist_stat, winter_duration, by = "stop_id")
+
+wintering_stat <- wintering_stat%>%
+          select(-c("start", "end"))
+
 
 
 ############################
 # 4. Main directions graph #
 ############################
-
-
-#There are a few ways to do this. There is a "zero" argument for rose.diag in this package.
-
-y <- scan() # paste in the values from the question and hit return twice
-y <- circlar(y) # not necessary but prevents a warning
-rose.diag(y, units = 'degrees', zero = pi/2) # units doesn't change the underlying units
-
-#Alternatively you could have set properties of the circular object that you created.
-
-
-%>% 
-          mutate(abs.angle_deg = rel.angle * (180 / pi))
-
-
-id <- ndtraj%>%
-          filter(track_id == "A7_nd4e")
-
-ndtraj_df <- ndtraj_df%>% 
-          mutate(abs.angle_deg = abs.angle * (180 / pi))
-
-y <- id$abs.angle_deg
-y <- circular(y)
-rose.diag(y, bins =8, zero = pi/2, units = 'degrees')
-
 
 ### TRAVEL DF DIRECTIONS
 
@@ -360,7 +374,8 @@ p_nd <- ggplot(north_ndtraj, aes(x = abs.angle_deg)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 45, fill = "skyblue", color = "black") +
   theme_minimal() +
   coord_polar(theta = "x", start = -0.3926991, direction = 1)+
-  scale_x_continuous(breaks = midpoints, labels = c("N", "NE", "E", "SE", "S", "SW", "W", "NW"))
+  scale_x_continuous(breaks = midpoints, labels = c("N", "NE", "E", "SE", "S", "SW", "W", "NW")) +
+facet_wrap(~ID)
 p_nd
 
 id_st <- north_sttraj%>%
@@ -375,7 +390,8 @@ p_st <- ggplot(north_sttraj, aes(x = abs.angle_deg)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 45, fill = "skyblue", color = "black") +
   theme_minimal() +
   coord_polar(theta = "x", start = -0.3926991, direction = 1)+
-  scale_x_continuous(breaks = midpoints, labels = c("N", "NE", "E", "SE", "S", "SW", "W", "NW"))
+  scale_x_continuous(breaks = midpoints, labels = c("N", "NE", "E", "SE", "S", "SW", "W", "NW")) +
+facet_wrap(~ID)
 p_st
 
 p_st_nd <- grid.arrange(ncol = 2, p_nd, p_st)
