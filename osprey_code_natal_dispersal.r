@@ -47,9 +47,6 @@ ggplot(osprey_eu_utm) +
           geom_spatvector()+
           geom_path(data = countries_vis, aes(x = x, y = y, colour = "red"), linewidth = 1, lineend = "round")
 
-
-
-
 countries_id <- data.frame(ID = c('A7', 'Antares', 'CAM', 'CBK', 'CIV', 'E7', 'H7', 'IAB', 'IAD', 'IBH', 'IBI', 'IBK', 'IBS', 'ICZ', 'IFP'),
                            countries = c('BIH, HRV, HUN, ITA, SVN', 'FRA, ITA', 'FRA, ITA', 'FRA, ITA', 'DZA, FRA, ITA, TUN', 'AUT, BIH, CHE, DEU, ESP, FRA, HUN, HRV, ITA', 'ESP, FRA, ITA', 'ITA', 'AUT, BEL, BIH, CHE, DEU, ESP, FRA, HUN, HRV, ITA, MNE', 'ITA', 'FRA, ITA', 'FRA, ITA', 'ALB, BOH, CHE, ESP, FRA, HVN, ITA, MNE, SVN', 'ITA', 'FRA, ITA'))
 
@@ -77,7 +74,6 @@ nd_duration <- ndtraj_df %>%
                     sd_dur = sd(duration))
 nd_duration
 
-
 # Table reporting NDT start/finish date and duration of every animal
 
 ndt_duration <- ndtraj_df %>%
@@ -99,8 +95,16 @@ track_duration <- ndtraj_df %>%
           unique()
 track_duration
 
+departure_date <- ndtraj_df %>%
+          group_by(ID, NDT) %>% 
+          summarize(start = min(doy))%>%
+          ggplot(aes(x = ID, y = start))+
+          geom_point()+
+          theme_light()
+departure_date
 
-# Request
+
+#### Request
 
 # 2. seconda tabella: Long distance event numero di eventi +
 #                    durata media e massima in giorni x lde +
@@ -110,6 +114,18 @@ track_duration
 
 # median_dist = sprintf("%.2f", median(distKM, na.rm = TRUE)), # add this line in the second summerize() funciton to have the median value
 
+#### overall mean distance cover
+
+NDT_dist_df <- ndtraj_df %>%
+          group_by(NDT) %>%
+          summarise(NDT_dist = sum(distKM, na.rm = TRUE))
+NDT_dist_df
+
+mean_dist <- NDT_dist_df%>%
+          summarize(mean_dist = mean(NDT_dist, na.rm = TRUE),
+                    max_dist = max(NDT_dist, na.rm = TRUE),
+                    sd_dist = sd(NDT_dist, na.rm = TRUE))
+mean_dist
 
 ###################
 # Daily distances #
