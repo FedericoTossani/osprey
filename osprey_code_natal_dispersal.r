@@ -117,11 +117,12 @@ departure_date
 #### overall mean distance cover
 
 NDT_dist_df <- ndtraj_df %>%
-          group_by(NDT) %>%
+          group_by(ID, NDT) %>%
           summarise(NDT_dist = sum(distKM, na.rm = TRUE))
 NDT_dist_df
 
 mean_dist <- NDT_dist_df%>%
+          group_by(ID)%>%
           summarize(mean_dist = mean(NDT_dist, na.rm = TRUE),
                     max_dist = max(NDT_dist, na.rm = TRUE),
                     sd_dist = sd(NDT_dist, na.rm = TRUE))
@@ -187,6 +188,7 @@ summary_dt
 #                    numero medio di giorni di sosta per area +
 #                    percentuale giorni di sosta in un’area protetta
 
+
 summary_st <- sttraj_df%>%
           group_by(stop_id)%>%
           summarize(start = min(date),
@@ -214,11 +216,21 @@ print(summary_nd, n = 150)
  
  
  
- stopover_df <- st_df %>%
+ stopover_df <- sttraj_df %>%
    filter(!grepl("wintering", stop_id, ignore.case = TRUE))%>%
    filter(!grepl("nest", stop_id, ignore.case = TRUE))%>%
    filter(!grepl("end", stop_id, ignore.case = TRUE))
 
+
+dist_stopover <- stopover_df%>%
+          group_by(ID, day) %>%
+          summarize(daily_dist = sum(distKM, na.rm = TRUE))
+
+dist_stopover_all <- dist_stopover%>%
+          summarize(min = min(daily_dist),
+                    sd = sd(daily_dist),
+                    max = max(daily_dist))
+dist_stopover_all
 
 write.csv("C:/Tesi/R/osprey/data/stopover_df.csv")
 
@@ -294,7 +306,7 @@ winter_daily_dist_stat <- winter_daily_dist_df%>%
           summarize(mean_dist = mean(daily_dist, na.rm = TRUE),
                     max_dist = max(daily_dist, na.rm = TRUE),
                     sd_dist = sd(daily_dist, na.rm = TRUE))
-winter_daily_dist_stat
+          winter_daily_dist_stat
 
 winter_duration <- wintering_df %>%
           group_by(stop_id)%>%
