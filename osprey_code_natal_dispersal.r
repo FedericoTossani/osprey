@@ -26,7 +26,7 @@
 
 # export tables to Latex, pay attention to digits arguments
 
-wintering_stat%>%
+ndt_stat%>%
           kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
 
 
@@ -54,13 +54,14 @@ countries_id <- data.frame(ID = c('A7', 'Antares', 'CAM', 'CBK', 'CIV', 'E7', 'H
 # Table reporting first and last day of Natal Dispersal period and whole durations of every animal
 
 nd_duration_id <- ndtraj_df %>%
-          group_by(ID, NDT) %>% 
+          group_by(ID, NDT)%>% 
           summarize(start = min(day), end = max(day)) %>%
           mutate(duration = round(difftime(end, start, units = "days")))%>%
           group_by(ID)%>%
           summarize(start = min(start), end = max(end), duration = sum(duration))%>%
-          left_join(countries_id, by = "ID")
-
+          left_join(countries_id, by = "ID")%>%
+          mutate(num_countries = str_count(countries, ",") + 1)%>%
+          select(ID, start, end, duration, num_countries, countries)
 nd_duration_id
 
 # Table reporting mean, max duration and standard deviation of Natal Dispersal Travel duration of every animal
@@ -132,7 +133,6 @@ mean_dist
 # Daily distances #
 ###################
 
-
 # DF reporting daily distances travelled by each animals
 
 daily_dist_df <- ndtraj_df %>%
@@ -143,11 +143,12 @@ daily_dist_df
 
 #  DF reporting mean\max and standard direction of daily distances travelled by each animals
 
-                    med_dist = median(daily_dist, na.rm = TRUE),
+# med_dist = median(daily_dist, na.rm = TRUE),
 
 daily_dist_stat <- daily_dist_df%>%
           group_by (ID)%>%
           summarize(mean_dist = mean(daily_dist, na.rm = TRUE),
+                    med_dist = median(daily_dist, na.rm = TRUE),
                     max_dist = max(daily_dist, na.rm = TRUE),
                     sd_dist = sd(daily_dist, na.rm = TRUE))
 daily_dist_stat
