@@ -38,7 +38,7 @@ countries <- vect('C:/Tesi/data/countries_boundaries_4326.shp')
 osprey_ext <- ext(c(-7.436733, 21.24755, 35.40968, 55.77745))
 osprey_eu <- crop(countries, osprey_ext)
 
-osprey <- osprey%>%
+osprey <- nd_df%>%
           arrange(time)
 
 osprey_track <- 
@@ -53,7 +53,7 @@ theme_minimal()
 
 osprey_track
 
-ggsave( "C:/Tesi/images/osprey_track.jpg", plot = osprey_track)
+# ggsave( "C:/Tesi/images/osprey_track.jpg", plot = osprey_track)
 
 # This should create a more beautiful map BUT need to be fix!
 # cbbox <- make_bbox(lon = osprey$lon, lat = osprey$lat, f = .1) #from ggmap
