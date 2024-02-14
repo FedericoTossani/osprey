@@ -50,11 +50,24 @@ source("https://raw.githubusercontent.com/FedericoTossani/osprey/main/osprey_cod
        A7_HR_HR <- fortify(A7_HR_HR)
        A7_HR_HRcore <- fortify(A7_HR_HRcore)
 
+A7_HR_HR_1 <- A7_HR_HR%>%
+        filter(group == "A7.1")
+A7_HR_HR_2 <- A7_HR_HR%>%
+        filter(group == "A7.2")
+A7_HR_HR_3 <-  A7_HR_HR%>%
+        filter(group == "A7.3")
+
+A7_HR_HRcore_1 <- A7_HR_HRcore%>%
+        filter(group == "A7.1")
+A7_HR_HRcore_2 <- A7_HR_HRcore%>%
+        filter(group == "A7.2")
+A7_HR_HRcore_3 <-  A7_HR_HRcore%>%
+        filter(group == "A7.3")
 
 A7_stop1 <- st_df%>%
        filter(stop_id == "A7_stop1")
 A7_stop2 <- st_df%>%
-       filter(top_id == "A7_stop2")
+       filter(stop_id == "A7_stop2")
 A7_stop3 <- st_df%>%
        filter(stop_id == "A7_stop3")
 A7_stop4 <- st_df%>%
@@ -69,8 +82,6 @@ A7_stop8 <- st_df%>%
        filter(stop_id == "A7_stop8")
 A7_stop9 <- st_df%>%
        filter(stop_id == "A7_stop9")
-A7_nest <- st_df%>%
-       filter(stop_id == "A7_nest")
 A7_end <- st_df%>%
        filter(stop_id == "A7_end")
 
@@ -78,73 +89,72 @@ A7_nd1a <- nd_df%>%
        filter(track_id == "A7_nd1a")
 A7_nd2a <- nd_df%>%
        filter(track_id == "A7_nd2a")
+A7_nd2b <- nd_df%>%
+       filter(track_id == "A7_nd2b")
 A7_nd3a <- nd_df%>%
        filter(track_id == "A7_nd3a")
 A7_nd3b <- nd_df%>%
        filter(track_id == "A7_nd3b")
+A7_nd3c <- nd_df%>%
+       filter(track_id == "A7_nd3c")
+A7_nd3d <- nd_df%>%
+       filter(track_id == "A7_nd3d")
+A7_nd3e <- nd_df%>%
+       filter(track_id == "A7_nd3e")
 A7_nd4a <- nd_df%>%
        filter(track_id == "A7_nd4a")
-A7_nd4b <- nd_df%>%
-       filter(track_id == "A7_nd4b")
-A7_nd4c <- nd_df%>%
-       filter(track_id == "A7_nd4c")
-A7_nd4d <- nd_df%>%
-       filter(track_id == "A7_nd4d")
-A7_nd4e <- nd_df%>%
-       filter(track_id == "A7_nd4e")
 A7_nd5a <- nd_df%>%
        filter(track_id == "A7_nd5a")
-A7_nd6a <- nd_df%>%
-       filter(track_id == "A7_nd6a")
 
 
 # Plot the nonbreeding HR
 A7_HR_plot <- 
         ggplot(A7_eu_utm) + 
         geom_spatvector()+
-        geom_polygon(A7_HR_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-        geom_polygon(A7_HR_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-        geom_path(data = A7_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_stop8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_stop9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_nd4b, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_nd4c, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_nd4d, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_nd4e, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = A7_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop3, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop4, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop5, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop6, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop7, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop8, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_stop9, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_polygon(A7_HR_HR_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+        geom_polygon(A7_HR_HR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+        geom_polygon(A7_HR_HR_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+        geom_polygon(A7_HR_HRcore_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+        geom_polygon(A7_HR_HRcore_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+        geom_polygon(A7_HR_HRcore_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+        geom_path(data = A7_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd2b, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd3a, aes(x = x, y = y, colour = "Natal dispersal 4th trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd3b, aes(x = x, y = y, colour = "Natal dispersal 4th trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd3c, aes(x = x, y = y, colour = "Natal dispersal 4th trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd3d, aes(x = x, y = y, colour = "Natal dispersal 4th trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd3e, aes(x = x, y = y, colour = "Natal dispersal 4th trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd4a, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = A7_nd5a, aes(x = x, y = y, colour = "Natal dispersal 6th trip"), linewidth = 0.5, lineend = "round") +
         labs(x = " ", y = " ", title = "A7 non-breeding HR and ND movements tracks") +
         theme_minimal()+
-        scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                "Natal dispersal 1st travel" = "blue",
-                                                "Natal dispersal 2nd travel" = "orange",
-                                                "Natal dispersal 3rd travel" = "brown",
-                                                "Natal dispersal 4th travel" = "magenta",
-                                                "Natal dispersal 5th travel" = "pink",
-                                                "Natal dispersal 6th travel" = "light blue",
-                                                "Natal dispersal 7th travel" = "black",
-                                                "Natal dispersal 8th travel" = "grey",
-                                                "Natal dispersal 9th travel" = "purple",
-                                                "Natal dispersal 10th travel" = "red")) +
+        scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                                "Natal dispersal 1st trip" = "blue",
+                                                "Natal dispersal 2nd trip" = "orange",
+                                                "Natal dispersal 3rd trip" = "brown",
+                                                "Natal dispersal 4th trip" = "magenta",
+                                                "Natal dispersal 5th trip" = "pink",
+                                                "Natal dispersal 6th trip" = "light blue",
+                                                "Natal dispersal 7th trip" = "black",
+                                                "Natal dispersal 8th trip" = "grey",
+                                                "Natal dispersal 9th trip" = "purple",
+                                                "Natal dispersal 10th trip" = "red")) +
         scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                     "Non-Breeding HR core area" = "red")) 
-
 A7_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/A7_HR_ND_plot.jpg", plot = A7_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/A7_HR_ND_plot.jpg", plot = A7_HR_plot)
 
 #############
 # "Antares" #
@@ -177,17 +187,17 @@ Antares_wintering1$ID <- factor(Antares_wintering1$ID)
        Antares_HR <- fortify(Antares_HR)
        Antares_HRcore <- fortify(Antares_HRcore)
 
-#Antares_nonb_HR_1 <- Antares_nonb_HR%>%
-#        filter(piece == 1)
+Antares_HR_1 <- Antares_HR%>%
+        filter(piece == 1)
 
-#Antares_nonb_HR_2 <- Antares_nonb_HR%>%
-#        filter(piece == 2)
+Antares_HR_2 <- Antares_HR%>%
+        filter(piece == 2)
 
-#Antares_nonb_HR_3 <- Antares_nonb_HR%>%
-#        filter(piece == 3)
+Antares_HR_3 <- Antares_HR%>%
+        filter(piece == 3)
 
-#Antares_nonb_HR_4 <- Antares_nonb_HR%>%
-#        filter(piece == 4)
+Antares_HR_4 <- Antares_HR%>%
+        filter(piece == 4)
 
 
 Antares_nest <- st_df%>%
@@ -206,89 +216,69 @@ Antares_stop5 <- st_df%>%
        filter(stop_id == "Antares_stop5")
 Antares_stop6 <- st_df%>%
        filter(stop_id == "Antares_stop6")
-Antares_stop7 <- st_df%>%
-       filter(stop_id == "Antares_stop7")
-Antares_stop8 <- st_df%>%
-       filter(stop_id == "Antares_stop8")
-Antares_stop9 <- st_df%>%
-       filter(stop_id == "Antares_stop9")
 Antares_end <- st_df%>%
        filter(stop_id == "Antares_end")
 
 Antares_nd1a <- nd_df%>%
        filter(track_id == "Antares_nd1a")
+Antares_nd1b <- nd_df%>%
+       filter(track_id == "Antares_nd1b")
+Antares_nd1c <- nd_df%>%
+       filter(track_id == "Antares_nd1c")
+Antares_nd1d <- nd_df%>%
+       filter(track_id == "Antares_nd1d")
 Antares_nd2a <- nd_df%>%
        filter(track_id == "Antares_nd2a")
 Antares_nd2b <- nd_df%>%
        filter(track_id == "Antares_nd2b")
 Antares_nd3a <- nd_df%>%
        filter(track_id == "Antares_nd3a")
-Antares_nd3b <- nd_df%>%
-       filter(track_id == "Antares_nd3b")
-Antares_nd3c <- nd_df%>%
-       filter(track_id == "Antares_nd3c")
-Antares_nd3d <- nd_df%>%
-       filter(track_id == "Antares_nd3d")
-Antares_nd4a <- nd_df%>%
-       filter(track_id == "Antares_nd4a")
-Antares_nd4b <- nd_df%>%
-       filter(track_id == "Antares_nd4b")
-Antares_nd5a <- nd_df%>%
-       filter(track_id == "Antares_nd5a")
 
 
-# Plot the non-breeding homerange
+# Plot the non-breeding homerange 
 Antares_HR_plot <- 
        ggplot(Antares_eu_utm) +
        geom_spatvector()+
-       geom_polygon(Antares_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_path(data = Antares_nest, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_wintering1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop3, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop4, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop5, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_stop6, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_polygon(Antares_HR_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_polygon(Antares_HR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_polygon(Antares_HR_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+       geom_polygon(Antares_HR_4, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
        geom_polygon(Antares_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-    #   geom_polygon(Antares_nonb_HR_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-    #   geom_polygon(Antares_nonb_HR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-    #   geom_polygon(Antares_nonb_HR_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-    #   geom_polygon(Antares_nonb_HR_4, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-    #   geom_polygon(Antares_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-       geom_path(data = Antares_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_stop8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_stop9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd2b, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd3c, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd3d, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd4b, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = Antares_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd1b, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd1c, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd1d, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd2b, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = Antares_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
        labs(x = " ", y = " ", title = "Antares non-breeding HR and ND movements tracks") +
        theme_minimal()+
- scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                "Natal dispersal 1st travel" = "blue",
-                                                "Natal dispersal 2nd travel" = "orange",
-                                                "Natal dispersal 3rd travel" = "brown",
-                                                "Natal dispersal 4th travel" = "magenta",
-                                                "Natal dispersal 5th travel" = "pink",
-                                                "Natal dispersal 6th travel" = "light blue",
-                                                "Natal dispersal 7th travel" = "black",
-                                                "Natal dispersal 8th travel" = "grey",
-                                                "Natal dispersal 9th travel" = "purple",
-                                                "Natal dispersal 10th travel" = "red")) +
+ scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                                "Natal dispersal 1st trip" = "blue",
+                                                "Natal dispersal 2nd trip" = "orange",
+                                                "Natal dispersal 3rd trip" = "brown",
+                                                "Natal dispersal 4th trip" = "magenta",
+                                                "Natal dispersal 5th trip" = "pink",
+                                                "Natal dispersal 6th trip" = "light blue",
+                                                "Natal dispersal 7th trip" = "black",
+                                                "Natal dispersal 8th trip" = "grey",
+                                                "Natal dispersal 9th trip" = "purple",
+                                                "Natal dispersal 10th trip" = "red")) +
   scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                     "Non-Breeding HR core area" = "red")) 
 
        Antares_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/Antares_HR_ND_plot.jpg", plot = Antares_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/Antares_HR_ND_plot.jpg", plot = Antares_HR_plot)
 
 
 #######
@@ -321,8 +311,6 @@ Antares_HR_plot <-
        CAM_nonb_HRcore <- fortify(CAM_nonb_HRcore)
 
 
-CAM_nest <- st_df%>%
-       filter(stop_id == "CAM_nest")
 CAM_stop1 <- st_df%>%
        filter(stop_id == "CAM_stop1")
 CAM_stop2 <- st_df%>%
@@ -351,36 +339,35 @@ CAM_nd4a <- nd_df%>%
                  geom_spatvector()+
                #  geom_polygon(CAM_nonb_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
                #  geom_polygon(CAM_nonb_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-                 geom_path(data = CAM_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_nd1b, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CAM_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_stop2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_stop3, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_stop4, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_nd1b, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CAM_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th trip"), linewidth = 0.5, lineend = "round") +
                  labs(x = " ", y = " ", title = "CAM non-breeding HR and ND movements tracks") +
                  theme_minimal()+
- scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                "Natal dispersal 1st travel" = "blue",
-                                                "Natal dispersal 2nd travel" = "orange",
-                                                "Natal dispersal 3rd travel" = "brown",
-                                                "Natal dispersal 4th travel" = "magenta",
-                                                "Natal dispersal 5th travel" = "pink",
-                                                "Natal dispersal 6th travel" = "light blue",
-                                                "Natal dispersal 7th travel" = "black",
-                                                "Natal dispersal 8th travel" = "grey",
-                                                "Natal dispersal 9th travel" = "purple",
-                                                "Natal dispersal 10th travel" = "red")) +
+ scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                                "Natal dispersal 1st trip" = "blue",
+                                                "Natal dispersal 2nd trip" = "orange",
+                                                "Natal dispersal 3rd trip" = "brown",
+                                                "Natal dispersal 4th trip" = "magenta",
+                                                "Natal dispersal 5th trip" = "pink",
+                                                "Natal dispersal 6th trip" = "light blue",
+                                                "Natal dispersal 7th trip" = "black",
+                                                "Natal dispersal 8th trip" = "grey",
+                                                "Natal dispersal 9th trip" = "purple",
+                                                "Natal dispersal 10th trip" = "red")) +
   scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                     "Non-Breeding HR core area" = "red")) 
 
        CAM_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/CAM_HR_ND_plot.jpg", plot = CAM_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/CAM_HR_ND_plot.jpg", plot = CAM_HR_plot)
 
 
 #########
@@ -412,12 +399,13 @@ CAM_nd4a <- nd_df%>%
        CBK_HR <- fortify(CBK_HR)
        CBK_HRcore <- fortify(CBK_HRcore)
 
-CBK_nest <- st_df%>%
-       filter(stop_id == "CBK_nest")
-CBK_stop1a <- st_df%>%
-       filter(stop_id == "CBK_stop1a")
-CBK_stop2a <- st_df%>%
-       filter(stop_id == "CBK_stop2a")
+CBK_HR_1 <- CBK_HR%>%
+        filter(group == "CBK.1")
+CBK_HR_2 <- CBK_HR%>%
+        filter(group == "CBK.2")
+
+CBK_stop1 <- st_df%>%
+       filter(stop_id == "CBK_stop1")
 CBK_end <- st_df%>%
        filter(stop_id == "CBK_end")
 
@@ -425,41 +413,37 @@ CBK_nd1a <- nd_df%>%
        filter(track_id == "CBK_nd1a")
 CBK_nd2a <- nd_df%>%
        filter(track_id == "CBK_nd2a")
-CBK_nd3a <- nd_df%>%
-       filter(track_id == "CBK_nd3a")
 
 # Plot the non-breeding homerange
        CBK_HR_plot <- 
                  ggplot(CBK_eu_utm) +
                  geom_spatvector()+
-                 geom_polygon(CBK_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                 geom_path(data = CBK_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CBK_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_polygon(CBK_HR_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+                 geom_polygon(CBK_HR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
                  geom_polygon(CBK_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-                 geom_path(data = CBK_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CBK_stop1a, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CBK_stop2a, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CBK_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CBK_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CBK_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = CBK_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CBK_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = CBK_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
                  labs(x = " ", y = " ", title = "CBK non-breeding HR and ND movements tracks") +
                  theme_minimal()+
- scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                "Natal dispersal 1st travel" = "blue",
-                                                "Natal dispersal 2nd travel" = "orange",
-                                                "Natal dispersal 3rd travel" = "brown",
-                                                "Natal dispersal 4th travel" = "magenta",
-                                                "Natal dispersal 5th travel" = "pink",
-                                                "Natal dispersal 6th travel" = "light blue",
-                                                "Natal dispersal 7th travel" = "black",
-                                                "Natal dispersal 8th travel" = "grey",
-                                                "Natal dispersal 9th travel" = "purple",
-                                                "Natal dispersal 10th travel" = "red")) +
+ scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                                "Natal dispersal 1st trip" = "blue",
+                                                "Natal dispersal 2nd trip" = "orange",
+                                                "Natal dispersal 3rd trip" = "brown",
+                                                "Natal dispersal 4th trip" = "magenta",
+                                                "Natal dispersal 5th trip" = "pink",
+                                                "Natal dispersal 6th trip" = "light blue",
+                                                "Natal dispersal 7th trip" = "black",
+                                                "Natal dispersal 8th trip" = "grey",
+                                                "Natal dispersal 9th trip" = "purple",
+                                                "Natal dispersal 10th trip" = "red")) +
   scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                     "Non-Breeding HR core area" = "red")) 
 
        CBK_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/CBK_HR_ND_plot.jpg", plot = CBK_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/CBK_HR_ND_plot.jpg", plot = CBK_HR_plot)
 
 
 #########
@@ -525,26 +509,19 @@ CIV_HR2_3 <- CIV_HR2%>%
         filter(group == "CIV.3")
 
 
-CIV_nest <- st_df%>%
-       filter(stop_id == "CIV_nest")
+
 CIV_stop1 <- st_df%>%
        filter(stop_id == "CIV_stop1")
 CIV_stop2 <- st_df%>%
        filter(stop_id == "CIV_stop2")
-CIV_wintering1 <- st_df%>%
-       filter(stop_id == "CIV_wintering1")
 CIV_stop3 <- st_df%>%
        filter(stop_id == "CIV_stop3")
+CIV_wintering2 <- st_df%>%
+       filter(stop_id == "CIV_wintering2")
 CIV_stop4 <- st_df%>%
        filter(stop_id == "CIV_stop4")
 CIV_stop5 <- st_df%>%
        filter(stop_id == "CIV_stop5")
-CIV_wintering2 <- st_df%>%
-       filter(stop_id == "CIV_wintering2")
-CIV_stop6 <- st_df%>%
-       filter(stop_id == "CIV_stop6")
-CIV_stop7 <- st_df%>%
-       filter(stop_id == "CIV_stop7")
 CIV_end <- st_df%>%
        filter(stop_id == "CIV_end")
 
@@ -562,12 +539,6 @@ CIV_nd6a <- nd_df%>%
        filter(track_id == "CIV_nd6a")
 CIV_nd7a <- nd_df%>%
        filter(track_id == "CIV_nd7a")
-CIV_nd8a <- nd_df%>%
-       filter(track_id == "CIV_nd8a")
-CIV_nd9a <- nd_df%>%
-       filter(track_id == "CIV_nd9a")
-CIV_nd10a <- nd_df%>%
-       filter(track_id == "CIV_nd10a")
 
 
 # Plot the non-breeding homerange    
@@ -578,50 +549,43 @@ CIV_HR_plot <-
 #       geom_polygon(CIV_HR1_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
 #       geom_polygon(CIV_HR1_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
 #       geom_polygon(CIV_HR1core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+       geom_path(data = CIV_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_stop2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_stop3, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_wintering2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_stop4, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_stop5, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
        geom_polygon(CIV_HR2_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
        geom_polygon(CIV_HR2_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
        geom_polygon(CIV_HR2_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
        geom_polygon(CIV_HR2core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-#       geom_path(data = CIV_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_wintering2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_nd7a, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_nd8a, aes(x = x, y = y, colour = "Natal dispersal 8th travel"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_nd9a, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
-#       geom_path(data = CIV_nd10a, aes(x = x, y = y, colour = "Natal dispersal 10th travel"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd7a, aes(x = x, y = y, colour = "Natal dispersal 7th trip"), linewidth = 0.5, lineend = "round") +
        labs(x = " ", y = " ", title = "CIV non-breeding HR and ND movements tracks") +
        theme_minimal()+
-        scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                "Natal dispersal 1st travel" = "blue",
-                                                "Natal dispersal 2nd travel" = "orange",
-                                                "Natal dispersal 3rd travel" = "brown",
-                                                "Natal dispersal 4th travel" = "magenta",
-                                                "Natal dispersal 5th travel" = "pink",
-                                                "Natal dispersal 6th travel" = "light blue",
-                                                "Natal dispersal 7th travel" = "black",
-                                                "Natal dispersal 8th travel" = "grey",
-                                                "Natal dispersal 9th travel" = "purple",
-                                                "Natal dispersal 10th travel" = "red")) +
+        scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                                "Natal dispersal 1st trip" = "blue",
+                                                "Natal dispersal 2nd trip" = "orange",
+                                                "Natal dispersal 3rd trip" = "brown",
+                                                "Natal dispersal 4th trip" = "magenta",
+                                                "Natal dispersal 5th trip" = "pink",
+                                                "Natal dispersal 6th trip" = "light blue",
+                                                "Natal dispersal 7th trip" = "black",
+                                                "Natal dispersal 8th trip" = "grey",
+                                                "Natal dispersal 9th trip" = "purple",
+                                                "Natal dispersal 10th trip" = "red")) +
         scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                     "Non-Breeding HR core area" = "red")) 
 
 CIV_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/CIV_HR_ND_plot.jpg", plot = CIV_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/CIV_HR_ND_plot.jpg", plot = CIV_HR_plot)
 
 
 ########
@@ -689,6 +653,18 @@ E7_end <- st_df%>%
 
 E7_nd1a <- nd_df%>%
          filter(track_id == "E7_nd1a")
+E7_nd1b <- nd_df%>%
+         filter(track_id == "E7_nd1b")
+E7_nd1c <- nd_df%>%
+         filter(track_id == "E7_nd1c")
+E7_nd1d <- nd_df%>%
+         filter(track_id == "E7_nd1d")
+E7_nd1e <- nd_df%>%
+         filter(track_id == "E7_nd1e")
+E7_nd1f <- nd_df%>%
+         filter(track_id == "E7_nd1f")
+E7_nd1g <- nd_df%>%
+         filter(track_id == "E7_nd1g")
 E7_nd2a <- nd_df%>%
          filter(track_id == "E7_nd2a")
 E7_nd2b <- nd_df%>%
@@ -697,82 +673,55 @@ E7_nd2c <- nd_df%>%
          filter(track_id == "E7_nd2c")
 E7_nd2d <- nd_df%>%
          filter(track_id == "E7_nd2d")
-E7_nd2e <- nd_df%>%
-         filter(track_id == "E7_nd2e")
-E7_nd2f <- nd_df%>%
-         filter(track_id == "E7_nd2f")
-E7_nd2g <- nd_df%>%
-         filter(track_id == "E7_nd2g")
-E7_nd3a <- nd_df%>%
-         filter(track_id == "E7_nd3a")
-E7_nd3b <- nd_df%>%
-         filter(track_id == "E7_nd3b")
-E7_nd3c <- nd_df%>%
-         filter(track_id == "E7_nd3c")
-E7_nd3d <- nd_df%>%
-         filter(track_id == "E7_nd3d")
 
 # Plot the non-breeding homerange   
 E7_HR_plot <- 
                  ggplot(E7_eu_utm) +
                  geom_spatvector()+
+                 geom_path(data = E7_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_stop2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_stop3, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_stop4, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_stop5, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_stop6, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_stop7, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_stop8, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_stop9, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_stop10, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
                  geom_polygon(E7_HR_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
                  geom_polygon(E7_HR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
                  geom_polygon(E7_HR_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
                  geom_polygon(E7_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-                 geom_path(data = E7_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_stop8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_stop9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_stop10, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd2b, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd2c, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd2d, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd2e, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd2f, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd2g, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd3c, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-                 geom_path(data = E7_nd3d, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_nd1b, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_nd1c, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_nd1d, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_nd1e, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_nd1f, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_nd1g, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_nd2b, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_nd2c, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+                 geom_path(data = E7_nd2d, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
                  labs(x = " ", y = " ", title = "E7 non-breeding HR and ND movements tracks") +
                  theme_minimal()+
- scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                "Natal dispersal 1st travel" = "blue",
-                                                "Natal dispersal 2nd travel" = "orange",
-                                                "Natal dispersal 3rd travel" = "brown",
-                                                "Natal dispersal 4th travel" = "magenta",
-                                                "Natal dispersal 5th travel" = "pink",
-                                                "Natal dispersal 6th travel" = "light blue",
-                                                "Natal dispersal 7th travel" = "black",
-                                                "Natal dispersal 8th travel" = "grey",
-                                                "Natal dispersal 9th travel" = "purple",
-                                                "Natal dispersal 10th travel" = "red")) +
+ scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                                "Natal dispersal 1st trip" = "blue",
+                                                "Natal dispersal 2nd trip" = "orange",
+                                                "Natal dispersal 3rd trip" = "brown",
+                                                "Natal dispersal 4th trip" = "magenta",
+                                                "Natal dispersal 5th trip" = "pink",
+                                                "Natal dispersal 6th trip" = "light blue",
+                                                "Natal dispersal 7th trip" = "black",
+                                                "Natal dispersal 8th trip" = "grey",
+                                                "Natal dispersal 9th trip" = "purple",
+                                                "Natal dispersal 10th trip" = "red")) +
   scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                     "Non-Breeding HR core area" = "red")) 
-
 E7_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/E7_HR_ND_plot.jpg", plot = E7_HR_plot)
-
-
-
-
-
-
-### RIPRENDI DA QUI
-
-
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/E7_HR_ND_plot.jpg", plot = E7_HR_plot)
 
 
 ########
@@ -805,10 +754,7 @@ E7_HR_plot
        H7_HR <- fortify(H7_HR)
        H7_HRcore <- fortify(H7_HRcore)
 
-H7_nest <- st_df%>%
-        filter(stop_id == "H7_nest")
-H7_wintering1 <- st_df%>%
-        filter(stop_id == "H7_wintering1")
+
 H7_stop1 <- st_df%>%
         filter(stop_id == "H7_stop1")
 H7_stop2 <- st_df%>%
@@ -818,47 +764,42 @@ H7_end <- st_df%>%
 
 H7_nd1a <- nd_df%>%
         filter(track_id == "H7_nd1a")
+H7_nd1b <- nd_df%>%
+        filter(track_id == "H7_nd1b")
 H7_nd2a <- nd_df%>%
         filter(track_id == "H7_nd2a")
-H7_nd2b <- nd_df%>%
-        filter(track_id == "H7_nd2b")
-H7_nd3a <- nd_df%>%
-        filter(track_id == "H7_nd3a")
 
 # Plot the non-breeding homerange  -> H7_eu_utm
 H7_HR_plot <- 
          ggplot(H7_eu_utm) +
          geom_spatvector()+
+         geom_path(data = H7_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+         geom_path(data = H7_stop2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+         geom_path(data = H7_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
          geom_polygon(H7_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
          geom_polygon(H7_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-         geom_path(data = H7_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-         geom_path(data = H7_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-         geom_path(data = H7_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-         geom_path(data = H7_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-         geom_path(data = H7_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-         geom_path(data = H7_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-         geom_path(data = H7_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-         geom_path(data = H7_nd2b, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-         geom_path(data = H7_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+         geom_path(data = H7_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+         geom_path(data = H7_nd1b, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+         geom_path(data = H7_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
          labs(x = " ", y = " ", title = "H7 non-breeding HR and ND movements tracks") +
          theme_minimal()+
-        scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                "Natal dispersal 1st travel" = "blue",
-                                                "Natal dispersal 2nd travel" = "orange",
-                                                "Natal dispersal 3rd travel" = "brown",
-                                                "Natal dispersal 4th travel" = "magenta",
-                                                "Natal dispersal 5th travel" = "pink",
-                                                "Natal dispersal 6th travel" = "light blue",
-                                                "Natal dispersal 7th travel" = "black",
-                                                "Natal dispersal 8th travel" = "grey",
-                                                "Natal dispersal 9th travel" = "purple",
-                                                "Natal dispersal 10th travel" = "red")) +
+        scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                                "Natal dispersal 1st trip" = "blue",
+                                                "Natal dispersal 2nd trip" = "orange",
+                                                "Natal dispersal 3rd trip" = "brown",
+                                                "Natal dispersal 4th trip" = "magenta",
+                                                "Natal dispersal 5th trip" = "pink",
+                                                "Natal dispersal 6th trip" = "light blue",
+                                                "Natal dispersal 7th trip" = "black",
+                                                "Natal dispersal 8th trip" = "grey",
+                                                "Natal dispersal 9th trip" = "purple",
+                                                "Natal dispersal 10th trip" = "red")) +
         scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                     "Non-Breeding HR core area" = "red")) 
 
 H7_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/H7_HR_ND_plot.jpg", plot = H7_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/H7_HR_ND_plot.jpg", plot = H7_HR_plot)
 
 
 
@@ -907,10 +848,15 @@ IAB_HR1core <- fortify(IAB_HR1core)
 IAB_HR2 <- fortify(IAB_HR2)
 IAB_HR2core <- fortify(IAB_HR2core)
 
-IAB_nest <- st_df%>%
-         filter(stop_id == "IAB_nest")
-IAB_wintering1 <- st_df%>%
-         filter(stop_id == "IAB_wintering1")
+IAB_HR1_1 <- IAB_HR1%>%
+        filter(group == "IAB.1")
+IAB_HR1_2 <- IAB_HR1%>%
+        filter(group == "IAB.2")
+IAB_HR1_3 <- IAB_HR1%>%
+        filter(group == "IAB.3")
+
+
+
 IAB_stop1 <- st_df%>%
          filter(stop_id == "IAB_stop1")
 IAB_stop2 <- st_df%>%
@@ -940,12 +886,14 @@ IAB_nd1a <- nd_df%>%
          filter(track_id == "IAB_nd1a")
 IAB_nd2a <- nd_df%>%
          filter(track_id == "IAB_nd2a")
+IAB_nd2b <- nd_df%>%
+         filter(track_id == "IAB_nd2b")
+IAB_nd2c <- nd_df%>%
+         filter(track_id == "IAB_nd2c")
 IAB_nd3a <- nd_df%>%
          filter(track_id == "IAB_nd3a")
 IAB_nd3b <- nd_df%>%
          filter(track_id == "IAB_nd3b")
-IAB_nd3c <- nd_df%>%
-         filter(track_id == "IAB_nd3c")
 IAB_nd4a <- nd_df%>%
          filter(track_id == "IAB_nd4a")
 IAB_nd4b <- nd_df%>%
@@ -956,8 +904,6 @@ IAB_nd5b <- nd_df%>%
          filter(track_id == "IAB_nd5b")
 IAB_nd6a <- nd_df%>%
          filter(track_id == "IAB_nd6a")
-IAB_nd6b <- nd_df%>%
-         filter(track_id == "IAB_nd6b")
 IAB_nd7a <- nd_df%>%
          filter(track_id == "IAB_nd7a")
 
@@ -966,53 +912,53 @@ IAB_nd7a <- nd_df%>%
 IAB_HR_plot <- 
         ggplot(IAB_eu_utm) +
         geom_spatvector()+
-        geom_polygon(IAB_HR1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+        geom_path(data = IAB_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_stop2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_stop3, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_stop4, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_stop5, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_stop6, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_stop7, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_stop8, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_stop9, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_stop10, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_wintering2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_polygon(IAB_HR1_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+        geom_polygon(IAB_HR1_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+        geom_polygon(IAB_HR1_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
         geom_polygon(IAB_HR1core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-#        geom_polygon(IAB_HR2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
-#        geom_polygon(IAB_HR2core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
- #       geom_path(data = IAB_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_stop8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_stop9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_stop10, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_wintering2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_nd4b, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_nd5b, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_nd6b, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
- #       geom_path(data = IAB_nd7a, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
+        geom_polygon(IAB_HR2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
+        geom_polygon(IAB_HR2core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
+        geom_path(data = IAB_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_nd4b, aes(x = x, y = y, colour = "Natal dispersal 4th trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_nd5b, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_nd6b, aes(x = x, y = y, colour = "Natal dispersal 6th trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IAB_nd7a, aes(x = x, y = y, colour = "Natal dispersal 7th trip"), linewidth = 0.5, lineend = "round") +
         labs(x = " ", y = " ", title = "IAB non-breeding HR and ND movements tracks") +
         theme_minimal()+
-         scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                        "Natal dispersal 1st travel" = "blue",
-                                                        "Natal dispersal 2nd travel" = "orange",
-                                                        "Natal dispersal 3rd travel" = "brown",
-                                                        "Natal dispersal 4th travel" = "magenta",
-                                                        "Natal dispersal 5th travel" = "pink",
-                                                        "Natal dispersal 6th travel" = "light blue",
-                                                        "Natal dispersal 7th travel" = "black",
-                                                        "Natal dispersal 8th travel" = "grey",
-                                                        "Natal dispersal 9th travel" = "purple",
-                                                        "Natal dispersal 10th travel" = "red")) +
+         scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                                        "Natal dispersal 1st trip" = "blue",
+                                                        "Natal dispersal 2nd trip" = "orange",
+                                                        "Natal dispersal 3rd trip" = "brown",
+                                                        "Natal dispersal 4th trip" = "magenta",
+                                                        "Natal dispersal 5th trip" = "pink",
+                                                        "Natal dispersal 6th trip" = "light blue",
+                                                        "Natal dispersal 7th trip" = "black",
+                                                        "Natal dispersal 8th trip" = "grey",
+                                                        "Natal dispersal 9th trip" = "purple",
+                                                        "Natal dispersal 10th trip" = "red")) +
           scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                             "Non-Breeding HR core area" = "red")) 
 IAB_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/IAB_HR_ND_plot.jpg", plot = IAB_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/IAB_HR_ND_plot.jpg", plot = IAB_HR_plot)
 
 
 #########
@@ -1155,66 +1101,66 @@ IAD_HR_plot <-
     #    geom_polygon(IAD_HR1core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
         geom_polygon(IAD_HR2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
         geom_polygon(IAD_HR2core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-    #    geom_path(data = IAD_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_wintering2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop10, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop11, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop12, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop13, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop14, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop15, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop16, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_stop17, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd3c, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd3d, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd5b, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd7a, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd7b, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd7c, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd7d, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd7e, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd7f, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd7g, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd8a, aes(x = x, y = y, colour = "Natal dispersal 8th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd9a, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
-    #    geom_path(data = IAD_nd9b, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nest, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_wintering1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop3, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop4, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop5, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop6, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop7, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop8, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_wintering2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop9, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop10, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop11, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop12, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop13, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop14, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop15, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop16, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_stop17, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd3c, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd3d, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd5b, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7a, aes(x = x, y = y, colour = "Natal dispersal 7th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7b, aes(x = x, y = y, colour = "Natal dispersal 7th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7c, aes(x = x, y = y, colour = "Natal dispersal 7th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7d, aes(x = x, y = y, colour = "Natal dispersal 7th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7e, aes(x = x, y = y, colour = "Natal dispersal 7th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7f, aes(x = x, y = y, colour = "Natal dispersal 7th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd7g, aes(x = x, y = y, colour = "Natal dispersal 7th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd8a, aes(x = x, y = y, colour = "Natal dispersal 8th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd9a, aes(x = x, y = y, colour = "Natal dispersal 9th trip"), linewidth = 0.5, lineend = "round") +
+    #    geom_path(data = IAD_nd9b, aes(x = x, y = y, colour = "Natal dispersal 9th trip"), linewidth = 0.5, lineend = "round") +
         labs(x = " ", y = " ", title = "IAD non-breeding HR and ND movements tracks") +
         theme_minimal()+
-         scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                        "Natal dispersal 1st travel" = "blue",
-                                                        "Natal dispersal 2nd travel" = "orange",
-                                                        "Natal dispersal 3rd travel" = "brown",
-                                                        "Natal dispersal 4th travel" = "magenta",
-                                                        "Natal dispersal 5th travel" = "pink",
-                                                        "Natal dispersal 6th travel" = "light blue",
-                                                        "Natal dispersal 7th travel" = "black",
-                                                        "Natal dispersal 8th travel" = "yellow",
-                                                        "Natal dispersal 9th travel" = "purple",
-                                                        "Natal dispersal 10th travel" = "red")) +
+         scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                                        "Natal dispersal 1st trip" = "blue",
+                                                        "Natal dispersal 2nd trip" = "orange",
+                                                        "Natal dispersal 3rd trip" = "brown",
+                                                        "Natal dispersal 4th trip" = "magenta",
+                                                        "Natal dispersal 5th trip" = "pink",
+                                                        "Natal dispersal 6th trip" = "light blue",
+                                                        "Natal dispersal 7th trip" = "black",
+                                                        "Natal dispersal 8th trip" = "yellow",
+                                                        "Natal dispersal 9th trip" = "purple",
+                                                        "Natal dispersal 10th trip" = "red")) +
           scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                             "Non-Breeding HR core area" = "red"))
 
 IAD_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/IAD_HR_ND_plot.jpg", plot = IAD_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/IAD_HR_ND_plot.jpg", plot = IAD_HR_plot)
 
 
 #########
@@ -1306,44 +1252,44 @@ IBH_HR_plot <-
         geom_polygon(IBH_HR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
         geom_polygon(IBH_HR_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
         geom_polygon(IBH_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-        geom_path(data = IBH_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_stop8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_nd1b, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_nd3c, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_nd3d, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBH_nd3e, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_nest, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_stop2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_wintering1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_stop3, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_stop4, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_stop5, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_stop6, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_stop7, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_stop8, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_nd1b, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_nd3c, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_nd3d, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBH_nd3e, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
         labs(x = " ", y = " ", title = "IBH non-breeding HR and ND movements tracks") +
         theme_minimal()+
-        scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                "Natal dispersal 1st travel" = "blue",
-                                                "Natal dispersal 2nd travel" = "orange",
-                                                "Natal dispersal 3rd travel" = "brown",
-                                                "Natal dispersal 4th travel" = "magenta",
-                                                "Natal dispersal 5th travel" = "pink",
-                                                "Natal dispersal 6th travel" = "light blue",
-                                                "Natal dispersal 7th travel" = "black",
-                                                "Natal dispersal 8th travel" = "grey",
-                                                "Natal dispersal 9th travel" = "purple",
-                                                "Natal dispersal 10th travel" = "red")) +
+        scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                                "Natal dispersal 1st trip" = "blue",
+                                                "Natal dispersal 2nd trip" = "orange",
+                                                "Natal dispersal 3rd trip" = "brown",
+                                                "Natal dispersal 4th trip" = "magenta",
+                                                "Natal dispersal 5th trip" = "pink",
+                                                "Natal dispersal 6th trip" = "light blue",
+                                                "Natal dispersal 7th trip" = "black",
+                                                "Natal dispersal 8th trip" = "grey",
+                                                "Natal dispersal 9th trip" = "purple",
+                                                "Natal dispersal 10th trip" = "red")) +
         scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                     "Non-Breeding HR core area" = "red"))
 
 IBH_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/IBH_HR_ND_plot.jpg", plot = IBH_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/IBH_HR_ND_plot.jpg", plot = IBH_HR_plot)
 
 
 #########
@@ -1406,31 +1352,31 @@ IBI_HR_plot <-
        # geom_polygon(IBI_HR_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
        # geom_polygon(IBI_HR_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
        # geom_polygon(IBI_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-        geom_path(data = IBI_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBI_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBI_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBI_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBI_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBI_nd1b, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = IBI_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBI_nest, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBI_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBI_stop2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBI_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBI_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBI_nd1b, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = IBI_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
         labs(x = " ", y = " ", title = "IBI non-breeding HR and ND tracks") +
         theme_minimal()+
-        scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                "Natal dispersal 1st travel" = "blue",
-                                                "Natal dispersal 2nd travel" = "orange",
-                                                "Natal dispersal 3rd travel" = "brown",
-                                                "Natal dispersal 4th travel" = "magenta",
-                                                "Natal dispersal 5th travel" = "pink",
-                                                "Natal dispersal 6th travel" = "light blue",
-                                                "Natal dispersal 7th travel" = "black",
-                                                "Natal dispersal 8th travel" = "grey",
-                                                "Natal dispersal 9th travel" = "purple",
-                                                "Natal dispersal 10th travel" = "red")) +
+        scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                                "Natal dispersal 1st trip" = "blue",
+                                                "Natal dispersal 2nd trip" = "orange",
+                                                "Natal dispersal 3rd trip" = "brown",
+                                                "Natal dispersal 4th trip" = "magenta",
+                                                "Natal dispersal 5th trip" = "pink",
+                                                "Natal dispersal 6th trip" = "light blue",
+                                                "Natal dispersal 7th trip" = "black",
+                                                "Natal dispersal 8th trip" = "grey",
+                                                "Natal dispersal 9th trip" = "purple",
+                                                "Natal dispersal 10th trip" = "red")) +
         scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                     "Non-Breeding HR core area" = "red"))
 IBI_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/IBI_HR_ND_plot.jpg", plot = IBI_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/IBI_HR_ND_plot.jpg", plot = IBI_HR_plot)
 
 
 #########
@@ -1527,31 +1473,31 @@ IBK_HR_plot <-
         geom_polygon(IBK_HR2core_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
         geom_polygon(IBK_HR2core_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
         geom_polygon(IBK_HR2core_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-   #     geom_path(data = IBK_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBK_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBK_wintering2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBK_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBK_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBK_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBK_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBK_nest, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBK_wintering1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBK_wintering2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBK_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBK_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBK_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBK_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
         labs(x = " ", y = " ", title = "IBK non-breeding HR and ND movements tracks") +
         theme_minimal()+
-        scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                                "Natal dispersal 1st travel" = "blue",
-                                                "Natal dispersal 2nd travel" = "orange",
-                                                "Natal dispersal 3rd travel" = "brown",
-                                                "Natal dispersal 4th travel" = "magenta",
-                                                "Natal dispersal 5th travel" = "pink",
-                                                "Natal dispersal 6th travel" = "light blue",
-                                                "Natal dispersal 7th travel" = "black",
-                                                "Natal dispersal 8th travel" = "grey",
-                                                "Natal dispersal 9th travel" = "purple",
-                                                "Natal dispersal 10th travel" = "red")) +
+        scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                                "Natal dispersal 1st trip" = "blue",
+                                                "Natal dispersal 2nd trip" = "orange",
+                                                "Natal dispersal 3rd trip" = "brown",
+                                                "Natal dispersal 4th trip" = "magenta",
+                                                "Natal dispersal 5th trip" = "pink",
+                                                "Natal dispersal 6th trip" = "light blue",
+                                                "Natal dispersal 7th trip" = "black",
+                                                "Natal dispersal 8th trip" = "grey",
+                                                "Natal dispersal 9th trip" = "purple",
+                                                "Natal dispersal 10th trip" = "red")) +
         scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                                     "Non-Breeding HR core area" = "red"))
 IBK_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/IBK_HR_ND_plot.jpg", plot = IBK_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/IBK_HR_ND_plot.jpg", plot = IBK_HR_plot)
 
 
 #########
@@ -1766,65 +1712,65 @@ IBS_HR_plot <-
    #     geom_polygon(IBS_HR1core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
    #     geom_polygon(IBS_HR2core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
         geom_polygon(IBS_HR3core, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-   #     geom_path(data = IBS_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_wintering2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop5, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop6, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop7, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop8, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop9, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop10, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop11, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_wintering3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop12, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop13, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop14, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop15, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_stop16, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd5b, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd5c, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd5d, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd5e, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd5f, aes(x = x, y = y, colour = "Natal dispersal 5th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd6b, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd6c, aes(x = x, y = y, colour = "Natal dispersal 6th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd7a, aes(x = x, y = y, colour = "Natal dispersal 7th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd8a, aes(x = x, y = y, colour = "Natal dispersal 8th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd8b, aes(x = x, y = y, colour = "Natal dispersal 8th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd8c, aes(x = x, y = y, colour = "Natal dispersal 8th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd9a, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd9b, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
-   #     geom_path(data = IBS_nd9c, aes(x = x, y = y, colour = "Natal dispersal 9th travel"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nest, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_wintering1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_wintering2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop3, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop4, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop5, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop6, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop7, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop8, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop9, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop10, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop11, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_wintering3, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop12, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop13, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop14, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop15, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_stop16, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd5b, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd5c, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd5d, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd5e, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd5f, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd6b, aes(x = x, y = y, colour = "Natal dispersal 6th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd6c, aes(x = x, y = y, colour = "Natal dispersal 6th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd7a, aes(x = x, y = y, colour = "Natal dispersal 7th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd8a, aes(x = x, y = y, colour = "Natal dispersal 8th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd8b, aes(x = x, y = y, colour = "Natal dispersal 8th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd8c, aes(x = x, y = y, colour = "Natal dispersal 8th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd9a, aes(x = x, y = y, colour = "Natal dispersal 9th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd9b, aes(x = x, y = y, colour = "Natal dispersal 9th trip"), linewidth = 0.5, lineend = "round") +
+   #     geom_path(data = IBS_nd9c, aes(x = x, y = y, colour = "Natal dispersal 9th trip"), linewidth = 0.5, lineend = "round") +
         labs(x = " ", y = " ", title = "IBS non-breeding HR and ND movements tracks") +
         theme_minimal()+
-        scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                        "Natal dispersal 1st travel" = "blue",
-                                        "Natal dispersal 2nd travel" = "orange",
-                                        "Natal dispersal 3rd travel" = "brown",
-                                        "Natal dispersal 4th travel" = "magenta",
-                                        "Natal dispersal 5th travel" = "pink",
-                                        "Natal dispersal 6th travel" = "light blue",
-                                        "Natal dispersal 7th travel" = "black",
-                                        "Natal dispersal 8th travel" = "grey",
-                                        "Natal dispersal 9th travel" = "purple",
-                                        "Natal dispersal 10th travel" = "red")) +
+        scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                        "Natal dispersal 1st trip" = "blue",
+                                        "Natal dispersal 2nd trip" = "orange",
+                                        "Natal dispersal 3rd trip" = "brown",
+                                        "Natal dispersal 4th trip" = "magenta",
+                                        "Natal dispersal 5th trip" = "pink",
+                                        "Natal dispersal 6th trip" = "light blue",
+                                        "Natal dispersal 7th trip" = "black",
+                                        "Natal dispersal 8th trip" = "grey",
+                                        "Natal dispersal 9th trip" = "purple",
+                                        "Natal dispersal 10th trip" = "red")) +
         scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                             "Non-Breeding HR core area" = "red"))
 IBS_HR_plot          
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/IBS_HR_ND_plot.jpg", plot = IBS_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/IBS_HR_ND_plot.jpg", plot = IBS_HR_plot)
 
 
 #########
@@ -1879,32 +1825,32 @@ ICZ_HR_plot <-
         geom_spatvector()+
         geom_polygon(ICZ_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
         geom_polygon(ICZ_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-        geom_path(data = ICZ_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = ICZ_winering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = ICZ_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = ICZ_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = ICZ_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = ICZ_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-        geom_path(data = ICZ_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = ICZ_nest, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = ICZ_winering1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = ICZ_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = ICZ_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = ICZ_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = ICZ_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = ICZ_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
         labs(x = " ", y = " ", title = "ICZ non-breeding HR and ND movements tracks") +
         theme_minimal()+
-        scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                                      "Natal dispersal 1st travel" = "blue",
-                                      "Natal dispersal 2nd travel" = "orange",
-                                      "Natal dispersal 3rd travel" = "brown",
-                                      "Natal dispersal 4th travel" = "magenta",
-                                      "Natal dispersal 5th travel" = "pink",
-                                      "Natal dispersal 6th travel" = "light blue",
-                                      "Natal dispersal 7th travel" = "black",
-                                      "Natal dispersal 8th travel" = "grey",
-                                      "Natal dispersal 9th travel" = "purple",
-                                      "Natal dispersal 10th travel" = "red")) +
+        scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                                      "Natal dispersal 1st trip" = "blue",
+                                      "Natal dispersal 2nd trip" = "orange",
+                                      "Natal dispersal 3rd trip" = "brown",
+                                      "Natal dispersal 4th trip" = "magenta",
+                                      "Natal dispersal 5th trip" = "pink",
+                                      "Natal dispersal 6th trip" = "light blue",
+                                      "Natal dispersal 7th trip" = "black",
+                                      "Natal dispersal 8th trip" = "grey",
+                                      "Natal dispersal 9th trip" = "purple",
+                                      "Natal dispersal 10th trip" = "red")) +
         scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                                 "Non-Breeding HR core area" = "red"))
 
 ICZ_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/ICZ_HR_ND_plot.jpg", plot = ICZ_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/ICZ_HR_ND_plot.jpg", plot = ICZ_HR_plot)
 
 
 #########
@@ -1970,38 +1916,38 @@ ggplot(IFP_eu_utm) +
 geom_spatvector()+
 #geom_polygon(IFP_HR, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
 #geom_polygon(IFP_HRcore, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR core area")) +
-geom_path(data = IFP_nest, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-geom_path(data = IFP_stop1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-geom_path(data = IFP_wintering1, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-geom_path(data = IFP_stop2, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-geom_path(data = IFP_stop3, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-geom_path(data = IFP_stop4, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-geom_path(data = IFP_end, aes(x = x, y = y, colour = "Non-Dispersal movements"), linewidth = 0.5, lineend = "round") +
-geom_path(data = IFP_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-geom_path(data = IFP_nd1b, aes(x = x, y = y, colour = "Natal dispersal 1st travel"), linewidth = 0.5, lineend = "round") +
-geom_path(data = IFP_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd travel"), linewidth = 0.5, lineend = "round") +
-geom_path(data = IFP_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-geom_path(data = IFP_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd travel"), linewidth = 0.5, lineend = "round") +
-geom_path(data = IFP_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th travel"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_nest, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_stop1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_wintering1, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_stop2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_stop3, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_stop4, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_nd1a, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_nd1b, aes(x = x, y = y, colour = "Natal dispersal 1st trip"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_nd2a, aes(x = x, y = y, colour = "Natal dispersal 2nd trip"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_nd3a, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_nd3b, aes(x = x, y = y, colour = "Natal dispersal 3rd trip"), linewidth = 0.5, lineend = "round") +
+geom_path(data = IFP_nd4a, aes(x = x, y = y, colour = "Natal dispersal 4th trip"), linewidth = 0.5, lineend = "round") +
 labs(x = " ", y = " ", title = "IFP non-breeding HR and ND movements tracks") +
 theme_minimal()+
-scale_color_manual(name = "Tracks", values = c("Non-Dispersal movements" = "green",
-                "Natal dispersal 1st travel" = "blue",
-                "Natal dispersal 2nd travel" = "orange",
-                "Natal dispersal 3rd travel" = "brown",
-                "Natal dispersal 4th travel" = "magenta",
-                "Natal dispersal 5th travel" = "pink",
-                "Natal dispersal 6th travel" = "light blue",
-                "Natal dispersal 7th travel" = "black",
-                "Natal dispersal 8th travel" = "grey",
-                "Natal dispersal 9th travel" = "purple",
-                "Natal dispersal 10th travel" = "red")) +
+scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
+                "Natal dispersal 1st trip" = "blue",
+                "Natal dispersal 2nd trip" = "orange",
+                "Natal dispersal 3rd trip" = "brown",
+                "Natal dispersal 4th trip" = "magenta",
+                "Natal dispersal 5th trip" = "pink",
+                "Natal dispersal 6th trip" = "light blue",
+                "Natal dispersal 7th trip" = "black",
+                "Natal dispersal 8th trip" = "grey",
+                "Natal dispersal 9th trip" = "purple",
+                "Natal dispersal 10th trip" = "red")) +
 scale_fill_manual(name = "Home Range", values = c("Non-Breeding HR 95%" = "yellow",
                     "Non-Breeding HR core area" = "red")) 
 
 IFP_HR_plot
 
-# ggsave("C:/Tesi/R/osprey/images/20240109_TrackPlot/IFP_HR_ND_plot.jpg", plot = IFP_HR_plot)
+# ggsave("C:/Tesi/R/osprey/images/20240214_TrackPlot/IFP_HR_ND_plot.jpg", plot = IFP_HR_plot)
 
 ################################
 #     Non-breeding HR stat     #
@@ -2019,7 +1965,7 @@ IFP_HR_plot
 
           # SUMMARY dfs
 
-             # Summary table showing the minimum, mean and maximum distance travelled between successive GPS location every single day       
+             # Summary table showing the minimum, mean and maximum distance tripled between successive GPS location every single day       
                    osp_nonb_summary_dist <- osp_nonb_df%>%
                                               group_by(id, day)%>%
                                               summarize(minDist = min(distKM),
@@ -2027,7 +1973,7 @@ IFP_HR_plot
                                                         maxDist = max(distKM),
                                                         totDist = sum(distKM))
 
-             # Summary table showing the minimum, mean and maximum distance travelled in a day
+             # Summary table showing the minimum, mean and maximum distance tripled in a day
                    osp_nonb_summary_id <- osp_nonb_summary_dist%>%
                                               group_by(id)%>%
                                               summarize(minDistxDay = min(totDist, na.rm=T),
