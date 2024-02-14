@@ -129,9 +129,6 @@ mean_dist <- NDT_dist_df%>%
                     sd_dist = sd(NDT_dist, na.rm = TRUE))
 mean_dist
 
-###################
-# Daily distances #
-###################
 
 # Mean distance travelled by each osprey
 
@@ -146,15 +143,22 @@ mean_dist <- NDT_dist%>%
                     sd_dist = sd(tot_dist))
 mean_dist
 
-
 plot_mean_dist <- ggplot(mean_dist, aes(x = ID, y = mean_dist, ymin = mean_dist - sd_dist, ymax = mean_dist + sd_dist)) +
           geom_pointrange() +
-          geom_text(aes(label = round(mean_dist, 2)), hjust = -0.15, size = 3) +
-          labs(x = "ID", y = "Mean distance (Km)") +
-          theme_minimal()
+          geom_text(aes(label = round(mean_dist, 2)), hjust = -0.15, size = 5) +
+          labs(x = "", y = "Mean distance (Km)") +
+          theme_minimal()+
+          theme(axis.text = element_text(size = 16),  
+                axis.title = element_text(size = 18))
 plot_mean_dist
 
 # ggsave("C:/Tesi/images/plot_mean_dist.jpg", plot = plot_mean_dist)
+
+
+
+###################
+# Daily distances #
+###################
 
 # DF reporting daily distances travelled by each animals
 
