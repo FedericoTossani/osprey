@@ -522,6 +522,8 @@ CIV_stop4 <- st_df%>%
        filter(stop_id == "CIV_stop4")
 CIV_stop5 <- st_df%>%
        filter(stop_id == "CIV_stop5")
+CIV_stop6 <- st_df%>%
+       filter(stop_id == "CIV_stop6")
 CIV_end <- st_df%>%
        filter(stop_id == "CIV_end")
 
@@ -539,6 +541,8 @@ CIV_nd6a <- nd_df%>%
        filter(track_id == "CIV_nd6a")
 CIV_nd7a <- nd_df%>%
        filter(track_id == "CIV_nd7a")
+CIV_nd8a <- nd_df%>%
+       filter(track_id == "CIV_nd8a")
 
 
 # Plot the non-breeding homerange    
@@ -555,7 +559,8 @@ CIV_HR_plot <-
        geom_path(data = CIV_wintering2, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
        geom_path(data = CIV_stop4, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
        geom_path(data = CIV_stop5, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
-       geom_path(data = CIV_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_stop6, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
+        geom_path(data = CIV_end, aes(x = x, y = y, colour = "Stationary movements"), linewidth = 0.5, lineend = "round") +
        geom_polygon(CIV_HR2_1, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
        geom_polygon(CIV_HR2_2, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
        geom_polygon(CIV_HR2_3, mapping = aes(x=long, y=lat, fill = "Non-Breeding HR 95%")) +
@@ -567,6 +572,7 @@ CIV_HR_plot <-
        geom_path(data = CIV_nd5a, aes(x = x, y = y, colour = "Natal dispersal 5th trip"), linewidth = 0.5, lineend = "round") +
        geom_path(data = CIV_nd6a, aes(x = x, y = y, colour = "Natal dispersal 6th trip"), linewidth = 0.5, lineend = "round") +
        geom_path(data = CIV_nd7a, aes(x = x, y = y, colour = "Natal dispersal 7th trip"), linewidth = 0.5, lineend = "round") +
+       geom_path(data = CIV_nd8a, aes(x = x, y = y, colour = "Natal dispersal 8th trip"), linewidth = 0.5, lineend = "round") +
        labs(x = " ", y = " ", title = "CIV non-breeding HR and ND movements tracks") +
        theme_minimal()+
         scale_color_manual(name = "Tracks", values = c("Stationary movements" = "green",
