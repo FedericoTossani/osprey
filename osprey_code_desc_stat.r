@@ -244,23 +244,24 @@ tab_ID
 
 # summary lon lat delta
 
-lon_lat_summary <- osprey%>%
-                           arrange(ID)%>%
-                           group_by(ID)%>%
-                           summarize(dlon = max(osprey$lon)-lag(osprey$lon),
-                                     dlat = max(osprey$lat)-lag(osprey$lat))
+lon_lat_summary <- nd_df %>%
+           summarise(max_lat = max(lat),
+                     min_lat = min(lat),
+                     max_lon = max(lon),
+                     min_lon = min(lon))
+lon_lat_summary
 
-lon_lat_summary <- osprey %>%
-         group_by(ID)%>%
-         mutate(lat_delta = c(0, diff(osprey$lat)),
-                    lon_delta = c(0, diff(osprey$lon))) %>%
-           summarise(max_lat_delta = max(lat_delta),
-                     max_lon_delta = max(lon_delta))
+delta_lon_lat <- lon_lat_summary%>%
+          summarize(d_lat = 53.77745 - 36.5041,
+                    d_lon = 20.24755 - (-6.183966))
+delta_lon_lat
+#     d_lat    d_lon
+#  17.27335 26.43152
 
 
 # visualize monitoring duration per individual
-         n_summary <- osprey %>%
-                         group_by(ID) %>% 
+         n_summary <- osprey%>%
+                         group_by(ID)%>% 
                          summarize(start = min(time), end = max(time))%>% 
                          arrange(start) %>% 
                          mutate(ID = factor(ID, levels = ID))
