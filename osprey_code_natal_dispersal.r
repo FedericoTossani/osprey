@@ -26,9 +26,8 @@
 
 # export tables to Latex, pay attention to digits arguments
 
-ndt_stat%>%
-          kable(format = 'latex', booktabs = TRUE, digits = c(0, 1, 2, 2, 2, 2, 2, 2 )) 
-
+stopover_stat_tot%>%
+          kable(format = 'latex', booktabs = TRUE, digits = c(2, 2, 2, 2, 2, 2, 2, 2, 2)) 
 
 #############
 # Durations #
@@ -88,7 +87,7 @@ ndt_duration
 # Table reporting every single track (track_id) start/finish date, duration and countries visited by every animal
 
 track_duration <- ndtraj_df %>%
-          filter(ID == "IFP")%>%
+          filter(ID == "CIV")%>%
           group_by(track_id) %>% 
           mutate(start = min(day), end = max(day))%>%
           mutate(duration = difftime(end, start, units = "days"))%>%
@@ -133,8 +132,9 @@ mean_dist
 # Mean distance travelled by each osprey
 
 NDT_dist <- ndtraj_df%>%
-          group_by(ID, NDT)%>%
-          summarise(tot_dist = sum(distKM, na.rm = TRUE))
+          group_by(NDT)%>%
+          summarise(tot_dist = sum(distKM, na.rm = TRUE))%>%
+          arrange(tot_dist)
 NDT_dist
 
 mean_dist <- NDT_dist%>%
@@ -152,7 +152,7 @@ plot_mean_dist <- ggplot(mean_dist, aes(x = ID, y = mean_dist, ymin = mean_dist 
                 axis.title = element_text(size = 18))
 plot_mean_dist
 
-# ggsave("C:/Tesi/images/plot_mean_dist.jpg", plot = plot_mean_dist)
+# ggsave("C:/Tesi/images/plot_mean_speed.jpg", plot = plot_mean_speed)
 
 
 
@@ -163,9 +163,11 @@ plot_mean_dist
 # DF reporting daily distances travelled by each animals
 
 daily_dist_df <- ndtraj_df %>%
-          group_by(ID, track_id, day) %>%
-          summarise(daily_dist = sum(distKM, na.rm = TRUE))
+          group_by(ID, NDT, day) %>%
+          summarise(daily_dist = sum(distKM, na.rm = TRUE))%>%
+          arrange(daily_dist)
 daily_dist_df
+
 
 
 #  DF reporting mean\max and standard direction of daily distances travelled by each animals
@@ -201,15 +203,43 @@ speed_df <-  ndtraj_df %>%
           )
 
 
-summary_dt <- nd1htraj_df%>%
+summary_dt <- nd_df_t%>%
   group_by(burst)%>%
   summarize(minDt = min(dt, na.rm=T),
             meanDt = mean(dt, na.rm=T),
             maxDt = max(dt, na.rm=T)) 
 summary_dt
 
-          
 
+# Mean flight speed during NDTs
+
+# Convert dt from seconds to hours
+ndtraj_df_redis$dt_hours <- ndtraj_df_redis$dt / 3600  # 3600 seconds in an hour
+
+# Calculate speed
+ndtraj_df_redis$speed <- ndtraj_df_redis$distKM / ndtraj_df_redis$dt_hours  # Speed in Km/hour
+
+speed_ndtstat <- ndtraj_df_redis%>%
+          group_by(NDT)%>%
+          summarise(mean_speed = mean(speed, na.rm = TRUE),
+                   max_speed = max(speed, na.rm = TRUE),
+                   sd_speed = sd(speed, na.rm = TRUE))
+print(speed_ndtstat, n = 100)
+
+speed_idstat <- ndtraj_df_redis%>%
+          group_by(ID)%>%
+          summarise(mean_speed = mean(speed, na.rm = TRUE),
+                   max_speed = max(speed, na.rm = TRUE),
+                   sd_speed = sd(speed, na.rm = TRUE))
+print(speed_idstat, n = 100)
+
+
+plot_mean_speed <- ggplot(speed_idstat, aes(x = mean_speed)) +
+          geom_density() +
+          theme_minimal()+
+          theme(axis.text = element_text(size = 16),  
+                axis.title = element_text(size = 18))
+plot_mean_speed
 
 # 3. terza tabella: descrizione aree di sosta (multi day) id +
 #                    numero aree di sosta +
@@ -237,10 +267,7 @@ summary_nd <- summary_nd%>%
 
 print(summary_nd, n = 150)
 
- 
- dist_control <- st_df%>%
-           select("date", "burst", "distKM")%>%
-           arrange(desc(distKM))
+
  
  
  
@@ -249,29 +276,39 @@ print(summary_nd, n = 150)
    filter(!grepl("nest", stop_id, ignore.case = TRUE))%>%
    filter(!grepl("end", stop_id, ignore.case = TRUE))
 
+stopover_df%>%
+          group_by(stop_id)%>%
+          arrange(time)%>%
+          head()
+
 
 dist_stopover <- stopover_df%>%
-          group_by(ID, day) %>%
+          group_by(ID, stop_id) %>%
           summarize(daily_dist = sum(distKM, na.rm = TRUE))
+dist_stopover
+
 
 dist_stopover_all <- dist_stopover%>%
-          summarize(min = min(daily_dist),
-                    sd = sd(daily_dist),
-                    max = max(daily_dist))
+          group_by(ID) %>%
+          summarize(min = min(daily_dist, na.rm = TRUE),
+                    mean = mean(daily_dist, na.rm = TRUE),
+                    median = median(daily_dist, na.rm = TRUE),
+                    sd = sd(daily_dist, na.rm = TRUE),
+                    max = max(daily_dist, na.rm = TRUE))
 dist_stopover_all
 
-write.csv("C:/Tesi/R/osprey/data/stopover_df.csv")
+# write.csv(stopover_df, "C:/Tesi/R/osprey/data/stopover_df.csv")
 
  stopover_duration <- stopover_df %>%
-           group_by(ID, stop_id) %>% 
-           summarize(start = min(date), end = max(date)) %>%
+           group_by(stop_id) %>% 
+           summarize(start = min(time), end = max(time)) %>%
            mutate(duration = difftime(end, start, units = "day"))%>%
            summarize(min_dur = min(duration),
                      mean_dur = mean(duration),
                      max_dur = max(duration),
                      tot_dur = sum(duration),
                      sd_dur = sd(duration))
-
+stopover_duration
 
 stopover <- stopover_df%>%
           group_by(ID)%>%
@@ -285,7 +322,7 @@ stopoverPA_df <- read.csv("C:/Tesi/R/osprey/data/stopover_PA_32632.csv")
 
 stopoverPA_duration <- stopoverPA_df%>%
            group_by(ID, stop_id) %>% 
-           summarize(start = min(date), end = max(date)) %>%
+           summarize(start = min(time), end = max(time)) %>%
            mutate(duration = difftime(end, start, units = "day"))%>%
            summarize(min_dur = min(duration),
                      mean_dur = mean(duration),
@@ -293,7 +330,7 @@ stopoverPA_duration <- stopoverPA_df%>%
                      tot_durPA = sum(duration),
                      sd_dur = sd(duration))%>%
           select("ID", "tot_durPA")
-
+stopoverPA_duration
 
 stopoverPA <- stopoverPA_df%>%
           group_by(ID)%>%
@@ -311,11 +348,14 @@ stopover_stat_tot <- stopover_stat_tot%>%
           select(-"tot_durPA")
 stopover_stat_tot
 
+
+
 ### WINTERING
 
 wintering_df <- sttraj_df %>%
    filter(!grepl("stop", stop_id, ignore.case = TRUE))%>%
    filter(!grepl("nest", stop_id, ignore.case = TRUE))%>%
+   filter(!grepl("wintering1", stop_id, ignore.case = TRUE))%>%
    filter(!grepl("end", stop_id, ignore.case = TRUE))
 
 # DF reporting daily distances travelled by each animals
@@ -340,7 +380,7 @@ winter_duration <- wintering_df %>%
           group_by(stop_id)%>%
           summarize(start = min(time),
                     end = max(time),
-                    duartion = difftime(end, start, units = "weeks"),
+                    duartion = difftime(end, start, units = "days"),
                     )
 winter_duration
 
@@ -349,8 +389,42 @@ wintering_stat <- left_join(winter_daily_dist_stat, winter_duration, by = "stop_
 
 wintering_stat <- wintering_stat%>%
           select(-c("start", "end"))
+wintering_stat
+
+################
+### Abstract ###
+################
 
 
+
+
+ndt_abstract <- left_join(ndt_duration, NDT_dist, by = "NDT")
+ndt_abstract <- ndt_abstract%>%
+          select(NDT, duration, tot_dist)%>%
+          mutate(duration = as.numeric(duration))
+
+ndt_abstract <- as.data.frame(ndt_abstract)
+
+
+ndt_abs_stat <-ndt_abstract%>%
+          summarize(mean_dur = mean(duration),
+                    sd_dur = sd(duration),
+                    mean_dist = mean(tot_dist),
+                    sd_dist = sd(tot_dist))
+ndt_abs_stat
+
+#  mean_dur   sd_dur mean_dist  sd_dist
+#  9.637931 12.20684  1310.692 1410.251
+
+# Stopover
+il numero di stopovers
+loro durata media durante la fase di dispersal
+
+stopover_df%>%
+summarize(tot_stopover = n_distinct(stop_id))
+# 91 stopover
+# mean_dur = 16.52 days
+# sd_dur = 32.4
 
 ############################
 # 4. Main directions graph #
@@ -358,13 +432,13 @@ wintering_stat <- wintering_stat%>%
 
 ### TRAVEL DF DIRECTIONS
 
-ndtraj <- ndtraj_df %>% 
+ndtraj_df_redis <- ndtraj_df_redis%>% 
           mutate(abs.angle_deg = abs.angle * (180 / pi))
 
-nd_not_na_indices <- !is.na(ndtraj$abs.angle_deg)
-ndtraj$abs.angle_deg[nd_not_na_indices] <- ndtraj$abs.angle_deg[nd_not_na_indices] %% 360
+nd_not_na_indices <- !is.na(ndtraj_df_redis$abs.angle_deg)
+ndtraj_df_redis$abs.angle_deg[nd_not_na_indices] <- ndtraj_df_redis$abs.angle_deg[nd_not_na_indices] %% 360
 
-north_ndtraj <- ndtraj %>%
+north_ndtraj <- ndtraj_df_redis%>%
           mutate(abs.angle_deg = if_else(abs.angle_deg >= 337.5, abs.angle_deg - 360, abs.angle_deg))
 
 # Create a function to map angles to directions
@@ -381,12 +455,12 @@ angle_to_direction <- function(angle_degrees) {
 }
 
 # Apply the function to create the direction variable
-ndtraj <- ndtraj %>% 
+ndtraj_df_redis <- ndtraj_df_redis %>% 
           mutate(direction = sapply(abs.angle_deg, angle_to_direction))
 
-ndtraj$direction <- as.factor(ndtraj$direction)
+ndtraj_df_redis$direction <- as.factor(ndtraj_df_redis$direction)
 
-track_dir <- ndtraj%>%
+track_dir <- ndtraj_df_redis%>%
           group_by(ID, track_id)%>%
           summarize(mean_angle = mean(abs.angle_deg))%>% 
           mutate(direction = sapply(mean_angle, angle_to_direction))
@@ -429,6 +503,7 @@ midpoints <- c(0, 45, 90, 135, 180, 225, 270, 315)
 p_nd <- ggplot(north_ndtraj, aes(x = abs.angle_deg)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 45, fill = "skyblue", color = "black") +
   theme_minimal() +
+  labs(x = "", y = "")+
   coord_polar(theta = "x", start = -0.3926991, direction = 1)+
   scale_x_continuous(breaks = midpoints, labels = c("N", "NE", "E", "SE", "S", "SW", "W", "NW")) +
 facet_wrap(~ID)
