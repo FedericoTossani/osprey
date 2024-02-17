@@ -26,8 +26,8 @@
 
 # export tables to Latex, pay attention to digits arguments
 
-speed_idstat%>%
-          kable(format = 'latex', booktabs = TRUE, digits = c(2, 2, 2, 2, 2, 2, 2, 2, 2)) 
+tab_appendix%>%
+          kable(format = 'latex', booktabs = TRUE, digits = c(2, 2, 2, 2, 2, 2, 2, 2, 2, 2)) 
 
   group_by(ID)%>%
 
@@ -392,15 +392,16 @@ stopover_stat
 stopoverPA_df <- read.csv("C:/Tesi/R/osprey/data/stopover_PA_32632.csv")
 
 stopoverPA_duration <- stopoverPA_df%>%
-           group_by(ID, stop_id) %>% 
+           group_by(stop_id) %>% 
            summarize(start = min(time), end = max(time)) %>%
            mutate(duration = difftime(end, start, units = "day"))%>%
+           group_by(stop_id)%>%
            summarize(min_dur = min(duration),
                      mean_dur = mean(duration),
                      max_dur = max(duration),
                      tot_durPA = sum(duration),
                      sd_dur = sd(duration))%>%
-          select("ID", "tot_durPA")
+          select("stop_id", "tot_durPA")
 stopoverPA_duration
 
 stopoverPA <- stopoverPA_df%>%
@@ -461,6 +462,53 @@ wintering_stat <- wintering_stat%>%
           select(-c("start", "end"))
 wintering_stat
 
+########################
+### tabelle appendix ###
+########################
+
+
+stop_df <- sttraj_df %>%
+   filter(!grepl("nest", stop_id, ignore.case = TRUE))%>%
+   filter(!grepl("wintering1", stop_id, ignore.case = TRUE))%>%
+   filter(!grepl("end", stop_id, ignore.case = TRUE))
+
+tab_traj <- ndtraj_df%>%
+#          filter(ID == "")%>%
+          group_by(ID, NDT, track_id)%>%
+          summarize(start = min(day),
+                    end = max(day),
+                    duration = difftime(end, start, units = "days"),
+                    tot_dist = sum(distKM, na.rm = T))%>%
+          mutate(stop_id = NA,
+                 tot_durPA = NA,
+                 Countries_visited = NA)
+tab_traj
+
+tab_stop <- stop_df%>%
+#          filter(ID == "")%>%
+          group_by(ID, stop_id)%>%
+          summarize(start = min(day),
+                    end = max(day),
+                    duration = difftime(end, start, units = "days"))
+tab_stop
+
+tab_stopPA <- left_join(tab_stop, stopoverPA_duration, by = "stop_id")
+tab_stopPA
+
+tab_appendix <- bind_rows(tab_traj, tab_stopPA)
+tab_appendix
+
+tab_appendix <- tab_appendix%>%
+          arrange(ID, start)%>%
+          rename("Track_id" = "track_id",
+                 "Stop_id" = "stop_id",
+                 "Start" = "start",
+                 "End" = "end",
+                 "Duration" = "duration",
+                 "Total_duration_PA" = "tot_durPA",
+                 "Total_distance" = "tot_dist")%>%
+          select(ID, NDT, Track_id, Stop_id, Start, End, Duration, Total_duration_PA, Total_distance, Countries_visited)
+tab_appendix
 ################
 ### Abstract ###
 ################
