@@ -121,13 +121,6 @@ departure_date <- ndtraj_df %>%
           theme_light()
 departure_date
 
-plot_daily_dist <- ggplot(daily_dist_df, aes(x = ID, y = daily_dist)) +
-          geom_boxplot() +
-          theme_minimal() +
-          theme(axis.text = element_text(size = 16),  
-                axis.title = element_text(size = 18))+
-          labs(x = "", y = "Daily distnace (Km)")
-plot_daily_dist
 
 #### Request
 
@@ -139,7 +132,9 @@ plot_daily_dist
 
 # median_dist = sprintf("%.2f", median(distKM, na.rm = TRUE)), # add this line in the second summerize() funciton to have the median value
 
-#### overall mean distance cover
+#####################
+### Mean distance ###
+#####################
 
 NDT_dist_df <- ndtraj_df %>%
           group_by(ID, NDT) %>%
@@ -215,7 +210,6 @@ plot_daily_dist <- ggplot(daily_dist_df, aes(x = ID, y = daily_dist)) +
           labs(x = "", y = "Daily distnace (Km)")
 plot_daily_dist
 
-
 #  DF reporting mean\max and standard direction of daily distances travelled by each animals
 
 # med_dist = median(daily_dist, na.rm = TRUE),
@@ -229,9 +223,11 @@ daily_dist_stat <- daily_dist_df%>%
 daily_dist_stat
 
 
+#############################
+### Natal Dispersal Trips ###
+#############################
 
-
-# Total number of Natal Dispersal Travel made by each animal
+# Total number of Natal Dispersal Trips made by each animal
 
 ndt_ev <- ndtraj_df%>%
           group_by(ID)%>%
@@ -242,6 +238,169 @@ ndt_stat <- left_join(ndt_ev, daily_dist_stat, by = "ID")
 ndt_stat <- left_join(ndt_stat, nd_duration, by = "ID")
 
 ndt_stat
+
+# NDT departure month
+
+month_departure <- ndtraj_df%>%
+          group_by(ID, NDT)%>%
+          summarize(start = min(time))%>%
+          mutate(month = month(start))
+month_departure
+
+month_departure <- month_departure%>%
+          group_by(month)
+month_departure
+
+month_dep <- month_departure%>%
+          group_by(month)%>%
+          count(ID)
+
+
+plot_month_dep <- ggplot(month_dep, aes(x = month, y = n))+
+          geom_col()+
+          labs(x = "Months", y = "Frequency of departures")+
+          theme_minimal() +
+          theme(axis.text = element_text(size = 16),  
+                axis.title = element_text(size = 18))+
+          scale_x_continuous(breaks = seq(1, 12, by = 1))
+plot_month_dep
+
+
+# ggsave("C:/Tesi/images/plot_month_dep.jpg", plot = plot_month_dep)
+
+
+################
+### Sex-stat ###
+################
+
+id <- unique(ndtraj_df$ID)
+ID <- c("A7", "Antares", "CAM", "CBK", "CIV", "E7", "H7", "IAB", "IAD", "IBH", "IBI", "IBK", "IBS", "ICZ", "IFP")
+sex <- c("F", "M", "F", "U", "U", "F", "M", "M", "F", "M", "M", "M", "F", "M", "M")
+
+sex_id <- data.frame(ID = ID, sex = sex)
+sex_id
+
+ndtraj_df <- left_join(ndtraj_df, sex_id, by = "ID")
+
+# Distances stat by SEX
+
+id_daily <- ndtraj_df %>%
+          group_by(ID, sex, day) %>%
+          summarise(dailyDist= sum(distKM, na.rm = TRUE))%>%
+          filter(sex != "U")
+id_daily
+
+s_dist <- id_daily%>%
+          group_by(sex)%>%
+          summarize(meandD_day = mean(dailyDist),
+                   sdD_day = sd(dailyDist),
+                   medianD_day = median(dailyDist),
+                   maxD_day = max(dailyDist),
+                   tot_dDay = sum(dailyDist))
+s_dist
+
+## A tibble: 3 × 6
+#  sex   meandD_day sdD_day medianD_day maxD_day tot_dDay
+#  <chr>      <dbl>   <dbl>       <dbl>    <dbl>    <dbl>
+#1 F           153.    92.8        139.     419.   45955.
+#2 M           171.   134.         146.    1052.   24497.
+#3 U           186.   136.         185.     557.    6148.
+
+# boxplot of the daily distance travelled by each sex
+plot_s_dist <- ggplot(id_daily, aes(x = sex, y = dailyDist)) +
+          geom_boxplot() +
+          stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 2)), vjust = -0.4, size = 5, color = "black") +
+          theme_minimal() +
+          theme(axis.text = element_text(size = 16),  
+                axis.title = element_text(size = 18))+
+          labs(x = "", y = "Daily distance (Km/day)")
+plot_s_dist
+
+
+# total distance travelled by each sex #
+
+s_totDist <-ndtraj_df%>%
+          group_by(sex)%>%
+          summarize(totDist = sum(distKM, na.rm = T))%>%
+          filter(sex != "U")
+s_totDist
+
+plot_s_dist <- ggplot(id_daily, aes(x = sex, y = dailyDist)) +
+          geom_bar()+
+          theme_minimal() +
+          theme(axis.text = element_text(size = 16),  
+                axis.title = element_text(size = 18))+
+          labs(x = "", y = "Total distance (Km)")
+plot_s_dist
+
+
+# Duration stat by SEX 
+
+s_ndt_dur <- ndtraj_df %>%
+          group_by(NDT, sex) %>%
+          summarise(Start= min(day, na.rm = TRUE),
+                    End = max(day, na.rm = TRUE),
+                    Duration = difftime(End, Start, unit = "days"))%>%
+          mutate(Duration = as.numeric(Duration))%>%
+          filter(sex != "U")
+s_ndt_dur
+
+plot_s_dur <- ggplot(s_ndt_dur, aes(x = sex, y = Duration)) +
+          geom_boxplot() +
+          stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 2)), vjust = -0.4, size = 5, color = "black") +
+          theme_minimal() +
+          theme(axis.text = element_text(size = 16),  
+                axis.title = element_text(size = 18))+
+          labs(x = "", y = "Speed (Km/h)")
+plot_s_dur
+
+s_dur <- sex_ndt_dur%>%
+          group_by(sex)%>%
+          summarize(meandDur = mean(Duration),
+                   sdDur = sd(Duration),
+                   medianDur = median(Duration),
+                   maxDur = max(Duration),
+                   tot_Dur = sum(Duration))
+s_dur
+
+## A tibble: 3 × 6
+#  sex   meandDur       sdDur medianDur maxDur  tot_Dur 
+#  <chr> <drtn>         <dbl> <drtn>    <drtn>  <drtn>  
+#1 F     14.384615 days 16.0  6 days    49 days 374 days
+#2 M      7.043478 days  5.94 4 days    23 days 162 days
+#3 U      2.300000 days  3.65 1 days    12 days  23 days
+
+
+# sex rate
+
+sex_rate <- ndtraj_df%>%
+          group_by(sex)%>%
+          count(ID)
+sex_rate
+
+sex_rate <- sex_rate%>%
+          group_by(sex)
+sex_rate
+
+sex_count <- sex_rate %>% 
+  count(sex)
+
+# Calculate the total number of IDs
+total_IDs <- nrow(sex_rate)
+
+# Calculate the sex rate
+sex_count$rate <- sex_count$n / total_IDs
+
+# View the sex rate
+print(sex_count)
+
+## A tibble: 3 × 3
+## Groups:   sex [3]
+#  sex       n  rate
+#  <chr> <int> <dbl>
+#1 F         5 0.333
+#2 M         8 0.533
+#3 U         2 0.133
 
 
 #############
@@ -293,6 +452,11 @@ plot_mean_speed <- ggplot(ndtraj_speed, aes(x = ID, y = speed)) +
                 axis.title = element_text(size = 18))+
           labs(x = "", y = "Speed (Km/h)")
 plot_mean_speed
+
+
+################
+### Stopover ###
+################
 
 # 3. terza tabella: descrizione aree di sosta (multi day) id +
 #                    numero aree di sosta +
@@ -420,8 +584,10 @@ stopover_stat_tot <- stopover_stat_tot%>%
 stopover_stat_tot
 
 
+#################
+### WINTERING ###
+#################
 
-### WINTERING
 
 wintering_df <- sttraj_df %>%
    filter(!grepl("stop", stop_id, ignore.case = TRUE))%>%
@@ -461,6 +627,40 @@ wintering_stat <- left_join(winter_daily_dist_stat, winter_duration, by = "stop_
 wintering_stat <- wintering_stat%>%
           select(-c("start", "end"))
 wintering_stat
+
+
+################
+### Abstract ###
+################
+
+ndt_abstract <- left_join(ndt_duration, NDT_dist, by = "NDT")
+ndt_abstract <- ndt_abstract%>%
+          select(NDT, duration, tot_dist)%>%
+          mutate(duration = as.numeric(duration))
+
+ndt_abstract <- as.data.frame(ndt_abstract)
+
+
+ndt_abs_stat <-ndt_abstract%>%
+          summarize(mean_dur = mean(duration),
+                    sd_dur = sd(duration),
+                    mean_dist = mean(tot_dist),
+                    sd_dist = sd(tot_dist))
+ndt_abs_stat
+
+#  mean_dur   sd_dur mean_dist  sd_dist
+#  9.474576 12.16603  1298.308 1401.273
+
+# Stopover
+il numero di stopovers
+loro durata media durante la fase di dispersal
+
+stopover_df%>%
+summarize(tot_stopover = n_distinct(stop_id))
+# 91 stopover
+# mean_dur = 16.52 days
+# sd_dur = 32.4
+
 
 ########################
 ### tabelle appendix ###
@@ -509,41 +709,7 @@ tab_appendix <- tab_appendix%>%
                  "Total_distance" = "tot_dist")%>%
           select(ID, NDT, Track_id, Stop_id, Start, End, Duration, Total_duration_PA, Total_distance, Countries_visited)
 tab_appendix
-################
-### Abstract ###
-################
 
-
-ndt_abstract <- left_join(ndt_duration, NDT_dist, by = "NDT")
-ndt_abstract <- ndt_abstract%>%
-          select(NDT, duration, tot_dist)%>%
-          mutate(duration = as.numeric(duration))
-
-ndt_abstract <- as.data.frame(ndt_abstract)
-
-
-ndt_abs_stat <-ndt_abstract%>%
-          summarize(mean_dur = mean(duration),
-                    sd_dur = sd(duration),
-                    mean_dist = mean(tot_dist),
-                    sd_dist = sd(tot_dist))
-ndt_abs_stat
-
-#  mean_dur   sd_dur mean_dist  sd_dist
-#  9.637931 12.20684  1310.692 1410.251
-
-#  mean_dur   sd_dur mean_dist  sd_dist
-#  9.474576 12.16603  1298.308 1401.273
-
-# Stopover
-il numero di stopovers
-loro durata media durante la fase di dispersal
-
-stopover_df%>%
-summarize(tot_stopover = n_distinct(stop_id))
-# 91 stopover
-# mean_dur = 16.52 days
-# sd_dur = 32.4
 
 ############################
 # 4. Main directions graph #
@@ -647,180 +813,4 @@ p_st
 p_st_nd <- grid.arrange(ncol = 2, p_nd, p_st)
 
 ggsave()
-
-
-GRAFICI 
-# 1. primo plot: mappe gi`a fatte con evidenziati i lde intervellati dalle aree di sosta
-
-# 2. secondo plot: grafico unico con tutti gli individui 
-
-
-
-ndtraj_df$rel.angle_rad <- ndtraj_df$rel.angle * (pi/180)
-
-A7 <- ndtraj_df%>%
-          filter(ID == "A7")
-
-ggplot(A7, aes(x = rel.angle_rad)) +
-  geom_bar(stat = "count") +
-  coord_polar(start = 0) +
-  labs(title = "Circular Plot of Main Direction by NDT", x = "Main Direction (Radians)", y = "Count") +
-  theme_minimal()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Distances #
-
-summary_distance <- ndtraj_df%>%
-      group_by(burst, day)%>%
-      summarize(minDistxDay = min(distKM),
-                meanDistxDay = mean(distKM),
-                maxDistxDay = max(distKM))
-
-summary_id_distance <- summary_distance%>%
-      group_by(burst)%>%
-      summarize(minDist = min(minDistxDay, na.rm=T),
-                meanDist = mean(meanDistxDay, na.rm=T),
-                maxDist = max(maxDistxDay, na.rm=T))
-
-summary_id_distance <- summary_id_distance%>%
-          arrange(burst)
-
-dist_plot <- ggplot(nd_dflt_df, aes(x = nd_dflt_df$distKM)) +
-  geom_histogram(binwidth = 0.1) +
-  xlab("Distance (Km)") +
-  ylab("Count") +
-  ggtitle("Distribution of Distance")
-
-
-
-summary_speed <- nd_dflt_df%>%
-  group_by(burst)%>%
-  mutate(Speed = (dist/1000)/(dt/3600)) %>% 
-  summarize(minSpeed = min(Speed, na.rm=T),
-            meanSpeed = mean(Speed, na.rm=T),
-            maxSpeed = max(Speed, na.rm=T)) 
-
-osp_ndlt_df<- nd_dflt_df%>%
-  mutate(Speed = (dist/1000)/(dt/3600),
-         deg_turnAngle = rel.angle * (180/pi))
-
-                  
-                  speed_plot <- ggplot(nd_dflt_df, aes(x = Speed)) +
-                    geom_histogram(binwidth = 1) +
-                    labs(x = "Speed", y = "Frequency") +
-                    theme_bw()
-
-
-
-
-###############################################
-
-##########   OLD CODE   #######################
-
-###############################################
-
-
-
-
-ndtraj_df$rel.angle.degrees <- ndtraj_df$rel.angle* (180 / pi)
-
-nd_lt2 <- ndtraj_df%>%
-          dl()
-
-foo <- function(rel.angle.degrees) {
-return(rel.angle.degrees>90)
-}
-
-nd_ltc <- cutltraj(nd_lt2, "foo(rel.angle.degrees)", nextr = TRUE)
-nd_ltc
-
-ndtraj_df2 <- nd_ltc%>%
-          ld()
-
-write.csv(ndtraj_df2, "ndtraj_df2.csv")
-
-nd$time <- as.POSIXct(strptime(as.character(nd$time),"%Y-%m-%d %H:%M"))
-
-# Find duplicate dates
-duplicate_dates <- nd_df[duplicated(nd_df$time) | duplicated(nd_df$time, fromLast = TRUE), ]
-
-duplicate_dates <- duplicate_dates%>%
-          arrange(time)
-
-# Print the duplicate dates
-print(head(duplicate_dates, 40))
-
-# daily track (= successive telemetry locations in each day)
-
-
-
-main_direction <- ndtraj_df %>%
-  group_by(burst) %>%
-  summarize(main_angle = atan2(mean(sin(abs.angle)), mean(cos(abs.angle))))
-
-# Print the result
-print(main_direction)
-
-dailyDirections <- ndtraj_df%>%
-          mutate(deg_turnAngle = rel.angle * (180/pi))%>%
-          group_by(id, day)%>%
-          summarize(meanDir = mean(deg_turnAngle),
-                    medianDir = median(deg_turnAngle))
-
-dailyDirections_id <- dailyDirections%>%
-          group_by(id)%>%
-          summarize(meanDir_id = mean(meanDir),
-                    medianDir_id = median(medianDir))
-
-
-dirBreaks <- c(22.5, 67.5,112.5, 157.5, 202.5, 247.5, 292.5, 337.5)
-
-
-ggplot(dailyDirections) +
-  geom_bar(aes(category)) +
-  xlab("Angle of Flight") +
-  ylab("Count of birds") +
-  theme_light() 
-
-ggplot(dailyDirections, aes(x = "", y = "meanDir")) + 
-  geom_bar(width = 1, stat = "identity") + 
-  coord_polar("y", start = 0) +
-  theme(axis.line = element_blank(),
-        axis.text = element_blank(),
-        axis.title = element_blank(),
-        panel.grid = element_blank(),
-        panel.border = element_blank(),
-        plot.title = element_text(hjust = 0.5)) +  # Change the legend label
-  ggtitle("Pie Chart Example")
-
-
-
-# long-distance event (= continuous, usually multiday, unidirectional movements of ??≥300 km?? from the initial location)
-
-# Options:
-# - change >90degree and continued moving in the new direction: daily track before was the last track of the LD event. However, if the point of the turn occurred more than halfway through the day was still included and was the last
-# - change of >90degree, but within 8 days, resume the original direction, then tracks after the directional change were still included in the long-distance event.
-# - change of >90degree, but due to a stopover of ≤7 days, after which the resumed travel in the original direction, then stopover tracks still included in the LD event
-# - gap in the telemetry data, or a stopover, lasting >7 days, then the daily track before the gap or stopover was the last track of the long-distance event.
-
-
-
-
-osp_ndlt_df <- nd_dflt_df%>%
-                  mutate(deg_turnAngle = rel.angle * (180/pi))
-
 
