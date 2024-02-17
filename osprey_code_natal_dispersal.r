@@ -26,8 +26,25 @@
 
 # export tables to Latex, pay attention to digits arguments
 
-stopover_stat_tot%>%
+speed_idstat%>%
           kable(format = 'latex', booktabs = TRUE, digits = c(2, 2, 2, 2, 2, 2, 2, 2, 2)) 
+
+  group_by(ID)%>%
+
+osprey_lt <- as.ltraj(osprey[, c("x", "y")],
+                    date = osprey$time,
+                    id = osprey$ID,
+                    typeII = T)
+osprey_lt_df <- osprey_lt%>%
+          ld()
+
+summary_dt <- osprey_lt_df%>%
+  summarize(minDt = min(dt, na.rm=T),
+            meanDt = mean(dt, na.rm=T),
+            maxDt = max(dt, na.rm=T)) 
+summary_dt
+
+
 
 #############
 # Durations #
@@ -40,11 +57,12 @@ stopover_stat_tot%>%
 # Code to check which countries are traversed during Natal Dispersal Travel
 
 countries_vis<- sttraj_df%>%
-          dplyr::filter(stop_id == "H7_wintering1")
+          dplyr::filter(ID == "CIV")
 
-ggplot(osprey_eu_utm) + 
+ggplot(CIV_eu_utm) + 
           geom_spatvector()+
-          geom_path(data = countries_vis, aes(x = x, y = y, colour = "red"), linewidth = 1, lineend = "round")
+          geom_path(data = countries_vis, aes(x = x, y = y, colour = "red"), linewidth = 1, lineend = "round")+
+          facet_wrap(~stop_id)
 
 countries_id <- data.frame(ID = c('A7', 'Antares', 'CAM', 'CBK', 'CIV', 'E7', 'H7', 'IAB', 'IAD', 'IBH', 'IBI', 'IBK', 'IBS', 'ICZ', 'IFP'),
                            countries = c('BIH, HRV, HUN, ITA, SVN', 'FRA, ITA', 'FRA, ITA', 'FRA, ITA', 'DZA, FRA, ITA, TUN', 'AUT, BIH, CHE, DEU, ESP, FRA, HUN, HRV, ITA', 'ESP, FRA, ITA', 'ITA', 'AUT, BEL, BIH, CHE, DEU, ESP, FRA, HUN, HRV, ITA, MNE', 'ITA', 'FRA, ITA', 'FRA, ITA', 'ALB, BOH, CHE, ESP, FRA, HVN, ITA, MNE, SVN', 'ITA', 'FRA, ITA'))
@@ -103,6 +121,13 @@ departure_date <- ndtraj_df %>%
           theme_light()
 departure_date
 
+plot_daily_dist <- ggplot(daily_dist_df, aes(x = ID, y = daily_dist)) +
+          geom_boxplot() +
+          theme_minimal() +
+          theme(axis.text = element_text(size = 16),  
+                axis.title = element_text(size = 18))+
+          labs(x = "", y = "Daily distnace (Km)")
+plot_daily_dist
 
 #### Request
 
@@ -152,7 +177,7 @@ plot_mean_dist <- ggplot(mean_dist, aes(x = ID, y = mean_dist, ymin = mean_dist 
                 axis.title = element_text(size = 18))
 plot_mean_dist
 
-# ggsave("C:/Tesi/images/plot_mean_speed.jpg", plot = plot_mean_speed)
+# ggsave("C:/Tesi/images/plot_ndt_dist.jpg", plot = plot_ndt_dist)
 
 
 
@@ -160,14 +185,35 @@ plot_mean_dist
 # Daily distances #
 ###################
 
-# DF reporting daily distances travelled by each animals
+# DF reporting daily distances travelled by each animals                     NDT, day%>%
+          arrange(daily_dist)
 
 daily_dist_df <- ndtraj_df %>%
-          group_by(ID, NDT, day) %>%
-          summarise(daily_dist = sum(distKM, na.rm = TRUE))%>%
-          arrange(daily_dist)
+          group_by(ID, day) %>%
+          summarise(daily_dist = sum(distKM, na.rm = TRUE))
 daily_dist_df
 
+ndt_dist_df <- ndtraj_df %>%
+          group_by(ID, NDT) %>%
+          summarise(tot_dist = sum(distKM, na.rm = TRUE))
+ndt_dist_df
+
+plot_ndt_dist <- ggplot(ndt_dist_df, aes(x = NDT, y = tot_dist)) +
+          geom_col() +
+          labs(x = "Natal Dispersal Trips", y = "Total distance (Km)") +
+          theme_minimal()+
+          theme(axis.text = element_text(size = 16),  
+                axis.title = element_text(size = 18),
+                axis.text.x = element_text(angle = 90, hjust = 0, vjust = 0.5))
+plot_ndt_dist
+
+plot_daily_dist <- ggplot(daily_dist_df, aes(x = ID, y = daily_dist)) +
+          geom_boxplot() +
+          theme_minimal() +
+          theme(axis.text = element_text(size = 16),  
+                axis.title = element_text(size = 18))+
+          labs(x = "", y = "Daily distnace (Km)")
+plot_daily_dist
 
 
 #  DF reporting mean\max and standard direction of daily distances travelled by each animals
@@ -183,6 +229,8 @@ daily_dist_stat <- daily_dist_df%>%
 daily_dist_stat
 
 
+
+
 # Total number of Natal Dispersal Travel made by each animal
 
 ndt_ev <- ndtraj_df%>%
@@ -195,21 +243,17 @@ ndt_stat <- left_join(ndt_stat, nd_duration, by = "ID")
 
 ndt_stat
 
+
+#############
+### Speed ###
+#############
+
 speed_df <-  ndtraj_df %>%
           group_by(burst) %>%
           mutate(speed = distKM / (dt / 3600)) %>%
           summarise(mean_speed = mean(speed, na.rm = TRUE),
                     max_speed = max(speed, na.rm = TRUE)
           )
-
-
-summary_dt <- nd_df_t%>%
-  group_by(burst)%>%
-  summarize(minDt = min(dt, na.rm=T),
-            meanDt = mean(dt, na.rm=T),
-            maxDt = max(dt, na.rm=T)) 
-summary_dt
-
 
 # Mean flight speed during NDTs
 
@@ -219,26 +263,35 @@ ndtraj_df_redis$dt_hours <- ndtraj_df_redis$dt / 3600  # 3600 seconds in an hour
 # Calculate speed
 ndtraj_df_redis$speed <- ndtraj_df_redis$distKM / ndtraj_df_redis$dt_hours  # Speed in Km/hour
 
-speed_ndtstat <- ndtraj_df_redis%>%
+ndtraj_speed <- ndtraj_df_redis%>%
+          filter(speed > 5)
+
+speed_ndtstat <- ndtraj_speed%>%
           group_by(NDT)%>%
           summarise(mean_speed = mean(speed, na.rm = TRUE),
                    max_speed = max(speed, na.rm = TRUE),
                    sd_speed = sd(speed, na.rm = TRUE))
 print(speed_ndtstat, n = 100)
 
-speed_idstat <- ndtraj_df_redis%>%
+speed_idstat <- ndtraj_speed%>%
           group_by(ID)%>%
           summarise(mean_speed = mean(speed, na.rm = TRUE),
                    max_speed = max(speed, na.rm = TRUE),
                    sd_speed = sd(speed, na.rm = TRUE))
 print(speed_idstat, n = 100)
 
+mean_speed <- ndtraj_speed %>%
+  group_by(ID) %>%
+  summarise(mean_speed = mean(speed, na.rm = TRUE))
 
-plot_mean_speed <- ggplot(speed_idstat, aes(x = mean_speed)) +
-          geom_density() +
-          theme_minimal()+
+
+plot_mean_speed <- ggplot(ndtraj_speed, aes(x = ID, y = speed)) +
+          geom_boxplot() +
+          stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 2)), vjust = -0.4, size = 5, color = "black") +
+          theme_minimal() +
           theme(axis.text = element_text(size = 16),  
-                axis.title = element_text(size = 18))
+                axis.title = element_text(size = 18))+
+          labs(x = "", y = "Speed (Km/h)")
 plot_mean_speed
 
 # 3. terza tabella: descrizione aree di sosta (multi day) id +
@@ -267,9 +320,6 @@ summary_nd <- summary_nd%>%
 
 print(summary_nd, n = 150)
 
-
- 
- 
  
  stopover_df <- sttraj_df %>%
    filter(!grepl("wintering", stop_id, ignore.case = TRUE))%>%
@@ -283,13 +333,23 @@ stopover_df%>%
 
 
 dist_stopover <- stopover_df%>%
-          group_by(ID, stop_id) %>%
-          summarize(daily_dist = sum(distKM, na.rm = TRUE))
+          group_by(ID, stop_id, day) %>%
+          summarize(daily_dist = sum(distKM, na.rm = TRUE))%>%
+          group_by(ID)%>%
+          summarize(mean_daily_dist = mean(daily_dist, na.rm = TRUE))
 dist_stopover
+
+plot_stopover_dist <- ggplot(dist_stopover, aes(x = ID, y = daily_dist)) +
+          geom_boxplot() +
+          theme_minimal() +
+          theme(axis.text = element_text(size = 16),  
+                axis.title = element_text(size = 18))+
+          labs(x = "", y = "Daily distance (Km/day)")
+plot_stopover_dist
 
 
 dist_stopover_all <- dist_stopover%>%
-          group_by(ID) %>%
+          group_by(ID)%>%
           summarize(min = min(daily_dist, na.rm = TRUE),
                     mean = mean(daily_dist, na.rm = TRUE),
                     median = median(daily_dist, na.rm = TRUE),
@@ -300,7 +360,7 @@ dist_stopover_all
 # write.csv(stopover_df, "C:/Tesi/R/osprey/data/stopover_df.csv")
 
  stopover_duration <- stopover_df %>%
-           group_by(stop_id) %>% 
+           group_by(ID, stop_id) %>% 
            summarize(start = min(time), end = max(time)) %>%
            mutate(duration = difftime(end, start, units = "day"))%>%
            summarize(min_dur = min(duration),
@@ -309,6 +369,17 @@ dist_stopover_all
                      tot_dur = sum(duration),
                      sd_dur = sd(duration))
 stopover_duration
+
+plot_stopover_duration <- ggplot(stopover_duration, aes(x = ID, y = duration)) +
+          geom_boxplot() +
+          theme_minimal() +
+          theme(axis.text = element_text(size = 16),  
+                axis.title = element_text(size = 18))+
+          labs(x = "", y = "Duration (Days)")
+plot_stopover_duration
+
+ +
+          stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 2)), vjust = -0.5, size = 5, color = "black")
 
 stopover <- stopover_df%>%
           group_by(ID)%>%
@@ -337,7 +408,6 @@ stopoverPA <- stopoverPA_df%>%
           summarize(tot_stopover = n_distinct(stop_id))
 
 stopoverPA_stat <- left_join(stopoverPA, stopoverPA_duration, by = "ID")
-
 stopoverPA_stat
 
 stopover_stat_tot <- left_join(stopover_stat, stopoverPA_duration, by = "ID")
@@ -396,8 +466,6 @@ wintering_stat
 ################
 
 
-
-
 ndt_abstract <- left_join(ndt_duration, NDT_dist, by = "NDT")
 ndt_abstract <- ndt_abstract%>%
           select(NDT, duration, tot_dist)%>%
@@ -415,6 +483,9 @@ ndt_abs_stat
 
 #  mean_dur   sd_dur mean_dist  sd_dist
 #  9.637931 12.20684  1310.692 1410.251
+
+#  mean_dur   sd_dur mean_dist  sd_dist
+#  9.474576 12.16603  1298.308 1401.273
 
 # Stopover
 il numero di stopovers
