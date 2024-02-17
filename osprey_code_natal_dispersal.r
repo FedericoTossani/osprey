@@ -172,8 +172,7 @@ plot_mean_dist <- ggplot(mean_dist, aes(x = ID, y = mean_dist, ymin = mean_dist 
                 axis.title = element_text(size = 18))
 plot_mean_dist
 
-# ggsave("C:/Tesi/images/p_st_nd.jpg", plot = p_st_nd)
-
+# ggsave("C:/Tesi/images/plot_sex.jpg", plot = plot_sex)
 
 
 ###################
@@ -266,7 +265,7 @@ plot_month_dep <- ggplot(month_dep, aes(x = month, y = n))+
 plot_month_dep
 
 
-# ggsave("C:/Tesi/images/plot_month_dep.jpg", plot = plot_month_dep)
+# ggsave("C:/Tesi/images/plot_sex.jpg", plot = plot_sex)
 
 
 ################
@@ -297,7 +296,7 @@ s_dist <- id_daily%>%
                    medianD_day = median(dailyDist),
                    maxD_day = max(dailyDist),
                    tot_dDay = sum(dailyDist))
-s_dist
+s_dist$sdD_day
 
 ## A tibble: 3 × 6
 #  sex   meandD_day sdD_day medianD_day maxD_day tot_dDay
@@ -309,11 +308,11 @@ s_dist
 # boxplot of the daily distance travelled by each sex
 plot_s_dist <- ggplot(id_daily, aes(x = sex, y = dailyDist)) +
           geom_boxplot() +
-          stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 2)), vjust = -0.4, size = 5, color = "black") +
+          stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 2)), vjust = 0, size = 5, color = "black") +
           theme_minimal() +
           theme(axis.text = element_text(size = 16),  
                 axis.title = element_text(size = 18))+
-          labs(x = "", y = "Daily distance (Km/day)")
+          labs(x = "", y = "Daily distance (Km/day)", title = "d)")
 plot_s_dist
 
 
@@ -325,13 +324,13 @@ s_totDist <-ndtraj_df%>%
           filter(sex != "U")
 s_totDist
 
-plot_s_dist <- ggplot(id_daily, aes(x = sex, y = dailyDist)) +
-          geom_bar()+
+plot_s_totdist <- ggplot(s_totDist, aes(x = sex, y = totDist)) +
+          geom_col()+
           theme_minimal() +
           theme(axis.text = element_text(size = 16),  
                 axis.title = element_text(size = 18))+
-          labs(x = "", y = "Total distance (Km)")
-plot_s_dist
+          labs(x = "", y = "Total distance (Km)", title = "b)")
+plot_s_totdist
 
 
 # Duration stat by SEX 
@@ -351,7 +350,7 @@ plot_s_dur <- ggplot(s_ndt_dur, aes(x = sex, y = Duration)) +
           theme_minimal() +
           theme(axis.text = element_text(size = 16),  
                 axis.title = element_text(size = 18))+
-          labs(x = "", y = "Speed (Km/h)")
+          labs(x = "", y = "Duration (Days)", title = "c)")
 plot_s_dur
 
 s_dur <- sex_ndt_dur%>%
@@ -367,7 +366,7 @@ s_dur
 #  sex   meandDur       sdDur medianDur maxDur  tot_Dur 
 #  <chr> <drtn>         <dbl> <drtn>    <drtn>  <drtn>  
 #1 F     14.384615 days 16.0  6 days    49 days 374 days
-#2 M      7.043478 days  5.94 4 days    23 days 162 days
+#2 M      7.043478 days  5.94 4 days    23 days 162 days          
 #3 U      2.300000 days  3.65 1 days    12 days  23 days
 
 
@@ -379,7 +378,8 @@ sex_rate <- ndtraj_df%>%
 sex_rate
 
 sex_rate <- sex_rate%>%
-          group_by(sex)
+          group_by(sex)%>%
+          filter(sex != "U")
 sex_rate
 
 sex_count <- sex_rate %>% 
@@ -402,6 +402,17 @@ print(sex_count)
 #2 M         8 0.533
 #3 U         2 0.133
 
+
+plot_s_rate <- ggplot(sex_count, aes(x = sex, y = rate)) +
+          geom_col()+
+          theme_minimal() +
+          theme(axis.text = element_text(size = 16),  
+                axis.title = element_text(size = 18))+
+          labs(x = "", y = "Sex rate", title = "a)")
+plot_s_rate
+
+plot_sex <- grid.arrange(ncol = 2, plot_s_rate, plot_s_totdist, plot_s_dur, plot_s_dist)
+plot_sex
 
 #############
 ### Speed ###
