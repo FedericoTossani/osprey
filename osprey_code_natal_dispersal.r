@@ -177,7 +177,7 @@ plot_mean_dist <- ggplot(mean_dist, aes(x = ID, y = mean_dist, ymin = mean_dist 
                 axis.title = element_text(size = 18))
 plot_mean_dist
 
-# ggsave("C:/Tesi/images/plot_ndt_dist.jpg", plot = plot_ndt_dist)
+# ggsave("C:/Tesi/images/p_st_nd.jpg", plot = p_st_nd)
 
 
 
@@ -577,7 +577,7 @@ p_nd <- ggplot(north_ndtraj, aes(x = abs.angle_deg)) +
   labs(x = "", y = "")+
   coord_polar(theta = "x", start = -0.3926991, direction = 1)+
   scale_x_continuous(breaks = midpoints, labels = c("N", "NE", "E", "SE", "S", "SW", "W", "NW")) +
-facet_wrap(~ID)
+labs(title = "Directions during Natal Dispersal Trips")
 p_nd
 
 id_st <- north_sttraj%>%
@@ -593,7 +593,7 @@ p_st <- ggplot(north_sttraj, aes(x = abs.angle_deg)) +
   theme_minimal() +
   coord_polar(theta = "x", start = -0.3926991, direction = 1)+
   scale_x_continuous(breaks = midpoints, labels = c("N", "NE", "E", "SE", "S", "SW", "W", "NW")) +
-facet_wrap(~ID)
+labs(title = "Directions during Stopover")
 p_st
 
 p_st_nd <- grid.arrange(ncol = 2, p_nd, p_st)
