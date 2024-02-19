@@ -189,7 +189,8 @@ daily_dist_df
 
 ndt_dist_df <- ndtraj_df %>%
           group_by(ID, NDT) %>%
-          summarise(tot_dist = sum(distKM, na.rm = TRUE))
+          summarise(tot_dist = sum(distKM, na.rm = TRUE))%>%
+          arrange(tot_dist)
 ndt_dist_df
 
 plot_ndt_dist <- ggplot(ndt_dist_df, aes(x = NDT, y = tot_dist)) +
@@ -511,7 +512,8 @@ dist_stopover <- stopover_df%>%
           group_by(ID, stop_id, day) %>%
           summarize(daily_dist = sum(distKM, na.rm = TRUE))%>%
           group_by(ID)%>%
-          summarize(mean_daily_dist = mean(daily_dist, na.rm = TRUE))
+          summarize(mean_daily_dist = mean(daily_dist, na.rm = TRUE),
+                    sd_daily_dist = sd(daily_dist, na.rm = TRUE))
 dist_stopover
 
 plot_stopover_dist <- ggplot(dist_stopover, aes(x = ID, y = daily_dist)) +
