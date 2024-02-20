@@ -26,7 +26,7 @@
 
 # export tables to Latex, pay attention to digits arguments
 
-tab_appendix%>%
+dist_stopover%>%
           kable(format = 'latex', booktabs = TRUE, digits = c(2, 2, 2, 2, 2, 2, 2, 2, 2, 2)) 
 
   group_by(ID)%>%
@@ -238,6 +238,22 @@ ndt_stat <- left_join(ndt_ev, daily_dist_stat, by = "ID")
 ndt_stat <- left_join(ndt_stat, nd_duration, by = "ID")
 
 ndt_stat
+
+
+# Minimum NDT duartions
+
+summary_nd <- nd_df%>%
+          group_by(track_id)%>%
+          summarize(start = min(time),
+                    end = max(time))
+print(summary_nd, n = 150)
+
+summary_nd <- summary_nd%>%
+          group_by(id)%>%
+          mutate(duration = difftime(end, start, units = "hours"))%>%
+          summarize(min_dur = min(duration))
+
+print(summary_nd, n = 150)
 
 # NDT departure month
 
@@ -470,31 +486,45 @@ plot_mean_speed
 ### Stopover ###
 ################
 
-# 3. terza tabella: descrizione aree di sosta (multi day) id +
-#                    numero aree di sosta +
-#                    numero medio di giorni di sosta per area +
-#                    percentuale giorni di sosta in un’area protetta
+
+### Summary dist and dur
+
+stop_win_df <- sttraj_df %>%
+   filter(!grepl("nest", stop_id, ignore.case = TRUE))%>%
+   filter(!grepl("end", stop_id, ignore.case = TRUE))
+
+# mean daily dist
+stop_win_dist <- stop_win_df%>%
+          group_by(day) %>%
+          summarize(daily_dist = sum(distKM, na.rm = TRUE))%>%
+          summarize(mean_daily_dist = mean(daily_dist, na.rm = TRUE),
+                    sd_daily_dist = sd(daily_dist, na.rm = TRUE))
+stop_win_dist
+
+#  mean_daily_dist sd_daily_dist
+#            <dbl>         <dbl>
+#             38.4          32.9
+
+# mean duration
+ stop_win_dur <- stop_win_df %>%
+           group_by(stop_id) %>% 
+           summarize(start = min(time), end = max(time)) %>%
+           mutate(duration = difftime(end, start, units = "day"))%>%
+           summarize(min_dur = min(duration),
+                     mean_dur = mean(duration),
+                     max_dur = max(duration),
+                     tot_dur = sum(duration),
+                     sd_dur = sd(duration))
+stop_win_dur
+
+#  min_dur mean_dur      max_dur       tot_dur       sd_dur
+#  <drtn>  <drtn>        <drtn>        <drtn>         <dbl>
+#  1 days  66.22548 days 601.7232 days 7284.803 days   134.
 
 
-summary_st <- sttraj_df%>%
-          group_by(stop_id)%>%
-          summarize(start = min(date),
-                    end = max(date))
-print(summary_st, n = 217)
 
+#
 
-summary_nd <- nd_df%>%
-          group_by(track_id)%>%
-          summarize(start = min(time),
-                    end = max(time))
-print(summary_nd, n = 150)
-
-summary_nd <- summary_nd%>%
-          group_by(id)%>%
-          mutate(duration = difftime(end, start, units = "hours"))%>%
-          summarize(min_dur = min(duration))
-
-print(summary_nd, n = 150)
 
  
  stopover_df <- sttraj_df %>%
@@ -508,6 +538,20 @@ stopover_df%>%
           head()
 
 
+# mean duration
+ stop_mean_dur <- stopover_df %>%
+           group_by(stop_id) %>% 
+           summarize(start = min(time), end = max(time)) %>%
+           mutate(duration = difftime(end, start, units = "day"))%>%
+           summarize(mean_dur = mean(duration),
+                     sd_dur = sd(duration))
+stop_mean_dur
+
+#  mean_dur      sd_dur
+#  <drtn>         <dbl>
+#  16.52234 days   32.4
+
+
 dist_stopover <- stopover_df%>%
           group_by(ID, stop_id, day) %>%
           summarize(daily_dist = sum(distKM, na.rm = TRUE))%>%
@@ -515,6 +559,12 @@ dist_stopover <- stopover_df%>%
           summarize(mean_daily_dist = mean(daily_dist, na.rm = TRUE),
                     sd_daily_dist = sd(daily_dist, na.rm = TRUE))
 dist_stopover
+
+#  mean_daily_dist sd_daily_dist
+#            <dbl>         <dbl>
+#             21.4          28.8
+
+
 
 plot_stopover_dist <- ggplot(dist_stopover, aes(x = ID, y = daily_dist)) +
           geom_boxplot() +
@@ -615,6 +665,23 @@ winter_daily_dist_df <- wintering_df %>%
           summarise(daily_dist = sum(distKM, na.rm = TRUE))
 winter_daily_dist_df
 
+# mean duration
+ win_mean_dur <- wintering_df %>%
+           group_by(stop_id) %>% 
+           summarize(start = min(time), end = max(time)) %>%
+           mutate(duration = difftime(end, start, units = "day"))%>%
+           summarize(mean_dur = mean(duration),
+                     sd_dur = sd(duration))
+win_mean_dur
+
+
+dist_wintering <- wintering_df%>%
+          group_by(day) %>%
+          summarize(daily_dist = sum(distKM, na.rm = TRUE))%>%
+          summarize(mean_daily_dist = mean(daily_dist, na.rm = TRUE),
+                    sd_daily_dist = sd(daily_dist, na.rm = TRUE))
+dist_wintering
+
 
 #  DF reporting mean\max and standard direction of daily distances travelled by each animals
 
@@ -634,12 +701,39 @@ winter_duration <- wintering_df %>%
                     )
 winter_duration
 
-
 wintering_stat <- left_join(winter_daily_dist_stat, winter_duration, by = "stop_id")
 
 wintering_stat <- wintering_stat%>%
           select(-c("start", "end"))
 wintering_stat
+
+# Protected Areas use during winter
+# write.csv(wintering_df, "C:/Tesi/R/osprey/data/wintering_df.csv")
+winteringPA_df <- read.csv("C:/Tesi/R/osprey/data/wintering_PA_32632.csv")
+
+winteringPA_duration <- winteringPA_df%>%
+           group_by(stop_id) %>% 
+           summarize(start = min(time), end = max(time)) %>%
+           mutate(duration = difftime(end, start, units = "day"))%>%
+           group_by(stop_id)%>%
+           summarize(min_dur = min(duration),
+                     mean_dur = mean(duration),
+                     max_dur = max(duration),
+                     tot_durPA = sum(duration),
+                     sd_dur = sd(duration))%>%
+          select("stop_id", "tot_durPA")
+winteringPA_duration
+
+wintering_stat_tot <- left_join(wintering_stat, winteringPA_duration, by = "stop_id")
+
+wintering_stat_tot <- wintering_stat_tot%>%
+          mutate(tot_durPA = as.numeric(tot_durPA),
+                 duration = as.numeric(duration))%>%
+          mutate(perc_PA = (as.numeric(tot_durPA)/as.numeric(duration))*100)%>%
+          select(-"tot_durPA")
+wintering_stat_tot
+
+
 
 
 ################
