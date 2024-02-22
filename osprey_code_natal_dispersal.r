@@ -271,7 +271,6 @@ month_dep <- month_departure%>%
           group_by(month)%>%
           count(ID)
 
-
 plot_month_dep <- ggplot(month_dep, aes(x = month, y = n))+
           geom_col()+
           labs(x = "Months", y = "Frequency of departures")+
@@ -313,14 +312,8 @@ s_dist <- id_daily%>%
                    medianD_day = median(dailyDist),
                    maxD_day = max(dailyDist),
                    tot_dDay = sum(dailyDist))
-s_dist$sdD_day
+s_dist
 
-## A tibble: 3 × 6
-#  sex   meandD_day sdD_day medianD_day maxD_day tot_dDay
-#  <chr>      <dbl>   <dbl>       <dbl>    <dbl>    <dbl>
-#1 F           153.    92.8        139.     419.   45955.
-#2 M           171.   134.         146.    1052.   24497.
-#3 U           186.   136.         185.     557.    6148.
 
 # boxplot of the daily distance travelled by each sex
 plot_s_dist <- ggplot(id_daily, aes(x = sex, y = dailyDist)) +
@@ -379,13 +372,6 @@ s_dur <- sex_ndt_dur%>%
                    tot_Dur = sum(Duration))
 s_dur
 
-## A tibble: 3 × 6
-#  sex   meandDur       sdDur medianDur maxDur  tot_Dur 
-#  <chr> <drtn>         <dbl> <drtn>    <drtn>  <drtn>  
-#1 F     14.384615 days 16.0  6 days    49 days 374 days
-#2 M      7.043478 days  5.94 4 days    23 days 162 days          
-#3 U      2.300000 days  3.65 1 days    12 days  23 days
-
 
 # sex rate
 
@@ -430,6 +416,56 @@ plot_s_rate
 
 plot_sex <- grid.arrange(ncol = 2, plot_s_rate, plot_s_totdist, plot_s_dur, plot_s_dist)
 plot_sex
+
+# Kolmogorov-Smirnov and Mann-Whitney U test
+# check if the distribution of NDTs duration and daily distances are normal distributed
+
+s_dur_test_df <- s_ndt_dur%>%
+          select("sex", "Duration")%>%
+          mutate(sex_n = case_when(sex == "F" ~ 2,
+                                   sex == "M" ~ 1,
+                                   sex == "U" ~ 0))
+s_dur_test_df
+
+# export csv with the df used in this analysis
+
+# write.csv(s_dur_test_df, "C:/Tesi/R/osprey/data/sex_NDTduration_test_df.csv")
+
+dur <- s_dur_test_df$Duration
+dur
+
+sex <- s_dur_test_df$sex_n
+sex
+
+#perform Kolmogorov-Smirnov test
+ks.test(dur, "pnorm")
+
+#perform the Mann Whitney U test
+wilcox.test(sex, dur)
+
+#check if the daily distance is normally distributed
+s_dist_test_df <- id_daily%>%
+          select("sex", "dailyDist")%>%
+          mutate(sex_n = case_when(sex == "F" ~ 2,
+                                   sex == "M" ~ 1,
+                                   sex == "U" ~ 0))
+s_dist_test_df
+
+# export csv with the df used in this analysis
+
+# write.csv(s_dist_test_df, "C:/Tesi/R/osprey/data/sex_dailyDistances_test_df.csv")
+
+
+dist <- s_dist_test_df$dailyDist
+sex_di <- s_dist_test_df$sex_n
+
+#perform Kolmogorov-Smirnov test
+ks.test(dist, "pnorm")
+
+#perform the Mann Whitney U test
+wilcox.test(sex_di, dist)
+
+
 
 #############
 ### Speed ###
