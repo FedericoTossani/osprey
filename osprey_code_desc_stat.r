@@ -53,7 +53,24 @@ theme_minimal()
 
 osprey_track
 
-# ggsave( "C:/Tesi/images/osprey_track.jpg", plot = osprey_track)
+# mediterranean basin relict populations plot
+medbas_ext <- ext(c(-12.00000, 21.24755, 32.50000, 47.5000))
+med_basin <- crop(countries, medbas_ext)
+
+osprey <- nd_df%>%
+          arrange(time)
+
+mediterranean_bas <- 
+ggplot(med_basin) +
+geom_spatvector() +
+labs(x = " ", y = " ", title = "") +
+theme(legend.position="none") +
+theme_minimal()
+
+mediterranean_bas
+
+
+# ggsave( "C:/Tesi/images/mediterranean_bas.jpg", plot = mediterranean_bas)
 
 # This should create a more beautiful map BUT need to be fix!
 # cbbox <- make_bbox(lon = osprey$lon, lat = osprey$lat, f = .1) #from ggmap
